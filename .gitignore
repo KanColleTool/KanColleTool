@@ -1,0 +1,10 @@
+.DS_Store
+
+*.o
+*.app
+moc_*.cpp
+qrc_*.cpp
+ui_*.cpp
+*.pro.user
+*.stash
+
