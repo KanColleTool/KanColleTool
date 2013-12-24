@@ -24,13 +24,13 @@ SOURCES += main.cpp \
 	KCMainWindow.cpp \
 	KCClient.cpp \
 	KCProxyServer.cpp \
-	KCHttpRequest.cpp \
+	KCHttpPacket.cpp \
     KCGameWindow.cpp
 
 HEADERS  += KCMainWindow.h \
 	KCClient.h \
 	KCProxyServer.h \
-	KCHttpRequest.h \
+	KCHttpPacket.h \
     KCGameWindow.h
 
 FORMS    += \

@@ -3,7 +3,7 @@
 
 #include <QTcpServer>
 #include <QTcpSocket>
-#include "KCHttpRequest.h"
+#include "KCHttpPacket.h"
 
 class KCClient;
 class KCProxyServer : public QTcpServer
@@ -26,7 +26,7 @@ protected slots:
 	
 private:
 	QMap<QTcpSocket*, QTcpSocket*> socketsByProxySocket;
-	QMap<QTcpSocket*, KCHttpRequest> requestsByProxySocket;
+	QMap<QTcpSocket*, KCHttpPacket> packetsByProxySocket;
 	
 	KCClient *client;
 };

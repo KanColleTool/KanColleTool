@@ -32,9 +32,9 @@ void KCProxyServer::onReadyRead()
 	connect(proxySocket, SIGNAL(disconnected()), this, SLOT(onProxySocketDisconnected()));
 	connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
 	
-	KCHttpRequest request(socket->readAll());
+	KCHttpPacket request(socket->readAll());
 	
-	requestsByProxySocket.insert(proxySocket, request);
+	packetsByProxySocket.insert(proxySocket, request);
 	socketsByProxySocket.insert(proxySocket, socket);
 	
 	proxySocket->connectToHost(client->server, 80);
@@ -54,7 +54,7 @@ void KCProxyServer::onProxySocketConnected()
 	qDebug() << "-> Proxy Socket Connected";
 	
 	QTcpSocket *socket = qobject_cast<QTcpSocket*>(QObject::sender());
-	KCHttpRequest &request = requestsByProxySocket[socket];	//.value() doesn't give T&
+	KCHttpPacket &request = packetsByProxySocket[socket];	//.value() doesn't give T&
 	
 	// Patch up the request to make it look right
 	request.headers.insert("Host", client->server);
@@ -78,7 +78,7 @@ void KCProxyServer::onProxySocketDisconnected()
 	qDebug() << "<- Proxy Socket Disconnected";
 	
 	socketsByProxySocket.remove(proxySocket);
-	requestsByProxySocket.remove(proxySocket);
+	packetsByProxySocket.remove(proxySocket);
 }
 
 void KCProxyServer::onProxySocketReadyRead()

@@ -1,8 +1,8 @@
-#include "KCHttpRequest.h"
+#include "KCHttpPacket.h"
 #include <QUrl>
 #include <QDebug>
 
-KCHttpRequest::KCHttpRequest(QByteArray data)
+KCHttpPacket::KCHttpPacket(QByteArray data)
 {
 	// The header ends with a blank line, which really just looks like "\r\n\r\n".
 	int headerLength = data.indexOf("\r\n\r\n");
@@ -41,7 +41,7 @@ KCHttpRequest::KCHttpRequest(QByteArray data)
 	body = data.mid(headerLength + 4);
 }
 
-QByteArray KCHttpRequest::toLatin1()
+QByteArray KCHttpPacket::toLatin1()
 {
 	QByteArray data;
 	

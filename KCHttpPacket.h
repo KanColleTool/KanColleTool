@@ -1,15 +1,15 @@
-#ifndef KCHTTPREQUEST_H
-#define KCHTTPREQUEST_H
+#ifndef KCHTTPPACKET_H
+#define KCHTTPPACKET_H
 
 #include <QByteArray>
 #include <QString>
 #include <QMap>
 #include <QUrl>
 
-class KCHttpRequest
+class KCHttpPacket
 {
 public:
-	KCHttpRequest(QByteArray data = QByteArray());
+	KCHttpPacket(QByteArray data = QByteArray());
 	QByteArray toLatin1();
 	
 	QString method;

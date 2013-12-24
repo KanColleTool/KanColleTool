@@ -49,7 +49,7 @@ SOURCES       = main.cpp \
 		KCMainWindow.cpp \
 		KCClient.cpp \
 		KCProxyServer.cpp \
-		KCHttpRequest.cpp \
+		KCHttpPacket.cpp \
 		KCGameWindow.cpp qrc_resources.cpp \
 		moc_KCMainWindow.cpp \
 		moc_KCClient.cpp \
@@ -59,7 +59,7 @@ OBJECTS       = main.o \
 		KCMainWindow.o \
 		KCClient.o \
 		KCProxyServer.o \
-		KCHttpRequest.o \
+		KCHttpPacket.o \
 		KCGameWindow.o \
 		qrc_resources.o \
 		moc_KCMainWindow.o \
@@ -490,7 +490,7 @@ KanColleTool.app/Contents/Info.plist:
 	@sed -e "s,@SHORT_VERSION@,1.0,g" -e "s,@TYPEINFO@,????,g" -e "s,@ICON@,,g" -e "s,@EXECUTABLE@,KanColleTool,g" -e "s,@TYPEINFO@,????,g" Info.plist >KanColleTool.app/Contents/Info.plist
 dist: 
 	@test -d .tmp/KanColleTool1.0.0 || mkdir -p .tmp/KanColleTool1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/KanColleTool1.0.0/ && $(COPY_FILE) --parents resources.qrc .tmp/KanColleTool1.0.0/ && $(COPY_FILE) --parents KCMainWindow.h KCClient.h KCProxyServer.h KCHttpRequest.h KCGameWindow.h .tmp/KanColleTool1.0.0/ && $(COPY_FILE) --parents main.cpp KCMainWindow.cpp KCClient.cpp KCProxyServer.cpp KCHttpRequest.cpp KCGameWindow.cpp .tmp/KanColleTool1.0.0/ && $(COPY_FILE) --parents KCMainWindow.ui .tmp/KanColleTool1.0.0/ && (cd `dirname .tmp/KanColleTool1.0.0` && $(TAR) KanColleTool1.0.0.tar KanColleTool1.0.0 && $(COMPRESS) KanColleTool1.0.0.tar) && $(MOVE) `dirname .tmp/KanColleTool1.0.0`/KanColleTool1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/KanColleTool1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/KanColleTool1.0.0/ && $(COPY_FILE) --parents resources.qrc .tmp/KanColleTool1.0.0/ && $(COPY_FILE) --parents KCMainWindow.h KCClient.h KCProxyServer.h KCHttpPacket.h KCGameWindow.h .tmp/KanColleTool1.0.0/ && $(COPY_FILE) --parents main.cpp KCMainWindow.cpp KCClient.cpp KCProxyServer.cpp KCHttpPacket.cpp KCGameWindow.cpp .tmp/KanColleTool1.0.0/ && $(COPY_FILE) --parents KCMainWindow.ui .tmp/KanColleTool1.0.0/ && (cd `dirname .tmp/KanColleTool1.0.0` && $(TAR) KanColleTool1.0.0.tar KanColleTool1.0.0 && $(COMPRESS) KanColleTool1.0.0.tar) && $(MOVE) `dirname .tmp/KanColleTool1.0.0`/KanColleTool1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/KanColleTool1.0.0
 
 
 clean:compiler_clean 
@@ -547,15 +547,6 @@ moc_KCMainWindow.cpp: ../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Version
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpserver.h \
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QTcpSocket \
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpsocket.h \
-		KCHttpRequest.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QByteArray \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QString \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QMap \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrl \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurl.h \
 		KCMainWindow.h
 	/Users/uppfinnarn/Qt/5.2.0/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 $(INCPATH) KCMainWindow.h -o moc_KCMainWindow.cpp
 
@@ -578,15 +569,6 @@ moc_KCProxyServer.cpp: ../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versio
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpserver.h \
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QTcpSocket \
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpsocket.h \
-		KCHttpRequest.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QByteArray \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QString \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QMap \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrl \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurl.h \
 		KCProxyServer.h
 	/Users/uppfinnarn/Qt/5.2.0/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 $(INCPATH) KCProxyServer.h -o moc_KCProxyServer.cpp
 
@@ -642,15 +624,6 @@ main.o: main.cpp KCMainWindow.h \
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpserver.h \
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QTcpSocket \
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpsocket.h \
-		KCHttpRequest.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QByteArray \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QString \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QMap \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrl \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurl.h \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QApplication \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
@@ -680,15 +653,6 @@ KCMainWindow.o: KCMainWindow.cpp KCMainWindow.h \
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpserver.h \
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QTcpSocket \
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpsocket.h \
-		KCHttpRequest.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QByteArray \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QString \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QMap \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrl \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurl.h \
 		ui_KCMainWindow.h \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QInputDialog \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qinputdialog.h \
@@ -696,6 +660,8 @@ KCMainWindow.o: KCMainWindow.cpp KCMainWindow.h \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qmessagebox.h \
 		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QSettings \
 		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qsettings.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrl \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurl.h \
 		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QDebug \
 		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qdebug.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o KCMainWindow.o KCMainWindow.cpp
@@ -726,15 +692,6 @@ KCProxyServer.o: KCProxyServer.cpp KCProxyServer.h \
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpserver.h \
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QTcpSocket \
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpsocket.h \
-		KCHttpRequest.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QByteArray \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QString \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qstring.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QMap \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qmap.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrl \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurl.h \
 		KCClient.h \
 		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QObject \
 		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qobject.h \
@@ -747,10 +704,12 @@ KCProxyServer.o: KCProxyServer.cpp KCProxyServer.h \
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QNetworkReply \
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qnetworkreply.h \
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QNetworkAccessManager \
-		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qnetworkaccessmanager.h
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qnetworkaccessmanager.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrl \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurl.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o KCProxyServer.o KCProxyServer.cpp
 
-KCHttpRequest.o: KCHttpRequest.cpp KCHttpRequest.h \
+KCHttpPacket.o: KCHttpPacket.cpp KCHttpPacket.h \
 		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QByteArray \
 		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
 		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QString \
@@ -761,7 +720,7 @@ KCHttpRequest.o: KCHttpRequest.cpp KCHttpRequest.h \
 		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurl.h \
 		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QDebug \
 		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qdebug.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o KCHttpRequest.o KCHttpRequest.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o KCHttpPacket.o KCHttpPacket.cpp
 
 KCGameWindow.o: KCGameWindow.cpp KCGameWindow.h \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
