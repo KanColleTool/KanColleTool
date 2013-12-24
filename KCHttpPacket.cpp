@@ -24,6 +24,15 @@ KCHttpPacket::KCHttpPacket(QByteArray data)
 			url = QUrl(line.mid(spIndex1 + 1, spIndex2 - spIndex1 - 1));
 			httpVersion = line.mid(spIndex2 + 1);
 			
+			// cURL does strange things with the path part, not sure if it's
+			// a part of the HTTP spec I missed, but I'm not gonna reread it
+			// to find out. Basically, it passes the full URL, not just path.
+			if(!url.host().isEmpty())
+			{
+				headers.insert("Host", url.host());
+				url = QUrl(url.path());
+			}
+			
 			isFirstLine = false;
 		}
 		// Every other line is just headers, in the form of

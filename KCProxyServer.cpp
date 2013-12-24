@@ -56,17 +56,6 @@ void KCProxyServer::onProxySocketConnected()
 	QTcpSocket *socket = qobject_cast<QTcpSocket*>(QObject::sender());
 	KCHttpPacket &request = packetsByProxySocket[socket];	//.value() doesn't give T&
 	
-	// Patch up the request to make it look right
-	request.headers.insert("Host", client->server);
-	qDebug() << "   -- Spoofed Host:" << request.headers.value("Host");
-	if(request.headers.contains("Referer"))
-	{
-		QUrl referer(request.headers.value("Referer"));
-		referer.setHost(client->server);
-		request.headers.insert("Referer", referer.toString());
-		qDebug() << "   -- Spoofed Referer:" << request.headers.value("Referer");
-	}
-	
 	qDebug() << request.toLatin1();
 	socket->write(request.toLatin1());
 }
