@@ -4,7 +4,7 @@
 *.app
 moc_*.cpp
 qrc_*.cpp
-ui_*.cpp
+ui_*.h
 *.pro.user
 *.stash
 

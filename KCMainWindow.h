@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QMenu>
 #include <QSystemTrayIcon>
+#include "KCClient.h"
+#include "KCProxyServer.h"
 
 namespace Ui {
 	class KCMainWindow;
@@ -20,6 +22,8 @@ public:
 private:
 	void _setupTrayIcon();
 	void _setupUI();
+	void _setupClient();
+	void _setupProxyServer();
 	
 public:
 	bool isApplicationActive();
@@ -32,7 +36,12 @@ public slots:
 	void askForAPILink();
 	
 private slots:
-	void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
+	void onCredentialsGained();
+	void onReceivedMasterShips(QList<QVariant> data);
+	void onReceivedPlayerShips(QList<QVariant> data);
+	void onRequestError(KCClient::ErrorCode error);
+	
+	void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
 	
 private:
 	Ui::KCMainWindow *ui;
@@ -40,7 +49,8 @@ private:
 	QSystemTrayIcon *trayIcon;
 	QMenu *trayMenu;
 	
-	QString server, apiToken;
+	KCClient *client;
+	KCProxyServer *proxyServer;
 };
 
 #endif // KCMAINWINDOW_H

@@ -12,13 +12,13 @@ MAKEFILE      = Makefile
 
 CC            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
 CXX           = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
-DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_NO_DEBUG -DQT_WEBKITWIDGETS_LIB -DQT_MULTIMEDIAWIDGETS_LIB -DQT_QUICK_LIB -DQT_POSITIONING_LIB -DQT_OPENGL_LIB -DQT_PRINTSUPPORT_LIB -DQT_WEBKIT_LIB -DQT_MULTIMEDIA_LIB -DQT_QML_LIB -DQT_WIDGETS_LIB -DQT_SENSORS_LIB -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk -mmacosx-version-min=10.6 -Wall -W -fPIE $(DEFINES)
 CXXFLAGS      = -pipe -O2 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk -mmacosx-version-min=10.6 -Wall -W -fPIE $(DEFINES)
-INCPATH       = -I../../../Qt/5.2.0/clang_64/mkspecs/macx-clang -I. -I../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers -I../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers -I../../../Qt/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers -I../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/AGL.framework/Headers -I. -F/Users/uppfinnarn/Qt/5.2.0/clang_64/lib
+INCPATH       = -I../../../Qt/5.2.0/clang_64/mkspecs/macx-clang -I. -I../../../Qt/5.2.0/clang_64/lib/QtWebKitWidgets.framework/Versions/5/Headers -I../../../Qt/5.2.0/clang_64/lib/QtMultimediaWidgets.framework/Versions/5/Headers -I../../../Qt/5.2.0/clang_64/lib/QtQuick.framework/Versions/5/Headers -I../../../Qt/5.2.0/clang_64/lib/QtPositioning.framework/Versions/5/Headers -I../../../Qt/5.2.0/clang_64/lib/QtOpenGL.framework/Versions/5/Headers -I../../../Qt/5.2.0/clang_64/lib/QtPrintSupport.framework/Versions/5/Headers -I../../../Qt/5.2.0/clang_64/lib/QtWebKit.framework/Versions/5/Headers -I../../../Qt/5.2.0/clang_64/lib/QtMultimedia.framework/Versions/5/Headers -I../../../Qt/5.2.0/clang_64/lib/QtQml.framework/Versions/5/Headers -I../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers -I../../../Qt/5.2.0/clang_64/lib/QtSensors.framework/Versions/5/Headers -I../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers -I../../../Qt/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers -I../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/AGL.framework/Headers -I. -F/Users/uppfinnarn/Qt/5.2.0/clang_64/lib
 LINK          = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
 LFLAGS        = -headerpad_max_install_names -Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk -mmacosx-version-min=10.6
-LIBS          = $(SUBLIBS) -F/Users/uppfinnarn/Qt/5.2.0/clang_64/lib -framework Carbon -framework QtWidgets -framework QtGui -framework QtCore -framework QtNetwork -framework OpenGL -framework AGL 
+LIBS          = $(SUBLIBS) -F/Users/uppfinnarn/Qt/5.2.0/clang_64/lib -framework Carbon -lobjc -framework QtWebKitWidgets -framework QtMultimediaWidgets -framework QtMultimedia -framework QtGui -framework QtCore -framework QtNetwork -framework QtWidgets -framework QtQuick -framework QtQml -framework QtPositioning -framework QtOpenGL -framework QtPrintSupport -framework QtWebKit -framework QtSql -framework QtSensors -framework OpenGL -framework AGL 
 AR            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar cq
 RANLIB        = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib -s
 QMAKE         = /Users/uppfinnarn/Qt/5.2.0/clang_64/bin/qmake
@@ -47,15 +47,25 @@ OBJECTS_DIR   = ./
 
 SOURCES       = main.cpp \
 		KCMainWindow.cpp \
-		KCClient.cpp qrc_resources.cpp \
+		KCClient.cpp \
+		KCProxyServer.cpp \
+		KCHttpRequest.cpp \
+		KCGameWindow.cpp qrc_resources.cpp \
 		moc_KCMainWindow.cpp \
-		moc_KCClient.cpp
+		moc_KCClient.cpp \
+		moc_KCProxyServer.cpp \
+		moc_KCGameWindow.cpp
 OBJECTS       = main.o \
 		KCMainWindow.o \
 		KCClient.o \
+		KCProxyServer.o \
+		KCHttpRequest.o \
+		KCGameWindow.o \
 		qrc_resources.o \
 		moc_KCMainWindow.o \
-		moc_KCClient.o
+		moc_KCClient.o \
+		moc_KCProxyServer.o \
+		moc_KCGameWindow.o
 DIST          = ../../../Qt/5.2.0/clang_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.2.0/clang_64/mkspecs/qdevice.pri \
 		../../../Qt/5.2.0/clang_64/mkspecs/features/device_config.prf \
@@ -320,10 +330,21 @@ Makefile: KanColleTool.pro ../../../Qt/5.2.0/clang_64/mkspecs/macx-clang/qmake.c
 		../../../Qt/5.2.0/clang_64/mkspecs/features/lex.prf \
 		KanColleTool.pro \
 		resources.qrc \
-		/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtWidgets.framework/QtWidgets.prl \
+		/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtWebKitWidgets.framework/QtWebKitWidgets.prl \
+		/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtMultimediaWidgets.framework/QtMultimediaWidgets.prl \
+		/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtMultimedia.framework/QtMultimedia.prl \
 		/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtGui.framework/QtGui.prl \
 		/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtCore.framework/QtCore.prl \
-		/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtNetwork.framework/QtNetwork.prl
+		/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtNetwork.framework/QtNetwork.prl \
+		/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtWidgets.framework/QtWidgets.prl \
+		/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtQuick.framework/QtQuick.prl \
+		/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtQml.framework/QtQml.prl \
+		/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtPositioning.framework/QtPositioning.prl \
+		/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtOpenGL.framework/QtOpenGL.prl \
+		/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtPrintSupport.framework/QtPrintSupport.prl \
+		/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtWebKit.framework/QtWebKit.prl \
+		/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtSql.framework/QtSql.prl \
+		/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtSensors.framework/QtSensors.prl
 	$(QMAKE) -o Makefile KanColleTool.pro
 ../../../Qt/5.2.0/clang_64/mkspecs/features/spec_pre.prf:
 ../../../Qt/5.2.0/clang_64/mkspecs/qdevice.pri:
@@ -435,10 +456,21 @@ Makefile: KanColleTool.pro ../../../Qt/5.2.0/clang_64/mkspecs/macx-clang/qmake.c
 ../../../Qt/5.2.0/clang_64/mkspecs/features/lex.prf:
 KanColleTool.pro:
 resources.qrc:
-/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtWidgets.framework/QtWidgets.prl:
+/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtWebKitWidgets.framework/QtWebKitWidgets.prl:
+/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtMultimediaWidgets.framework/QtMultimediaWidgets.prl:
+/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtMultimedia.framework/QtMultimedia.prl:
 /Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtGui.framework/QtGui.prl:
 /Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtCore.framework/QtCore.prl:
 /Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtNetwork.framework/QtNetwork.prl:
+/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtWidgets.framework/QtWidgets.prl:
+/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtQuick.framework/QtQuick.prl:
+/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtQml.framework/QtQml.prl:
+/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtPositioning.framework/QtPositioning.prl:
+/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtOpenGL.framework/QtOpenGL.prl:
+/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtPrintSupport.framework/QtPrintSupport.prl:
+/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtWebKit.framework/QtWebKit.prl:
+/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtSql.framework/QtSql.prl:
+/Users/uppfinnarn/Qt/5.2.0/clang_64/lib/QtSensors.framework/QtSensors.prl:
 qmake: FORCE
 	@$(QMAKE) -o Makefile KanColleTool.pro
 
@@ -458,7 +490,7 @@ KanColleTool.app/Contents/Info.plist:
 	@sed -e "s,@SHORT_VERSION@,1.0,g" -e "s,@TYPEINFO@,????,g" -e "s,@ICON@,,g" -e "s,@EXECUTABLE@,KanColleTool,g" -e "s,@TYPEINFO@,????,g" Info.plist >KanColleTool.app/Contents/Info.plist
 dist: 
 	@test -d .tmp/KanColleTool1.0.0 || mkdir -p .tmp/KanColleTool1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/KanColleTool1.0.0/ && $(COPY_FILE) --parents resources.qrc .tmp/KanColleTool1.0.0/ && $(COPY_FILE) --parents KCMainWindow.h KCClient.h .tmp/KanColleTool1.0.0/ && $(COPY_FILE) --parents main.cpp KCMainWindow.cpp KCClient.cpp .tmp/KanColleTool1.0.0/ && $(COPY_FILE) --parents KCMainWindow.ui .tmp/KanColleTool1.0.0/ && (cd `dirname .tmp/KanColleTool1.0.0` && $(TAR) KanColleTool1.0.0.tar KanColleTool1.0.0 && $(COMPRESS) KanColleTool1.0.0.tar) && $(MOVE) `dirname .tmp/KanColleTool1.0.0`/KanColleTool1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/KanColleTool1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/KanColleTool1.0.0/ && $(COPY_FILE) --parents resources.qrc .tmp/KanColleTool1.0.0/ && $(COPY_FILE) --parents KCMainWindow.h KCClient.h KCProxyServer.h KCHttpRequest.h KCGameWindow.h .tmp/KanColleTool1.0.0/ && $(COPY_FILE) --parents main.cpp KCMainWindow.cpp KCClient.cpp KCProxyServer.cpp KCHttpRequest.cpp KCGameWindow.cpp .tmp/KanColleTool1.0.0/ && $(COPY_FILE) --parents KCMainWindow.ui .tmp/KanColleTool1.0.0/ && (cd `dirname .tmp/KanColleTool1.0.0` && $(TAR) KanColleTool1.0.0.tar KanColleTool1.0.0 && $(COMPRESS) KanColleTool1.0.0.tar) && $(MOVE) `dirname .tmp/KanColleTool1.0.0`/KanColleTool1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/KanColleTool1.0.0
 
 
 clean:compiler_clean 
@@ -488,15 +520,42 @@ qrc_resources.cpp: resources.qrc \
 		icon.png
 	/Users/uppfinnarn/Qt/5.2.0/clang_64/bin/rcc -name resources resources.qrc -o qrc_resources.cpp
 
-compiler_moc_header_make_all: moc_KCMainWindow.cpp moc_KCClient.cpp
+compiler_moc_header_make_all: moc_KCMainWindow.cpp moc_KCClient.cpp moc_KCProxyServer.cpp moc_KCGameWindow.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_KCMainWindow.cpp moc_KCClient.cpp
+	-$(DEL_FILE) moc_KCMainWindow.cpp moc_KCClient.cpp moc_KCProxyServer.cpp moc_KCGameWindow.cpp
 moc_KCMainWindow.cpp: ../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QMenu \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QSystemTrayIcon \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qsystemtrayicon.h \
+		KCClient.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QObject \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qobject.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QJsonValue \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qjsonvalue.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrlQuery \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurlquery.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QNetworkRequest \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qnetworkrequest.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QNetworkReply \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qnetworkreply.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QNetworkAccessManager \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qnetworkaccessmanager.h \
+		KCProxyServer.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QTcpServer \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpserver.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QTcpSocket \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpsocket.h \
+		KCHttpRequest.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QByteArray \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QString \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qstring.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QMap \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qmap.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrl \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurl.h \
 		KCMainWindow.h
 	/Users/uppfinnarn/Qt/5.2.0/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 $(INCPATH) KCMainWindow.h -o moc_KCMainWindow.cpp
 
@@ -514,6 +573,29 @@ moc_KCClient.cpp: ../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Hea
 		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qnetworkaccessmanager.h \
 		KCClient.h
 	/Users/uppfinnarn/Qt/5.2.0/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 $(INCPATH) KCClient.h -o moc_KCClient.cpp
+
+moc_KCProxyServer.cpp: ../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QTcpServer \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpserver.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QTcpSocket \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpsocket.h \
+		KCHttpRequest.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QByteArray \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QString \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qstring.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QMap \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qmap.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrl \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurl.h \
+		KCProxyServer.h
+	/Users/uppfinnarn/Qt/5.2.0/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 $(INCPATH) KCProxyServer.h -o moc_KCProxyServer.cpp
+
+moc_KCGameWindow.cpp: ../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
+		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
+		../../../Qt/5.2.0/clang_64/lib/QtWebKitWidgets.framework/Versions/5/Headers/QWebView \
+		../../../Qt/5.2.0/clang_64/lib/QtWebKitWidgets.framework/Versions/5/Headers/qwebview.h \
+		KCGameWindow.h
+	/Users/uppfinnarn/Qt/5.2.0/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 $(INCPATH) KCGameWindow.h -o moc_KCGameWindow.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -542,6 +624,33 @@ main.o: main.cpp KCMainWindow.h \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QSystemTrayIcon \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qsystemtrayicon.h \
+		KCClient.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QObject \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qobject.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QJsonValue \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qjsonvalue.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrlQuery \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurlquery.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QNetworkRequest \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qnetworkrequest.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QNetworkReply \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qnetworkreply.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QNetworkAccessManager \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qnetworkaccessmanager.h \
+		KCProxyServer.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QTcpServer \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpserver.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QTcpSocket \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpsocket.h \
+		KCHttpRequest.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QByteArray \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QString \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qstring.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QMap \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qmap.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrl \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurl.h \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QApplication \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
@@ -553,15 +662,40 @@ KCMainWindow.o: KCMainWindow.cpp KCMainWindow.h \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qmenu.h \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QSystemTrayIcon \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qsystemtrayicon.h \
+		KCClient.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QObject \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qobject.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QJsonValue \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qjsonvalue.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrlQuery \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurlquery.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QNetworkRequest \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qnetworkrequest.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QNetworkReply \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qnetworkreply.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QNetworkAccessManager \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qnetworkaccessmanager.h \
+		KCProxyServer.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QTcpServer \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpserver.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QTcpSocket \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpsocket.h \
+		KCHttpRequest.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QByteArray \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QString \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qstring.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QMap \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qmap.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrl \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurl.h \
 		ui_KCMainWindow.h \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QInputDialog \
 		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qinputdialog.h \
+		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QMessageBox \
+		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qmessagebox.h \
 		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QSettings \
 		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qsettings.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrl \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurl.h \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrlQuery \
-		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurlquery.h \
 		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QDebug \
 		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qdebug.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o KCMainWindow.o KCMainWindow.cpp
@@ -587,6 +721,55 @@ KCClient.o: KCClient.cpp KCClient.h \
 		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qjsondocument.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o KCClient.o KCClient.cpp
 
+KCProxyServer.o: KCProxyServer.cpp KCProxyServer.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QTcpServer \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpserver.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QTcpSocket \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qtcpsocket.h \
+		KCHttpRequest.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QByteArray \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QString \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qstring.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QMap \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qmap.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrl \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurl.h \
+		KCClient.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QObject \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qobject.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QJsonValue \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qjsonvalue.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrlQuery \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurlquery.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QNetworkRequest \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qnetworkrequest.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QNetworkReply \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qnetworkreply.h \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/QNetworkAccessManager \
+		../../../Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers/qnetworkaccessmanager.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o KCProxyServer.o KCProxyServer.cpp
+
+KCHttpRequest.o: KCHttpRequest.cpp KCHttpRequest.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QByteArray \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qbytearray.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QString \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qstring.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QMap \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qmap.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QUrl \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qurl.h \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QDebug \
+		../../../Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qdebug.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o KCHttpRequest.o KCHttpRequest.cpp
+
+KCGameWindow.o: KCGameWindow.cpp KCGameWindow.h \
+		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
+		../../../Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
+		../../../Qt/5.2.0/clang_64/lib/QtWebKitWidgets.framework/Versions/5/Headers/QWebView \
+		../../../Qt/5.2.0/clang_64/lib/QtWebKitWidgets.framework/Versions/5/Headers/qwebview.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o KCGameWindow.o KCGameWindow.cpp
+
 qrc_resources.o: qrc_resources.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resources.o qrc_resources.cpp
 
@@ -595,6 +778,12 @@ moc_KCMainWindow.o: moc_KCMainWindow.cpp
 
 moc_KCClient.o: moc_KCClient.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_KCClient.o moc_KCClient.cpp
+
+moc_KCProxyServer.o: moc_KCProxyServer.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_KCProxyServer.o moc_KCProxyServer.cpp
+
+moc_KCGameWindow.o: moc_KCGameWindow.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_KCGameWindow.o moc_KCGameWindow.cpp
 
 ####### Install
 
