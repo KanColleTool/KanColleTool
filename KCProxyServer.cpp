@@ -108,10 +108,3 @@ void KCProxyServer::onProxySocketError(QAbstractSocket::SocketError socketError)
 	proxySocket->disconnectFromHost();
 	socket->disconnectFromHost();
 }
-
-/*void KCProxyServer::incomingConnection(qintptr handle)
-{
-	KCProxyThread *thread = new KCProxyThread(handle, client, this);
-	connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-	thread->start();
-}*/

@@ -5,8 +5,6 @@
 #include <QTcpSocket>
 #include "KCHttpRequest.h"
 
-// TODO: Thread pooling.
-
 class KCClient;
 class KCProxyServer : public QTcpServer
 {
@@ -25,9 +23,6 @@ protected slots:
 	void onProxySocketConnected();
 	void onProxySocketDisconnected();
 	void onProxySocketError(QAbstractSocket::SocketError socketError);
-	
-protected:
-	//virtual void incomingConnection(qintptr handle);
 	
 private:
 	QMap<QTcpSocket*, QTcpSocket*> socketsByProxySocket;
