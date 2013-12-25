@@ -1,6 +1,5 @@
 #include "KCMainWindow.h"
 #include <QApplication>
-#include <QWebSettings>
 
 int main(int argc, char *argv[])
 {
@@ -12,10 +11,6 @@ int main(int argc, char *argv[])
 	QCoreApplication::setApplicationName("KanColleTool");
 	QCoreApplication::setApplicationVersion("1.0b1");
 	QCoreApplication::setOrganizationName("MacaroniCode");
-	
-	// Aaaaaand some stuff to make web views work properly everywhere.
-	QWebSettings *webSettings = QWebSettings::globalSettings();
-	webSettings->setAttribute(QWebSettings::PluginsEnabled, true);
 	
 	// We want to stay in the tray, not quit when the window goes away
 	a.setQuitOnLastWindowClosed(false);

@@ -206,11 +206,5 @@ void KCMainWindow::onTrayIconActivated(QSystemTrayIcon::ActivationReason reason)
 
 void KCMainWindow::on_actionLaunchGame_triggered()
 {
-	if(!gameWindow)
-	{
-		qDebug() << "Created a new Game Window";
-		gameWindow = new KCGameWindow(client, this);
-		gameWindow->setAttribute(Qt::WA_DeleteOnClose);
-	}
-	gameWindow->show();
+	// TODO: Do something.
 }

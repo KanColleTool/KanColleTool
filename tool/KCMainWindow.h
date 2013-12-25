@@ -7,7 +7,6 @@
 #include <QPointer>
 #include "KCClient.h"
 #include "KCProxyServer.h"
-#include "KCGameWindow.h"
 
 namespace Ui {
 	class KCMainWindow;
@@ -49,7 +48,6 @@ private slots:
 	
 private:
 	Ui::KCMainWindow *ui;
-	QPointer<KCGameWindow> gameWindow;
 	
 	QSystemTrayIcon *trayIcon;
 	QMenu *trayMenu;

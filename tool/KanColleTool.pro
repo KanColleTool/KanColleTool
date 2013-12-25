@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network webkitwidgets
+QT       += core gui network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = KanColleTool
@@ -22,14 +22,12 @@ SOURCES += main.cpp \
 	KCMainWindow.cpp \
 	KCClient.cpp \
 	KCProxyServer.cpp \
-	KCHttpPacket.cpp \
-    KCGameWindow.cpp
+	KCHttpPacket.cpp
 
 HEADERS  += KCMainWindow.h \
 	KCClient.h \
 	KCProxyServer.h \
-	KCHttpPacket.h \
-    KCGameWindow.h
+	KCHttpPacket.h
 
 FORMS    += \
     KCMainWindow.ui
