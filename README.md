@@ -22,4 +22,4 @@ Given what I've seen of the API, it's probably possible. However, once the staff
 
 ---
 
-This tool is entirely separate from @Grabacr07's [https://github.com/Grabacr07/KanColleViewer KanColleViewer]. I didn't even know of their project when I started mine, and all of my work has been separate from theirs.
+This tool is entirely separate from @Grabacr07's [KanColleViewer](https://github.com/Grabacr07/KanColleViewer). I didn't even know of their project when I started mine, and all of my work has been separate from theirs.
