@@ -1,0 +1,9 @@
+{
+	"name": "KanColleTool Viewer",
+	"main": "index.html",
+	"window": {
+		"show": true,
+		"width": 800,
+		"height": 480
+	}
+}
