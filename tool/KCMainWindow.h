@@ -4,8 +4,10 @@
 #include <QMainWindow>
 #include <QMenu>
 #include <QSystemTrayIcon>
+#include <QPointer>
 #include "KCClient.h"
 #include "KCProxyServer.h"
+#include "KCGameWindow.h"
 
 namespace Ui {
 	class KCMainWindow;
@@ -43,8 +45,11 @@ private slots:
 	
 	void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
 	
+	void on_actionLaunchGame_triggered();
+	
 private:
 	Ui::KCMainWindow *ui;
+	QPointer<KCGameWindow> gameWindow;
 	
 	QSystemTrayIcon *trayIcon;
 	QMenu *trayMenu;

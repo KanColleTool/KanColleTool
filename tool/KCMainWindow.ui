@@ -24,6 +24,23 @@
     </rect>
    </property>
   </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>BottomToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionLaunchGame"/>
+  </widget>
+  <action name="actionLaunchGame">
+   <property name="text">
+    <string>Launch Game</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

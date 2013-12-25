@@ -5,7 +5,6 @@
 #-------------------------------------------------
 
 QT       += core gui network webkitwidgets
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = KanColleTool
@@ -18,7 +17,6 @@ macx {
 unix:!macx {
 	LIBS += -lX11
 }
-
 
 SOURCES += main.cpp \
 	KCMainWindow.cpp \
