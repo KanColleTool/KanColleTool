@@ -12,8 +12,14 @@ The tool will support all the three major platforms (Windows, Mac and Linux), an
 
 Translations will be provided by using the official client through a proxy, which intercepts data between the game and the server, and changes the content.
 
+Thanks to Kwith and Toro for help with figuring out what the API response data means.
+
 ---
 
 **Please, don't be tempted to use the API docs and/or intercepting proxy to cheat.**  
 Given what I've seen of the API, it's probably possible. However, once the staff catches wind of it, they will not only permaban you from the game, they will likely change their API, thus sending us back to square one, quite possibly implementing signing of responses and even IP blocks. We don't know until it happens, please don't be the one to make it happen.  
 **tl;dr: you'd ruin the game for yourself and others.**
+
+---
+
+This tool is entirely separate from @Grabacr07's [https://github.com/Grabacr07/KanColleViewer KanColleViewer]. I didn't even know of their project when I started mine, and all of my work has been separate from theirs.
