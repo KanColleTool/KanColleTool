@@ -13,6 +13,8 @@ public:
 	
 protected:
 	void loadBundledIndex();
+	void loadAPILink();
+	QString askForAPILink();
 	
 private slots:
 	void onLoadStarted();
@@ -20,6 +22,8 @@ private slots:
 	
 protected:
 	QWebView *webView;
+	QString server, apiToken;
+	QUrl apiLink;
 };
 
 #endif
