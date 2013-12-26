@@ -37,7 +37,7 @@ void KCProxyServer::onReadyRead()
 	packetsByProxySocket.insert(proxySocket, request);
 	socketsByProxySocket.insert(proxySocket, socket);
 	
-	proxySocket->connectToHost(client->server, 80);
+	proxySocket->connectToHost(request.headers.value("Host"), 80);
 }
 
 void KCProxyServer::onError(QAbstractSocket::SocketError socketError)
