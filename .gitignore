@@ -9,16 +9,14 @@ ui_*.h
 *.pro.user
 *.stash
 
-# Node and node-webkit Temporaries
-viewer/nw.pak
-
 # Built Products
 tool/Makefile
 tool/KanColleTool.app
 tool/KanColleTool.exe
 tool/KanColleTool
-viewer/kctviewer.app
-viewer/kctviewer.exe
-viewer/kctviewer
-viewer/kctviewer.nw
+
+viewer/Makefile
+viewer/KCTViewer.app
+viewer/KCTViewer.exe
+viewer/KCTViewer
 
