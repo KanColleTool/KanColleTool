@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Kantai Collection</title>
+	<style type="text/css">
+	html, body { margin: 0; padding: 0; }
+	</style>
+	<script type="text/javascript">
+	var nwgui = require("nw.gui");
+	var app = nwgui.App;
+	</script>
+</head>
+<body>
+	<img />
+	<script type="text/javascript">
+	console.log("Proxy: " + require('nw.gui').App.getProxyForURL('http://www.google.com/logos/doodles/2013/holiday-series-2013-3-4504416610680832-hp.jpg'))
+	document.getElementsByTagName("img")[0].src = "http://www.google.com/logos/doodles/2013/holiday-series-2013-3-4504416610680832-hp.jpg"
+	</script>
+</body>
+</html>
+	

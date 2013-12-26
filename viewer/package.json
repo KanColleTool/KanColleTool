@@ -1,9 +1,16 @@
 {
 	"name": "KanColleTool Viewer",
+	"version": "1.0.0b1",
 	"main": "index.html",
 	"window": {
-		"show": true,
+		"title": "Kantai Collection",
+		"toolbar": false,
 		"width": 800,
-		"height": 480
-	}
+		"height": 480,
+		"resizable": false
+	},
+	"webkit": {
+		"plugin": true
+	},
+	"chromium-args": "--proxy-server=localhost:12345"
 }
