@@ -6,6 +6,11 @@
 	</style>
 	<script type="text/javascript">
 	function setAPILink(link) {
+		// Remove any eventual old embeds
+		var oldEmbeds = document.getElementsByTagName("embed")
+		for(var i = 0; i < oldEmbeds.length; i++) { oldEmbeds[i].parentNode.removeChild(oldEmbeds[i]) }
+		
+		// Add a new one
 		var e = document.createElement("embed")
 		e.setAttribute("src", link)
 		e.setAttribute("type", "application/x-shockwave-flash")
