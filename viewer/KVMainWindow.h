@@ -14,7 +14,10 @@ public:
 protected:
 	void loadBundledIndex();
 	void loadAPILink();
-	QString askForAPILink();
+	void generateAPILinkURL();
+	
+public slots:
+	void askForAPILink();
 	
 private slots:
 	void onLoadStarted();

@@ -1,4 +1,6 @@
 #include "KVMainWindow.h"
+#include <QMenuBar>
+#include <QMenu>
 #include <QWebFrame>
 #include <QMessageBox>
 #include <QInputDialog>
@@ -11,8 +13,16 @@
 KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	QMainWindow(parent, flags)
 {
+	// Set up the window and menus and stuff
+	QMenuBar *menuBar = new QMenuBar(this);
+	
+	QMenu *viewerMenu = menuBar->addMenu("Viewer");
+	viewerMenu->addAction("Change API Link", this, SLOT(askForAPILink()));
+	
+	this->setMenuBar(menuBar);
 	this->setWindowTitle("KanColleTool Viewer");
 	
+	// Set up the web view
 	webView = new QWebView(this);
 	connect(webView, SIGNAL(loadStarted()), this, SLOT(onLoadStarted()));
 	connect(webView, SIGNAL(loadFinished(bool)), this, SLOT(onLoadFinished(bool)));
@@ -56,33 +66,52 @@ void KVMainWindow::loadBundledIndex()
 void KVMainWindow::loadAPILink()
 {
 	QSettings settings;
-	if(!settings.contains("server") || !settings.contains("apiToken"))
-	{
-		QUrl url(this->askForAPILink());
-		QUrlQuery query(url);
-		
-		server = url.host();
-		apiToken = query.queryItemValue("api_token");
-		settings.setValue("server", server);
-		settings.setValue("apiToken", apiToken);
-		settings.sync();
-	}
-	else
-	{
-		server = settings.value("server").toString();
-		apiToken = settings.value("apiToken").toString();
-	}
 	
-	apiLink = QUrl(QString("http://%1/kcs/mainD2.swf?api_token=%2").arg(server, apiToken));
+	server = settings.value("server").toString();
+	apiToken = settings.value("apiToken").toString();
+	
+	if(server.isEmpty() || apiToken.isEmpty())
+	{
+		this->askForAPILink();
+		if(server.isEmpty() || apiToken.isEmpty())
+			exit(0);
+	}
+	else this->generateAPILinkURL();
 	
 	qDebug() << "Server:" << server;
 	qDebug() << "API Token:" << apiToken;
 	qDebug() << "API Link:" << apiLink.toString();
 }
 
-QString KVMainWindow::askForAPILink()
+void KVMainWindow::generateAPILinkURL()
 {
-	return QInputDialog::getText(this, "Enter API Link", "Please enter your API Link.<br /><br />It should look something like:<br /><code>http://125.6.XXX.XXX/kcs/mainD2.swf?api_token=xxxxxxxxxx...</code>");
+	apiLink = QUrl(QString("http://%1/kcs/mainD2.swf?api_token=%2").arg(server, apiToken));
+}
+
+void KVMainWindow::askForAPILink()
+{
+	// Get the link from the user
+	QString link = QInputDialog::getText(this, "Enter API Link", "Please enter your API Link.<br /><br />It should look something like:<br /><code>http://125.6.XXX.XXX/kcs/mainD2.swf?api_token=xxxxxxxxxx...</code>");
+	
+	// If the link is empty, the user pressed cancel, for whatever reason
+	if(link.isEmpty())
+		return;
+	
+	// Make an URL and a Query from it
+	QUrl url(link);
+	QUrlQuery query(url);
+	
+	// Extract the important bits, and generate a well-formed URL from that
+	// (It's important that nothing we're doing is noticeable to the staff!)
+	server = url.host();
+	apiToken = query.queryItemValue("api_token");
+	this->generateAPILinkURL();
+	
+	// Put it in the settings and force a sync
+	QSettings settings;
+	settings.setValue("server", server);
+	settings.setValue("apiToken", apiToken);
+	settings.sync();
 }
 
 void KVMainWindow::onLoadStarted()
@@ -93,6 +122,5 @@ void KVMainWindow::onLoadStarted()
 void KVMainWindow::onLoadFinished(bool ok)
 {
 	qDebug() << "Finished Loading!" << ok;
-	if(ok)
-		webView->page()->mainFrame()->evaluateJavaScript(QString("setAPILink(\"%1\"); null").arg(apiLink.toString()));
+	if(ok) webView->page()->mainFrame()->evaluateJavaScript(QString("setAPILink(\"%1\"); null").arg(apiLink.toString()));
 }
