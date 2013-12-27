@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QWebView>
+#include <QNetworkAccessManager>
+#include <QNetworkDiskCache>
 
 class KVMainWindow : public QMainWindow
 {
@@ -25,6 +27,9 @@ private slots:
 	
 protected:
 	QWebView *webView;
+	QNetworkAccessManager *netManager;
+	QNetworkDiskCache *cache;
+	
 	QString server, apiToken;
 	QUrl apiLink;
 };

@@ -8,6 +8,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QSettings>
+#include <QStandardPaths>
 #include <QDebug>
 
 KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
@@ -22,16 +23,28 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	this->setMenuBar(menuBar);
 	this->setWindowTitle("KanColleTool Viewer");
 	
-	// Set up the web view
-	webView = new QWebView(this);
-	connect(webView, SIGNAL(loadStarted()), this, SLOT(onLoadStarted()));
-	connect(webView, SIGNAL(loadFinished(bool)), this, SLOT(onLoadFinished(bool)));
+	// Set a custom network access manager to let us set up a cache and proxy.
+	// Without a cache, the game takes ages to load.
+	// Without a proxy, we can't do cool things like translating the game.
+	netManager = new QNetworkAccessManager(this);
 	
-	// We don't want a right-click to bring up a context menu containing only "Reload",
-	// nor do we want scrollbars so big that they make themselves necessary.
+	// Set up a cache; a larger-than-normal disk cache is quite enough for our purposes
+	cache = new QNetworkDiskCache(this);
+	cache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+	netManager->setCache(cache);
+	
+	// Set up the web view, using our custom Network Access Manager
+	webView = new QWebView(this);
+	webView->page()->setNetworkAccessManager(netManager);
+	
+	// The context menu only contains "Reload" anyways
 	webView->setContextMenuPolicy(Qt::PreventContextMenu);
+	// These are so large that they create a need for themselves >_>
 	webView->page()->mainFrame()->setScrollBarPolicy(Qt::Horizontal, Qt::ScrollBarAlwaysOff);
 	webView->page()->mainFrame()->setScrollBarPolicy(Qt::Vertical, Qt::ScrollBarAlwaysOff);
+	
+	connect(webView, SIGNAL(loadStarted()), this, SLOT(onLoadStarted()));
+	connect(webView, SIGNAL(loadFinished(bool)), this, SLOT(onLoadFinished(bool)));
 	
 	// To set the window size right, we have to first set the central widget (which we set to
 	// the web view)'s size to a fixed size, ask the window to auto-adjust to that, and then
