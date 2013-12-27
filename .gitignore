@@ -9,6 +9,10 @@ ui_*.h
 *.pro.user
 *.stash
 
+# Python Temporaries
+*.pyc
+__pycache__
+
 # Built Products
 tool/Makefile
 tool/KanColleTool.app
