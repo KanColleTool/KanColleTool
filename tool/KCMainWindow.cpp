@@ -32,7 +32,7 @@ KCMainWindow::~KCMainWindow()
 void KCMainWindow::_setupTrayIcon()
 {
 	// Create the Tray Icon
-	this->trayIcon = new QSystemTrayIcon(QIcon(":/icon.png"), this);
+	this->trayIcon = new QSystemTrayIcon(QIcon(":/icon-48x48.png"), this);
 	connect(this->trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
 			this, SLOT(onTrayIconActivated(QSystemTrayIcon::ActivationReason)));
 	this->trayIcon->show();
