@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	QCoreApplication::setApplicationName("KCTViewer");
-	QCoreApplication::setApplicationVersion("1.0.0b1");
+	QCoreApplication::setApplicationVersion("0.0.1a");
 	QCoreApplication::setOrganizationName("MacaroniCode");
 	
 	QWebSettings::globalSettings()->setAttribute(QWebSettings::PluginsEnabled, true);
