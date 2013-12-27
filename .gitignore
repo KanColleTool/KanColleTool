@@ -9,6 +9,9 @@ ui_*.h
 *.pro.user
 *.stash
 
+# Xcode Temporaries
+xcuserdata
+
 # Python Temporaries
 *.pyc
 __pycache__
