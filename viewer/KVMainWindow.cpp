@@ -9,6 +9,7 @@
 #include <QUrlQuery>
 #include <QApplication>
 #include <QNetworkProxy>
+#include <QHostAddress>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QDebug>
@@ -42,7 +43,7 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	
 	// Set up a local proxy
 	proxy = new KVProxyServer(this);
-	proxy->listen();
+	proxy->listen(QHostAddress::LocalHost);
 	netManager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "localhost", proxy->serverPort()));
 	
 	// Set up the web view, using our custom Network Access Manager
