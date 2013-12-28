@@ -42,7 +42,10 @@ KVHttpPacket::KVHttpPacket(QByteArray data)
 				if(!url.host().isEmpty())
 				{
 					headers.insert("Host", url.host());
-					url = QUrl(url.path());
+					
+					QUrl newUrl(url.path());
+					newUrl.setQuery(url.query());
+					url = newUrl;
 				}
 			}
 			
@@ -75,6 +78,7 @@ QByteArray KVHttpPacket::toLatin1(bool headersOnly) const
 		data += QString::number(statusCode).toLatin1();
 		data += " ";
 		data += statusMessage.toLatin1();
+		data += "\r\n";
 	}
 	else
 	{
@@ -95,9 +99,9 @@ QByteArray KVHttpPacket::toLatin1(bool headersOnly) const
 		data += "\r\n";
 	}
 	
+	// Body
 	if(!headersOnly)
 	{
-		// Body
 		data += "\r\n";
 		data += body;
 	}
