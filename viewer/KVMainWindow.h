@@ -27,6 +27,8 @@ private slots:
 	void onLoadStarted();
 	void onLoadFinished(bool ok);
 	
+	void onAPIError(KVProxyServer::APIStatus error, QString message);
+	
 protected:
 	QWebView *webView;
 	QNetworkAccessManager *netManager;

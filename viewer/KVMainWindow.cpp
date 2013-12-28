@@ -46,6 +46,8 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	proxy->listen(QHostAddress::LocalHost);
 	netManager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "localhost", proxy->serverPort()));
 	
+	connect(proxy, SIGNAL(apiError(KVProxyServer::APIStatus, QString)), this, SLOT(onAPIError(KVProxyServer::APIStatus, QString)));
+	
 	// Set up the web view, using our custom Network Access Manager
 	webView = new QWebView(this);
 	webView->page()->setNetworkAccessManager(netManager);
@@ -160,4 +162,22 @@ void KVMainWindow::onLoadFinished(bool ok)
 {
 	qDebug() << "Finished Loading!" << ok;
 	if(ok) webView->page()->mainFrame()->evaluateJavaScript(QString("setAPILink(\"%1\"); null").arg(apiLink.toString()));
+}
+
+void KVMainWindow::onAPIError(KVProxyServer::APIStatus error, QString message)
+{
+	qDebug() << error << message;
+	
+	QString readableError = "An unknown error occurred. Please tell the developers that this happened ALONG WITH THE ERROR CODE and what you think caused it.";
+	
+	if(error == KVProxyServer::APIStatusOK)
+		readableError = "No Error, please tell the developers that you saw this so they can fix it.";
+	else if(error == KVProxyServer::APIStatusMissingParameters)
+		readableError = "There are missing parameters in the request. This really shouldn't happen, ever.";
+	else if(error == KVProxyServer::APIStatusInvalidVersion)
+		readableError = "Invalid API Version. The game was updated, but you have an old copy.";
+	else if(error == KVProxyServer::APIStatusInvalidToken)
+		readableError = "Either your API Link is invalid, or it has expired. That happens sometimes.";
+	
+	QMessageBox::critical(this, QString("Errorcat (Code %1)").arg((int)error), readableError);
 }
