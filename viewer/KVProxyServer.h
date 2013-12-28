@@ -11,10 +11,10 @@ class KVProxyServer : public QTcpServer
 	
 public:
 	enum APIStatus {
-		APIStatusOK = 1,
-		APIStatusMissingParameters = 100,
-		APIStatusInvalidVersion = 200,
-		APIStatusInvalidToken = 201
+		OK = 1,
+		ExpiredAPIToken = 100,
+		InvalidVersion = 200,
+		Unauthorized = 201
 	};
 	
 	KVProxyServer(QObject *parent = 0);
@@ -35,9 +35,11 @@ protected slots:
 	void onProxySocketDisconnected();
 	void onProxySocketError(QAbstractSocket::SocketError socketError);
 	
+	void handleResponse(KVHttpPacket *response, const KVHttpPacket *request);
+	
 private:
 	QMap<QTcpSocket*, QTcpSocket*> socketsByProxySocket;
-	QMap<QTcpSocket*, KVHttpPacket> packetsByProxySocket;
+	QMap<QTcpSocket*, KVHttpPacket> requestsByProxySocket;
 };
 
 #endif

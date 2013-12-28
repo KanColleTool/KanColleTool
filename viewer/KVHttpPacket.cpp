@@ -18,19 +18,32 @@ KVHttpPacket::KVHttpPacket(QByteArray data)
 		// <METHOD> <url> HTTP/1.x
 		if(isFirstLine)
 		{
+			// If it starts with "HTTP", it's a response
+			isResponse = line.startsWith("HTTP");
+			
 			int spIndex1 = line.indexOf(' ');
 			int spIndex2 = line.indexOf(' ', spIndex1 + 1);
-			method = line.left(spIndex1);
-			url = QUrl(line.mid(spIndex1 + 1, spIndex2 - spIndex1 - 1));
-			httpVersion = line.mid(spIndex2 + 1);
 			
-			// cURL does strange things with the path part, not sure if it's
-			// a part of the HTTP spec I missed, but I'm not gonna reread it
-			// to find out. Basically, it passes the full URL, not just path.
-			if(!url.host().isEmpty())
+			if(isResponse)
 			{
-				headers.insert("Host", url.host());
-				url = QUrl(url.path());
+				httpVersion = line.left(spIndex1);
+				statusCode = line.mid(spIndex1 + 1, spIndex2 - spIndex1 - 1).toInt();
+				statusMessage = line.mid(spIndex2 + 1);
+			}
+			else
+			{
+				method = line.left(spIndex1);
+				url = QUrl(line.mid(spIndex1 + 1, spIndex2 - spIndex1 - 1));
+				httpVersion = line.mid(spIndex2 + 1);
+				
+				// cURL does strange things with the path part, not sure if it's
+				// a part of the HTTP spec I missed, but I'm not gonna reread it
+				// to find out. Basically, it passes the full URL, not just path.
+				if(!url.host().isEmpty())
+				{
+					headers.insert("Host", url.host());
+					url = QUrl(url.path());
+				}
 			}
 			
 			isFirstLine = false;
@@ -50,17 +63,28 @@ KVHttpPacket::KVHttpPacket(QByteArray data)
 	body = data.mid(headerLength + 4);
 }
 
-QByteArray KVHttpPacket::toLatin1(bool headersOnly)
+QByteArray KVHttpPacket::toLatin1(bool headersOnly) const
 {
 	QByteArray data;
 	
 	// First Line
-	data += method.toLatin1();
-	data += " ";
-	data += url.toString().toLatin1();
-	data += " ";
-	data += httpVersion.toLatin1();
-	data += "\r\n";
+	if(isResponse)
+	{
+		data += httpVersion.toLatin1();
+		data += " ";
+		data += QString::number(statusCode).toLatin1();
+		data += " ";
+		data += statusMessage.toLatin1();
+	}
+	else
+	{
+		data += method.toLatin1();
+		data += " ";
+		data += url.toString().toLatin1();
+		data += " ";
+		data += httpVersion.toLatin1();
+		data += "\r\n";
+	}
 	
 	// Headers
 	foreach(QString key, headers.keys())
@@ -81,7 +105,7 @@ QByteArray KVHttpPacket::toLatin1(bool headersOnly)
 	return data;
 }
 
-QString KVHttpPacket::toString(bool headersOnly)
+QString KVHttpPacket::toString(bool headersOnly) const
 {
 	QString str(this->toLatin1(true));
 	if(!headersOnly)

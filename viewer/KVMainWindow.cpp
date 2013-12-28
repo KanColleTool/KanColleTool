@@ -17,11 +17,14 @@
 KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	QMainWindow(parent, flags)
 {
+	this->setWindowTitle("KanColleTool Viewer");
+	
 	// Set up the window and menus and stuff
 	QMenuBar *menuBar = new QMenuBar(this);
 	
 	QMenu *viewerMenu = menuBar->addMenu("Viewer");
 	viewerMenu->addAction("Change API Link", this, SLOT(askForAPILink()))->setShortcut(Qt::CTRL + Qt::Key_L);
+	viewerMenu->addAction("Clear Cache", this, SLOT(clearCache()));
 	viewerMenu->addSeparator();
 	viewerMenu->addAction("Quit", qApp, SLOT(quit()))->setShortcut(Qt::CTRL + Qt::Key_Q);
 	
@@ -29,7 +32,6 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	helpMenu->addAction("About", this, SLOT(showAbout()));
 	
 	this->setMenuBar(menuBar);
-	this->setWindowTitle("KanColleTool Viewer");
 	
 	// Set a custom network access manager to let us set up a cache and proxy.
 	// Without a cache, the game takes ages to load.
@@ -142,6 +144,12 @@ void KVMainWindow::askForAPILink()
 	settings.sync();
 }
 
+void KVMainWindow::clearCache()
+{
+	cache->clear();
+	this->loadBundledIndex();
+}
+
 void KVMainWindow::showAbout()
 {
 	QMessageBox::about(this, "About KCTViewer",
@@ -161,23 +169,36 @@ void KVMainWindow::onLoadStarted()
 void KVMainWindow::onLoadFinished(bool ok)
 {
 	qDebug() << "Finished Loading!" << ok;
-	if(ok) webView->page()->mainFrame()->evaluateJavaScript(QString("setAPILink(\"%1\"); null").arg(apiLink.toString()));
+	if(ok) this->setHTMLAPILink();
+}
+
+void KVMainWindow::setHTMLAPILink()
+{
+	qDebug() << "Updating API Link in the web view to" << apiLink.toString();
+	webView->page()->mainFrame()->evaluateJavaScript(QString("setAPILink(\"%1\"); null").arg(apiLink.toString()));
 }
 
 void KVMainWindow::onAPIError(KVProxyServer::APIStatus error, QString message)
 {
 	qDebug() << error << message;
 	
-	QString readableError = "An unknown error occurred. Please tell the developers that this happened ALONG WITH THE ERROR CODE and what you think caused it.";
+	QString readableError;
 	
-	if(error == KVProxyServer::APIStatusOK)
-		readableError = "No Error, please tell the developers that you saw this so they can fix it.";
-	else if(error == KVProxyServer::APIStatusMissingParameters)
-		readableError = "There are missing parameters in the request. This really shouldn't happen, ever.";
-	else if(error == KVProxyServer::APIStatusInvalidVersion)
-		readableError = "Invalid API Version. The game was updated, but you have an old copy.";
-	else if(error == KVProxyServer::APIStatusInvalidToken)
-		readableError = "Either your API Link is invalid, or it has expired. That happens sometimes.";
+	switch(error)
+	{
+		case KVProxyServer::OK:
+			readableError = "No Error, you shouldn't be seeing this.";
+			break;
+		case KVProxyServer::ExpiredAPIToken:
+		case KVProxyServer::Unauthorized:
+			readableError = "Either your API Link is invalid, or it has expired. That happens sometimes.";
+			break;
+		case KVProxyServer::InvalidVersion:
+			readableError = "Invalid API Version. The game was updated, but you have an old copy.";
+			break;
+		default:
+			readableError = "An unknown error occurred. Please tell the developers that this happened ALONG WITH THE ERROR CODE, and what you think caused it.";
+	}
 	
 	QMessageBox::critical(this, QString("Errorcat (Code %1)").arg((int)error), readableError);
 }

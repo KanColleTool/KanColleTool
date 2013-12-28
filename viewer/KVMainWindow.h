@@ -21,11 +21,13 @@ protected:
 	
 public slots:
 	void askForAPILink();
+	void clearCache();
 	void showAbout();
 	
 private slots:
 	void onLoadStarted();
 	void onLoadFinished(bool ok);
+	void setHTMLAPILink();
 	
 	void onAPIError(KVProxyServer::APIStatus error, QString message);
 	
