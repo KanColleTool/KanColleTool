@@ -5,6 +5,7 @@
 #include <QWebView>
 #include <QNetworkAccessManager>
 #include <QNetworkDiskCache>
+#include "KVProxyServer.h"
 
 class KVMainWindow : public QMainWindow
 {
@@ -30,6 +31,7 @@ protected:
 	QWebView *webView;
 	QNetworkAccessManager *netManager;
 	QNetworkDiskCache *cache;
+	KVProxyServer *proxy;
 	
 	QString server, apiToken;
 	QUrl apiLink;

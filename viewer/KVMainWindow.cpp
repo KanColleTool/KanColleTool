@@ -8,6 +8,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QApplication>
+#include <QNetworkProxy>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QDebug>
@@ -38,6 +39,11 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	cache = new QNetworkDiskCache(this);
 	cache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
 	netManager->setCache(cache);
+	
+	// Set up a local proxy
+	proxy = new KVProxyServer(this);
+	proxy->listen();
+	netManager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "localhost", proxy->serverPort()));
 	
 	// Set up the web view, using our custom Network Access Manager
 	webView = new QWebView(this);

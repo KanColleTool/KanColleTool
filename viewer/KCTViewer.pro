@@ -11,8 +11,12 @@ TARGET = KCTViewer
 TEMPLATE = app
 
 SOURCES += main.cpp \
-	KVMainWindow.cpp
+	KVMainWindow.cpp \
+	KVProxyServer.cpp \
+	KVHttpPacket.cpp
 
-HEADERS  += KVMainWindow.h
+HEADERS  += KVMainWindow.h \
+	KVProxyServer.h \
+	KVHttpPacket.h
 
 RESOURCES += resources.qrc
