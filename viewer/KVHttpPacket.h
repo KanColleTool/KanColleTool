@@ -10,7 +10,8 @@ class KVHttpPacket
 {
 public:
 	KVHttpPacket(QByteArray data = QByteArray());
-	QByteArray toLatin1();
+	QByteArray toLatin1(bool headersOnly = false);
+	QString toString(bool headersOnly = false);
 	
 	QString method;
 	QUrl url;

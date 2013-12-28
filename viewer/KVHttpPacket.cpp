@@ -50,7 +50,7 @@ KVHttpPacket::KVHttpPacket(QByteArray data)
 	body = data.mid(headerLength + 4);
 }
 
-QByteArray KVHttpPacket::toLatin1()
+QByteArray KVHttpPacket::toLatin1(bool headersOnly)
 {
 	QByteArray data;
 	
@@ -71,9 +71,27 @@ QByteArray KVHttpPacket::toLatin1()
 		data += "\r\n";
 	}
 	
-	// Body
-	data += "\r\n";
-	data += body;
+	if(!headersOnly)
+	{
+		// Body
+		data += "\r\n";
+		data += body;
+	}
 	
 	return data;
+}
+
+QString KVHttpPacket::toString(bool headersOnly)
+{
+	QString str(this->toLatin1(true));
+	if(!headersOnly)
+	{
+		str += "\r\n";
+		if(!this->headers.value("Content-Type").startsWith("text/"))
+			str += this->body.toBase64();
+		else
+			str += this->body;
+	}
+	
+	return str;
 }
