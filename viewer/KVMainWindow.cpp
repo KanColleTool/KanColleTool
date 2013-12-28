@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QApplication>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QDebug>
@@ -19,6 +20,7 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	
 	QMenu *viewerMenu = menuBar->addMenu("Viewer");
 	viewerMenu->addAction("Change API Link", this, SLOT(askForAPILink()));
+	viewerMenu->addAction("About", this, SLOT(showAbout()));
 	
 	this->setMenuBar(menuBar);
 	this->setWindowTitle("KanColleTool Viewer");
@@ -125,6 +127,17 @@ void KVMainWindow::askForAPILink()
 	settings.setValue("server", server);
 	settings.setValue("apiToken", apiToken);
 	settings.sync();
+}
+
+void KVMainWindow::showAbout()
+{
+	QMessageBox::about(this, "About KCTViewer",
+		QString(
+			"<h1>KCTViewer&nbsp;<small>%1</small></h1>"
+		).arg(
+			QCoreApplication::applicationVersion()
+		)
+	);
 }
 
 void KVMainWindow::onLoadStarted()

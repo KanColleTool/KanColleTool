@@ -20,6 +20,7 @@ protected:
 	
 public slots:
 	void askForAPILink();
+	void showAbout();
 	
 private slots:
 	void onLoadStarted();
