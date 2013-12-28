@@ -19,8 +19,12 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	QMenuBar *menuBar = new QMenuBar(this);
 	
 	QMenu *viewerMenu = menuBar->addMenu("Viewer");
-	viewerMenu->addAction("Change API Link", this, SLOT(askForAPILink()));
-	viewerMenu->addAction("About", this, SLOT(showAbout()));
+	viewerMenu->addAction("Change API Link", this, SLOT(askForAPILink()))->setShortcut(Qt::CTRL + Qt::Key_L);
+	viewerMenu->addSeparator();
+	viewerMenu->addAction("Quit", qApp, SLOT(quit()))->setShortcut(Qt::CTRL + Qt::Key_Q);
+	
+	QMenu *helpMenu = menuBar->addMenu("Help");
+	helpMenu->addAction("About", this, SLOT(showAbout()));
 	
 	this->setMenuBar(menuBar);
 	this->setWindowTitle("KanColleTool Viewer");
