@@ -9,7 +9,10 @@
 // 1 = Log Events
 // 2 =   + HTTP Headers
 // 3 =   + Body Data
-#define kProxyVerboseLevel 1
+#define kProxyVerboseLevel 0
+
+// Be really verbose and print how much has been read and how much is expected
+#define kProxyPrintTransferProgress 0
 
 KVProxyServer::KVProxyServer(QObject *parent):
 	QTcpServer(parent)
@@ -109,7 +112,8 @@ void KVProxyServer::onProxySocketReadyRead()
 		response->headers.value("Content-Length").toInt() <= response->body.length())
 		proxySocket->disconnectFromHost();
 	
-	qDebug() << response->body.length() << "Read," << response->headers.value("Content-Length").toInt() << "Expected";
+	if(kProxyPrintTransferProgress)
+		qDebug() << response->body.length() << "Read," << response->headers.value("Content-Length").toInt() << "Expected";
 }
 
 void KVProxyServer::onProxySocketError(QAbstractSocket::SocketError error)

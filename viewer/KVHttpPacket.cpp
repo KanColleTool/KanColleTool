@@ -13,7 +13,7 @@ void KVHttpPacket::dataReceived(QByteArray data)
 {
 	if(!headersRead)
 	{
-		qDebug() << (void*)this << "First Data Received";
+		//qDebug() << (void*)this << "First Data Received";
 		// The header ends with a blank line, which really just looks like "\r\n\r\n".
 		int headerLength = data.indexOf("\r\n\r\n");
 		
@@ -79,7 +79,7 @@ void KVHttpPacket::dataReceived(QByteArray data)
 	}
 	else
 	{
-		qDebug() << (void*)this << "Additional Data Received";
+		//qDebug() << (void*)this << "Additional Data Received";
 		body += data;
 	}
 }
