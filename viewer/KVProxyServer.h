@@ -40,6 +40,7 @@ protected slots:
 private:
 	QMap<QTcpSocket*, QTcpSocket*> socketsByProxySocket;
 	QMap<QTcpSocket*, KVHttpPacket> requestsByProxySocket;
+	QMap<QTcpSocket*, KVHttpPacket> responsesByProxySocket;
 };
 
 #endif

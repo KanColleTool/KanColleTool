@@ -9,7 +9,7 @@
 // 1 = Log Events
 // 2 =   + HTTP Headers
 // 3 =   + Body Data
-#define kProxyVerboseLevel 0
+#define kProxyVerboseLevel 1
 
 KVProxyServer::KVProxyServer(QObject *parent):
 	QTcpServer(parent)
@@ -46,6 +46,7 @@ void KVProxyServer::onReadyRead()
 	connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
 	
 	KVHttpPacket request(socket->readAll());
+	request.headers.insert("Connection", "close");
 	
 	requestsByProxySocket.insert(proxySocket, request);
 	socketsByProxySocket.insert(proxySocket, socket);
@@ -82,6 +83,14 @@ void KVProxyServer::onProxySocketDisconnected()
 		qDebug() << "<- Proxy Socket Disconnected";
 	
 	QTcpSocket *proxySocket = qobject_cast<QTcpSocket*>(QObject::sender());
+	QTcpSocket *socket = socketsByProxySocket.value(proxySocket);
+	
+	KVHttpPacket *request = &(requestsByProxySocket[proxySocket]);
+	KVHttpPacket *response = &(responsesByProxySocket[proxySocket]);
+	
+	this->handleResponse(response, request);
+	socket->write(response->toLatin1());
+	socket->disconnectFromHost();
 	
 	socketsByProxySocket.remove(proxySocket);
 	requestsByProxySocket.remove(proxySocket);
@@ -93,27 +102,26 @@ void KVProxyServer::onProxySocketReadyRead()
 		qDebug() << "  -> Proxy Socket Ready to Read!";
 	
 	QTcpSocket *proxySocket = qobject_cast<QTcpSocket*>(QObject::sender());
-	QTcpSocket *socket = socketsByProxySocket.value(proxySocket);
+	KVHttpPacket *response = &(responsesByProxySocket[proxySocket]);
 	
-	KVHttpPacket request = requestsByProxySocket.value(proxySocket);
-	KVHttpPacket response(proxySocket->readAll());
-	if(kProxyVerboseLevel >= 2)
-		qDebug() << response.toString(kProxyVerboseLevel < 3);
+	response->dataReceived(proxySocket->readAll());
+	if(response->headers.contains("Content-Length") &&
+		response->headers.value("Content-Length").toInt() <= response->body.length())
+		proxySocket->disconnectFromHost();
 	
-	this->handleResponse(&response, &request);
-	socket->write(response.toLatin1());
-	
-	if(kProxyVerboseLevel >= 2)
-		qDebug() << "  <- Response Delivered";
-	
-	proxySocket->disconnectFromHost();
-	socket->disconnectFromHost();
+	qDebug() << response->body.length() << "Read," << response->headers.value("Content-Length").toInt() << "Expected";
 }
 
-void KVProxyServer::onProxySocketError(QAbstractSocket::SocketError socketError)
+void KVProxyServer::onProxySocketError(QAbstractSocket::SocketError error)
 {
+	if(error == QAbstractSocket::RemoteHostClosedError)
+	{
+		this->onProxySocketDisconnected();
+		return;
+	}
+	
 	if(kProxyVerboseLevel >= 1)
-		qDebug() << "  -> Error:" << socketError;
+		qDebug() << "  -> Error:" << error;
 	
 	QTcpSocket *proxySocket = qobject_cast<QTcpSocket*>(QObject::sender());
 	QTcpSocket *socket = socketsByProxySocket.value(proxySocket);
@@ -137,9 +145,10 @@ void KVProxyServer::handleResponse(KVHttpPacket *response, const KVHttpPacket *r
 	if(error.error != QJsonParseError::NoError || !doc.isObject())
 		return;
 	
+	// Check for API Error codes
 	QMap<QString,QVariant> data = doc.toVariant().toMap();
 	APIStatus status = (APIStatus)data.value("api_result").toInt();
 	QString msg = data.value("api_result_msg").toString();
-	if(status != APIStatusOK)
+	if(status != OK)
 		emit apiError(status, msg);
 }

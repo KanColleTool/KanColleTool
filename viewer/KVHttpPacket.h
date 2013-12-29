@@ -10,6 +10,9 @@ class KVHttpPacket
 {
 public:
 	KVHttpPacket(QByteArray data = QByteArray());
+	
+	void dataReceived(QByteArray data);
+	
 	QByteArray toLatin1(bool headersOnly = false) const;
 	QString toString(bool headersOnly = false) const;
 	
@@ -28,6 +31,9 @@ public:
 	QString httpVersion;
 	QMap<QString,QString> headers;
 	QByteArray body;
+	
+private:
+	bool headersRead;
 };
 
 #endif
