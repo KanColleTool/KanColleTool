@@ -101,10 +101,13 @@ void KVProxyServer::sendProxyRequest(QTcpSocket *requestSocket)
 		request.setRawHeader(key.toLatin1(), headers.value(key).toString().toLatin1());
 	
 	// Unset default headers
-	request.setRawHeader("Connection", QByteArray());
-	request.setRawHeader("Accept-Encoding", QByteArray());
-	request.setRawHeader("Accept-Language", QByteArray());
-	request.setRawHeader("User-Agent", QByteArray());
+	//request.setRawHeader("Connection", QByteArray());
+	//request.setRawHeader("Accept-Encoding", QByteArray());
+	//request.setRawHeader("Accept-Language", QByteArray());
+	//request.setRawHeader("User-Agent", QByteArray());
+	
+	// Apparently pretending to be Chrome fixes everything.
+	request.setRawHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36");
 	
     //QByteArray body = requestSocket->property("body").toByteArray();
     //QBuffer buffer(&body);
