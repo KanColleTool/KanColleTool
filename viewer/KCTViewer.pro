@@ -12,11 +12,9 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
 	KVMainWindow.cpp \
-	KVProxyServer.cpp \
-	KVHttpPacket.cpp
+	KVProxyServer.cpp
 
 HEADERS  += KVMainWindow.h \
-	KVProxyServer.h \
-	KVHttpPacket.h
+	KVProxyServer.h
 
 RESOURCES += resources.qrc
