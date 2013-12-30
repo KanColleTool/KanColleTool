@@ -1,8 +1,12 @@
 #include "KVProxyServer.h"
 #include <QUrl>
 #include <QMap>
-#include <QJsonDocument>
-#include <QJsonValue>
+/*#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>*/
+#include <QJSValue>
+#include <QJSValueList>
+#include <QFile>
 
 // Debug level!
 // 0 = Quiet
@@ -13,6 +17,11 @@
 
 // Be really verbose and print how much has been read and how much is expected
 #define kProxyPrintTransferProgress 0
+
+// Print request URLs
+#define kProxyPrintRequestURLs 1
+
+#define PERCENT(part, whole) ((int)(part/(float)whole))
 
 KVProxyServer::KVProxyServer(QObject *parent):
 	QTcpServer(parent)
@@ -50,6 +59,9 @@ void KVProxyServer::onReadyRead()
 	
 	KVHttpPacket request(socket->readAll());
 	request.headers.insert("Connection", "close");
+	
+	if(kProxyPrintRequestURLs)
+		qDebug() << "->" << request.url.toString();
 	
 	requestsByProxySocket.insert(proxySocket, request);
 	socketsByProxySocket.insert(proxySocket, socket);
@@ -91,6 +103,8 @@ void KVProxyServer::onProxySocketDisconnected()
 	KVHttpPacket *request = &(requestsByProxySocket[proxySocket]);
 	KVHttpPacket *response = &(responsesByProxySocket[proxySocket]);
 	
+	qDebug() << "<-" << request->url.toString();
+	
 	this->handleResponse(response, request);
 	socket->write(response->toLatin1());
 	socket->disconnectFromHost();
@@ -113,7 +127,7 @@ void KVProxyServer::onProxySocketReadyRead()
 		proxySocket->disconnectFromHost();
 	
 	if(kProxyPrintTransferProgress)
-		qDebug() << response->body.length() << "Read," << response->headers.value("Content-Length").toInt() << "Expected";
+		qDebug() << "  -> (" << PERCENT(response->body.length(), response->headers.value("Content-Length").toInt()) << "Percent )";
 }
 
 void KVProxyServer::onProxySocketError(QAbstractSocket::SocketError error)
@@ -136,23 +150,37 @@ void KVProxyServer::onProxySocketError(QAbstractSocket::SocketError error)
 
 void KVProxyServer::handleResponse(KVHttpPacket *response, const KVHttpPacket *request)
 {
+	return;
 	// Only handle text-based packets with the API's path prefix, and the "svdata=" body prefix.
 	if(!request->url.path().startsWith("/kcsapi") ||
 		!response->headers.value("Content-Type").startsWith("text/") ||
 		!response->body.startsWith("svdata="))
 		return;
 	
-	// Make a JSON Document out of everything after the "svdata="
-	// Ignore invalid responses, we may have been wrong...
-	QJsonParseError error;
-	QJsonDocument doc = QJsonDocument::fromJson(response->body.mid(7), &error);
-	if(error.error != QJsonParseError::NoError || !doc.isObject())
-		return;
+	qDebug() << response->body;
 	
-	// Check for API Error codes
-	QMap<QString,QVariant> data = doc.toVariant().toMap();
-	APIStatus status = (APIStatus)data.value("api_result").toInt();
-	QString msg = data.value("api_result_msg").toString();
-	if(status != OK)
-		emit apiError(status, msg);
+	QJSValue data = jsEngine.evaluate(response->body);
+	
+	QJSValue func = this->loadJSFile(":/test.js");
+	QJSValueList args;
+	args.append(data);
+	QJSValue val = func.call(args);
+	
+	if(!val.isError())
+		response->body = QString("svdata=%1").arg(val.toString().replace("\\\\u", "\\u")).toLatin1();
+	else
+		qWarning() << "ERROR:" << val.toString();
+	qDebug() << response->body;
+}
+
+QJSValue KVProxyServer::loadJSFile(QString path)
+{
+	QFile file(path);
+	if(!file.open(QIODevice::ReadOnly))
+	{
+		qWarning() << "Can't open" << path << "for reading";
+		return QJSValue();
+	}
+	
+	return jsEngine.evaluate(file.readAll(), path);
 }

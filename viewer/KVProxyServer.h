@@ -3,6 +3,7 @@
 
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QJSEngine>
 #include "KVHttpPacket.h"
 
 class KVProxyServer : public QTcpServer
@@ -41,6 +42,9 @@ private:
 	QMap<QTcpSocket*, QTcpSocket*> socketsByProxySocket;
 	QMap<QTcpSocket*, KVHttpPacket> requestsByProxySocket;
 	QMap<QTcpSocket*, KVHttpPacket> responsesByProxySocket;
+	
+	QJSEngine jsEngine;
+	QJSValue loadJSFile(QString path);
 };
 
 #endif

@@ -5,12 +5,14 @@
 KVHttpPacket::KVHttpPacket(QByteArray data):
 	headersRead(false)
 {
-	if(data.length() > 0)
-		this->dataReceived(data);
+	this->dataReceived(data);
 }
 
 void KVHttpPacket::dataReceived(QByteArray data)
 {
+	if(data.length() == 0)
+		return;
+	
 	if(!headersRead)
 	{
 		//qDebug() << (void*)this << "First Data Received";
@@ -44,6 +46,11 @@ void KVHttpPacket::dataReceived(QByteArray data)
 				{
 					method = line.left(spIndex1);
 					url = QUrl(line.mid(spIndex1 + 1, spIndex2 - spIndex1 - 1));
+					if(url.toString().isEmpty())
+					{
+						qWarning() << "Incorrectly Parsed Packet:";
+						qWarning() << data;
+					}
 					httpVersion = line.mid(spIndex2 + 1);
 					
 					// cURL does strange things with the path part, not sure if it's
