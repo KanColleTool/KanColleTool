@@ -27,3 +27,5 @@ viewer/KCTViewer.app
 viewer/KCTViewer.exe
 viewer/KCTViewer
 
+/build-*
+
