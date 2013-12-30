@@ -29,7 +29,7 @@ private slots:
 	void onLoadFinished(bool ok);
 	void setHTMLAPILink();
 	
-	void onAPIError(KVProxyServer::APIStatus error, QString message);
+	void onAPIError(KVProxyServer::APIStatus error);
 	
 protected:
 	QWebView *webView;

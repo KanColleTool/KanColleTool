@@ -4,6 +4,8 @@
 #include <QTcpSocket>
 #include <QDebug>
 
+#define kProxyDebug 0
+
 KVProxyServer::KVProxyServer(QObject *parent):
 	QTcpServer(parent)
 {
@@ -12,7 +14,7 @@ KVProxyServer::KVProxyServer(QObject *parent):
 
 void KVProxyServer::onNewConnection()
 {
-	qDebug() << "-> New Connection";
+	if(kProxyDebug)	qDebug() << "-> New Connection";
 	
 	QTcpSocket *socket = this->nextPendingConnection();
 	connect(socket, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
@@ -28,23 +30,22 @@ void KVProxyServer::onNewConnection()
 
 void KVProxyServer::onReadyRead()
 {
-	//qDebug() << "  -> Ready to Read";
 	QTcpSocket *socket = qobject_cast<QTcpSocket*>(QObject::sender());
 	if(socket->bytesAvailable() && !socket->property("firstLineRead").toBool())
 	{
-		qDebug() << "  -- Reading First Line...";
+		if(kProxyDebug)	qDebug() << "  -- Reading First Line...";
 		QString line = socket->readLine();
 		int spIndex1 = line.indexOf(" ");
 		int spIndex2 = line.indexOf(" ", spIndex1+1);
 		socket->setProperty("method", line.left(spIndex1));
 		socket->setProperty("url", QUrl(line.mid(spIndex1 + 1, spIndex2 - spIndex1 - 1)));
-		qDebug() << socket->property("method");
-		qDebug() << socket->property("url");
+		if(kProxyDebug)	qDebug() << socket->property("method");
+		if(kProxyDebug)	qDebug() << socket->property("url");
 		socket->setProperty("firstLineRead", true);
 	}
 	if(socket->bytesAvailable() && !socket->property("headersRead").toBool())
 	{
-		qDebug() << "  -- Reading Headers...";
+		if(kProxyDebug)	qDebug() << "  -- Reading Headers...";
 		QVariantMap headers = socket->property("headers").toMap();
 		while(socket->canReadLine())
 		{
@@ -54,7 +55,6 @@ void KVProxyServer::onReadyRead()
 				int sepIndex = line.indexOf(": ");
 				QString key = line.left(sepIndex);
 				QString value = line.mid(sepIndex + 2);
-				//qDebug() << key << ": " << value;
 				headers.insert(key, value);
 			}
 			else
@@ -65,27 +65,27 @@ void KVProxyServer::onReadyRead()
 		}
 		
 		socket->setProperty("headers", headers);
-		qDebug() << socket->property("headers");
+		if(kProxyDebug)	qDebug() << socket->property("headers");
 	}
 	
 	if(socket->property("headersRead").toBool())
 	{
 		if(socket->bytesAvailable())
 		{
-			qDebug() << "  -- Reading" << socket->bytesAvailable() << "bytes of body data...";
+			if(kProxyDebug)	qDebug() << "  -- Reading" << socket->bytesAvailable() << "bytes of body data...";
 			
 			QByteArray body = socket->property("body").toByteArray();
 			body.append(socket->readAll());
 			socket->setProperty("body", body);
 			
-			qDebug() << "  -- Complete!";
+			if(kProxyDebug)	qDebug() << "  -- Complete!";
 			int contentLength = socket->property("headers").toMap().value("Content-Length").toInt();
 			if(body.size() >= contentLength)
 				this->sendProxyRequest(socket);
 		}
 		else
 		{
-			qDebug() << "    -- No Body";
+			if(kProxyDebug)	qDebug() << "    -- No Body";
 			this->sendProxyRequest(socket);
 		}
 	}
@@ -117,7 +117,7 @@ void KVProxyServer::sendProxyRequest(QTcpSocket *requestSocket)
     
     connect(reply, SIGNAL(finished()), buffer, SLOT(deleteLater()));
 	
-	qDebug() << "  -> Proxy Request Sent";
+	if(kProxyDebug)	qDebug() << "  -> Proxy Request Sent";
 }
 
 void KVProxyServer::writeBackResponse(QNetworkReply *reply, QTcpSocket *socket)
@@ -149,12 +149,12 @@ void KVProxyServer::writeBackResponse(QNetworkReply *reply, QTcpSocket *socket)
 	socket->write(reply->readAll());
 	socket->disconnectFromHost();
 	
-	qDebug() << "<- Response Written";
+	if(kProxyDebug)	qDebug() << "<- Response Written";
 }
 
 void KVProxyServer::onProxyRequestFinished()
 {
-	qDebug() << "    -- Finished";
+	if(kProxyDebug)	qDebug() << "    -- Finished";
 	
 	QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
 	QTcpSocket *socket = qobject_cast<QTcpSocket*>(reply->request().originatingObject());
@@ -164,7 +164,7 @@ void KVProxyServer::onProxyRequestFinished()
 
 void KVProxyServer::onProxyRequestError(QNetworkReply::NetworkError error)
 {
-	qDebug() << "    -x Error:" << error;
+	if(kProxyDebug)	qDebug() << "    -x Error:" << error;
 	
 	QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
 	QTcpSocket *socket = qobject_cast<QTcpSocket*>(reply->request().originatingObject());

@@ -11,7 +11,17 @@ class KVProxyServer : public QTcpServer
 	Q_OBJECT
 	
 public:
+	enum APIStatus {
+		OK = 1,
+		MissingParameters = 100,
+		InvalidAPIVersion = 200,
+		Unauthorized = 201
+	};
+	
 	KVProxyServer(QObject *parent = 0);
+	
+signals:
+	void apiError(KVProxyServer::APIStatus error);
 	
 private slots:
 	void onNewConnection();
