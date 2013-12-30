@@ -2,49 +2,28 @@
 #define KVPROXYSERVER_H
 
 #include <QTcpServer>
-#include <QTcpSocket>
-#include <QJSEngine>
-#include "KVHttpPacket.h"
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 class KVProxyServer : public QTcpServer
 {
 	Q_OBJECT
 	
 public:
-	enum APIStatus {
-		OK = 1,
-		ExpiredAPIToken = 100,
-		InvalidVersion = 200,
-		Unauthorized = 201
-	};
-	
 	KVProxyServer(QObject *parent = 0);
-	virtual ~KVProxyServer();
 	
-	QString server, apiToken;
-	
-signals:
-	void apiError(KVProxyServer::APIStatus error, QString message);
-	
-protected slots:
+private slots:
 	void onNewConnection();
 	void onReadyRead();
-	void onError(QAbstractSocket::SocketError socketError);
 	
-	void onProxySocketReadyRead();
-	void onProxySocketConnected();
-	void onProxySocketDisconnected();
-	void onProxySocketError(QAbstractSocket::SocketError socketError);
-	
-	void handleResponse(KVHttpPacket *response, const KVHttpPacket *request);
+	void sendProxyRequest(QTcpSocket *requestSocket);
+	void writeBackResponse(QNetworkReply *reply, QTcpSocket *socket);
+	void onProxyRequestFinished();
+	void onProxyRequestError(QNetworkReply::NetworkError error);
 	
 private:
-	QMap<QTcpSocket*, QTcpSocket*> socketsByProxySocket;
-	QMap<QTcpSocket*, KVHttpPacket> requestsByProxySocket;
-	QMap<QTcpSocket*, KVHttpPacket> responsesByProxySocket;
-	
-	QJSEngine jsEngine;
-	QJSValue loadJSFile(QString path);
+	QNetworkAccessManager netManager;
 };
 
 #endif

@@ -1,27 +1,8 @@
 #include "KVProxyServer.h"
 #include <QUrl>
-#include <QMap>
-/*#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonValue>*/
-#include <QJSValue>
-#include <QJSValueList>
-#include <QFile>
-
-// Debug level!
-// 0 = Quiet
-// 1 = Log Events
-// 2 =   + HTTP Headers
-// 3 =   + Body Data
-#define kProxyVerboseLevel 0
-
-// Be really verbose and print how much has been read and how much is expected
-#define kProxyPrintTransferProgress 0
-
-// Print request URLs
-#define kProxyPrintRequestURLs 1
-
-#define PERCENT(part, whole) ((int)(part/(float)whole))
+#include <QBuffer>
+#include <QTcpSocket>
+#include <QDebug>
 
 KVProxyServer::KVProxyServer(QObject *parent):
 	QTcpServer(parent)
@@ -29,158 +10,153 @@ KVProxyServer::KVProxyServer(QObject *parent):
 	connect(this, SIGNAL(newConnection()), this, SLOT(onNewConnection()));
 }
 
-KVProxyServer::~KVProxyServer()
-{
-	
-}
-
 void KVProxyServer::onNewConnection()
 {
-	if(kProxyVerboseLevel >= 1)
-		qDebug() << "> New Connection!";
+	qDebug() << "-> New Connection";
 	
 	QTcpSocket *socket = this->nextPendingConnection();
 	connect(socket, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
-	connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
+	
+	socket->setProperty("firstLineRead", false);
+	socket->setProperty("headersRead", false);
+	
+	socket->setProperty("method", QString());
+	socket->setProperty("url", QUrl());
+	socket->setProperty("headers", QVariantMap());
+	socket->setProperty("body", QByteArray());
 }
 
 void KVProxyServer::onReadyRead()
 {
-	if(kProxyVerboseLevel >= 1)
-		qDebug() << "- Ready Read!";
-	
+	qDebug() << "  -> Ready to Read";
 	QTcpSocket *socket = qobject_cast<QTcpSocket*>(QObject::sender());
-	
-	QTcpSocket *proxySocket = new QTcpSocket(this);
-	connect(proxySocket, SIGNAL(readyRead()), this, SLOT(onProxySocketReadyRead()));
-	connect(proxySocket, SIGNAL(connected()), this, SLOT(onProxySocketConnected()));
-	connect(proxySocket, SIGNAL(disconnected()), this, SLOT(onProxySocketDisconnected()));
-	connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
-	
-	KVHttpPacket request(socket->readAll());
-	request.headers.insert("Connection", "close");
-	
-	if(kProxyPrintRequestURLs)
-		qDebug() << "->" << request.url.toString();
-	
-	requestsByProxySocket.insert(proxySocket, request);
-	socketsByProxySocket.insert(proxySocket, socket);
-	
-	proxySocket->connectToHost(request.headers.value("Host"), 80);
-}
-
-void KVProxyServer::onError(QAbstractSocket::SocketError socketError)
-{
-	if(kProxyVerboseLevel >= 1)
-		qDebug() << "> Error:" << socketError;
-	
-	QTcpSocket *socket = qobject_cast<QTcpSocket*>(QObject::sender());
-	
-	socket->disconnectFromHost();
-}
-
-void KVProxyServer::onProxySocketConnected()
-{
-	if(kProxyVerboseLevel >= 1)
-		qDebug() << "-> Proxy Socket Connected";
-	
-	QTcpSocket *socket = qobject_cast<QTcpSocket*>(QObject::sender());
-	KVHttpPacket &request = requestsByProxySocket[socket];	//.value() doesn't give T&
-	
-	if(kProxyVerboseLevel >= 3)
-		qDebug() << request.toLatin1();
-	socket->write(request.toLatin1());
-}
-
-void KVProxyServer::onProxySocketDisconnected()
-{
-	if(kProxyVerboseLevel >= 1)
-		qDebug() << "<- Proxy Socket Disconnected";
-	
-	QTcpSocket *proxySocket = qobject_cast<QTcpSocket*>(QObject::sender());
-	QTcpSocket *socket = socketsByProxySocket.value(proxySocket);
-	
-	KVHttpPacket *request = &(requestsByProxySocket[proxySocket]);
-	KVHttpPacket *response = &(responsesByProxySocket[proxySocket]);
-	
-	qDebug() << "<-" << request->url.toString();
-	
-	this->handleResponse(response, request);
-	socket->write(response->toLatin1());
-	socket->disconnectFromHost();
-	
-	socketsByProxySocket.remove(proxySocket);
-	requestsByProxySocket.remove(proxySocket);
-}
-
-void KVProxyServer::onProxySocketReadyRead()
-{
-	if(kProxyVerboseLevel >= 1)
-		qDebug() << "  -> Proxy Socket Ready to Read!";
-	
-	QTcpSocket *proxySocket = qobject_cast<QTcpSocket*>(QObject::sender());
-	KVHttpPacket *response = &(responsesByProxySocket[proxySocket]);
-	
-	response->dataReceived(proxySocket->readAll());
-	if(response->headers.contains("Content-Length") &&
-		response->headers.value("Content-Length").toInt() <= response->body.length())
-		proxySocket->disconnectFromHost();
-	
-	if(kProxyPrintTransferProgress)
-		qDebug() << "  -> (" << PERCENT(response->body.length(), response->headers.value("Content-Length").toInt()) << "Percent )";
-}
-
-void KVProxyServer::onProxySocketError(QAbstractSocket::SocketError error)
-{
-	if(error == QAbstractSocket::RemoteHostClosedError)
+	if(socket->bytesAvailable() && !socket->property("firstLineRead").toBool())
 	{
-		this->onProxySocketDisconnected();
-		return;
+		qDebug() << "Reading First Line...";
+		QString line = socket->readLine();
+		int spIndex1 = line.indexOf(" ");
+		int spIndex2 = line.indexOf(" ", spIndex1+1);
+		socket->setProperty("method", line.left(spIndex1));
+		socket->setProperty("url", QUrl(line.mid(spIndex1 + 1, spIndex2 - spIndex1 - 1)));
+		qDebug() << socket->property("method");
+		qDebug() << socket->property("url");
+		socket->setProperty("firstLineRead", true);
+	}
+	if(socket->bytesAvailable() && !socket->property("headersRead").toBool())
+	{
+		qDebug() << "Reading Headers...";
+		QVariantMap headers = socket->property("headers").toMap();
+		while(socket->canReadLine())
+		{
+			QString line = socket->readLine().trimmed();
+			if(!line.isEmpty())
+			{
+				int sepIndex = line.indexOf(": ");
+				QString key = line.left(sepIndex);
+				QString value = line.mid(sepIndex + 2);
+				//qDebug() << key << ": " << value;
+				headers.insert(key, value);
+			}
+			else
+			{
+				socket->setProperty("headersRead", true);
+				break;
+			}
+		}
+		
+		socket->setProperty("headers", headers);
+		qDebug() << socket->property("headers");
 	}
 	
-	if(kProxyVerboseLevel >= 1)
-		qDebug() << "  -> Error:" << error;
-	
-	QTcpSocket *proxySocket = qobject_cast<QTcpSocket*>(QObject::sender());
-	QTcpSocket *socket = socketsByProxySocket.value(proxySocket);
-	
-	proxySocket->disconnectFromHost();
-	socket->disconnectFromHost();
-}
-
-void KVProxyServer::handleResponse(KVHttpPacket *response, const KVHttpPacket *request)
-{
-	return;
-	// Only handle text-based packets with the API's path prefix, and the "svdata=" body prefix.
-	if(!request->url.path().startsWith("/kcsapi") ||
-		!response->headers.value("Content-Type").startsWith("text/") ||
-		!response->body.startsWith("svdata="))
-		return;
-	
-	qDebug() << response->body;
-	
-	QJSValue data = jsEngine.evaluate(response->body);
-	
-	QJSValue func = this->loadJSFile(":/test.js");
-	QJSValueList args;
-	args.append(data);
-	QJSValue val = func.call(args);
-	
-	if(!val.isError())
-		response->body = QString("svdata=%1").arg(val.toString().replace("\\\\u", "\\u")).toLatin1();
-	else
-		qWarning() << "ERROR:" << val.toString();
-	qDebug() << response->body;
-}
-
-QJSValue KVProxyServer::loadJSFile(QString path)
-{
-	QFile file(path);
-	if(!file.open(QIODevice::ReadOnly))
+	if(socket->property("headersRead").toBool())
 	{
-		qWarning() << "Can't open" << path << "for reading";
-		return QJSValue();
+		if(socket->bytesAvailable())
+		{
+			qDebug() << "Reading" << socket->bytesAvailable() << "bytes of body data...";
+			QByteArray body = socket->property("body").toByteArray();
+			body.append(socket->readAll());
+			socket->setProperty("body", body);
+		}
+		else
+		{
+			qDebug() << "No Body";
+			this->sendProxyRequest(socket);
+		}
 	}
+}
+
+void KVProxyServer::sendProxyRequest(QTcpSocket *requestSocket)
+{
+	QNetworkRequest request(requestSocket->property("url").toUrl());
+	request.setOriginatingObject(requestSocket);
 	
-	return jsEngine.evaluate(file.readAll(), path);
+	QVariantMap headers = requestSocket->property("headers").toMap();
+	foreach(QString key, headers.keys())
+		request.setRawHeader(key.toLatin1(), headers.value(key).toString().toLatin1());
+	
+	// Unset default headers
+	request.setRawHeader("Connection", QByteArray());
+	request.setRawHeader("Accept-Encoding", QByteArray());
+	request.setRawHeader("Accept-Language", QByteArray());
+	request.setRawHeader("User-Agent", QByteArray());
+	
+    //QByteArray body = requestSocket->property("body").toByteArray();
+    //QBuffer buffer(&body);
+    QNetworkReply *reply = netManager.sendCustomRequest(request, requestSocket->property("method").toString().toLatin1());
+    connect(reply, SIGNAL(finished()), this, SLOT(onProxyRequestFinished()));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onProxyRequestError(QNetworkReply::NetworkError)));
+	
+	qDebug() << "  -> Proxy Request Sent";
+}
+
+void KVProxyServer::writeBackResponse(QNetworkReply *reply, QTcpSocket *socket)
+{
+	socket->write("HTTP/1.1 ");
+	socket->write(QString::number(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()).toLatin1());
+	socket->write(" ");
+	socket->write(reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString().toLatin1());
+	socket->write("\r\n");
+	
+	foreach(QNetworkReply::RawHeaderPair header, reply->rawHeaderPairs())
+	{
+		if(header.first == "Content-Encoding")
+			continue;
+		else if(header.first == "Transfer-Encoding")
+			continue;
+		else if(header.first == "Connection")
+			continue;
+		else
+		{
+			socket->write(header.first);
+			socket->write(": ");
+			socket->write(header.second);
+			socket->write("\r\n");
+		}
+	}
+	socket->write("Connection: close\r\n");
+	socket->write("\r\n");
+	socket->write(reply->readAll());
+	socket->disconnectFromHost();
+	
+	qDebug() << "  <- Response Written";
+}
+
+void KVProxyServer::onProxyRequestFinished()
+{
+	qDebug() << "    -- Finished";
+	
+	QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
+	QTcpSocket *socket = qobject_cast<QTcpSocket*>(reply->request().originatingObject());
+	
+	writeBackResponse(reply, socket);
+}
+
+void KVProxyServer::onProxyRequestError(QNetworkReply::NetworkError error)
+{
+	qDebug() << "    -x Error:" << error;
+	
+	QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
+	QTcpSocket *socket = qobject_cast<QTcpSocket*>(reply->request().originatingObject());
+	
+	writeBackResponse(reply, socket);
 }
