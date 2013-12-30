@@ -22,10 +22,10 @@ tool/KanColleTool.app
 tool/KanColleTool.exe
 tool/KanColleTool
 
-viewer/Makefile
+viewer/Makefile*
 viewer/KCTViewer.app
 viewer/KCTViewer.exe
 viewer/KCTViewer
 
 /build-*
-
+/dist
