@@ -28,11 +28,11 @@ void KVProxyServer::onNewConnection()
 
 void KVProxyServer::onReadyRead()
 {
-	qDebug() << "  -> Ready to Read";
+	//qDebug() << "  -> Ready to Read";
 	QTcpSocket *socket = qobject_cast<QTcpSocket*>(QObject::sender());
 	if(socket->bytesAvailable() && !socket->property("firstLineRead").toBool())
 	{
-		qDebug() << "Reading First Line...";
+		qDebug() << "  -- Reading First Line...";
 		QString line = socket->readLine();
 		int spIndex1 = line.indexOf(" ");
 		int spIndex2 = line.indexOf(" ", spIndex1+1);
@@ -44,7 +44,7 @@ void KVProxyServer::onReadyRead()
 	}
 	if(socket->bytesAvailable() && !socket->property("headersRead").toBool())
 	{
-		qDebug() << "Reading Headers...";
+		qDebug() << "  -- Reading Headers...";
 		QVariantMap headers = socket->property("headers").toMap();
 		while(socket->canReadLine())
 		{
@@ -72,14 +72,20 @@ void KVProxyServer::onReadyRead()
 	{
 		if(socket->bytesAvailable())
 		{
-			qDebug() << "Reading" << socket->bytesAvailable() << "bytes of body data...";
+			qDebug() << "  -- Reading" << socket->bytesAvailable() << "bytes of body data...";
+			
 			QByteArray body = socket->property("body").toByteArray();
 			body.append(socket->readAll());
 			socket->setProperty("body", body);
+			
+			qDebug() << "  -- Complete!";
+			int contentLength = socket->property("headers").toMap().value("Content-Length").toInt();
+			if(body.size() >= contentLength)
+				this->sendProxyRequest(socket);
 		}
 		else
 		{
-			qDebug() << "No Body";
+			qDebug() << "    -- No Body";
 			this->sendProxyRequest(socket);
 		}
 	}
@@ -102,9 +108,14 @@ void KVProxyServer::sendProxyRequest(QTcpSocket *requestSocket)
 	
     //QByteArray body = requestSocket->property("body").toByteArray();
     //QBuffer buffer(&body);
-    QNetworkReply *reply = netManager.sendCustomRequest(request, requestSocket->property("method").toString().toLatin1());
+    QBuffer *buffer = new QBuffer(this);
+    buffer->setData(requestSocket->property("body").toByteArray());
+    
+    QNetworkReply *reply = netManager.sendCustomRequest(request, requestSocket->property("method").toString().toLatin1(), buffer);
     connect(reply, SIGNAL(finished()), this, SLOT(onProxyRequestFinished()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onProxyRequestError(QNetworkReply::NetworkError)));
+    
+    connect(reply, SIGNAL(finished()), buffer, SLOT(deleteLater()));
 	
 	qDebug() << "  -> Proxy Request Sent";
 }
@@ -138,7 +149,7 @@ void KVProxyServer::writeBackResponse(QNetworkReply *reply, QTcpSocket *socket)
 	socket->write(reply->readAll());
 	socket->disconnectFromHost();
 	
-	qDebug() << "  <- Response Written";
+	qDebug() << "<- Response Written";
 }
 
 void KVProxyServer::onProxyRequestFinished()
