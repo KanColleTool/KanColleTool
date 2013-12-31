@@ -102,7 +102,7 @@ void KVMainWindow::loadAPILink()
 	
 	if(server.isEmpty() || apiToken.isEmpty())
 	{
-		this->askForAPILink();
+		this->askForAPILink(false);
 		if(server.isEmpty() || apiToken.isEmpty())
 			exit(0);
 	}
@@ -118,7 +118,7 @@ void KVMainWindow::generateAPILinkURL()
 	apiLink = QUrl(QString("http://%1/kcs/mainD2.swf?api_token=%2").arg(server, apiToken));
 }
 
-void KVMainWindow::askForAPILink()
+void KVMainWindow::askForAPILink(bool reload)
 {
 	// Get the link from the user
 	QString link = QInputDialog::getText(this, "Enter API Link", "Please enter your API Link.<br /><br />It should look something like:<br /><code>http://125.6.XXX.XXX/kcs/mainD2.swf?api_token=xxxxxxxxxx...</code>");
@@ -142,6 +142,12 @@ void KVMainWindow::askForAPILink()
 	settings.setValue("server", server);
 	settings.setValue("apiToken", apiToken);
 	settings.sync();
+	
+	// If we're in-game and expected to reload the page, do so.
+	// This is NOT true when called from loadAPILink(), and should
+	// be true when called from the menu item.
+	if(reload)
+		this->loadBundledIndex();
 }
 
 void KVMainWindow::clearCache()

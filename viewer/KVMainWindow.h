@@ -20,7 +20,7 @@ protected:
 	void generateAPILinkURL();
 	
 public slots:
-	void askForAPILink();
+	void askForAPILink(bool reload = true);
 	void clearCache();
 	void showAbout();
 	
@@ -29,6 +29,8 @@ private slots:
 	void onLoadFinished(bool ok);
 	void setHTMLAPILink();
 	
+	// Never actually emmitted yet; I'm trying to get the proxy
+	// stable before I start poking at the responses.
 	void onAPIError(KVProxyServer::APIStatus error);
 	
 protected:
