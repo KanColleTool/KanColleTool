@@ -47,9 +47,9 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	// (except this currently breaks everything for some reason)
 	/*proxy = new KVProxyServer(this);
 	proxy->listen(QHostAddress::LocalHost);
-	netManager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "localhost", proxy->serverPort()));*/
+	netManager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "localhost", proxy->serverPort()));
 	
-	connect(proxy, SIGNAL(apiError(KVProxyServer::APIStatus)), this, SLOT(onAPIError(KVProxyServer::APIStatus)));
+	connect(proxy, SIGNAL(apiError(KVProxyServer::APIStatus)), this, SLOT(onAPIError(KVProxyServer::APIStatus)));*/
 	
 	// Set up the web view, using our custom Network Access Manager
 	webView = new QWebView(this);
