@@ -44,9 +44,10 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	netManager->setCache(cache);
 	
 	// Set up a local proxy
-	proxy = new KVProxyServer(this);
+	// (except this currently breaks everything for some reason)
+	/*proxy = new KVProxyServer(this);
 	proxy->listen(QHostAddress::LocalHost);
-	netManager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "localhost", proxy->serverPort()));
+	netManager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "localhost", proxy->serverPort()));*/
 	
 	connect(proxy, SIGNAL(apiError(KVProxyServer::APIStatus)), this, SLOT(onAPIError(KVProxyServer::APIStatus)));
 	
