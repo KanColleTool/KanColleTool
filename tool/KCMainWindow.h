@@ -6,7 +6,6 @@
 #include <QSystemTrayIcon>
 #include <QPointer>
 #include "KCClient.h"
-#include "KCProxyServer.h"
 
 namespace Ui {
 	class KCMainWindow;
@@ -24,7 +23,6 @@ private:
 	void _setupTrayIcon();
 	void _setupUI();
 	void _setupClient();
-	void _setupProxyServer();
 	
 public:
 	bool isApplicationActive();
@@ -53,7 +51,6 @@ private:
 	QMenu *trayMenu;
 	
 	KCClient *client;
-	KCProxyServer *proxyServer;
 };
 
 #endif // KCMAINWINDOW_H

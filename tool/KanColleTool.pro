@@ -20,14 +20,10 @@ unix:!macx {
 
 SOURCES += main.cpp \
 	KCMainWindow.cpp \
-	KCClient.cpp \
-	KCProxyServer.cpp \
-	KCHttpPacket.cpp
+	KCClient.cpp
 
 HEADERS  += KCMainWindow.h \
-	KCClient.h \
-	KCProxyServer.h \
-	KCHttpPacket.h
+	KCClient.h
 
 FORMS    += \
     KCMainWindow.ui

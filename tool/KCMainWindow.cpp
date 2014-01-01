@@ -21,7 +21,6 @@ KCMainWindow::KCMainWindow(QWidget *parent) :
 	this->_setupTrayIcon();
 	this->_setupUI();
 	this->_setupClient();
-	this->_setupProxyServer();
 }
 
 KCMainWindow::~KCMainWindow()
@@ -66,12 +65,12 @@ void KCMainWindow::_setupUI()
 #endif
 	
 #ifdef Q_WS_X11
-	unsigned long data = 0xFFFFFFFF;
+    unsigned long data = 0xFFFFFFFF; // All Desktops
 	
 	XChangeProperty(QX11Info::display(), this->winId(),
 		XInternAtom(QX11Info::display(), "_NET_WM_DESKTOP", False),
 		XA_CARDINAL, 32, PropModeReplace,
-		reinterpret_cast<unsigned char *>(&data), // all desktop
+        reinterpret_cast<unsigned char *>(&data),
 		1);
 #endif
 }
@@ -87,13 +86,6 @@ void KCMainWindow::_setupClient()
 	
 	if(!this->client->hasCredentials())
 		this->askForAPILink();
-}
-
-void KCMainWindow::_setupProxyServer()
-{
-	this->proxyServer = new KCProxyServer(this->client, this);
-	this->proxyServer->listen(QHostAddress::Any, 12345);
-	qDebug() << "Proxy Server listening on Port 12345...";
 }
 
 bool KCMainWindow::isApplicationActive()
