@@ -9,8 +9,10 @@ ui_*.h
 *.pro.user
 *.stash
 
-# Xcode Temporaries
+# Editor User Data
 xcuserdata
+*.sublime-project
+*.sublime-workspace
 
 # Python Temporaries
 *.pyc
