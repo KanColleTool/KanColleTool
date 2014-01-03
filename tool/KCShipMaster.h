@@ -23,7 +23,7 @@ public:
 	QString getMessage;
 	
 	struct { int level, into, ammo, fuel; } remodel;
-	struct { int fuel, ammo, steel, bauxite; } dismantle;
+	struct { int fuel, ammo, steel, baux; } dismantle;
 	struct { int firepower, torpedo, antiair, armor; } modernization;
 	
 	struct { int base, max; } hp;

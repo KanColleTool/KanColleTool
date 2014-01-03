@@ -29,7 +29,7 @@ void KCShipMaster::loadFrom(QVariantMap data)
 	extract(data, dismantle.fuel, "api_broken", 0);
 	extract(data, dismantle.ammo, "api_broken", 1);
 	extract(data, dismantle.steel, "api_broken", 2);
-	extract(data, dismantle.bauxite, "api_broken", 3);
+	extract(data, dismantle.baux, "api_broken", 3);
 	extract(data, buildTime, "api_buildtime");
 	extract(data, maxAmmo, "api_bull_max");
 	extract(data, cindex, "api_cnum");
