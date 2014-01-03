@@ -9,6 +9,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = KanColleTool
 TEMPLATE = app
+CONFIG += c++11
+
 QMAKE_INFO_PLIST = Info.plist
 
 macx {
@@ -20,10 +22,14 @@ unix:!macx {
 
 SOURCES += main.cpp \
 	KCMainWindow.cpp \
-	KCClient.cpp
+	KCClient.cpp \
+    KCShip.cpp \
+    KCShipMaster.cpp
 
 HEADERS  += KCMainWindow.h \
-	KCClient.h
+	KCClient.h \
+    KCShip.h \
+    KCShipMaster.h
 
 FORMS    += \
     KCMainWindow.ui
