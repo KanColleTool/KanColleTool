@@ -9,17 +9,17 @@
 /* Begin PBXBuildFile section */
 		2272E59E186E05CA009357C4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2272E59D186E05CA009357C4 /* Cocoa.framework */; };
 		2272E5A8186E05CA009357C4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2272E5A6186E05CA009357C4 /* InfoPlist.strings */; };
-		2272E5AA186E05CA009357C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2272E5A9186E05CA009357C4 /* main.m */; };
+		2272E5AA186E05CA009357C4 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2272E5A9186E05CA009357C4 /* main.mm */; };
 		2272E5AE186E05CA009357C4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2272E5AC186E05CA009357C4 /* Credits.rtf */; };
-		2272E5B1186E05CA009357C4 /* KVAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2272E5B0186E05CA009357C4 /* KVAppDelegate.m */; };
+		2272E5B1186E05CA009357C4 /* KVAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2272E5B0186E05CA009357C4 /* KVAppDelegate.mm */; };
 		2272E5B4186E05CA009357C4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2272E5B2186E05CA009357C4 /* MainMenu.xib */; };
 		2272E5B6186E05CA009357C4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2272E5B5186E05CA009357C4 /* Images.xcassets */; };
 		2272E5BD186E05CA009357C4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2272E5BC186E05CA009357C4 /* XCTest.framework */; };
 		2272E5BE186E05CA009357C4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2272E59D186E05CA009357C4 /* Cocoa.framework */; };
 		2272E5C6186E05CA009357C4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2272E5C4186E05CA009357C4 /* InfoPlist.strings */; };
-		2272E5C8186E05CA009357C4 /* KCTViewerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2272E5C7186E05CA009357C4 /* KCTViewerTests.m */; };
+		2272E5C8186E05CA009357C4 /* KCTViewerTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2272E5C7186E05CA009357C4 /* KCTViewerTests.mm */; };
 		2272E5D2186E0637009357C4 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2272E5D1186E0637009357C4 /* WebKit.framework */; };
-		2272E5D5186E182F009357C4 /* NSURL+KVUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 2272E5D4186E182F009357C4 /* NSURL+KVUtil.m */; };
+		2272E5D5186E182F009357C4 /* NSURL+KVUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2272E5D4186E182F009357C4 /* NSURL+KVUtil.mm */; };
 		2272E5D7186E1F38009357C4 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 2272E5D6186E1F38009357C4 /* index.html */; };
 /* End PBXBuildFile section */
 
@@ -41,21 +41,21 @@
 		2272E5A2186E05CA009357C4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2272E5A5186E05CA009357C4 /* KCTViewer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KCTViewer-Info.plist"; sourceTree = "<group>"; };
 		2272E5A7186E05CA009357C4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		2272E5A9186E05CA009357C4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2272E5A9186E05CA009357C4 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		2272E5AB186E05CA009357C4 /* KCTViewer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KCTViewer-Prefix.pch"; sourceTree = "<group>"; };
 		2272E5AD186E05CA009357C4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		2272E5AF186E05CA009357C4 /* KVAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KVAppDelegate.h; sourceTree = "<group>"; };
-		2272E5B0186E05CA009357C4 /* KVAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KVAppDelegate.m; sourceTree = "<group>"; };
+		2272E5B0186E05CA009357C4 /* KVAppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = KVAppDelegate.mm; sourceTree = "<group>"; };
 		2272E5B3186E05CA009357C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		2272E5B5186E05CA009357C4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2272E5BB186E05CA009357C4 /* KCTViewerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KCTViewerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2272E5BC186E05CA009357C4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		2272E5C3186E05CA009357C4 /* KCTViewerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KCTViewerTests-Info.plist"; sourceTree = "<group>"; };
 		2272E5C5186E05CA009357C4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		2272E5C7186E05CA009357C4 /* KCTViewerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KCTViewerTests.m; sourceTree = "<group>"; };
+		2272E5C7186E05CA009357C4 /* KCTViewerTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = KCTViewerTests.mm; sourceTree = "<group>"; };
 		2272E5D1186E0637009357C4 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		2272E5D3186E182F009357C4 /* NSURL+KVUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+KVUtil.h"; sourceTree = "<group>"; };
-		2272E5D4186E182F009357C4 /* NSURL+KVUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+KVUtil.m"; sourceTree = "<group>"; };
+		2272E5D4186E182F009357C4 /* NSURL+KVUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSURL+KVUtil.mm"; sourceTree = "<group>"; };
 		2272E5D6186E1F38009357C4 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = ../../../viewer/index.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -125,9 +125,9 @@
 			isa = PBXGroup;
 			children = (
 				2272E5AF186E05CA009357C4 /* KVAppDelegate.h */,
-				2272E5B0186E05CA009357C4 /* KVAppDelegate.m */,
+				2272E5B0186E05CA009357C4 /* KVAppDelegate.mm */,
 				2272E5D3186E182F009357C4 /* NSURL+KVUtil.h */,
-				2272E5D4186E182F009357C4 /* NSURL+KVUtil.m */,
+				2272E5D4186E182F009357C4 /* NSURL+KVUtil.mm */,
 				2272E5B2186E05CA009357C4 /* MainMenu.xib */,
 				2272E5B5186E05CA009357C4 /* Images.xcassets */,
 				2272E5D6186E1F38009357C4 /* index.html */,
@@ -141,7 +141,7 @@
 			children = (
 				2272E5A5186E05CA009357C4 /* KCTViewer-Info.plist */,
 				2272E5A6186E05CA009357C4 /* InfoPlist.strings */,
-				2272E5A9186E05CA009357C4 /* main.m */,
+				2272E5A9186E05CA009357C4 /* main.mm */,
 				2272E5AB186E05CA009357C4 /* KCTViewer-Prefix.pch */,
 				2272E5AC186E05CA009357C4 /* Credits.rtf */,
 			);
@@ -151,7 +151,7 @@
 		2272E5C1186E05CA009357C4 /* KCTViewerTests */ = {
 			isa = PBXGroup;
 			children = (
-				2272E5C7186E05CA009357C4 /* KCTViewerTests.m */,
+				2272E5C7186E05CA009357C4 /* KCTViewerTests.mm */,
 				2272E5C2186E05CA009357C4 /* Supporting Files */,
 			);
 			path = KCTViewerTests;
@@ -266,9 +266,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2272E5AA186E05CA009357C4 /* main.m in Sources */,
-				2272E5D5186E182F009357C4 /* NSURL+KVUtil.m in Sources */,
-				2272E5B1186E05CA009357C4 /* KVAppDelegate.m in Sources */,
+				2272E5AA186E05CA009357C4 /* main.mm in Sources */,
+				2272E5D5186E182F009357C4 /* NSURL+KVUtil.mm in Sources */,
+				2272E5B1186E05CA009357C4 /* KVAppDelegate.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,7 +276,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2272E5C8186E05CA009357C4 /* KCTViewerTests.m in Sources */,
+				2272E5C8186E05CA009357C4 /* KCTViewerTests.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,6 +485,7 @@
 				2272E5CD186E05CA009357C4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2272E5CE186E05CA009357C4 /* Build configuration list for PBXNativeTarget "KCTViewerTests" */ = {
 			isa = XCConfigurationList;
@@ -493,6 +494,7 @@
 				2272E5D0186E05CA009357C4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
