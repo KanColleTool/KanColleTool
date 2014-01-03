@@ -36,25 +36,29 @@
 	else
 	{
 		[self generateAPILink];
-		
-		NSError *error = nil;
-		NSString *html = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html"]
-												   encoding:NSUTF8StringEncoding error:&error];
-		if(error)
-		{
-			[[NSAlert alertWithError:error] beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
-				[[NSApplication sharedApplication] terminate:self];
-			}];
-		}
-		else
-		{
-			[[self.webView mainFrame] loadHTMLString:html baseURL:self.apiLink];
-		}
+		[self loadBundledIndex];
 	}
 	
 	NSLog(@"Server: %@", self.server);
 	NSLog(@"API Token: %@", self.apiToken);
 	NSLog(@"API Link: %@", self.apiLink);
+}
+
+- (void)loadBundledIndex
+{
+	NSError *error = nil;
+	NSString *html = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html"]
+											   encoding:NSUTF8StringEncoding error:&error];
+	if(error)
+	{
+		[[NSAlert alertWithError:error] beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+			[[NSApplication sharedApplication] terminate:self];
+		}];
+	}
+	else
+	{
+		[[self.webView mainFrame] loadHTMLString:html baseURL:self.apiLink];
+	}
 }
 
 - (void)actionEnterAPILink:(id)sender
@@ -76,9 +80,16 @@
 	}];
 }
 
+- (IBAction)actionClearCache:(id)sender
+{
+	[[NSURLCache sharedURLCache] removeAllCachedResponses];
+	[self loadBundledIndex];
+}
+
 - (void)actionAPILinkEntered:(id)sender
 {
 	[self.window endSheet:self.enterAPILinkWindow returnCode:NSModalResponseOK];
+	[self updateBrowserLink];
 }
 
 - (void)actionAPILinkCanceled:(id)sender

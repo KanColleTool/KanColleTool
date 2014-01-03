@@ -18,7 +18,10 @@
 @property (assign) IBOutlet WebView *webView;
 @property (assign) IBOutlet NSTextField *apiLinkField;
 
+- (void)loadBundledIndex;
+
 - (IBAction)actionEnterAPILink:(id)sender;
+- (IBAction)actionClearCache:(id)sender;
 - (IBAction)actionAPILinkEntered:(id)sender;
 - (IBAction)actionAPILinkCanceled:(id)sender;
 

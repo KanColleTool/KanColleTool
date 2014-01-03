@@ -73,6 +73,12 @@
                                     <action selector="actionEnterAPILink:" target="494" id="VTX-DX-VuN"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Clear Cache" id="TQH-Jv-Vcy">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="actionClearCache:" target="494" id="IKM-VD-1du"/>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>
@@ -334,7 +340,9 @@
                     <webView fixedFrame="YES" maintainsBackForwardList="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uZg-cN-0FA">
                         <rect key="frame" x="0.0" y="0.0" width="800" height="480"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12" javaEnabled="NO" javaScriptCanOpenWindowsAutomatically="NO"/>
+                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12" javaEnabled="NO" javaScriptCanOpenWindowsAutomatically="NO">
+                            <nil key="identifier"/>
+                        </webPreferences>
                         <connections>
                             <outlet property="frameLoadDelegate" destination="494" id="GgP-ly-I87"/>
                         </connections>
