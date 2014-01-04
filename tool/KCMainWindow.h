@@ -36,8 +36,8 @@ public slots:
 	
 private slots:
 	void onCredentialsGained();
-	void onReceivedMasterShips(QList<QVariant> data);
-	void onReceivedPlayerShips(QList<QVariant> data);
+	void onReceivedMasterShips();
+	void onReceivedPlayerShips();
 	void onRequestError(KCClient::ErrorCode error);
 	
 	void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
@@ -51,6 +51,8 @@ private:
 	QMenu *trayMenu;
 	
 	KCClient *client;
+	
+	bool apiLinkDialogOpen;
 };
 
 #endif // KCMAINWINDOW_H

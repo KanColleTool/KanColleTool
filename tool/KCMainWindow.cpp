@@ -6,6 +6,8 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QDebug>
+#include "KCShip.h"
+#include "KCShipMaster.h"
 
 #ifdef __APPLE__
 #include <Carbon/Carbon.h>
@@ -14,7 +16,8 @@
 
 KCMainWindow::KCMainWindow(QWidget *parent) :
 	QMainWindow(parent),
-	ui(new Ui::KCMainWindow)
+	ui(new Ui::KCMainWindow),
+	apiLinkDialogOpen(false)
 {
 	ui->setupUi(this);
 	
@@ -80,12 +83,14 @@ void KCMainWindow::_setupClient()
 	this->client = new KCClient(this);
 	
 	connect(this->client, SIGNAL(credentialsGained()), this, SLOT(onCredentialsGained()));
-	connect(this->client, SIGNAL(receivedMasterShips(QList<QVariant>)), this, SLOT(onReceivedMasterShips(QList<QVariant>)));
-	connect(this->client, SIGNAL(receivedPlayerShips(QList<QVariant>)), this, SLOT(onReceivedPlayerShips(QList<QVariant>)));
+	connect(this->client, SIGNAL(receivedMasterShips()), this, SLOT(onReceivedMasterShips()));
+	connect(this->client, SIGNAL(receivedPlayerShips()), this, SLOT(onReceivedPlayerShips()));
 	connect(this->client, SIGNAL(requestError(KCClient::ErrorCode)), this, SLOT(onRequestError(KCClient::ErrorCode)));
 	
 	if(!this->client->hasCredentials())
 		this->askForAPILink();
+	else
+		this->onCredentialsGained();
 }
 
 bool KCMainWindow::isApplicationActive()
@@ -142,28 +147,34 @@ void KCMainWindow::hideApplication()
 
 void KCMainWindow::askForAPILink()
 {
+	if(apiLinkDialogOpen)
+		return;
+	
+	apiLinkDialogOpen = true;
 	QUrl url = QInputDialog::getText(this, "Enter API Link", "<p>Enter your API Link.<br />It should look something like:</p><p><code>http://125.6.189.xxx/kcs/mainD2.swf?api_token=xxxxxxxxxxxxxxxxxxxx...</code></p>");
 	QUrlQuery query(url);
+	apiLinkDialogOpen = false;
 	
 	this->client->setCredentials(url.host(), query.queryItemValue("api_token"));
 }
 
 void KCMainWindow::onCredentialsGained()
 {
-	//this->client->requestMasterShips();
-	//this->client->requestPlayerShips();
+	qDebug() << "Credentials Gained";
+	this->client->requestMasterShips();
+	this->client->requestPlayerShips();
 }
 
-void KCMainWindow::onReceivedMasterShips(QList<QVariant> data)
+void KCMainWindow::onReceivedMasterShips()
 {
-	Q_UNUSED(data);
 	qDebug() << "Received Master Ship Data";
+	qDebug() << client->masterShips.size();
 }
 
-void KCMainWindow::onReceivedPlayerShips(QList<QVariant> data)
+void KCMainWindow::onReceivedPlayerShips()
 {
-	Q_UNUSED(data);
 	qDebug() << "Received Player Ship Data";
+	qDebug() << client->ships.size();
 }
 
 void KCMainWindow::onRequestError(KCClient::ErrorCode error)

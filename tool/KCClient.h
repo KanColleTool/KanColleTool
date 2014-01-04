@@ -8,6 +8,8 @@
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
 
+class KCShip;
+class KCShipMaster;
 class KCClient : public QObject
 {
 	Q_OBJECT
@@ -25,12 +27,15 @@ public:
 	
 	QString server, apiToken;
 	
+	QMap<int, KCShipMaster*> masterShips;
+	QMap<int, KCShip*> ships;
+	
 	bool hasCredentials();
 	
 signals:
 	void credentialsGained();
-	void receivedMasterShips(QList<QVariant> data);
-	void receivedPlayerShips(QList<QVariant> data);
+	void receivedMasterShips();
+	void receivedPlayerShips();
 	void requestError(KCClient::ErrorCode error);
 	
 public slots:
@@ -46,7 +51,7 @@ protected slots:
 protected:
 	QNetworkReply* call(QString endpoint, QUrlQuery params = QUrlQuery());
 	QUrl urlForEndpoint(QString endpoint);
-	QVariant dataFromReplyData(QString text, ErrorCode *error = 0);
+	QVariant dataFromRawResponse(QString text, ErrorCode *error = 0);
 	
 protected:
 	QNetworkAccessManager *manager;

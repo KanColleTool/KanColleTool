@@ -3,6 +3,8 @@
 #include <QSettings>
 #include <QUrlQuery>
 #include <QJsonDocument>
+#include "KCShip.h"
+#include "KCShipMaster.h"
 
 KCClient::KCClient(QObject *parent) :
 	QObject(parent)
@@ -56,9 +58,22 @@ void KCClient::onMasterShipsRequestFinished()
 {
 	QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
 	ErrorCode error;
-	QVariant data = this->dataFromReplyData(reply->readAll(), &error);
+	QVariant data = this->dataFromRawResponse(reply->readAll(), &error);
 	if(data.isValid())
-		emit receivedMasterShips(data.toList());
+	{
+		QList<QVariant> dataList = data.toList();
+		foreach(QVariant item, dataList)
+		{
+			QVariantMap itemMap = item.toMap();
+			KCShipMaster *ship = masterShips.value(itemMap.value("api_id").toInt());
+			
+			if(!ship)
+				masterShips.insert(itemMap.value("api_id").toInt(), new KCShipMaster(itemMap));
+			else
+				ship->loadFrom(itemMap);
+		}
+		emit receivedMasterShips();
+	}
 	else
 		emit requestError(error);
 }
@@ -67,9 +82,22 @@ void KCClient::onPlayerShipsRequestFinished()
 {
 	QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
 	ErrorCode error;
-	QVariant data = this->dataFromReplyData(reply->readAll(), &error);
+	QVariant data = this->dataFromRawResponse(reply->readAll(), &error);
 	if(data.isValid())
-		emit receivedPlayerShips(data.toList());
+	{
+		QList<QVariant> dataList = data.toList();
+		foreach(QVariant item, dataList)
+		{
+			QVariantMap itemMap = item.toMap();
+			KCShip *ship = ships.value(itemMap.value("api_id").toInt());
+			
+			if(!ship)
+				ships.insert(itemMap.value("api_id").toInt(), new KCShip(itemMap));
+			else
+				ship->loadFrom(itemMap);
+		}
+		emit receivedPlayerShips();
+	}
 	else
 		emit requestError(error);
 }
@@ -92,7 +120,7 @@ QUrl KCClient::urlForEndpoint(QString endpoint)
 	return QUrl(QString("http://%1/kcsapi%2").arg(server, endpoint));
 }
 
-QVariant KCClient::dataFromReplyData(QString text, ErrorCode *error)
+QVariant KCClient::dataFromRawResponse(QString text, ErrorCode *error)
 {
 	if(text.startsWith("svdata="))
 		text = text.mid(7);
