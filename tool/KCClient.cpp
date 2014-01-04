@@ -3,8 +3,11 @@
 #include <QSettings>
 #include <QUrlQuery>
 #include <QJsonDocument>
+#include <QFile>
 #include "KCShip.h"
 #include "KCShipMaster.h"
+
+#define kClientUseCache 1
 
 KCClient::KCClient(QObject *parent) :
 	QObject(parent)
@@ -61,17 +64,7 @@ void KCClient::onMasterShipsRequestFinished()
 	QVariant data = this->dataFromRawResponse(reply->readAll(), &error);
 	if(data.isValid())
 	{
-		QList<QVariant> dataList = data.toList();
-		foreach(QVariant item, dataList)
-		{
-			QVariantMap itemMap = item.toMap();
-			KCShipMaster *ship = masterShips.value(itemMap.value("api_id").toInt());
-			
-			if(!ship)
-				masterShips.insert(itemMap.value("api_id").toInt(), new KCShipMaster(itemMap));
-			else
-				ship->loadFrom(itemMap);
-		}
+		this->processMasterShipsData(data);
 		emit receivedMasterShips();
 	}
 	else
@@ -85,25 +78,70 @@ void KCClient::onPlayerShipsRequestFinished()
 	QVariant data = this->dataFromRawResponse(reply->readAll(), &error);
 	if(data.isValid())
 	{
-		QList<QVariant> dataList = data.toList();
-		foreach(QVariant item, dataList)
-		{
-			QVariantMap itemMap = item.toMap();
-			KCShip *ship = ships.value(itemMap.value("api_id").toInt());
-			
-			if(!ship)
-				ships.insert(itemMap.value("api_id").toInt(), new KCShip(itemMap));
-			else
-				ship->loadFrom(itemMap);
-		}
+		this->processPlayerShipsData(data);
 		emit receivedPlayerShips();
 	}
 	else
 		emit requestError(error);
 }
 
+void KCClient::processMasterShipsData(QVariant data)
+{
+	QList<QVariant> dataList = data.toList();
+	foreach(QVariant item, dataList)
+	{
+		QVariantMap itemMap = item.toMap();
+		KCShipMaster *ship = masterShips.value(itemMap.value("api_id").toInt());
+		
+		if(!ship)
+			masterShips.insert(itemMap.value("api_id").toInt(), new KCShipMaster(itemMap));
+		else
+			ship->loadFrom(itemMap);
+	}
+}
+
+void KCClient::processPlayerShipsData(QVariant data)
+{
+	QList<QVariant> dataList = data.toList();
+	foreach(QVariant item, dataList)
+	{
+		QVariantMap itemMap = item.toMap();
+		KCShip *ship = ships.value(itemMap.value("api_id").toInt());
+		
+		if(!ship)
+			ships.insert(itemMap.value("api_id").toInt(), new KCShip(itemMap));
+		else
+			ship->loadFrom(itemMap);
+	}
+}
+
 QNetworkReply* KCClient::call(QString endpoint, QUrlQuery params)
 {
+#if kClientUseCache
+	qDebug() << endpoint;
+	if(endpoint == "/api_get_master/ship")
+	{
+		qDebug() << "Loading Stored Master Ships";
+		QFile file("content/api_get_master/ship.json");
+		if(file.open(QIODevice::ReadOnly))
+		{
+			this->processMasterShipsData(this->dataFromRawResponse(file.readAll()));
+			return 0;
+		}
+		else qWarning() << "--> Failed!";
+	}
+	else if(endpoint == "/api_get_member/ship")
+	{
+		qDebug() << "Loading Stored Player Ships";
+		QFile file("content/api_get_member/ship.json");
+		if(file.open(QIODevice::ReadOnly))
+		{
+			this->processPlayerShipsData(this->dataFromRawResponse(file.readAll()));
+			return 0;
+		}
+		else qWarning() << "--> Failed!";
+	}
+#endif
 	QNetworkRequest request(this->urlForEndpoint(endpoint));
 	request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 	request.setRawHeader("Referer", QString("http://%1/kcs/mainD2.swf").arg(this->server).toUtf8());

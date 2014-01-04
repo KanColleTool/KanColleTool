@@ -48,6 +48,9 @@ protected slots:
 	void onMasterShipsRequestFinished();
 	void onPlayerShipsRequestFinished();
 	
+	void processMasterShipsData(QVariant data);
+	void processPlayerShipsData(QVariant data);
+	
 protected:
 	QNetworkReply* call(QString endpoint, QUrlQuery params = QUrlQuery());
 	QUrl urlForEndpoint(QString endpoint);
