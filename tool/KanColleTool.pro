@@ -24,12 +24,14 @@ SOURCES += main.cpp \
 	KCMainWindow.cpp \
 	KCClient.cpp \
     KCShip.cpp \
-    KCShipMaster.cpp
+    KCShipMaster.cpp \
+    KCFleet.cpp
 
 HEADERS  += KCMainWindow.h \
 	KCClient.h \
     KCShip.h \
-    KCShipMaster.h
+    KCShipMaster.h \
+    KCFleet.h
 
 FORMS    += \
     KCMainWindow.ui

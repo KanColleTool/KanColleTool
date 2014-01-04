@@ -86,6 +86,7 @@ void KCMainWindow::_setupClient()
 	connect(this->client, SIGNAL(credentialsGained()), this, SLOT(onCredentialsGained()));
 	connect(this->client, SIGNAL(receivedMasterShips()), this, SLOT(onReceivedMasterShips()));
 	connect(this->client, SIGNAL(receivedPlayerShips()), this, SLOT(onReceivedPlayerShips()));
+	connect(this->client, SIGNAL(receivedPlayerFleets()), this, SLOT(onReceivedPlayerFleets()));
 	connect(this->client, SIGNAL(requestError(KCClient::ErrorCode)), this, SLOT(onRequestError(KCClient::ErrorCode)));
 	
 	if(!this->client->hasCredentials())
@@ -164,18 +165,22 @@ void KCMainWindow::onCredentialsGained()
 	qDebug() << "Credentials Gained";
 	this->client->requestMasterShips();
 	this->client->requestPlayerShips();
+	this->client->requestPlayerFleets();
 }
 
 void KCMainWindow::onReceivedMasterShips()
 {
-	qDebug() << "Received Master Ship Data";
-	qDebug() << client->masterShips.size();
+	qDebug() << "Received Master Ship Data" << client->masterShips.size();
 }
 
 void KCMainWindow::onReceivedPlayerShips()
 {
-	qDebug() << "Received Player Ship Data";
-	qDebug() << client->ships.size();
+	qDebug() << "Received Player Ship Data" << client->ships.size();
+}
+
+void KCMainWindow::onReceivedPlayerFleets()
+{
+	qDebug() << "Received Player Fleet Data" << client->ships.size();
 }
 
 void KCMainWindow::onRequestError(KCClient::ErrorCode error)

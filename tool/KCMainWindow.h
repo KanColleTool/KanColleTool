@@ -38,6 +38,7 @@ private slots:
 	void onCredentialsGained();
 	void onReceivedMasterShips();
 	void onReceivedPlayerShips();
+	void onReceivedPlayerFleets();
 	void onRequestError(KCClient::ErrorCode error);
 	
 	void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);

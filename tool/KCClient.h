@@ -10,6 +10,7 @@
 
 class KCShip;
 class KCShipMaster;
+class KCFleet;
 class KCClient : public QObject
 {
 	Q_OBJECT
@@ -29,6 +30,7 @@ public:
 	
 	QMap<int, KCShipMaster*> masterShips;
 	QMap<int, KCShip*> ships;
+	QMap<int, KCFleet*> fleets;
 	
 	bool hasCredentials();
 	
@@ -36,6 +38,7 @@ signals:
 	void credentialsGained();
 	void receivedMasterShips();
 	void receivedPlayerShips();
+	void receivedPlayerFleets();
 	void requestError(KCClient::ErrorCode error);
 	
 public slots:
@@ -43,13 +46,16 @@ public slots:
 	
 	void requestMasterShips();
 	void requestPlayerShips();
+	void requestPlayerFleets();
 	
 protected slots:
 	void onMasterShipsRequestFinished();
 	void onPlayerShipsRequestFinished();
+	void onPlayerFleetsRequestFinished();
 	
 	void processMasterShipsData(QVariant data);
 	void processPlayerShipsData(QVariant data);
+	void processPlayerFleetsData(QVariant data);
 	
 protected:
 	QNetworkReply* call(QString endpoint, QUrlQuery params = QUrlQuery());
