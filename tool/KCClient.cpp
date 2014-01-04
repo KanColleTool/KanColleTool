@@ -122,24 +122,24 @@ QNetworkReply* KCClient::call(QString endpoint, QUrlQuery params)
 	if(endpoint == "/api_get_master/ship")
 	{
 		qDebug() << "Loading Stored Master Ships";
-		QFile file("content/api_get_master/ship.json");
+		QFile file("cache/api_get_master/ship.json");
 		if(file.open(QIODevice::ReadOnly))
 		{
 			this->processMasterShipsData(this->dataFromRawResponse(file.readAll()));
 			return 0;
 		}
-		else qWarning() << "--> Failed!";
+		else qWarning() << "--> Failed!" << file.errorString();
 	}
 	else if(endpoint == "/api_get_member/ship")
 	{
 		qDebug() << "Loading Stored Player Ships";
-		QFile file("content/api_get_member/ship.json");
+		QFile file("cache/api_get_member/ship.json");
 		if(file.open(QIODevice::ReadOnly))
 		{
 			this->processPlayerShipsData(this->dataFromRawResponse(file.readAll()));
 			return 0;
 		}
-		else qWarning() << "--> Failed!";
+		else qWarning() << "--> Failed!" << file.errorString();
 	}
 #endif
 	QNetworkRequest request(this->urlForEndpoint(endpoint));
