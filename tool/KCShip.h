@@ -12,6 +12,8 @@ public:
 	KCShip(QVariantMap data = QVariantMap(), QObject *parent = 0);
 	virtual ~KCShip();
 	
+	void loadFrom(QVariantMap data);
+	
 	int master;
 	
 	QString name, reading;
@@ -46,9 +48,6 @@ public:
 	int _houm[2], _raim[2];
 	int _kyouka[4];
 	int _onslot[5];
-	
-protected:
-	void loadFrom(QVariantMap data);
 };
 
 #endif

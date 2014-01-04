@@ -13,6 +13,8 @@ public:
 	KCShipMaster(QVariantMap data = QVariantMap(), QObject *parent = 0);
 	virtual ~KCShipMaster();
 	
+	void loadFrom(QVariantMap data);
+	
 	QString name, reading;
 	QString description;
 	int id, cardno, type, ctype, cindex;
@@ -49,9 +51,6 @@ public:
 	int _houk[2], _houm[2], _raik[2], _raim[2];
 	int _sakb[2], _tous[2];
 	QVariant _missions, _systems, _touchs[3];
-	
-protected:
-	void loadFrom(QVariantMap data);
 };
 
 #endif
