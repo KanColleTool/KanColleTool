@@ -42,7 +42,7 @@ private slots:
 	
 	void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
 	
-	void on_actionLaunchGame_triggered();
+	void on_fleetsTabBar_currentChanged(int index);
 	
 private:
 	Ui::KCMainWindow *ui;

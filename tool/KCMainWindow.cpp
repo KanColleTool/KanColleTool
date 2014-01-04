@@ -52,10 +52,11 @@ void KCMainWindow::_setupTrayIcon()
 
 void KCMainWindow::_setupUI()
 {
-	// Right-align the Launch Game button with a spacer
-	/*QWidget *spacer = new QWidget(this);
-	spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-	ui->toolBar->insertWidget(ui->actionSettings, spacer);*/
+	// Set up the Fleets page
+	ui->fleetsTabBar->addTab("Fleet 1");
+	ui->fleetsTabBar->addTab("Fleet 2");
+	ui->fleetsTabBar->addTab("Fleet 3");
+	ui->fleetsTabBar->addTab("Fleet 4");
 	
 	// On Mac and Linux, make the window join all spaces
 	// (why isn't there a Qt call for this...)
@@ -207,7 +208,7 @@ void KCMainWindow::onTrayIconActivated(QSystemTrayIcon::ActivationReason reason)
 #endif
 }
 
-void KCMainWindow::on_actionLaunchGame_triggered()
+void KCMainWindow::on_fleetsTabBar_currentChanged(int index)
 {
-	// TODO: Do something.
+	qDebug() << "Fleets page on Tab" << index;
 }
