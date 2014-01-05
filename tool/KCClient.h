@@ -55,11 +55,14 @@ protected slots:
 	void onPlayerFleetsRequestFinished();
 	
 protected:
+	void _processMasterShipsData(QVariant data);
+	void _processPlayerShipsData(QVariant data);
+	void _processPlayerFleetsData(QVariant data);
+	
 	QNetworkReply* call(QString endpoint, QUrlQuery params = QUrlQuery());
 	QUrl urlForEndpoint(QString endpoint);
 	QVariant dataFromRawResponse(QString text, ErrorCode *error = 0);
 	
-protected:
 	QNetworkAccessManager *manager;
 };
 
