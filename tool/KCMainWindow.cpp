@@ -58,7 +58,7 @@ void KCMainWindow::_setupUI()
 	ui->fleetsTabBar->addTab("Fleet 3");
 	ui->fleetsTabBar->addTab("Fleet 4");
 	
-	// On Mac and Linux, make the window join all spaces
+	// On Mac, make the window join all spaces
 	// (why isn't there a Qt call for this...)
 #ifdef __APPLE__
 	int NSWindowCollectionBehaviorCanJoinAllSpaces = 1 << 0;
@@ -66,16 +66,6 @@ void KCMainWindow::_setupUI()
 	objc_object *macView = reinterpret_cast<objc_object *>(this->winId());
 	objc_object *macWindow = objc_msgSend(macView, sel_registerName("window"));
 	objc_msgSend(macWindow, sel_registerName("setCollectionBehavior:"), NSWindowCollectionBehaviorCanJoinAllSpaces);
-#endif
-	
-#ifdef Q_WS_X11
-    unsigned long data = 0xFFFFFFFF; // All Desktops
-	
-	XChangeProperty(QX11Info::display(), this->winId(),
-		XInternAtom(QX11Info::display(), "_NET_WM_DESKTOP", False),
-		XA_CARDINAL, 32, PropModeReplace,
-        reinterpret_cast<unsigned char *>(&data),
-		1);
 #endif
 }
 
