@@ -39,6 +39,7 @@ SYNTHESIZE_RESPONSE_HANDLERS(PlayerFleets, fleets);
 // ------------------------------------------------------------------------- //
 
 
+
 KCClient::KCClient(QObject *parent) :
 	QObject(parent)
 {
@@ -78,19 +79,19 @@ void KCClient::setCredentials(QString server, QString apiToken)
 void KCClient::requestMasterShips()
 {
 	QNetworkReply *reply = this->call("/api_get_master/ship");
-	connect(reply, SIGNAL(finished()), this, SLOT(onMasterShipsRequestFinished()));
+	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onMasterShipsRequestFinished()));
 }
 
 void KCClient::requestPlayerShips()
 {
 	QNetworkReply *reply = this->call("/api_get_member/ship");
-	connect(reply, SIGNAL(finished()), this, SLOT(onPlayerShipsRequestFinished()));
+	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onPlayerShipsRequestFinished()));
 }
 
 void KCClient::requestPlayerFleets()
 {
 	QNetworkReply *reply = this->call("/api_get_member/deck");
-	connect(reply, SIGNAL(finished()), this, SLOT(onPlayerFleetsRequestFinished()));
+	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onPlayerFleetsRequestFinished()));
 }
 
 QNetworkReply* KCClient::call(QString endpoint, QUrlQuery params)
