@@ -10,6 +10,37 @@
 
 #define kClientUseCache 1
 
+
+
+/*
+ * This is ugly, but it's so repetitive that it's better to keep it out of the
+ * way and synthesize it all like this than to copypaste this over and over.
+ * One day, I will think of a better way. Until then, this stands.
+ */
+#define SYNTHESIZE_RESPONSE_HANDLERS(_id_, _var_) \
+	void KCClient::on##_id_##RequestFinished() \
+	{ \
+		QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender()); \
+		ErrorCode error; \
+		QVariant data = this->dataFromRawResponse(reply->readAll(), &error); \
+		if(data.isValid()) \
+		{ \
+			this->process##_id_##Data(data); \
+			emit received##_id_##(); \
+		} \
+		else emit requestError(error); \
+	} \
+	void KCClient::process##_id_##Data(QVariant data) { modelizeResponse(data, masterShips); }
+
+SYNTHESIZE_RESPONSE_HANDLERS(MasterShips, masterShips);
+SYNTHESIZE_RESPONSE_HANDLERS(PlayerShips, ships);
+SYNTHESIZE_RESPONSE_HANDLERS(PlayerFleets, fleets);
+
+/*
+ * ------------------------------
+ */
+
+
 KCClient::KCClient(QObject *parent) :
 	QObject(parent)
 {
@@ -64,129 +95,26 @@ void KCClient::requestPlayerFleets()
 	connect(reply, SIGNAL(finished()), this, SLOT(onPlayerFleetsRequestFinished()));
 }
 
-void KCClient::onMasterShipsRequestFinished()
-{
-	QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
-	ErrorCode error;
-	QVariant data = this->dataFromRawResponse(reply->readAll(), &error);
-	if(data.isValid())
-	{
-		this->processMasterShipsData(data);
-		emit receivedMasterShips();
-	}
-	else
-		emit requestError(error);
-}
-
-void KCClient::onPlayerShipsRequestFinished()
-{
-	QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
-	ErrorCode error;
-	QVariant data = this->dataFromRawResponse(reply->readAll(), &error);
-	if(data.isValid())
-	{
-		this->processPlayerShipsData(data);
-		emit receivedPlayerShips();
-	}
-	else
-		emit requestError(error);
-}
-
-void KCClient::onPlayerFleetsRequestFinished()
-{
-	QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
-	ErrorCode error;
-	QVariant data = this->dataFromRawResponse(reply->readAll(), &error);
-	if(data.isValid())
-	{
-		this->processPlayerFleetsData(data);
-		emit receivedPlayerFleets();
-	}
-	else
-		emit requestError(error);
-}
-
-void KCClient::processMasterShipsData(QVariant data)
-{
-	QList<QVariant> dataList = data.toList();
-	foreach(QVariant item, dataList)
-	{
-		QVariantMap itemMap = item.toMap();
-		KCShipMaster *ship = masterShips.value(itemMap.value("api_id").toInt());
-		
-		if(!ship)
-			masterShips.insert(itemMap.value("api_id").toInt(), new KCShipMaster(itemMap));
-		else
-			ship->loadFrom(itemMap);
-	}
-}
-
-void KCClient::processPlayerShipsData(QVariant data)
-{
-	QList<QVariant> dataList = data.toList();
-	foreach(QVariant item, dataList)
-	{
-		QVariantMap itemMap = item.toMap();
-		KCShip *ship = ships.value(itemMap.value("api_id").toInt());
-		
-		if(!ship)
-			ships.insert(itemMap.value("api_id").toInt(), new KCShip(itemMap));
-		else
-			ship->loadFrom(itemMap);
-	}
-}
-
-void KCClient::processPlayerFleetsData(QVariant data)
-{
-	QList<QVariant> dataList = data.toList();
-	foreach(QVariant item, dataList)
-	{
-		QVariantMap itemMap = item.toMap();
-		KCFleet *fleet = fleets.value(itemMap.value("api_id").toInt());
-		
-		if(!fleet)
-			fleets.insert(itemMap.value("api_id").toInt(), new KCFleet(itemMap));
-		else
-			fleet->loadFrom(itemMap);
-	}
-}
+void KCClient::
 
 QNetworkReply* KCClient::call(QString endpoint, QUrlQuery params)
 {
 #if kClientUseCache
 	qDebug() << endpoint;
-	if(endpoint == "/api_get_master/ship")
+	QFile file(QString("cache%1.json").arg(endpoint));
+	if(file.open(QIODevice::ReadOnly))
 	{
-		qDebug() << "Loading Stored Master Ships";
-		QFile file("cache/api_get_master/ship.json");
-		if(file.open(QIODevice::ReadOnly))
-		{
-			this->processMasterShipsData(this->dataFromRawResponse(file.readAll()));
-			return 0;
-		}
-		else qWarning() << "--> Failed!" << file.errorString();
-	}
-	else if(endpoint == "/api_get_member/ship")
-	{
-		qDebug() << "Loading Stored Player Ships";
-		QFile file("cache/api_get_member/ship.json");
-		if(file.open(QIODevice::ReadOnly))
-		{
-			this->processPlayerShipsData(this->dataFromRawResponse(file.readAll()));
-			return 0;
-		}
-		else qWarning() << "--> Failed!" << file.errorString();
-	}
-	else if(endpoint == "/api_get_member/deck")
-	{
-		qDebug() << "Loading Stored Player Fleets";
-		QFile file("cache/api_get_member/deck.json");
-		if(file.open(QIODevice::ReadOnly))
-		{
-			this->processPlayerFleetsData(this->dataFromRawResponse(file.readAll()));
-			return 0;
-		}
-		else qWarning() << "--> Failed!" << file.errorString();
+		qDebug() << "Loading Fixture:" << endpoint;
+		QVariant response = this->dataFromRawResponse(file.readAll());
+		
+		if(endpoint == "/api_get_master/ship")
+			this->processMasterShipsData(response);
+		else if(endpoint == "/api_get_member/ship")
+			this->processPlayerShipsData(response);
+		else if(endpoint == "/api_get_member/deck")
+			this->processPlayerFleetsData(response);
+		
+		return 0;
 	}
 #endif
 	QNetworkRequest request(this->urlForEndpoint(endpoint));

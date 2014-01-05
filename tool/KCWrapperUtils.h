@@ -37,4 +37,23 @@ void extract(const QVariantMap &source, T& dest, const QString &key, int index)
 	dest = iter.at(index).value<T>();
 }
 
+/*
+ * Extract or update data from an API response into a QMap<int, modelT*>&
+ */
+template<class modelT>
+void modelizeResponse(const QVariant &data, QMap<int, modelT*> &target, QString idKey = "api_id")
+{
+	QList<QVariant> dataList = data.toList();
+	foreach(QVariant item, dataList)
+	{
+		QVariantMap itemMap = item.toMap();
+		modelT *ship = target.value(itemMap.value(idKey).toInt());
+		
+		if(!ship)
+			target.insert(itemMap.value(idKey).toInt(), new modelT(itemMap));
+		else
+			ship->loadFrom(itemMap);
+	}
+}
+
 #endif

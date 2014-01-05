@@ -7,10 +7,11 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
+#include "KCWrapperUtils.h"
+#include "KCShipMaster.h"
+#include "KCShip.h"
+#include "KCFleet.h"
 
-class KCShip;
-class KCShipMaster;
-class KCFleet;
 class KCClient : public QObject
 {
 	Q_OBJECT
@@ -52,10 +53,6 @@ protected slots:
 	void onMasterShipsRequestFinished();
 	void onPlayerShipsRequestFinished();
 	void onPlayerFleetsRequestFinished();
-	
-	void processMasterShipsData(QVariant data);
-	void processPlayerShipsData(QVariant data);
-	void processPlayerFleetsData(QVariant data);
 	
 protected:
 	QNetworkReply* call(QString endpoint, QUrlQuery params = QUrlQuery());
