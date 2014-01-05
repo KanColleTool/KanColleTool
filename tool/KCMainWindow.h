@@ -33,6 +33,7 @@ public slots:
 	void hideApplication();
 	
 	void askForAPILink();
+	void updateUI();
 	
 private slots:
 	void onCredentialsGained();
@@ -43,6 +44,10 @@ private slots:
 	
 	void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
 	
+	void on_actionFleets_triggered();
+	void on_actionShips_triggered();
+	void on_actionRepairs_triggered();
+	void on_actionConstruction_triggered();
 	void on_fleetsTabBar_currentChanged(int index);
 	
 private:

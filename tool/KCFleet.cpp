@@ -27,4 +27,5 @@ void KCFleet::loadFrom(QVariantMap data)
 	// string api_flagship - ??? (always "0" for me)
 	// int[6] api_ship - Local ID of the ships in the fleet
 	extract(data, ships, 6, "api_ship");
+	extractCount(data, shipCount, "api_ship");
 }

@@ -17,6 +17,7 @@ public:
 	int id, admiral;
 	QString name;
 	int ships[6];
+	int shipCount;
 };
 
 #endif

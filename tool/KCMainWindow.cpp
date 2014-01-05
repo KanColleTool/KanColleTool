@@ -17,9 +17,14 @@ KCMainWindow::KCMainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 	
+	this->_setupClient();
 	this->_setupTrayIcon();
 	this->_setupUI();
-	this->_setupClient();
+	
+	// Set the Fleets page regardless of what the UI file says.
+	// (This saves me from accidentally releasing a version with the wrong
+	// start page due to me editing another one right beforehand)
+	this->on_actionFleets_triggered();
 }
 
 KCMainWindow::~KCMainWindow()
@@ -125,6 +130,11 @@ void KCMainWindow::askForAPILink()
 	this->client->setCredentials(url.host(), query.queryItemValue("api_token"));
 }
 
+void KCMainWindow::updateUI()
+{
+	on_fleetsTabBar_currentChanged(ui->fleetsTabBar->currentIndex());
+}
+
 void KCMainWindow::onCredentialsGained()
 {
 	qDebug() << "Credentials Gained";
@@ -136,16 +146,19 @@ void KCMainWindow::onCredentialsGained()
 void KCMainWindow::onReceivedMasterShips()
 {
 	qDebug() << "Received Master Ship Data" << client->masterShips.size();
+	updateUI();
 }
 
 void KCMainWindow::onReceivedPlayerShips()
 {
 	qDebug() << "Received Player Ship Data" << client->ships.size();
+	updateUI();
 }
 
 void KCMainWindow::onReceivedPlayerFleets()
 {
-	qDebug() << "Received Player Fleet Data" << client->ships.size();
+	qDebug() << "Received Player Fleet Data" << client->fleets.size();
+	updateUI();
 }
 
 void KCMainWindow::onRequestError(KCClient::ErrorCode error)
@@ -178,7 +191,85 @@ void KCMainWindow::onTrayIconActivated(QSystemTrayIcon::ActivationReason reason)
 #endif
 }
 
+void KCMainWindow::on_actionFleets_triggered()
+{
+	ui->actionFleets->setEnabled(false);
+	ui->actionShips->setEnabled(true);
+	ui->actionRepairs->setEnabled(true);
+	ui->actionConstruction->setEnabled(true);
+	ui->stackedWidget->setCurrentWidget(ui->fleetsPage);
+}
+
+void KCMainWindow::on_actionShips_triggered()
+{
+	ui->actionFleets->setEnabled(true);
+	ui->actionShips->setEnabled(false);
+	ui->actionRepairs->setEnabled(true);
+	ui->actionConstruction->setEnabled(true);
+	ui->stackedWidget->setCurrentWidget(ui->shipsPage);
+}
+
+void KCMainWindow::on_actionRepairs_triggered()
+{
+	ui->actionFleets->setEnabled(true);
+	ui->actionShips->setEnabled(true);
+	ui->actionRepairs->setEnabled(false);
+	ui->actionConstruction->setEnabled(true);
+	ui->stackedWidget->setCurrentWidget(ui->repairsPage);
+}
+
+void KCMainWindow::on_actionConstruction_triggered()
+{
+	ui->actionFleets->setEnabled(true);
+	ui->actionShips->setEnabled(true);
+	ui->actionRepairs->setEnabled(true);
+	ui->actionConstruction->setEnabled(false);
+	ui->stackedWidget->setCurrentWidget(ui->constructionPage);
+}
+
 void KCMainWindow::on_fleetsTabBar_currentChanged(int index)
 {
 	qDebug() << "Fleets page on Tab" << index;
+	
+	// Hide all the boxes by default, then show the ones we use below
+	for(int i = 0; i < 6; i++)
+		findChild<QGroupBox*>(QString("fleetBox") + QString::number(i+1))->hide();
+	
+	// If there is no such fleet, return here and leave all boxes hidden
+	if(!client->fleets.contains(index+1))
+		return;
+	
+	// Otherwise, retreive it
+	KCFleet *fleet = client->fleets[index+1];
+	
+	// Loop through all the ships in the fleet and put their info up
+	for(int i = 0; i < fleet->shipCount; i++)
+	{
+		KCShip *ship = client->ships[fleet->ships[i]];
+		if(!ship) continue;
+		
+		QString iS = QString::number(i+1);
+		qDebug() << ship->name;
+		
+		QGroupBox *box = findChild<QGroupBox*>(QString("fleetBox") + iS);
+		QLabel *nameLabel = findChild<QLabel*>(QString("fleetName") + iS);
+		QLabel *readingLabel = findChild<QLabel*>(QString("fleetReading") + iS);
+		QProgressBar *hpBar = findChild<QProgressBar*>(QString("fleetHpBar") + iS);
+		QProgressBar *ammoBar = findChild<QProgressBar*>(QString("fleetAmmoBar") + iS);
+		QProgressBar *fuelBar = findChild<QProgressBar*>(QString("fleetFuelBar") + iS);
+		QLabel *levelLabel = findChild<QLabel*>(QString("fleetLevel") + iS);
+		QLabel *condLabel = findChild<QLabel*>(QString("fleetCond") + iS);
+		
+		box->show();
+		nameLabel->setText(ship->name);
+		readingLabel->setText(ship->reading);
+		hpBar->setRange(0, ship->maxHp);
+		hpBar->setValue(ship->hp);
+		ammoBar->setRange(0, ship->maxAmmo);
+		ammoBar->setValue(ship->ammo);
+		fuelBar->setRange(0, ship->maxFuel);
+		fuelBar->setValue(ship->fuel);
+		levelLabel->setText(QString::number(ship->level));
+		condLabel->setText(QString::number(ship->condition));
+	}
 }
