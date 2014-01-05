@@ -18,17 +18,16 @@
  * One day, I will think of a better way. Until then, this stands.
  */
 #define SYNTHESIZE_RESPONSE_HANDLERS(_id_, _var_) \
-	void KCClient::_process##_id_##Data(QVariant data) { modelizeResponse(data, _var_); } \
+	void KCClient::_process##_id_##Data(QVariant data) { \
+		modelizeResponse(data, _var_); \
+		emit received##_id_(); \
+	} \
 	void KCClient::on##_id_##RequestFinished() \
 	{ \
 		QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender()); \
 		ErrorCode error; \
 		QVariant data = this->dataFromRawResponse(reply->readAll(), &error); \
-		if(data.isValid()) \
-		{ \
-			_process##_id_##Data(data); \
-			emit received##_id_(); \
-		} \
+		if(data.isValid()) _process##_id_##Data(data); \
 		else emit requestError(error); \
 	}
 
