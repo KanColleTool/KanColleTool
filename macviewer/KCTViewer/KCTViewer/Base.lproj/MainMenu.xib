@@ -345,6 +345,7 @@
                         </webPreferences>
                         <connections>
                             <outlet property="frameLoadDelegate" destination="494" id="GgP-ly-I87"/>
+                            <outlet property="resourceLoadDelegate" destination="494" id="oO7-Ib-e3H"/>
                         </connections>
                     </webView>
                 </subviews>

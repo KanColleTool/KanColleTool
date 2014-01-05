@@ -23,6 +23,12 @@
 	// No, we don't want the web view to scroll just a few pixels up and down.
 	[self.webView.mainFrame.frameView setAllowsScrolling:NO];
 	
+	// Set up a cache; without this, loading the game will be slow as hell
+	NSURLCache *cache = [[NSURLCache alloc] initWithMemoryCapacity:20 * 1024 * 1024
+													  diskCapacity:100 * 1024 * 1024
+														  diskPath:nil];
+	[NSURLCache setSharedURLCache:cache];
+	
 	// Attempt to retrieve stored server and API Token
 	self.server = [[NSUserDefaults standardUserDefaults] valueForKey:@"server"];
 	self.apiToken = [[NSUserDefaults standardUserDefaults] valueForKey:@"apiToken"];
@@ -38,6 +44,8 @@
 		[self generateAPILink];
 		[self loadBundledIndex];
 	}
+	
+	NSLog(@"%lu", (unsigned long)[[NSURLCache sharedURLCache] diskCapacity]);
 	
 	NSLog(@"Server: %@", self.server);
 	NSLog(@"API Token: %@", self.apiToken);
@@ -111,5 +119,28 @@
 {
 	[self updateBrowserLink];
 }
+
+- (id)webView:(WebView *)sender identifierForInitialRequest:(NSURLRequest *)request fromDataSource:(WebDataSource *)dataSource
+{
+	return request.URL;
+}
+
+#if DEBUG
+- (NSURLRequest *)webView:(WebView *)sender resource:(id)identifier willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse fromDataSource:(WebDataSource *)dataSource
+{
+	NSLog(@"-> %@", identifier);
+	return request;
+}
+
+- (void)webView:(WebView *)sender resource:(id)identifier didFinishLoadingFromDataSource:(WebDataSource *)dataSource
+{
+	NSLog(@"<- %@", identifier);
+}
+
+- (void)webView:(WebView *)sender resource:(id)identifier didFailLoadingWithError:(NSError *)error fromDataSource:(WebDataSource *)dataSource
+{
+	NSLog(@"xx %@:\n%@", identifier, error);
+}
+#endif
 
 @end
