@@ -144,11 +144,12 @@ QVariant KCClient::dataFromRawResponse(QString text, ErrorCode *error)
 	}
 	
 	QMap<QString, QVariant> data = doc.toVariant().toMap();
-	if(data.value("api_result").toInt() != 1)
+	if(data.value("api_result").toInt() != NoError)
 	{
 		if(error) *error = (ErrorCode)data.value("api_result").toInt();
 		return QVariant();
 	}
 	
+	if(error) *error = NoError;
 	return data.value("api_data");
 }
