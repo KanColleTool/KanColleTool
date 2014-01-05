@@ -17,8 +17,6 @@
  * way and synthesize it all like this than to copypaste this over and over.
  * One day, I will think of a better way. Until then, this stands.
  */
-#define _GLUE2(_1, _2) _1##_2
-#define _GLUE3(_1, _2, _3) _1##_2##_3
 #define SYNTHESIZE_RESPONSE_HANDLERS(_id_, _var_) \
 	void KCClient::_process##_id_##Data(QVariant data) { modelizeResponse(data, _var_); } \
 	void KCClient::on##_id_##RequestFinished() \
@@ -28,8 +26,8 @@
 		QVariant data = this->dataFromRawResponse(reply->readAll(), &error); \
 		if(data.isValid()) \
 		{ \
-			_GLUE3(_process, _id_, Data)(data); \
-			emit _GLUE2(received, _id_)(); \
+			_process##_id_##Data(data); \
+			emit received##_id_(); \
 		} \
 		else emit requestError(error); \
 	}
@@ -38,9 +36,7 @@ SYNTHESIZE_RESPONSE_HANDLERS(MasterShips, masterShips);
 SYNTHESIZE_RESPONSE_HANDLERS(PlayerShips, ships);
 SYNTHESIZE_RESPONSE_HANDLERS(PlayerFleets, fleets);
 
-/*
- * ------------------------------
- */
+// ------------------------------------------------------------------------- //
 
 
 KCClient::KCClient(QObject *parent) :
