@@ -8,11 +8,7 @@
 #include <QDebug>
 #include "KCShip.h"
 #include "KCShipMaster.h"
-
-#ifdef __APPLE__
-#include <Carbon/Carbon.h>
-#include <objc/objc-runtime.h>
-#endif
+#include "KCMacUtils.h"
 
 KCMainWindow::KCMainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -61,11 +57,7 @@ void KCMainWindow::_setupUI()
 	// On Mac, make the window join all spaces
 	// (why isn't there a Qt call for this...)
 #ifdef __APPLE__
-	int NSWindowCollectionBehaviorCanJoinAllSpaces = 1 << 0;
-	
-	objc_object *macView = reinterpret_cast<objc_object *>(this->winId());
-	objc_object *macWindow = objc_msgSend(macView, sel_registerName("window"));
-	objc_msgSend(macWindow, sel_registerName("setCollectionBehavior:"), NSWindowCollectionBehaviorCanJoinAllSpaces);
+	macSetWindowOnAllWorkspaces(this);
 #endif
 }
 
@@ -88,23 +80,8 @@ void KCMainWindow::_setupClient()
 bool KCMainWindow::isApplicationActive()
 {
 #ifdef __APPLE__
-	// On Mac OS X, compare the current process' serial to the front
-	// process' serial, as well as check if the window is active.
-	// this->hasFocus() is local to the program's space, so it can't
-	// be used here.
-	ProcessSerialNumber myPSN;
-	if(GetCurrentProcess(&myPSN) != noErr)
-		qFatal("<Mac> Error getting PSN!");
-	
-	ProcessSerialNumber frontPSN;
-	if(GetFrontProcess(&frontPSN) != noErr)
-		qFatal("<Mac> Error getting front PSN!");
-	
-	return (myPSN.highLongOfPSN == frontPSN.highLongOfPSN &&
-			myPSN.lowLongOfPSN == frontPSN.lowLongOfPSN &&
-			this->isVisible());
+	return (macApplicationIsActive() && this->isVisible());
 #else
-	// Otherwise, we only have to check if the window has focus or not
 	return this->hasFocus();
 #endif
 }
@@ -120,9 +97,7 @@ void KCMainWindow::toggleApplication()
 void KCMainWindow::showApplication()
 {
 #ifdef __APPLE__
-	ProcessSerialNumber myPSN;
-	if(GetCurrentProcess(&myPSN) == noErr)
-		SetFrontProcess(&myPSN);
+	macApplicationActivate();
 	this->show();
 #else
 	this->show();
