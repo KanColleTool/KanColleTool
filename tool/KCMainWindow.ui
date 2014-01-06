@@ -25,9 +25,6 @@
   <property name="windowTitle">
    <string>KanColle Tool</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">QGroupBox[enabled] { display: none; }</string>
-  </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
   </property>
@@ -118,6 +115,7 @@
                   </property>
                   <property name="font">
                    <font>
+                    <family>Arial</family>
                     <pointsize>10</pointsize>
                    </font>
                   </property>
@@ -148,7 +146,8 @@
                   </property>
                   <property name="font">
                    <font>
-                    <pointsize>25</pointsize>
+                    <family>Arial</family>
+                    <pointsize>20</pointsize>
                    </font>
                   </property>
                   <property name="text">
@@ -195,6 +194,9 @@
                   <property name="value">
                    <number>24</number>
                   </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
                  </widget>
                 </item>
                 <item row="1" column="1">
@@ -207,6 +209,9 @@
                   </property>
                   <property name="value">
                    <number>24</number>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
                   </property>
                  </widget>
                 </item>
@@ -265,6 +270,9 @@
                   </property>
                   <property name="value">
                    <number>24</number>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
                   </property>
                  </widget>
                 </item>
@@ -334,6 +342,7 @@
                   </property>
                   <property name="font">
                    <font>
+                    <family>Arial</family>
                     <pointsize>10</pointsize>
                    </font>
                   </property>
@@ -364,7 +373,8 @@
                   </property>
                   <property name="font">
                    <font>
-                    <pointsize>25</pointsize>
+                    <family>Arial</family>
+                    <pointsize>20</pointsize>
                    </font>
                   </property>
                   <property name="text">
@@ -451,6 +461,9 @@
                   <property name="value">
                    <number>24</number>
                   </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
                  </widget>
                 </item>
                 <item row="1" column="0">
@@ -479,6 +492,9 @@
                   <property name="value">
                    <number>24</number>
                   </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
                  </widget>
                 </item>
                 <item row="1" column="2">
@@ -506,6 +522,9 @@
                   </property>
                   <property name="value">
                    <number>24</number>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
                   </property>
                  </widget>
                 </item>
@@ -550,6 +569,7 @@
                   </property>
                   <property name="font">
                    <font>
+                    <family>Arial</family>
                     <pointsize>10</pointsize>
                    </font>
                   </property>
@@ -580,7 +600,8 @@
                   </property>
                   <property name="font">
                    <font>
-                    <pointsize>25</pointsize>
+                    <family>Arial</family>
+                    <pointsize>20</pointsize>
                    </font>
                   </property>
                   <property name="text">
@@ -667,6 +688,9 @@
                   <property name="value">
                    <number>24</number>
                   </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
                  </widget>
                 </item>
                 <item row="1" column="0">
@@ -695,6 +719,9 @@
                   <property name="value">
                    <number>24</number>
                   </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
                  </widget>
                 </item>
                 <item row="1" column="2">
@@ -722,6 +749,9 @@
                   </property>
                   <property name="value">
                    <number>24</number>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
                   </property>
                  </widget>
                 </item>
@@ -766,6 +796,7 @@
                   </property>
                   <property name="font">
                    <font>
+                    <family>Arial</family>
                     <pointsize>10</pointsize>
                    </font>
                   </property>
@@ -796,7 +827,8 @@
                   </property>
                   <property name="font">
                    <font>
-                    <pointsize>25</pointsize>
+                    <family>Arial</family>
+                    <pointsize>20</pointsize>
                    </font>
                   </property>
                   <property name="text">
@@ -873,6 +905,9 @@
                   <property name="value">
                    <number>24</number>
                   </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
                  </widget>
                 </item>
                 <item row="0" column="0">
@@ -901,6 +936,9 @@
                   <property name="value">
                    <number>24</number>
                   </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
                  </widget>
                 </item>
                 <item row="1" column="2">
@@ -928,6 +966,9 @@
                   </property>
                   <property name="value">
                    <number>24</number>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
                   </property>
                  </widget>
                 </item>
@@ -982,6 +1023,7 @@
                   </property>
                   <property name="font">
                    <font>
+                    <family>Arial</family>
                     <pointsize>10</pointsize>
                    </font>
                   </property>
@@ -1012,7 +1054,8 @@
                   </property>
                   <property name="font">
                    <font>
-                    <pointsize>25</pointsize>
+                    <family>Arial</family>
+                    <pointsize>20</pointsize>
                    </font>
                   </property>
                   <property name="text">
@@ -1089,6 +1132,9 @@
                   <property name="value">
                    <number>24</number>
                   </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
                  </widget>
                 </item>
                 <item row="0" column="3">
@@ -1142,6 +1188,9 @@
                   <property name="value">
                    <number>24</number>
                   </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
                  </widget>
                 </item>
                 <item row="1" column="1">
@@ -1154,6 +1203,9 @@
                   </property>
                   <property name="value">
                    <number>24</number>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
                   </property>
                  </widget>
                 </item>
@@ -1201,6 +1253,7 @@
                   </property>
                   <property name="font">
                    <font>
+                    <family>Arial</family>
                     <pointsize>10</pointsize>
                    </font>
                   </property>
@@ -1231,7 +1284,8 @@
                   </property>
                   <property name="font">
                    <font>
-                    <pointsize>25</pointsize>
+                    <family>Arial</family>
+                    <pointsize>20</pointsize>
                    </font>
                   </property>
                   <property name="text">
@@ -1277,6 +1331,9 @@
                   </property>
                   <property name="value">
                    <number>24</number>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
                   </property>
                  </widget>
                 </item>
@@ -1346,6 +1403,9 @@
                   <property name="value">
                    <number>24</number>
                   </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
                  </widget>
                 </item>
                 <item row="0" column="0">
@@ -1373,6 +1433,9 @@
                   </property>
                   <property name="value">
                    <number>24</number>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
                   </property>
                  </widget>
                 </item>
@@ -1422,7 +1485,7 @@
      <x>0</x>
      <y>0</y>
      <width>650</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

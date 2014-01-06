@@ -1,10 +1,16 @@
 #include "KCMainWindow.h"
 #include <QApplication>
+#include <QDir>
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
 	// Make an application!
 	QApplication a(argc, argv);
+	
+#ifdef Q_OS_WIN
+	QDir::setCurrent(QCoreApplication::applicationDirPath());
+#endif
 	
 	// Setup some version stuff; this lets us use the default QSettings
 	// constructor anywhere, without having to specify this over and over

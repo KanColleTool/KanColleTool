@@ -96,7 +96,6 @@ void KCClient::requestPlayerFleets()
 QNetworkReply* KCClient::call(QString endpoint, QUrlQuery params)
 {
 #if kClientUseCache
-	qDebug() << endpoint;
 	QFile file(QString("cache%1.json").arg(endpoint));
 	if(file.open(QIODevice::ReadOnly))
 	{
