@@ -46,7 +46,7 @@ void KCMainWindow::_setupTrayIcon()
 #ifndef __APPLE__
 	this->trayMenu = new QMenu("KanColleTool", this);
 	this->trayMenu->addAction("Show", this, SLOT(showApplication()));
-	this->trayMenu->addSeparator();
+	this->trayMenu->addAction("Exit", qApp, SLOT(quit()));
 	this->trayIcon->setContextMenu(this->trayMenu);
 #endif
 }
@@ -231,6 +231,7 @@ void KCMainWindow::on_fleetsTabBar_currentChanged(int index)
 {
 	qDebug() << "Fleets page on Tab" << index;
 	
+	
 	// Hide all the boxes by default, then show the ones we use below
 	for(int i = 0; i < 6; i++)
 		findChild<QGroupBox*>(QString("fleetBox") + QString::number(i+1))->hide();
@@ -241,6 +242,9 @@ void KCMainWindow::on_fleetsTabBar_currentChanged(int index)
 	
 	// Otherwise, retreive it
 	KCFleet *fleet = client->fleets[index+1];
+	
+	// Disable updates to prevent flicker from QWidget::show()
+	setUpdatesEnabled(false);
 	
 	// Loop through all the ships in the fleet and put their info up
 	for(int i = 0; i < fleet->shipCount; i++)
@@ -272,4 +276,6 @@ void KCMainWindow::on_fleetsTabBar_currentChanged(int index)
 		levelLabel->setText(QString::number(ship->level));
 		condLabel->setText(QString::number(ship->condition));
 	}
+	
+	setUpdatesEnabled(true);
 }
