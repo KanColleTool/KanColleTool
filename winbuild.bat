@@ -2,7 +2,7 @@ set PATH=%PATH%;C:\Qt\5.2.0\mingw48_32\bin
 set PATH=%PATH%;C:\Qt\Tools\mingw48_32\bin
 
 :: Delete old dist dir; the last thing we need is partial builds
-del /Q dist
+rmdir /s /q dist
 mkdir dist
 
 :: Build the tool
