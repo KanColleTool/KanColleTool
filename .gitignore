@@ -8,6 +8,7 @@ qrc_*.cpp
 ui_*.h
 *.pro.user
 *.stash
+object_script*
 
 # Editor User Data
 xcuserdata
@@ -19,7 +20,7 @@ xcuserdata
 __pycache__
 
 # Built Products
-tool/Makefile
+tool/Makefile*
 tool/KanColleTool.app
 tool/KanColleTool.exe
 tool/KanColleTool
