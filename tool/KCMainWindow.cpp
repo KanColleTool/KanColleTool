@@ -53,6 +53,11 @@ void KCMainWindow::_setupTrayIcon()
 
 void KCMainWindow::_setupUI()
 {
+	// Right-align some items on the toolbar
+	QWidget *toolbarSpacer = new QWidget();
+	toolbarSpacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+	ui->toolBar->insertWidget(ui->actionRefresh, toolbarSpacer);
+	
 	// Set up the Fleets page
 	ui->fleetsTabBar->addTab("Fleet 1");
 	ui->fleetsTabBar->addTab("Fleet 2");
@@ -297,6 +302,12 @@ void KCMainWindow::on_actionConstruction_triggered()
 	ui->actionRepairs->setEnabled(true);
 	ui->actionConstruction->setEnabled(false);
 	ui->stackedWidget->setCurrentWidget(ui->constructionPage);
+}
+
+void KCMainWindow::on_actionRefresh_triggered()
+{
+    client->requestPlayerShips();
+	client->requestPlayerFleets();
 }
 
 void KCMainWindow::on_fleetsTabBar_currentChanged(int index)
