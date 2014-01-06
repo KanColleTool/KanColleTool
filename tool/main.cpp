@@ -17,9 +17,12 @@ int main(int argc, char *argv[])
 	QCoreApplication::setApplicationName("KanColleTool");
 	QCoreApplication::setApplicationVersion("0.1.0");
 	QCoreApplication::setOrganizationName("MacaroniCode");
+
+	QStringList args = QCoreApplication::arguments();
 	
 	// We want to stay in the tray, not quit when the window goes away
-	a.setQuitOnLastWindowClosed(false);
+	if(!args.contains("--exit-on-close"))
+		a.setQuitOnLastWindowClosed(false);
 	
 	// Create the window, which owns the tray icon, but don't show it!
 	KCMainWindow w;
