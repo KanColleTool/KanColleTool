@@ -8,6 +8,7 @@
 #include <QDebug>
 #include "KCShip.h"
 #include "KCShipMaster.h"
+#include "KCDock.h"
 #include "KCMacUtils.h"
 
 KCMainWindow::KCMainWindow(QWidget *parent) :
@@ -79,6 +80,7 @@ void KCMainWindow::_setupClient()
 	connect(this->client, SIGNAL(receivedMasterShips()), this, SLOT(onReceivedMasterShips()));
 	connect(this->client, SIGNAL(receivedPlayerShips()), this, SLOT(onReceivedPlayerShips()));
 	connect(this->client, SIGNAL(receivedPlayerFleets()), this, SLOT(onReceivedPlayerFleets()));
+	connect(this->client, SIGNAL(receivedPlayerRepairs()), this, SLOT(onReceivedPlayerRepairs()));
 	connect(this->client, SIGNAL(requestError(KCClient::ErrorCode)), this, SLOT(onRequestError(KCClient::ErrorCode)));
 	
 	if(!this->client->hasCredentials())
@@ -137,6 +139,8 @@ void KCMainWindow::askForAPILink()
 
 void KCMainWindow::updateFleetsPage()
 {
+	ui->fleetsPage->setUpdatesEnabled(false);
+	
 	// Hide all the boxes by default, then show the ones we use below
 	for(int i = 0; i < 6; i++)
 		findChild<QGroupBox*>(QString("fleetBox") + QString::number(i+1))->hide();
@@ -147,9 +151,6 @@ void KCMainWindow::updateFleetsPage()
 	
 	// Otherwise, retreive it
 	KCFleet *fleet = client->fleets[ui->fleetsTabBar->currentIndex()+1];
-	
-	// Disable updates to prevent flicker from QWidget::show()
-	setUpdatesEnabled(false);
 	
 	// Loop through all the ships in the fleet and put their info up
 	for(int i = 0; i < fleet->shipCount; i++)
@@ -181,12 +182,12 @@ void KCMainWindow::updateFleetsPage()
 		condLabel->setText(QString::number(ship->condition));
 	}
 	
-	setUpdatesEnabled(true);
+	ui->fleetsPage->setUpdatesEnabled(true);
 }
 
 void KCMainWindow::updateShipsPage()
 {
-	setUpdatesEnabled(false);
+	ui->shipsPage->setUpdatesEnabled(false);
 	
 	ui->shipsTable->setSortingEnabled(false);
 	ui->shipsTable->setRowCount(client->ships.count());
@@ -209,7 +210,55 @@ void KCMainWindow::updateShipsPage()
 	
 	ui->shipsTable->setSortingEnabled(true);
 	
-	setUpdatesEnabled(true);
+	ui->shipsPage->setUpdatesEnabled(true);
+}
+
+void KCMainWindow::updateRepairsPage()
+{
+	ui->repairsPage->setUpdatesEnabled(false);
+	
+	int i = 0;
+	foreach(KCDock *dock, client->repairDocks)
+	{
+		QString iS = QString::number(i+1);
+		QGroupBox *box = findChild<QGroupBox*>(QString("repairBox") + iS);
+		QLabel *nameLabel = findChild<QLabel*>(QString("repairName") + iS);
+		QLabel *readingLabel = findChild<QLabel*>(QString("repairReading") + iS);
+		QLabel *repairTimerLabel = findChild<QLabel*>(QString("repairTimer") + iS);
+		
+		qDebug() << "Dock" << i << dock->state << dock->shipID;
+		
+		if(dock->state == KCDock::Locked)
+		{
+			box->setEnabled(false);
+			nameLabel->setText("(Locked)");
+			readingLabel->setText("");
+			repairTimerLabel->setText("");
+		}
+		else if(dock->state == KCDock::Empty)
+		{
+			box->setEnabled(true);
+			nameLabel->setText("(Empty)");
+			readingLabel->setText("");
+			repairTimerLabel->setText("0:00:00");
+		}
+		else if(dock->state == KCDock::Occupied)
+		{
+			box->setEnabled(true);
+			KCShip *ship = client->ships[dock->shipID];
+			qDebug() << "Ship:" << ship;
+			if(!ship)
+				continue;
+			
+			nameLabel->setText(ship->name);
+			readingLabel->setText(ship->reading);
+			repairTimerLabel->setText(dock->complete.toString("HH:mm:ss"));
+		}
+		
+		++i;
+	}
+	
+	ui->repairsPage->setUpdatesEnabled(true);	
 }
 
 void KCMainWindow::onCredentialsGained()
@@ -218,6 +267,7 @@ void KCMainWindow::onCredentialsGained()
 	this->client->requestMasterShips();
 	this->client->requestPlayerShips();
 	this->client->requestPlayerFleets();
+	this->client->requestPlayerRepairs();
 }
 
 void KCMainWindow::onReceivedMasterShips()
@@ -230,12 +280,19 @@ void KCMainWindow::onReceivedPlayerShips()
 	qDebug() << "Received Player Ship Data" << client->ships.size();
 	updateFleetsPage();
 	updateShipsPage();
+	updateRepairsPage();
 }
 
 void KCMainWindow::onReceivedPlayerFleets()
 {
 	qDebug() << "Received Player Fleet Data" << client->fleets.size();
 	updateFleetsPage();
+}
+
+void KCMainWindow::onReceivedPlayerRepairs()
+{
+	qDebug() << "Received Player Repairs Data" << client->repairDocks.size();
+	updateRepairsPage();
 }
 
 void KCMainWindow::onRequestError(KCClient::ErrorCode error)
@@ -308,6 +365,7 @@ void KCMainWindow::on_actionRefresh_triggered()
 {
     client->requestPlayerShips();
 	client->requestPlayerFleets();
+	client->requestPlayerRepairs();
 }
 
 void KCMainWindow::on_fleetsTabBar_currentChanged(int index)

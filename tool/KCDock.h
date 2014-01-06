@@ -12,9 +12,9 @@ class KCDock : public QObject
 public:
 	enum State {
 		Locked = -1,
-		Empty = 1,
-		Occupied = 2,
-		Finished = 3
+		Empty = 0,
+		Occupied = 1,
+		Finished = 2
 	};
 	
 	KCDock(QObject *parent = 0);
@@ -24,7 +24,7 @@ public:
 	void loadFrom(QVariantMap data);
 	
 	int id;
-	State state;
+	int state;
 	int shipID;
 	QDateTime complete;
 	int fuel, ammo, steel, baux;

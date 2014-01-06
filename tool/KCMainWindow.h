@@ -35,12 +35,14 @@ public slots:
 	void askForAPILink();
 	void updateFleetsPage();
 	void updateShipsPage();
+	void updateRepairsPage();
 	
 private slots:
 	void onCredentialsGained();
 	void onReceivedMasterShips();
 	void onReceivedPlayerShips();
 	void onReceivedPlayerFleets();
+	void onReceivedPlayerRepairs();
 	void onRequestError(KCClient::ErrorCode error);
 	
 	void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
