@@ -33,7 +33,8 @@ public slots:
 	void hideApplication();
 	
 	void askForAPILink();
-	void updateUI();
+	void updateFleetsPage();
+	void updateShipsPage();
 	
 private slots:
 	void onCredentialsGained();

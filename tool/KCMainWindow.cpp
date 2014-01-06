@@ -130,9 +130,81 @@ void KCMainWindow::askForAPILink()
 	this->client->setCredentials(url.host(), query.queryItemValue("api_token"));
 }
 
-void KCMainWindow::updateUI()
+void KCMainWindow::updateFleetsPage()
 {
-	on_fleetsTabBar_currentChanged(ui->fleetsTabBar->currentIndex());
+	// Hide all the boxes by default, then show the ones we use below
+	for(int i = 0; i < 6; i++)
+		findChild<QGroupBox*>(QString("fleetBox") + QString::number(i+1))->hide();
+	
+	// If there is no such fleet, return here and leave all boxes hidden
+	if(!client->fleets.contains(ui->fleetsTabBar->currentIndex()+1))
+		return;
+	
+	// Otherwise, retreive it
+	KCFleet *fleet = client->fleets[ui->fleetsTabBar->currentIndex()+1];
+	
+	// Disable updates to prevent flicker from QWidget::show()
+	setUpdatesEnabled(false);
+	
+	// Loop through all the ships in the fleet and put their info up
+	for(int i = 0; i < fleet->shipCount; i++)
+	{
+		KCShip *ship = client->ships[fleet->ships[i]];
+		if(!ship) continue;
+		
+		QString iS = QString::number(i+1);
+		
+		QGroupBox *box = findChild<QGroupBox*>(QString("fleetBox") + iS);
+		QLabel *nameLabel = findChild<QLabel*>(QString("fleetName") + iS);
+		QLabel *readingLabel = findChild<QLabel*>(QString("fleetReading") + iS);
+		QProgressBar *hpBar = findChild<QProgressBar*>(QString("fleetHpBar") + iS);
+		QProgressBar *ammoBar = findChild<QProgressBar*>(QString("fleetAmmoBar") + iS);
+		QProgressBar *fuelBar = findChild<QProgressBar*>(QString("fleetFuelBar") + iS);
+		QLabel *levelLabel = findChild<QLabel*>(QString("fleetLevel") + iS);
+		QLabel *condLabel = findChild<QLabel*>(QString("fleetCond") + iS);
+		
+		box->show();
+		nameLabel->setText(ship->name);
+		readingLabel->setText(ship->reading);
+		hpBar->setRange(0, ship->maxHp);
+		hpBar->setValue(ship->hp);
+		ammoBar->setRange(0, ship->maxAmmo);
+		ammoBar->setValue(ship->ammo);
+		fuelBar->setRange(0, ship->maxFuel);
+		fuelBar->setValue(ship->fuel);
+		levelLabel->setText(QString::number(ship->level));
+		condLabel->setText(QString::number(ship->condition));
+	}
+	
+	setUpdatesEnabled(true);
+}
+
+void KCMainWindow::updateShipsPage()
+{
+	setUpdatesEnabled(false);
+	
+	ui->shipsTable->setSortingEnabled(false);
+	ui->shipsTable->setRowCount(client->ships.count());
+	
+	int row = 0;
+	foreach(KCShip *ship, client->ships)
+	{
+		ui->shipsTable->setItem(row, 0, new QTableWidgetItem(QString::number(ship->level)));
+		ui->shipsTable->setItem(row, 1, new QTableWidgetItem(QString::number(ship->maxHp)));
+		ui->shipsTable->setItem(row, 2, new QTableWidgetItem(QString::number(ship->firepower.cur)));
+		ui->shipsTable->setItem(row, 3, new QTableWidgetItem(QString::number(ship->torpedo.cur)));
+		ui->shipsTable->setItem(row, 4, new QTableWidgetItem(QString::number(ship->evasion.cur)));
+		ui->shipsTable->setItem(row, 5, new QTableWidgetItem(QString::number(ship->antiair.cur)));
+		ui->shipsTable->setItem(row, 6, new QTableWidgetItem(QString::number(ship->antisub.cur)));
+		ui->shipsTable->setItem(row, 7, new QTableWidgetItem(QString::number(ship->speed)));
+		ui->shipsTable->setItem(row, 8, new QTableWidgetItem(QString("%1 (%2)").arg(ship->name, ship->reading)));
+		
+		++row;
+	}
+	
+	ui->shipsTable->setSortingEnabled(true);
+	
+	setUpdatesEnabled(true);
 }
 
 void KCMainWindow::onCredentialsGained()
@@ -146,19 +218,19 @@ void KCMainWindow::onCredentialsGained()
 void KCMainWindow::onReceivedMasterShips()
 {
 	qDebug() << "Received Master Ship Data" << client->masterShips.size();
-	updateUI();
 }
 
 void KCMainWindow::onReceivedPlayerShips()
 {
 	qDebug() << "Received Player Ship Data" << client->ships.size();
-	updateUI();
+	updateFleetsPage();
+	updateShipsPage();
 }
 
 void KCMainWindow::onReceivedPlayerFleets()
 {
 	qDebug() << "Received Player Fleet Data" << client->fleets.size();
-	updateUI();
+	updateFleetsPage();
 }
 
 void KCMainWindow::onRequestError(KCClient::ErrorCode error)
@@ -229,53 +301,7 @@ void KCMainWindow::on_actionConstruction_triggered()
 
 void KCMainWindow::on_fleetsTabBar_currentChanged(int index)
 {
-	qDebug() << "Fleets page on Tab" << index;
-	
-	
-	// Hide all the boxes by default, then show the ones we use below
-	for(int i = 0; i < 6; i++)
-		findChild<QGroupBox*>(QString("fleetBox") + QString::number(i+1))->hide();
-	
-	// If there is no such fleet, return here and leave all boxes hidden
-	if(!client->fleets.contains(index+1))
-		return;
-	
-	// Otherwise, retreive it
-	KCFleet *fleet = client->fleets[index+1];
-	
-	// Disable updates to prevent flicker from QWidget::show()
-	setUpdatesEnabled(false);
-	
-	// Loop through all the ships in the fleet and put their info up
-	for(int i = 0; i < fleet->shipCount; i++)
-	{
-		KCShip *ship = client->ships[fleet->ships[i]];
-		if(!ship) continue;
-		
-		QString iS = QString::number(i+1);
-		qDebug() << ship->name;
-		
-		QGroupBox *box = findChild<QGroupBox*>(QString("fleetBox") + iS);
-		QLabel *nameLabel = findChild<QLabel*>(QString("fleetName") + iS);
-		QLabel *readingLabel = findChild<QLabel*>(QString("fleetReading") + iS);
-		QProgressBar *hpBar = findChild<QProgressBar*>(QString("fleetHpBar") + iS);
-		QProgressBar *ammoBar = findChild<QProgressBar*>(QString("fleetAmmoBar") + iS);
-		QProgressBar *fuelBar = findChild<QProgressBar*>(QString("fleetFuelBar") + iS);
-		QLabel *levelLabel = findChild<QLabel*>(QString("fleetLevel") + iS);
-		QLabel *condLabel = findChild<QLabel*>(QString("fleetCond") + iS);
-		
-		box->show();
-		nameLabel->setText(ship->name);
-		readingLabel->setText(ship->reading);
-		hpBar->setRange(0, ship->maxHp);
-		hpBar->setValue(ship->hp);
-		ammoBar->setRange(0, ship->maxAmmo);
-		ammoBar->setValue(ship->ammo);
-		fuelBar->setRange(0, ship->maxFuel);
-		fuelBar->setValue(ship->fuel);
-		levelLabel->setText(QString::number(ship->level));
-		condLabel->setText(QString::number(ship->condition));
-	}
-	
-	setUpdatesEnabled(true);
+	//qDebug() << "Fleets page on Tab" << index;
+	Q_UNUSED(index);
+	updateFleetsPage();
 }
