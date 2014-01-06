@@ -6,7 +6,7 @@
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
-	QCoreApplication::setApplicationName("KCTViewer");
+	QCoreApplication::setApplicationName("KanColleTool");
 	QCoreApplication::setApplicationVersion("0.2.2");
 	QCoreApplication::setOrganizationName("MacaroniCode");
 	
