@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 	// Setup some version stuff; this lets us use the default QSettings
 	// constructor anywhere, without having to specify this over and over
 	QCoreApplication::setApplicationName("KanColleTool");
-	QCoreApplication::setApplicationVersion("0.0.1a");
+	QCoreApplication::setApplicationVersion("0.1.0");
 	QCoreApplication::setOrganizationName("MacaroniCode");
 	
 	// We want to stay in the tray, not quit when the window goes away
