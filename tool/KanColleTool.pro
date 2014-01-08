@@ -12,6 +12,7 @@ TEMPLATE = app
 CONFIG += c++11
 
 QMAKE_INFO_PLIST = Info.plist
+RC_FILE = KanCOlleTool.rc
 
 macx {
 	LIBS += -framework Carbon -lobjc
@@ -40,4 +41,5 @@ FORMS    += \
 
 RESOURCES += resources.qrc
 
-OTHER_FILES += Info.plist
+OTHER_FILES += Info.plist \
+    KanColleTool.rc

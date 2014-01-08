@@ -9,6 +9,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = KCTViewer
 TEMPLATE = app
+CONFIG += c++11
+
+RC_FILE = KCTViewer.rc
 
 SOURCES += main.cpp \
 	KVMainWindow.cpp \
@@ -18,3 +21,5 @@ HEADERS  += KVMainWindow.h \
 	KVProxyServer.h
 
 RESOURCES += resources.qrc
+
+OTHER_FILES += KCTViewer.rc
