@@ -30,5 +30,8 @@ viewer/KCTViewer.app
 viewer/KCTViewer.exe
 viewer/KCTViewer
 
+macviewer/KCTViewer/build/
+
 /build-*
 /dist
+*.dmg
