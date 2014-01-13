@@ -52,6 +52,7 @@ void KCShipMaster::loadFrom(QVariantMap data)
 	extract(data, luck.max, "api_luck", 1);
 	extract(data, planeCapacity, 4, "api_maxeq");
 	extract(data, _missions, "api_missions");
+	extract(data, name, "api_name");
 	extract(data, modernization.firepower, "api_powup", 0);
 	extract(data, modernization.torpedo, "api_powup", 1);
 	extract(data, modernization.antiair, "api_powup", 2);
