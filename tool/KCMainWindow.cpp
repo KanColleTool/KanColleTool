@@ -60,11 +60,25 @@ void KCMainWindow::_setupUI()
 	ui->toolBar->insertWidget(ui->actionRefresh, toolbarSpacer);
 	
 	// Set up the Fleets page
-	ui->fleetsTabBar->setMinimumHeight(0);
-	ui->fleetsTabBar->addTab("Fleet 1");
-	ui->fleetsTabBar->addTab("Fleet 2");
-	ui->fleetsTabBar->addTab("Fleet 3");
-	ui->fleetsTabBar->addTab("Fleet 4");
+	{
+		// Unset the min height; it glitches stuff up
+		ui->fleetsTabBar->setMinimumHeight(0);
+		
+		// Add four tabs
+		ui->fleetsTabBar->addTab("Fleet 1");
+		ui->fleetsTabBar->addTab("Fleet 2");
+		ui->fleetsTabBar->addTab("Fleet 3");
+		ui->fleetsTabBar->addTab("Fleet 4");
+	}
+	
+	// Set up the Constructions page
+	{
+		// Listen for clicks on the spoiler buttons to update the UI
+		connect(ui->constructionSpoil1, SIGNAL(toggled(bool)), this, SLOT(updateConstructionsPage()));
+		connect(ui->constructionSpoil2, SIGNAL(toggled(bool)), this, SLOT(updateConstructionsPage()));
+		connect(ui->constructionSpoil3, SIGNAL(toggled(bool)), this, SLOT(updateConstructionsPage()));
+		connect(ui->constructionSpoil4, SIGNAL(toggled(bool)), this, SLOT(updateConstructionsPage()));
+	}
 	
 	// On Mac, make the window join all spaces
 	// (why isn't there a Qt call for this...)
