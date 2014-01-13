@@ -60,6 +60,7 @@ void KCMainWindow::_setupUI()
 	ui->toolBar->insertWidget(ui->actionRefresh, toolbarSpacer);
 	
 	// Set up the Fleets page
+	ui->fleetsTabBar->setMinimumHeight(0);
 	ui->fleetsTabBar->addTab("Fleet 1");
 	ui->fleetsTabBar->addTab("Fleet 2");
 	ui->fleetsTabBar->addTab("Fleet 3");
@@ -147,7 +148,10 @@ void KCMainWindow::updateFleetsPage()
 	
 	// If there is no such fleet, return here and leave all boxes hidden
 	if(!client->fleets.contains(ui->fleetsTabBar->currentIndex()+1))
+	{
+		ui->fleetsPage->setUpdatesEnabled(true);
 		return;
+	}
 	
 	// Otherwise, retreive it
 	KCFleet *fleet = client->fleets[ui->fleetsTabBar->currentIndex()+1];
