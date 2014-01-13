@@ -47,8 +47,8 @@ KCClient::KCClient(QObject *parent) :
 	manager = new QNetworkAccessManager(this);
 	
 	QSettings settings;
-	this->server = settings.value("server").toString();
-	this->apiToken = settings.value("apiToken").toString();
+	server = settings.value("server").toString();
+	apiToken = settings.value("apiToken").toString();
 }
 
 KCClient::~KCClient()
@@ -58,7 +58,7 @@ KCClient::~KCClient()
 
 bool KCClient::hasCredentials()
 {
-	return (!this->server.isEmpty() && !this->server.isEmpty());
+	return (!server.isEmpty() && !server.isEmpty());
 }
 
 void KCClient::setCredentials(QString server, QString apiToken)
@@ -132,13 +132,13 @@ QNetworkReply* KCClient::call(QString endpoint, QUrlQuery params)
 #endif
 	QNetworkRequest request(this->urlForEndpoint(endpoint));
 	request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-	request.setRawHeader("Referer", QString("http://%1/kcs/mainD2.swf").arg(this->server).toUtf8());
+	request.setRawHeader("Referer", QString("http://%1/kcs/mainD2.swf").arg(server).toUtf8());
 	
 	params.addQueryItem("api_verno", "1");
-	params.addQueryItem("api_token", this->apiToken);
+	params.addQueryItem("api_token", apiToken);
 	QString query = params.toString(QUrl::FullyEncoded);
 	
-	return this->manager->post(request, query.toUtf8());
+	return manager->post(request, query.toUtf8());
 }
 
 QUrl KCClient::urlForEndpoint(QString endpoint)

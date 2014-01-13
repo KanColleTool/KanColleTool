@@ -36,19 +36,19 @@ KCMainWindow::~KCMainWindow()
 void KCMainWindow::_setupTrayIcon()
 {
 	// Create the Tray Icon
-	this->trayIcon = new QSystemTrayIcon(QIcon(":/icon-48x48.png"), this);
-	connect(this->trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+	trayIcon = new QSystemTrayIcon(QIcon(":/icon-48x48.png"), this);
+	connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
 			this, SLOT(onTrayIconActivated(QSystemTrayIcon::ActivationReason)));
-	this->trayIcon->show();
+	trayIcon->show();
 	
 	// Set up the menu for it, but not if we're on a Mac.
 	// On Mac, it's more convenient to have a click bring up the main window
 	// (since left-click also brings up the menu there)
 #ifndef __APPLE__
-	this->trayMenu = new QMenu("KanColleTool", this);
-	this->trayMenu->addAction("Show", this, SLOT(showApplication()));
-	this->trayMenu->addAction("Exit", qApp, SLOT(quit()));
-	this->trayIcon->setContextMenu(this->trayMenu);
+	trayMenu = new QMenu("KanColleTool", this);
+	trayMenu->addAction("Show", this, SLOT(showApplication()));
+	trayMenu->addAction("Exit", qApp, SLOT(quit()));
+	trayIcon->setContextMenu(this->trayMenu);
 #endif
 }
 
@@ -89,17 +89,17 @@ void KCMainWindow::_setupUI()
 
 void KCMainWindow::_setupClient()
 {
-	this->client = new KCClient(this);
+	client = new KCClient(this);
 	
-	connect(this->client, SIGNAL(credentialsGained()), this, SLOT(onCredentialsGained()));
-	connect(this->client, SIGNAL(receivedMasterShips()), this, SLOT(onReceivedMasterShips()));
-	connect(this->client, SIGNAL(receivedPlayerShips()), this, SLOT(onReceivedPlayerShips()));
-	connect(this->client, SIGNAL(receivedPlayerFleets()), this, SLOT(onReceivedPlayerFleets()));
-	connect(this->client, SIGNAL(receivedPlayerRepairs()), this, SLOT(onReceivedPlayerRepairs()));
-	connect(this->client, SIGNAL(receivedPlayerConstructions()), this, SLOT(onReceivedPlayerConstructions()));
-	connect(this->client, SIGNAL(requestError(KCClient::ErrorCode)), this, SLOT(onRequestError(KCClient::ErrorCode)));
+	connect(client, SIGNAL(credentialsGained()), this, SLOT(onCredentialsGained()));
+	connect(client, SIGNAL(receivedMasterShips()), this, SLOT(onReceivedMasterShips()));
+	connect(client, SIGNAL(receivedPlayerShips()), this, SLOT(onReceivedPlayerShips()));
+	connect(client, SIGNAL(receivedPlayerFleets()), this, SLOT(onReceivedPlayerFleets()));
+	connect(client, SIGNAL(receivedPlayerRepairs()), this, SLOT(onReceivedPlayerRepairs()));
+	connect(client, SIGNAL(receivedPlayerConstructions()), this, SLOT(onReceivedPlayerConstructions()));
+	connect(client, SIGNAL(requestError(KCClient::ErrorCode)), this, SLOT(onRequestError(KCClient::ErrorCode)));
 	
-	if(!this->client->hasCredentials())
+	if(!client->hasCredentials())
 		this->askForAPILink();
 	else
 		this->onCredentialsGained();
@@ -150,7 +150,7 @@ void KCMainWindow::askForAPILink()
 	QUrlQuery query(url);
 	apiLinkDialogOpen = false;
 	
-	this->client->setCredentials(url.host(), query.queryItemValue("api_token"));
+	client->setCredentials(url.host(), query.queryItemValue("api_token"));
 }
 
 void KCMainWindow::updateFleetsPage()
@@ -245,8 +245,6 @@ void KCMainWindow::updateRepairsPage()
 		QLabel *readingLabel = findChild<QLabel*>(QString("repairReading") + iS);
 		QLabel *repairTimerLabel = findChild<QLabel*>(QString("repairTimer") + iS);
 		
-		qDebug() << "Dock" << i << dock->state << dock->shipID;
-		
 		if(dock->state == KCDock::Locked)
 		{
 			box->setEnabled(false);
@@ -265,7 +263,6 @@ void KCMainWindow::updateRepairsPage()
 		{
 			box->setEnabled(true);
 			KCShip *ship = client->ships[dock->shipID];
-			qDebug() << "Ship:" << ship;
 			if(!ship)
 				continue;
 			
@@ -295,8 +292,6 @@ void KCMainWindow::updateConstructionsPage()
 		QLabel *readingLabel = findChild<QLabel*>(QString("constructionReading") + iS);
 		QLabel *buildTimerLabel = findChild<QLabel*>(QString("constructionTimer") + iS);
 		QCheckBox *spoilCheckbox = findChild<QCheckBox*>(QString("constructionSpoil") + iS);
-		
-		qDebug() << "Construction" << i << dock->state << dock->shipID;
 		
 		if(dock->state == KCDock::Locked)
 		{
@@ -352,11 +347,11 @@ void KCMainWindow::updateConstructionsPage()
 void KCMainWindow::onCredentialsGained()
 {
 	qDebug() << "Credentials Gained";
-	this->client->requestMasterShips();
-	this->client->requestPlayerShips();
-	this->client->requestPlayerFleets();
-	this->client->requestPlayerRepairs();
-	this->client->requestPlayerConstructions();
+	client->requestMasterShips();
+	client->requestPlayerShips();
+	client->requestPlayerFleets();
+	client->requestPlayerRepairs();
+	client->requestPlayerConstructions();
 }
 
 void KCMainWindow::onReceivedMasterShips()
