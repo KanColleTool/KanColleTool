@@ -45,7 +45,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="fleetsPage">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -101,7 +101,7 @@
            <item row="0" column="1">
             <widget class="QGroupBox" name="fleetBox2">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -153,26 +153,41 @@
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>130</width>
+                    <width>110</width>
                     <height>0</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>130</width>
+                    <width>110</width>
                     <height>16777215</height>
                    </size>
                   </property>
                   <property name="font">
                    <font>
                     <family>MS Gothic</family>
-                    <pointsize>20</pointsize>
+                    <pointsize>16</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
                    </font>
                   </property>
                   <property name="text">
                    <string>天龍</string>
                   </property>
                  </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_28">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                 <item>
                  <layout class="QFormLayout" name="formLayout_3">
@@ -202,14 +217,20 @@
               </item>
               <item>
                <layout class="QGridLayout" name="gridLayout_2">
+                <property name="topMargin">
+                 <number>2</number>
+                </property>
                 <property name="rightMargin">
                  <number>6</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>2</number>
                 </property>
                 <property name="horizontalSpacing">
                  <number>6</number>
                 </property>
                 <property name="verticalSpacing">
-                 <number>0</number>
+                 <number>2</number>
                 </property>
                 <item row="0" column="3">
                  <widget class="QLabel" name="fleetCond2">
@@ -351,7 +372,7 @@
            <item row="1" column="1">
             <widget class="QGroupBox" name="fleetBox4">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -403,26 +424,41 @@
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>130</width>
+                    <width>110</width>
                     <height>0</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>130</width>
+                    <width>110</width>
                     <height>16777215</height>
                    </size>
                   </property>
                   <property name="font">
                    <font>
                     <family>MS Gothic</family>
-                    <pointsize>20</pointsize>
+                    <pointsize>16</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
                    </font>
                   </property>
                   <property name="text">
                    <string>天龍</string>
                   </property>
                  </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_27">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                 <item>
                  <layout class="QFormLayout" name="formLayout_2">
@@ -452,14 +488,20 @@
               </item>
               <item>
                <layout class="QGridLayout" name="gridLayout_7">
+                <property name="topMargin">
+                 <number>2</number>
+                </property>
                 <property name="rightMargin">
                  <number>6</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>2</number>
                 </property>
                 <property name="horizontalSpacing">
                  <number>6</number>
                 </property>
                 <property name="verticalSpacing">
-                 <number>0</number>
+                 <number>2</number>
                 </property>
                 <item row="0" column="3">
                  <widget class="QLabel" name="fleetCond4">
@@ -601,7 +643,7 @@
            <item row="1" column="0">
             <widget class="QGroupBox" name="fleetBox3">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -653,26 +695,41 @@
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>130</width>
+                    <width>110</width>
                     <height>0</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>130</width>
+                    <width>110</width>
                     <height>16777215</height>
                    </size>
                   </property>
                   <property name="font">
                    <font>
                     <family>MS Gothic</family>
-                    <pointsize>20</pointsize>
+                    <pointsize>16</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
                    </font>
                   </property>
                   <property name="text">
                    <string>長月改</string>
                   </property>
                  </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_23">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                 <item>
                  <layout class="QFormLayout" name="formLayout_5">
@@ -702,14 +759,20 @@
               </item>
               <item>
                <layout class="QGridLayout" name="gridLayout_4">
+                <property name="topMargin">
+                 <number>2</number>
+                </property>
                 <property name="rightMargin">
                  <number>6</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>2</number>
                 </property>
                 <property name="horizontalSpacing">
                  <number>6</number>
                 </property>
                 <property name="verticalSpacing">
-                 <number>0</number>
+                 <number>2</number>
                 </property>
                 <item row="1" column="0">
                  <widget class="QLabel" name="label_5">
@@ -851,7 +914,7 @@
            <item row="2" column="0">
             <widget class="QGroupBox" name="fleetBox5">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -903,26 +966,41 @@
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>130</width>
+                    <width>110</width>
                     <height>0</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>130</width>
+                    <width>110</width>
                     <height>16777215</height>
                    </size>
                   </property>
                   <property name="font">
                    <font>
                     <family>MS Gothic</family>
-                    <pointsize>20</pointsize>
+                    <pointsize>16</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
                    </font>
                   </property>
                   <property name="text">
                    <string>天龍</string>
                   </property>
                  </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_25">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                 <item>
                  <layout class="QFormLayout" name="formLayout_6">
@@ -952,14 +1030,20 @@
               </item>
               <item>
                <layout class="QGridLayout" name="gridLayout_5">
+                <property name="topMargin">
+                 <number>2</number>
+                </property>
                 <property name="rightMargin">
                  <number>6</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>2</number>
                 </property>
                 <property name="horizontalSpacing">
                  <number>6</number>
                 </property>
                 <property name="verticalSpacing">
-                 <number>0</number>
+                 <number>2</number>
                 </property>
                 <item row="1" column="0">
                  <widget class="QLabel" name="label_84">
@@ -1104,7 +1188,7 @@
               <bool>true</bool>
              </property>
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -1156,26 +1240,41 @@
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>130</width>
+                    <width>110</width>
                     <height>0</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>130</width>
+                    <width>110</width>
                     <height>16777215</height>
                    </size>
                   </property>
                   <property name="font">
                    <font>
                     <family>MS Gothic</family>
-                    <pointsize>20</pointsize>
+                    <pointsize>16</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
                    </font>
                   </property>
                   <property name="text">
                    <string>天龍</string>
                   </property>
                  </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_26">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                 <item>
                  <layout class="QFormLayout" name="formLayout">
@@ -1205,14 +1304,20 @@
               </item>
               <item>
                <layout class="QGridLayout" name="gridLayout_6">
+                <property name="topMargin">
+                 <number>2</number>
+                </property>
                 <property name="rightMargin">
                  <number>6</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>2</number>
                 </property>
                 <property name="horizontalSpacing">
                  <number>6</number>
                 </property>
                 <property name="verticalSpacing">
-                 <number>0</number>
+                 <number>2</number>
                 </property>
                 <item row="1" column="3">
                  <widget class="QProgressBar" name="fleetFuelBar6">
@@ -1354,7 +1459,7 @@
            <item row="0" column="0">
             <widget class="QGroupBox" name="fleetBox1">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -1406,26 +1511,41 @@
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>130</width>
+                    <width>110</width>
                     <height>0</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>130</width>
+                    <width>110</width>
                     <height>16777215</height>
                    </size>
                   </property>
                   <property name="font">
                    <font>
                     <family>MS Gothic</family>
-                    <pointsize>20</pointsize>
+                    <pointsize>16</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
                    </font>
                   </property>
                   <property name="text">
                    <string>響改</string>
                   </property>
                  </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_24">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                 <item>
                  <layout class="QFormLayout" name="formLayout_4">
@@ -1455,14 +1575,20 @@
               </item>
               <item>
                <layout class="QGridLayout" name="gridLayout_3">
+                <property name="topMargin">
+                 <number>2</number>
+                </property>
                 <property name="rightMargin">
                  <number>6</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>2</number>
                 </property>
                 <property name="horizontalSpacing">
                  <number>6</number>
                 </property>
                 <property name="verticalSpacing">
-                 <number>0</number>
+                 <number>2</number>
                 </property>
                 <item row="0" column="1">
                  <widget class="QProgressBar" name="fleetHpBar1">
