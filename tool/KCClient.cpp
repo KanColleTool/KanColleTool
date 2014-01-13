@@ -35,6 +35,7 @@ SYNTHESIZE_RESPONSE_HANDLERS(MasterShips, masterShips)
 SYNTHESIZE_RESPONSE_HANDLERS(PlayerShips, ships)
 SYNTHESIZE_RESPONSE_HANDLERS(PlayerFleets, fleets)
 SYNTHESIZE_RESPONSE_HANDLERS(PlayerRepairs, repairDocks)
+SYNTHESIZE_RESPONSE_HANDLERS(PlayerConstructions, constructionDocks)
 
 // ------------------------------------------------------------------------- //
 
@@ -100,6 +101,12 @@ void KCClient::requestPlayerRepairs()
 	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onPlayerRepairsRequestFinished()));
 }
 
+void KCClient::requestPlayerConstructions()
+{
+	QNetworkReply *reply = this->call("/api_get_member/kdock");
+	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onPlayerConstructionsRequestFinished()));
+}
+
 QNetworkReply* KCClient::call(QString endpoint, QUrlQuery params)
 {
 #if kClientUseCache
@@ -117,6 +124,8 @@ QNetworkReply* KCClient::call(QString endpoint, QUrlQuery params)
 			_processPlayerFleetsData(response);
 		else if(endpoint == "/api_get_member/ndock")
 			_processPlayerRepairsData(response);
+		else if(endpoint == "/api_get_member/kdock")
+			_processPlayerConstructionsData(response);
 		
 		return 0;
 	}

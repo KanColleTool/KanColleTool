@@ -34,6 +34,7 @@ public:
 	QMap<int, KCShip*> ships;
 	QMap<int, KCFleet*> fleets;
 	QMap<int, KCDock*> repairDocks;
+	QMap<int, KCDock*> constructionDocks;
 	
 	bool hasCredentials();
 	
@@ -43,6 +44,7 @@ signals:
 	void receivedPlayerShips();
 	void receivedPlayerFleets();
 	void receivedPlayerRepairs();
+	void receivedPlayerConstructions();
 	void requestError(KCClient::ErrorCode error);
 	
 public slots:
@@ -52,18 +54,21 @@ public slots:
 	void requestPlayerShips();
 	void requestPlayerFleets();
 	void requestPlayerRepairs();
+	void requestPlayerConstructions();
 	
 protected slots:
 	void onMasterShipsRequestFinished();
 	void onPlayerShipsRequestFinished();
 	void onPlayerFleetsRequestFinished();
 	void onPlayerRepairsRequestFinished();
+	void onPlayerConstructionsRequestFinished();
 	
 protected:
 	void _processMasterShipsData(QVariant data);
 	void _processPlayerShipsData(QVariant data);
 	void _processPlayerFleetsData(QVariant data);
 	void _processPlayerRepairsData(QVariant data);
+	void _processPlayerConstructionsData(QVariant data);
 	
 	QNetworkReply* call(QString endpoint, QUrlQuery params = QUrlQuery());
 	QUrl urlForEndpoint(QString endpoint);

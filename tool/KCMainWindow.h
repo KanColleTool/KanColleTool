@@ -36,6 +36,7 @@ public slots:
 	void updateFleetsPage();
 	void updateShipsPage();
 	void updateRepairsPage();
+	void updateConstructionsPage();
 	
 private slots:
 	void onCredentialsGained();
@@ -43,6 +44,7 @@ private slots:
 	void onReceivedPlayerShips();
 	void onReceivedPlayerFleets();
 	void onReceivedPlayerRepairs();
+	void onReceivedPlayerConstructions();
 	void onRequestError(KCClient::ErrorCode error);
 	
 	void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);

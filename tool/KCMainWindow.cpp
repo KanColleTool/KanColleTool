@@ -82,6 +82,7 @@ void KCMainWindow::_setupClient()
 	connect(this->client, SIGNAL(receivedPlayerShips()), this, SLOT(onReceivedPlayerShips()));
 	connect(this->client, SIGNAL(receivedPlayerFleets()), this, SLOT(onReceivedPlayerFleets()));
 	connect(this->client, SIGNAL(receivedPlayerRepairs()), this, SLOT(onReceivedPlayerRepairs()));
+	connect(this->client, SIGNAL(receivedPlayerConstructions()), this, SLOT(onReceivedPlayerConstructions()));
 	connect(this->client, SIGNAL(requestError(KCClient::ErrorCode)), this, SLOT(onRequestError(KCClient::ErrorCode)));
 	
 	if(!this->client->hasCredentials())
@@ -265,6 +266,11 @@ void KCMainWindow::updateRepairsPage()
 	ui->repairsPage->setUpdatesEnabled(true);	
 }
 
+void KCMainWindow::updateConstructionsPage()
+{
+	qDebug() << "(Update Constructions Page)";
+}
+
 void KCMainWindow::onCredentialsGained()
 {
 	qDebug() << "Credentials Gained";
@@ -272,6 +278,7 @@ void KCMainWindow::onCredentialsGained()
 	this->client->requestPlayerShips();
 	this->client->requestPlayerFleets();
 	this->client->requestPlayerRepairs();
+	this->client->requestPlayerConstructions();
 }
 
 void KCMainWindow::onReceivedMasterShips()
@@ -305,6 +312,12 @@ void KCMainWindow::onReceivedPlayerRepairs()
 {
 	qDebug() << "Received Player Repairs Data" << client->repairDocks.size();
 	updateRepairsPage();
+}
+
+void KCMainWindow::onReceivedPlayerConstructions()
+{
+	qDebug() << "Received Player Constructions Data" << client->constructionDocks.size();
+	updateConstructionsPage();
 }
 
 void KCMainWindow::onRequestError(KCClient::ErrorCode error)
@@ -378,6 +391,7 @@ void KCMainWindow::on_actionRefresh_triggered()
     client->requestPlayerShips();
 	client->requestPlayerFleets();
 	client->requestPlayerRepairs();
+	client->requestPlayerConstructions();
 }
 
 void KCMainWindow::on_fleetsTabBar_currentChanged(int index)
