@@ -290,7 +290,15 @@ void KCMainWindow::onReceivedPlayerShips()
 void KCMainWindow::onReceivedPlayerFleets()
 {
 	qDebug() << "Received Player Fleet Data" << client->fleets.size();
-	updateFleetsPage();
+	
+	// If we're on an active tab, update it
+	if(ui->fleetsTabBar->currentIndex() < client->fleets.size())
+		updateFleetsPage();
+	
+	// Disable locked fleets; if the user is on an invalid page, this will
+	// move them to Fleet #1, and trigger updateFleetsPage from currentChanged
+	for(int i = 0; i < ui->fleetsTabBar->count(); i++)
+		ui->fleetsTabBar->setTabEnabled(i, i < client->fleets.size());
 }
 
 void KCMainWindow::onReceivedPlayerRepairs()
