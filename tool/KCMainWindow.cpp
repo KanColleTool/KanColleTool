@@ -268,7 +268,71 @@ void KCMainWindow::updateRepairsPage()
 
 void KCMainWindow::updateConstructionsPage()
 {
-	qDebug() << "(Update Constructions Page)";
+	// Whee copypaste!
+	
+	ui->constructionPage->setUpdatesEnabled(false);
+	
+	int i = 0;
+	foreach(KCDock *dock, client->constructionDocks)
+	{
+		QString iS = QString::number(i+1);
+		QGroupBox *box = findChild<QGroupBox*>(QString("constructionBox") + iS);
+		QLabel *nameLabel = findChild<QLabel*>(QString("constructionName") + iS);
+		QLabel *readingLabel = findChild<QLabel*>(QString("constructionReading") + iS);
+		QLabel *buildTimerLabel = findChild<QLabel*>(QString("constructionTimer") + iS);
+		QCheckBox *spoilCheckbox = findChild<QCheckBox*>(QString("constructionSpoil") + iS);
+		
+		qDebug() << "Construction" << i << dock->state << dock->shipID;
+		
+		if(dock->state == KCDock::Locked)
+		{
+			box->setEnabled(false);
+			nameLabel->setText("(Locked)");
+			readingLabel->setText("");
+			buildTimerLabel->setText("");
+			spoilCheckbox->hide();
+		}
+		else if(dock->state == KCDock::Empty)
+		{
+			box->setEnabled(true);
+			nameLabel->setText("(Empty)");
+			readingLabel->setText("");
+			buildTimerLabel->setText("0:00:00");
+			spoilCheckbox->hide();
+			spoilCheckbox->setChecked(false);	// Uncheck it!
+		}
+		else if(dock->state == KCDock::Occupied)
+		{
+			box->setEnabled(true);
+			
+			if(spoilCheckbox->isChecked())
+			{
+				KCShipMaster *ship = client->masterShips[dock->shipID];
+				if(ship)
+				{
+					nameLabel->setText(ship->name);
+					readingLabel->setText(ship->reading);
+				}
+				else
+				{
+					nameLabel->setText("...");
+					readingLabel->setText("Loading...");
+				}
+			}
+			else
+			{
+				nameLabel->setText("???");
+				readingLabel->setText("");
+			}
+			
+			buildTimerLabel->setText(dock->complete.toString("HH:mm:ss"));
+			spoilCheckbox->show();
+		}
+		
+		++i;
+	}
+	
+	ui->constructionPage->setUpdatesEnabled(true);
 }
 
 void KCMainWindow::onCredentialsGained()
