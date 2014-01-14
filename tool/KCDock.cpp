@@ -33,6 +33,7 @@ void KCDock::loadFrom(QVariantMap data)
 	QString completeStr;
 	extract(data, completeStr, "api_complete_time_str");
 	complete = QDateTime::fromString(completeStr, "yyyy-MM-dd HH:mm:ss");
+	complete.setOffsetFromUtc(9*60*60);		// The date is local to JST (UTC+9)
 	// int api_item1 Fuel used
 	extract(data, fuel, "api_item1");
 	// int api_item2 Ammo used

@@ -266,9 +266,12 @@ void KCMainWindow::updateRepairsPage()
 			if(!ship)
 				continue;
 			
+			qint64 msecsUntilCompletion = dock->complete.toMSecsSinceEpoch() - QDateTime::currentMSecsSinceEpoch();
+			QTime completionDelta = QTime::fromMSecsSinceStartOfDay(msecsUntilCompletion);
+			
 			nameLabel->setText(ship->name);
 			readingLabel->setText(ship->reading);
-			repairTimerLabel->setText(dock->complete.toString("HH:mm:ss"));
+			repairTimerLabel->setText(completionDelta.toString("HH:mm:ss"));
 		}
 		
 		++i;
@@ -334,7 +337,10 @@ void KCMainWindow::updateConstructionsPage()
 				readingLabel->setText("");
 			}
 			
-			buildTimerLabel->setText(dock->complete.toString("HH:mm:ss"));
+			qint64 msecsUntilCompletion = dock->complete.toMSecsSinceEpoch() - QDateTime::currentMSecsSinceEpoch();
+			QTime completionDelta = QTime::fromMSecsSinceStartOfDay(msecsUntilCompletion);
+			
+			buildTimerLabel->setText(completionDelta.toString("HH:mm:ss"));
 			spoilCheckbox->show();
 		}
 		
