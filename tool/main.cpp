@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 	// Setup some version stuff; this lets us use the default QSettings
 	// constructor anywhere, without having to specify this over and over
 	QCoreApplication::setApplicationName("KanColleTool");
-	QCoreApplication::setApplicationVersion("0.3.0");
+	QCoreApplication::setApplicationVersion("0.4.0");
 	QCoreApplication::setOrganizationName("MacaroniCode");
 
 	QStringList args = QCoreApplication::arguments();
