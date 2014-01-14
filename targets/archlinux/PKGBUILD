@@ -1,6 +1,6 @@
 # Maintainer: Johannes Ekberg <uppfinnarn@gmail.com>
 pkgname=kancolletool-git
-pkgver=0.3
+pkgver=0.0.0
 pkgrel=1
 epoch=
 pkgdesc="Makes KanColle better"
