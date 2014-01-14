@@ -29,5 +29,5 @@ cd ..
 
 # Make a DMG of it all
 hdiutil create "tmp.dmg" -ov -volname "KanColleTool" -fs "HFS+" -srcfolder dist
-hdiutil convert "tmp.dmg" -format "UDZO" -o "KanColleTool.dmg"
+hdiutil convert "tmp.dmg" -format "UDZO" -o "dist/KanColleTool.dmg"
 rm -f tmp.dmg
