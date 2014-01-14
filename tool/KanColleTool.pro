@@ -12,7 +12,8 @@ TEMPLATE = app
 CONFIG += c++11
 
 QMAKE_INFO_PLIST = Info.plist
-RC_FILE = KanCOlleTool.rc
+RC_FILE = KanColleTool.rc
+ICON = KanColleTool.icns
 
 macx {
 	LIBS += -framework Carbon -lobjc

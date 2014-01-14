@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>icon.png</file>
+        <file>KanColleTool.png</file>
     </qresource>
 </RCC>
