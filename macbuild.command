@@ -7,12 +7,13 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 # Remove old dists
 rm -rf dist
 mkdir dist
+mkdir dist/KanColleTool
 
 # Build macviewer
 cd macviewer/KCTViewer
 rm -r build
 xcodebuild -target KCTViewer -configuration Release
-cp -R build/Release/KCTViewer.app ../../dist/
+cp -R build/Release/KCTViewer.app ../../dist/KanColleTool/
 rm -rf build
 cd ../..
 
@@ -22,12 +23,12 @@ rm -rf KanColleTool.app
 qmake
 make
 macdeployqt KanColleTool.app
-cp -R KanColleTool.app ../dist/
+cp -R KanColleTool.app ../dist/KanColleTool/
 make clean
 rm -rf KanColleTool.app
 cd ..
 
 # Make a DMG of it all
-hdiutil create "tmp.dmg" -ov -volname "KanColleTool" -fs "HFS+" -srcfolder dist
+hdiutil create "tmp.dmg" -ov -volname "KanColleTool" -fs "HFS+" -srcfolder dist/KanColleTool
 hdiutil convert "tmp.dmg" -format "UDZO" -o "dist/KanColleTool.dmg"
 rm -f tmp.dmg
