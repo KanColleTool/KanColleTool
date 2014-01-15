@@ -23,6 +23,9 @@
 	// No, we don't want the web view to scroll just a few pixels up and down.
 	[self.webView.mainFrame.frameView setAllowsScrolling:NO];
 	
+	// Treat the web view as a web browser; this makes it cache a whole lot more
+	[self.webView.preferences setCacheModel:WebCacheModelPrimaryWebBrowser];
+	
 	// Set up a cache; without this, loading the game will be slow as hell
 	NSURLCache *cache = [[NSURLCache alloc] initWithMemoryCapacity:20 * 1024 * 1024
 													  diskCapacity:100 * 1024 * 1024
