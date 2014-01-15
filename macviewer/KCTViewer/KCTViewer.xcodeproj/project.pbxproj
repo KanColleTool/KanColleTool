@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		226F33B51886B55000FAF389 /* KVHTTPProtocol.mm in Sources */ = {isa = PBXBuildFile; fileRef = 226F33B41886B55000FAF389 /* KVHTTPProtocol.mm */; };
 		2272E59E186E05CA009357C4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2272E59D186E05CA009357C4 /* Cocoa.framework */; };
 		2272E5A8186E05CA009357C4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2272E5A6186E05CA009357C4 /* InfoPlist.strings */; };
 		2272E5AA186E05CA009357C4 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2272E5A9186E05CA009357C4 /* main.mm */; };
@@ -34,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		226F33B31886B55000FAF389 /* KVHTTPProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KVHTTPProtocol.h; sourceTree = "<group>"; };
+		226F33B41886B55000FAF389 /* KVHTTPProtocol.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KVHTTPProtocol.mm; sourceTree = "<group>"; };
 		2272E59A186E05CA009357C4 /* KCTViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KCTViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2272E59D186E05CA009357C4 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2272E5A0186E05CA009357C4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -126,6 +129,8 @@
 			children = (
 				2272E5AF186E05CA009357C4 /* KVAppDelegate.h */,
 				2272E5B0186E05CA009357C4 /* KVAppDelegate.mm */,
+				226F33B31886B55000FAF389 /* KVHTTPProtocol.h */,
+				226F33B41886B55000FAF389 /* KVHTTPProtocol.mm */,
 				2272E5D3186E182F009357C4 /* NSURL+KVUtil.h */,
 				2272E5D4186E182F009357C4 /* NSURL+KVUtil.mm */,
 				2272E5B2186E05CA009357C4 /* MainMenu.xib */,
@@ -269,6 +274,7 @@
 				2272E5AA186E05CA009357C4 /* main.mm in Sources */,
 				2272E5D5186E182F009357C4 /* NSURL+KVUtil.mm in Sources */,
 				2272E5B1186E05CA009357C4 /* KVAppDelegate.mm in Sources */,
+				226F33B51886B55000FAF389 /* KVHTTPProtocol.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,6 +408,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KCTViewer/KCTViewer-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(SRCROOT)/../../lib/HTTP-Proxy/deps/asio-1.10.1/include\"",
+				);
 				INFOPLIST_FILE = "KCTViewer/KCTViewer-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -417,6 +428,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KCTViewer/KCTViewer-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(SRCROOT)/../../lib/HTTP-Proxy/deps/asio-1.10.1/include\"",
+				);
 				INFOPLIST_FILE = "KCTViewer/KCTViewer-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
