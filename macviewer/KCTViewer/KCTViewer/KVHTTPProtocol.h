@@ -11,6 +11,7 @@
 @interface KVHTTPProtocol : NSURLProtocol <NSURLConnectionDelegate,NSURLConnectionDataDelegate>
 
 @property (nonatomic, strong) NSURLConnection *connection;
+@property (nonatomic, strong) NSMutableData *buffer;
 
 - (id)initWithRequest:(NSURLRequest *)request cachedResponse:(NSCachedURLResponse *)cachedResponse client:(id<NSURLProtocolClient>)client;
 + (BOOL)canInitWithRequest:(NSURLRequest *)request;

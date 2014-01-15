@@ -39,7 +39,9 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-	[self.client URLProtocol:self didLoadData:data];
+	//[self.client URLProtocol:self didLoadData:data];
+	if(!self.buffer) self.buffer = [[NSMutableData alloc] initWithData:data];
+	else [self.buffer appendData:data];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -50,11 +52,24 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
+	// In the case of multipart requests, this may be called several times, in which case the
+	// docs say we should empty the buffer before delivering the new response.
+	if([self.buffer length] > 0)
+	{
+		[self.client URLProtocol:self didLoadData:self.buffer];
+		self.buffer = nil;
+	}
+	
 	[self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+	// Deliver buffered data
+	[self.client URLProtocol:self didLoadData:self.buffer];
+	self.buffer = nil;
+	
+	// Tell the client the request is finished
 	[self.client URLProtocolDidFinishLoading:self];
 	self.connection = nil;
 }
