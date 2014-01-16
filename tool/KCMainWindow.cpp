@@ -215,6 +215,12 @@ void KCMainWindow::updateFleetsPage()
 	ui->fleetsPage->setUpdatesEnabled(true);
 }
 
+#define TABLE_SET_ITEM(_table, _row, _col, _value) \
+	{\
+		QTableWidgetItem *item = new QTableWidgetItem(); \
+		item->setData(Qt::EditRole, _value); \
+		_table->setItem(_row, _col, item); \
+	}
 void KCMainWindow::updateShipsPage()
 {
 	ui->shipsPage->setUpdatesEnabled(false);
@@ -225,7 +231,7 @@ void KCMainWindow::updateShipsPage()
 	int row = 0;
 	foreach(KCShip *ship, client->ships)
 	{
-		ui->shipsTable->setItem(row, 0, new QTableWidgetItem(QString::number(ship->level)));
+		/*ui->shipsTable->setItem(row, 0, new QTableWidgetItem(QString::number(ship->level)));
 		ui->shipsTable->setItem(row, 1, new QTableWidgetItem(QString::number(ship->maxHp)));
 		ui->shipsTable->setItem(row, 2, new QTableWidgetItem(QString::number(ship->firepower.cur)));
 		ui->shipsTable->setItem(row, 3, new QTableWidgetItem(QString::number(ship->torpedo.cur)));
@@ -233,7 +239,17 @@ void KCMainWindow::updateShipsPage()
 		ui->shipsTable->setItem(row, 5, new QTableWidgetItem(QString::number(ship->antiair.cur)));
 		ui->shipsTable->setItem(row, 6, new QTableWidgetItem(QString::number(ship->antisub.cur)));
 		ui->shipsTable->setItem(row, 7, new QTableWidgetItem(QString::number(ship->speed)));
-		ui->shipsTable->setItem(row, 8, new QTableWidgetItem(QString("%1 (%2)").arg(ship->name, ship->reading)));
+		ui->shipsTable->setItem(row, 8, new QTableWidgetItem(QString("%1 (%2)").arg(ship->name, ship->reading)));*/
+		
+		TABLE_SET_ITEM(ui->shipsTable, row, 0, ship->level);
+		TABLE_SET_ITEM(ui->shipsTable, row, 1, ship->maxHp);
+		TABLE_SET_ITEM(ui->shipsTable, row, 2, ship->firepower.cur);
+		TABLE_SET_ITEM(ui->shipsTable, row, 3, ship->torpedo.cur);
+		TABLE_SET_ITEM(ui->shipsTable, row, 4, ship->evasion.cur);
+		TABLE_SET_ITEM(ui->shipsTable, row, 5, ship->antiair.cur);
+		TABLE_SET_ITEM(ui->shipsTable, row, 6, ship->antisub.cur);
+		TABLE_SET_ITEM(ui->shipsTable, row, 7, ship->speed);
+		TABLE_SET_ITEM(ui->shipsTable, row, 8, QString("%1 (%2)").arg(ship->name, ship->reading));
 		
 		++row;
 	}
