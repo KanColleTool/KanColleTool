@@ -12,6 +12,7 @@ TEMPLATE = app
 CONFIG += c++11
 
 RC_FILE = KCTViewer.rc
+VERSION = 0.5.0
 
 SOURCES += main.cpp \
 	KVMainWindow.cpp \
