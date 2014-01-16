@@ -106,9 +106,14 @@ void KCMainWindow::_setupClient()
 	connect(client, SIGNAL(dockCompleted(KCDock *)), this, SLOT(onDockCompleted(KCDock *)));
 	
 	if(!client->hasCredentials())
+	{
 		this->askForAPILink();
-	else
-		this->onCredentialsGained();
+		
+		// Quit if the user pressed Cancel, instead of erroring out
+		if(!client->hasCredentials())
+			qApp->quit();
+	}
+	else this->onCredentialsGained();
 }
 
 bool KCMainWindow::isApplicationActive()
