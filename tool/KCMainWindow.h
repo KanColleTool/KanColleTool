@@ -5,6 +5,7 @@
 #include <QMenu>
 #include <QSystemTrayIcon>
 #include <QPointer>
+#include <QTimer>
 #include "KCClient.h"
 
 namespace Ui {
@@ -37,6 +38,7 @@ public slots:
 	void updateShipsPage();
 	void updateRepairsPage();
 	void updateConstructionsPage();
+	void updateTimers();
 	
 private slots:
 	void onCredentialsGained();
@@ -62,6 +64,7 @@ private:
 	
 	QSystemTrayIcon *trayIcon;
 	QMenu *trayMenu;
+	QTimer timerUpdateTimer;
 	
 	KCClient *client;
 	

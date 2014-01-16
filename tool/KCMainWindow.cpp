@@ -10,6 +10,7 @@
 #include "KCShipMaster.h"
 #include "KCDock.h"
 #include "KCMacUtils.h"
+#include "KCUtil.h"
 
 KCMainWindow::KCMainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -21,6 +22,10 @@ KCMainWindow::KCMainWindow(QWidget *parent) :
 	this->_setupClient();
 	this->_setupTrayIcon();
 	this->_setupUI();
+	
+	// Make a timer that updates the dock timers, with a 1sec interval
+	connect(&timerUpdateTimer, SIGNAL(timeout()), this, SLOT(updateTimers()));
+	timerUpdateTimer.start(1000);
 	
 	// Set the Fleets page regardless of what the UI file says.
 	// (This saves me from accidentally releasing a version with the wrong
@@ -266,12 +271,9 @@ void KCMainWindow::updateRepairsPage()
 			if(!ship)
 				continue;
 			
-			qint64 msecsUntilCompletion = dock->complete.toMSecsSinceEpoch() - QDateTime::currentMSecsSinceEpoch();
-			QTime completionDelta = QTime::fromMSecsSinceStartOfDay(msecsUntilCompletion);
-			
 			nameLabel->setText(ship->name);
 			readingLabel->setText(ship->reading);
-			repairTimerLabel->setText(completionDelta.toString("HH:mm:ss"));
+			repairTimerLabel->setText(delta(dock->complete).toString("HH:mm:ss"));
 		}
 		
 		++i;
@@ -337,10 +339,7 @@ void KCMainWindow::updateConstructionsPage()
 				readingLabel->setText("");
 			}
 			
-			qint64 msecsUntilCompletion = dock->complete.toMSecsSinceEpoch() - QDateTime::currentMSecsSinceEpoch();
-			QTime completionDelta = QTime::fromMSecsSinceStartOfDay(msecsUntilCompletion);
-			
-			buildTimerLabel->setText(completionDelta.toString("HH:mm:ss"));
+			buildTimerLabel->setText(delta(dock->complete).toString("HH:mm:ss"));
 			spoilCheckbox->show();
 		}
 		
@@ -348,6 +347,37 @@ void KCMainWindow::updateConstructionsPage()
 	}
 	
 	ui->constructionPage->setUpdatesEnabled(true);
+}
+
+void KCMainWindow::updateTimers()
+{
+	// Repair Docks
+	{
+		int i = 0;
+		foreach(KCDock *dock, client->repairDocks)
+		{
+			if(dock->state != KCDock::Occupied)
+				continue;
+			
+			QLabel *label = findChild<QLabel*>(QString("repairTimer") + QString::number(i+1));
+			label->setText(delta(dock->complete).toString("HH:mm:ss"));
+			++i;
+		}
+	}
+	
+	// Construction Docks
+	{
+		int i = 0;
+		foreach(KCDock *dock, client->constructionDocks)
+		{
+			if(dock->state != KCDock::Occupied)
+				continue;
+			
+			QLabel *label = findChild<QLabel*>(QString("constructionTimer") + QString::number(i+1));
+			label->setText(delta(dock->complete).toString("HH:mm:ss"));
+			++i;
+		}
+	}
 }
 
 void KCMainWindow::onCredentialsGained()
