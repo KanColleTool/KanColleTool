@@ -12,7 +12,6 @@
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
-	// Only intercept HTTP requests that start with "/kcsapi".
 	return [request.URL.scheme isEqualToString:@"http"] && ![[self class] propertyForKey:@"_handled" inRequest:request];
 }
 
@@ -29,6 +28,7 @@
 - (void)startLoading
 {
 	[[self class] setProperty:[NSNumber numberWithBool:YES] forKey:@"_handled" inRequest:(NSMutableURLRequest*)self.request];
+	self.interesting = [self.request.URL.path hasPrefix:@"/kcsapi"];
 	self.connection = [NSURLConnection connectionWithRequest:self.request delegate:self];
 }
 
@@ -39,9 +39,11 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-	//[self.client URLProtocol:self didLoadData:data];
-	if(!self.buffer) self.buffer = [[NSMutableData alloc] initWithData:data];
-	else [self.buffer appendData:data];
+	if(!self.interesting)
+		[self.client URLProtocol:self didLoadData:data];
+	else
+		if(!self.buffer) self.buffer = [[NSMutableData alloc] initWithData:data];
+		else [self.buffer appendData:data];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -57,6 +59,8 @@
 	if([self.buffer length] > 0)
 		[self deliverResponse];
 	
+	for(NSString *key in [(NSHTTPURLResponse*)response allHeaderFields])
+		NSLog(@"%@ : %@", key, [[(NSHTTPURLResponse*)response allHeaderFields] objectForKey:key]);
 	[self.client URLProtocol:self didReceiveResponse:response
 		  cacheStoragePolicy:([self.request.URL.path hasPrefix:@"/kcsapi"] ? NSURLCacheStorageNotAllowed : NSURLCacheStorageAllowed)];
 }
@@ -73,8 +77,11 @@
 
 - (void)deliverResponse
 {
-	[self.client URLProtocol:self didLoadData:self.buffer];
-	self.buffer = nil;
+	if(self.buffer)
+	{
+		[self.client URLProtocol:self didLoadData:self.buffer];
+		self.buffer = nil;
+	}
 }
 
 @end
