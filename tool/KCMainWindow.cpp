@@ -103,6 +103,7 @@ void KCMainWindow::_setupClient()
 	connect(client, SIGNAL(receivedPlayerRepairs()), this, SLOT(onReceivedPlayerRepairs()));
 	connect(client, SIGNAL(receivedPlayerConstructions()), this, SLOT(onReceivedPlayerConstructions()));
 	connect(client, SIGNAL(requestError(KCClient::ErrorCode)), this, SLOT(onRequestError(KCClient::ErrorCode)));
+	connect(client, SIGNAL(dockCompleted(KCDock *)), this, SLOT(onDockCompleted(KCDock *)));
 	
 	if(!client->hasCredentials())
 		this->askForAPILink();
@@ -273,7 +274,7 @@ void KCMainWindow::updateRepairsPage()
 			
 			nameLabel->setText(ship->name);
 			readingLabel->setText(ship->reading);
-			repairTimerLabel->setText(delta(dock->complete).toString("HH:mm:ss"));
+			repairTimerLabel->setText(delta(dock->complete).toString("H:mm:ss"));
 		}
 		
 		++i;
@@ -339,7 +340,7 @@ void KCMainWindow::updateConstructionsPage()
 				readingLabel->setText("");
 			}
 			
-			buildTimerLabel->setText(delta(dock->complete).toString("HH:mm:ss"));
+			buildTimerLabel->setText(delta(dock->complete).toString("H:mm:ss"));
 			spoilCheckbox->show();
 		}
 		
@@ -356,11 +357,11 @@ void KCMainWindow::updateTimers()
 		int i = 0;
 		foreach(KCDock *dock, client->repairDocks)
 		{
-			if(dock->state != KCDock::Occupied)
-				continue;
-			
-			QLabel *label = findChild<QLabel*>(QString("repairTimer") + QString::number(i+1));
-			label->setText(delta(dock->complete).toString("HH:mm:ss"));
+			if(dock->state == KCDock::Occupied)
+			{
+				QLabel *label = findChild<QLabel*>(QString("repairTimer") + QString::number(i+1));
+				label->setText(delta(dock->complete).toString("H:mm:ss"));
+			}
 			++i;
 		}
 	}
@@ -370,11 +371,11 @@ void KCMainWindow::updateTimers()
 		int i = 0;
 		foreach(KCDock *dock, client->constructionDocks)
 		{
-			if(dock->state != KCDock::Occupied)
-				continue;
-			
-			QLabel *label = findChild<QLabel*>(QString("constructionTimer") + QString::number(i+1));
-			label->setText(delta(dock->complete).toString("HH:mm:ss"));
+			if(dock->state == KCDock::Occupied)
+			{
+				QLabel *label = findChild<QLabel*>(QString("constructionTimer") + QString::number(i+1));
+				label->setText(delta(dock->complete).toString("H:mm:ss"));
+			}
 			++i;
 		}
 	}
@@ -457,6 +458,30 @@ void KCMainWindow::onTrayIconActivated(QSystemTrayIcon::ActivationReason reason)
 	if(reason != QSystemTrayIcon::Context)
 		this->toggleApplication();
 #endif
+}
+
+void KCMainWindow::onDockCompleted(KCDock *dock)
+{
+	if(dock->isConstruction)
+	{
+		KCShipMaster *shipMaster = client->masterShips[dock->shipID];
+		if(shipMaster)
+			trayIcon->showMessage("Construction Completed!",
+				QString("Say hello to %1 (%2)!").arg(shipMaster->name, shipMaster->reading));
+		else
+			trayIcon->showMessage("Construction Completed!",
+				QString("Say hello to your new shipgirl!"));
+	}
+	else
+	{
+		KCShip *ship = client->ships[dock->shipID];
+		if(ship)
+			trayIcon->showMessage("Repair Completed!",
+				QString("%1 (%2) is all healthy again!").arg(ship->name, ship->reading));
+		else
+			trayIcon->showMessage("Repair Completed!",
+				QString("Your shipgirl is all healthy again!"));
+	}
 }
 
 void KCMainWindow::on_actionFleets_triggered()

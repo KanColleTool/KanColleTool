@@ -1,12 +1,24 @@
 #include "KCDock.h"
 #include "KCWrapperUtils.h"
+#include "KCUtil.h"
+#include "KCClient.h"
+#include <QDebug>
 
 KCDock::KCDock(QObject *parent) : KCDock(QVariantMap(), parent) {}
 
 KCDock::KCDock(QVariantMap data, QObject *parent):
 	QObject(parent)
 {
+	timer.setSingleShot(true);
+	connect(&timer, SIGNAL(timeout()), this, SLOT(onTimeout()));
 	loadFrom(data);
+}
+
+KCDock::KCDock(KCClient *parent) : KCDock(QVariantMap(), parent) {}
+
+KCDock::KCDock(QVariantMap data, KCClient *parent) : KCDock(data, (QObject*)parent)
+{
+	connect(this, SIGNAL(completed()), parent, SLOT(onDockCompleted()));
 }
 
 KCDock::~KCDock()
@@ -25,9 +37,15 @@ void KCDock::loadFrom(QVariantMap data)
 	// - or -
 	// int api_created_ship_id ID of the ship that will be created
 	if(data.contains("api_ship_id"))
+	{
 		extract(data, shipID, "api_ship_id");
+		isConstruction = false;
+	}
 	else
+	{
 		extract(data, shipID, "api_created_ship_id");
+		isConstruction = true;
+	}
 	// int api_complete_time ??? (definitely not a timestamp...)
 	// string api_complete_time_str When it'll be complete, YYYY-MM-DD HH:MM:SS
 	QString completeStr;
@@ -42,4 +60,14 @@ void KCDock::loadFrom(QVariantMap data)
 	extract(data, steel, "api_item3");
 	// int api_item4 Bauxite used
 	extract(data, baux, "api_item4");
+	
+	// Start the timer
+	if(state == Occupied)
+		timer.start(complete.toMSecsSinceEpoch() - QDateTime::currentMSecsSinceEpoch());
+}
+
+void KCDock::onTimeout()
+{
+	state = (isConstruction ? Finished : Empty);
+	emit completed();
 }

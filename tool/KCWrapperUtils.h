@@ -48,8 +48,8 @@ inline void extractCount(const QVariantMap &source, int& dest, const QString &ke
 /*
  * Extract or update data from an API response into a QMap<int, modelT*>&
  */
-template<class modelT>
-inline void modelizeResponse(const QVariant &data, QMap<int, modelT*> &target, QString idKey = "api_id")
+template<class modelT, class parentT>
+inline void modelizeResponse(const QVariant &data, QMap<int, modelT*> &target, parentT *parent, QString idKey = "api_id")
 {
 	QList<QVariant> dataList = data.toList();
 	foreach(QVariant item, dataList)
@@ -58,7 +58,7 @@ inline void modelizeResponse(const QVariant &data, QMap<int, modelT*> &target, Q
 		modelT *ship = target.value(itemMap.value(idKey).toInt());
 		
 		if(!ship)
-			target.insert(itemMap.value(idKey).toInt(), new modelT(itemMap));
+			target.insert(itemMap.value(idKey).toInt(), new modelT(itemMap, parent));
 		else
 			ship->loadFrom(itemMap);
 	}

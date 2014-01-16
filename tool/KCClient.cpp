@@ -19,7 +19,7 @@
  */
 #define SYNTHESIZE_RESPONSE_HANDLERS(_id_, _var_) \
 	void KCClient::_process##_id_##Data(QVariant data) { \
-		modelizeResponse(data, _var_); \
+		modelizeResponse(data, _var_, this); \
 		emit received##_id_(); \
 	} \
 	void KCClient::on##_id_##RequestFinished() \
@@ -105,6 +105,11 @@ void KCClient::requestPlayerConstructions()
 {
 	QNetworkReply *reply = this->call("/api_get_member/kdock");
 	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onPlayerConstructionsRequestFinished()));
+}
+
+void KCClient::onDockCompleted()
+{
+	emit dockCompleted(qobject_cast<KCDock*>(QObject::sender()));
 }
 
 QNetworkReply* KCClient::call(QString endpoint, QUrlQuery params)

@@ -50,6 +50,7 @@ private slots:
 	void onRequestError(KCClient::ErrorCode error);
 	
 	void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
+	void onDockCompleted(KCDock *dock);
 	
 	void on_actionFleets_triggered();
 	void on_actionShips_triggered();
