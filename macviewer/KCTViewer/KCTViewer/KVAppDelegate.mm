@@ -53,8 +53,6 @@
 		[self loadBundledIndex];
 	}
 	
-	NSLog(@"%lu", (unsigned long)[[NSURLCache sharedURLCache] diskCapacity]);
-	
 	NSLog(@"Server: %@", self.server);
 	NSLog(@"API Token: %@", self.apiToken);
 	NSLog(@"API Link: %@", self.apiLink);
@@ -75,6 +73,34 @@
 	{
 		[[self.webView mainFrame] loadHTMLString:html baseURL:self.apiLink];
 	}
+}
+
+- (void)loadJS
+{
+	if(!self.jsUtils)
+		self.jsUtils = [[KVJSUtils alloc] init];
+	
+	[self.jsUtils attachToScriptObject:self.webView.windowScriptObject];
+	[self loadScript:@"esc"];
+}
+
+- (WebScriptObject *)loadScript:(NSString *)name
+{
+	NSString *path = [[NSBundle mainBundle] pathForResource:name ofType:@"js"];
+	if(!path)
+	{
+		[NSAlert alertWithMessageText:@"Couldn't find JS File" defaultButton:@"Ok" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Looks like we couldn't find %@.js... This will most likely break things.\nIf you have the file conveniently at hand, please put it in my /Contents/Resources folder and restart.", name];
+	}
+	
+	NSError *error = nil;
+	NSString *js = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+	
+	if(error)
+	{
+		[[NSAlert alertWithError:error] runModal];
+		return nil;
+	}
+	else return [self.webView.windowScriptObject evaluateWebScript:js];
 }
 
 - (void)actionEnterAPILink:(id)sender
@@ -125,6 +151,7 @@
 
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
 {
+	[self loadJS];
 	[self updateBrowserLink];
 }
 

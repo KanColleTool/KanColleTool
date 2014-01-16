@@ -20,4 +20,6 @@
 - (void)startLoading;
 - (void)stopLoading;
 
+- (void)deliverResponse;
+
 @end

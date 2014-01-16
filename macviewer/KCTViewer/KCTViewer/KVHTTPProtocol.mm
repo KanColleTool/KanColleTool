@@ -13,7 +13,7 @@
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
 	// Only intercept HTTP requests that start with "/kcsapi".
-	return [request.URL.scheme isEqualToString:@"http"] && [request.URL.path hasPrefix:@"/kcsapi"] && ![[self class] propertyForKey:@"_handled" inRequest:request];
+	return [request.URL.scheme isEqualToString:@"http"] && ![[self class] propertyForKey:@"_handled" inRequest:request];
 }
 
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request
@@ -55,23 +55,26 @@
 	// In the case of multipart requests, this may be called several times, in which case the
 	// docs say we should empty the buffer before delivering the new response.
 	if([self.buffer length] > 0)
-	{
-		[self.client URLProtocol:self didLoadData:self.buffer];
-		self.buffer = nil;
-	}
+		[self deliverResponse];
 	
-	[self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+	[self.client URLProtocol:self didReceiveResponse:response
+		  cacheStoragePolicy:([self.request.URL.path hasPrefix:@"/kcsapi"] ? NSURLCacheStorageNotAllowed : NSURLCacheStorageAllowed)];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
 	// Deliver buffered data
-	[self.client URLProtocol:self didLoadData:self.buffer];
-	self.buffer = nil;
+	[self deliverResponse];
 	
 	// Tell the client the request is finished
 	[self.client URLProtocolDidFinishLoading:self];
 	self.connection = nil;
+}
+
+- (void)deliverResponse
+{
+	[self.client URLProtocol:self didLoadData:self.buffer];
+	self.buffer = nil;
 }
 
 @end
