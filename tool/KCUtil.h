@@ -1,13 +1,24 @@
 #ifndef KCUTIL_H
 #define KCUTIL_H
 
+inline
+int currentTimezoneOffset()
+{
+	// Take the current time in UTC, make a localtime copy of it, set the UTC
+	// version to localtime to break timezone compensation and get the seconds
+	// between the two, now different, but comparable, datetimes.
+	QDateTime utc(QDateTime::currentDateTimeUtc());
+	QDateTime local(utc.toLocalTime());
+	utc.setTimeSpec(Qt::LocalTime);
+	return utc.secsTo(local);
+}
+
 // This would be provided by QDateTime::setOffsetFromUtc(), but because I
 // suddenly have to support Qt 5.0, here we go reimplementing it!
 inline
 QDateTime adjustDateTimeForTimezoneOffset(const QDateTime &dt, int offset)
 {
-	// Simply convert the datetime given to UTC, then add Xsec to that.
-	return dt.toUTC().addSecs(-offset).toLocalTime();
+	return dt.toUTC().addSecs(-(offset - currentTimezoneOffset())).toLocalTime();
 }
 
 inline
