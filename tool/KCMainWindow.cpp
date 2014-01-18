@@ -274,12 +274,12 @@ void KCMainWindow::updateRepairsPage()
 		{
 			box->setEnabled(true);
 			KCShip *ship = client->ships[dock->shipID];
-			if(!ship)
-				continue;
-			
-			nameLabel->setText(ship->name);
-			readingLabel->setText(ship->reading);
-			repairTimerLabel->setText(delta(dock->complete).toString("H:mm:ss"));
+			if(ship)
+			{
+				nameLabel->setText(ship->name);
+				readingLabel->setText(ship->reading);
+				repairTimerLabel->setText(delta(dock->complete).toString("H:mm:ss"));
+			}
 		}
 		
 		++i;
