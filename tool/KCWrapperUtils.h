@@ -1,7 +1,16 @@
 #ifndef KCWRAPPERMACROS_H
 #define KCWRAPPERMACROS_H
 
-#include <QSequentialIterable>
+// QSequentialIterable isn't available before Qt 5.2, and Ubuntu is stuck on 5.0! (╯°□°)╯︵ ┻━┻
+// So just because they can't keep up-to-date with things, I'll just do the quick-and-dirty
+// workaround of defining QSequentialIterable to be a QList. No one will ever be able to tell.
+// (Except, you know, if they look at the performance, which will be one hell of a lot worse...)
+#if QT_VERSION >= 0x050200
+	#include <QSequentialIterable>
+#else
+	#include <QList>
+	#define QSequentialIterable QList<QVariant>
+#endif
 
 /*
  * Extract a single item from a variant map into a T&
