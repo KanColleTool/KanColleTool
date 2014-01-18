@@ -45,7 +45,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="fleetsPage">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1822,6 +1822,18 @@
        <layout class="QGridLayout" name="gridLayout_8">
         <item row="2" column="0">
          <widget class="QGroupBox" name="repairBox3">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>110</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>110</height>
+           </size>
+          </property>
           <layout class="QHBoxLayout" name="horizontalLayout_3">
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_19">
@@ -1931,6 +1943,18 @@
         </item>
         <item row="0" column="0">
          <widget class="QGroupBox" name="repairBox1">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>110</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>110</height>
+           </size>
+          </property>
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -2040,6 +2064,18 @@
         </item>
         <item row="0" column="1">
          <widget class="QGroupBox" name="repairBox2">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>110</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>110</height>
+           </size>
+          </property>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_18">
@@ -2148,6 +2184,18 @@
         </item>
         <item row="2" column="1">
          <widget class="QGroupBox" name="repairBox4">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>110</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>110</height>
+           </size>
+          </property>
           <property name="title">
            <string/>
           </property>
@@ -2264,6 +2312,18 @@
        <layout class="QGridLayout" name="gridLayout_9">
         <item row="0" column="0">
          <widget class="QGroupBox" name="constructionBox1">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>110</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>110</height>
+           </size>
+          </property>
           <property name="title">
            <string/>
           </property>
@@ -2383,6 +2443,18 @@
         </item>
         <item row="0" column="1">
          <widget class="QGroupBox" name="constructionBox2">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>110</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>110</height>
+           </size>
+          </property>
           <property name="title">
            <string/>
           </property>
@@ -2502,6 +2574,18 @@
         </item>
         <item row="1" column="0">
          <widget class="QGroupBox" name="constructionBox3">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>110</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>110</height>
+           </size>
+          </property>
           <property name="title">
            <string/>
           </property>
@@ -2621,6 +2705,18 @@
         </item>
         <item row="1" column="1">
          <widget class="QGroupBox" name="constructionBox4">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>110</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>110</height>
+           </size>
+          </property>
           <property name="title">
            <string/>
           </property>
