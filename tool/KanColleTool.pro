@@ -19,8 +19,13 @@ macx {
 	LIBS += -framework Carbon -lobjc
 }
 unix:!macx {
+        TARGET = kancolletool
 	LIBS += -lX11
 }
+
+binaries.path = /usr/bin
+binaries.files = kancolletool
+INSTALLS += binaries
 
 SOURCES += main.cpp \
 	KCMainWindow.cpp \
