@@ -11,11 +11,11 @@ cp kancolletool-viewer-${VERSION}.tar.gz kancolletool-viewer_${VERSION}.orig.tar
 # Debianize and package the Tool
 cd kancolletool-${VERSION}/
 cp -R ../../targets/debian/kancolletool/debian .
-dpkg-buildpackage
+hash debuild >/dev/null 2>&1 && debuild -us -uc || dpkg-buildpackage
 cd ..
 
 # Debianize and package the Viewer
 cd kancolletool-viewer-${VERSION}/
 cp -R ../../targets/debian/kancolletool-viewer/debian .
-dpkg-buildpackage
+hash debuild >/dev/null 2>&1 && debuild -us -uc || dpkg-buildpackage
 cd ..
