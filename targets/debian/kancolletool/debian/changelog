@@ -1,0 +1,10 @@
+kancolletool (0.5.0-1) unstable; urgency=low
+
+  * Notifications when reparations and constructions finish
+  * Repair and Construction timers now tick down in real-time
+  * Sorting ships by stats was done alphabetically, not numerically - putting
+    3 after 29, etc. (Closes: #9)
+  * Cancelling the "Enter API Link" dialog popped up errors about malformed
+    JSON (Closes: #4)
+
+ -- Johannes Ekberg <uppfinnarn@gmail.com>  Sun, 19 Jan 2014 14:51:31 +0100
