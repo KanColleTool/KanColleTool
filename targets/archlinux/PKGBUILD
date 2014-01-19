@@ -26,7 +26,7 @@ md5sums=('SKIP') #generate with 'makepkg -g'
 pkgver() {
 	cd "$srcdir/$pkgname"
 	# Use the tag of the last commit
-	git describe --tags | sed -E 's/([^-]*-g)/r\1/;s/-/./g'
+	git describe --tags | grep -Po 'v\K([\w\.]+)'
 }
 
 build() {
