@@ -23,12 +23,12 @@ __pycache__
 tool/Makefile*
 tool/KanColleTool.app
 tool/KanColleTool.exe
-tool/KanColleTool
+tool/kancolletool
 
 viewer/Makefile*
 viewer/KCTViewer.app
 viewer/KCTViewer.exe
-viewer/KCTViewer
+viewer/kct-viewer
 
 macviewer/KCTViewer/build/
 
