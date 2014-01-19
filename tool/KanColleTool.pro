@@ -19,8 +19,7 @@ macx {
 	LIBS += -framework Carbon -lobjc
 }
 unix:!macx {
-        TARGET = kancolletool
-	LIBS += -lX11
+	TARGET = kancolletool
 }
 
 binaries.path = /usr/bin
