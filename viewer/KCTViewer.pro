@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui webkitwidgets qml
+QT       += core gui webkitwidgets
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = KCTViewer
@@ -13,6 +13,14 @@ CONFIG += c++11
 
 RC_FILE = KCTViewer.rc
 VERSION = 0.5.0
+
+unix:!macx {
+	TARGET = kct-viewer
+}
+
+binaries.path = /usr/bin
+binaries.files = kct-viewer
+INSTALLS += binaries
 
 SOURCES += main.cpp \
 	KVMainWindow.cpp \
