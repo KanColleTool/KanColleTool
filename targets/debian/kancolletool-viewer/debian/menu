@@ -1,0 +1,2 @@
+?package(kancolletool-viewer):needs="X11" section="Games/Tools"\
+  title="KCT Viewer" command="/usr/bin/kancolletool-viewer"
