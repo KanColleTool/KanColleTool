@@ -1,6 +1,6 @@
 # Maintainer: Johannes Ekberg <uppfinnarn@gmail.com>
 pkgname=kancolletool-git
-pkgver=0.0.0
+pkgver=0.5.1
 pkgrel=1
 epoch=
 pkgdesc="Makes KanColle better"
@@ -34,19 +34,25 @@ build() {
 	
 	# Build Tool
 	cd "tool"
-	qmake
+	qmake PREFIX="$pkgdir"
 	make
 	cd ..
 	
 	# Build Viewer
 	cd "viewer"
-	qmake
+	qmake PREFIX="$pkgdir"
 	make
 	cd ..
 }
 
 package() {
 	cd "$srcdir/$pkgname"
-	install -Dm755 "tool/KanColleTool" "$pkgdir/usr/bin/kancolletool"
-	install -Dm755 "viewer/KCTViewer" "$pkgdir/usr/bin/kctviewer"
+	
+	cd viewer
+	make install
+	cd ..
+	cd tool
+	make install
+	cd ..
 }
+
