@@ -1,9 +1,10 @@
 #!/bin/bash
 
-VERSION=$(git describe --tags | grep -Po 'v\K([\w\.]+)')
+VERSION=$(<VERSION)
 
 # Set up a directory structure for the debian build
 cd dist
+rm -rf debian > /dev/null
 mkdir debian
 cp src/kancolletool-${VERSION}.tar.gz debian/kancolletool_${VERSION}.orig.tar.gz
 cp src/kancolletool-viewer-${VERSION}.tar.gz debian/kancolletool-viewer_${VERSION}.orig.tar.gz

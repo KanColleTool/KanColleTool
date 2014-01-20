@@ -1,10 +1,11 @@
 #!/bin/bash
 
-VERSION=$(git describe --tags | grep -Po 'v\K([\w\.]+)')
+VERSION=$(<VERSION)
 
 # Set up a directory structure for the ppa build
 # (copypaste from linbuild-deb.sh)
 cd dist
+rm -rf ppa > /dev/null
 mkdir ppa
 cp src/kancolletool-${VERSION}.tar.gz ppa/kancolletool_${VERSION}.orig.tar.gz
 cp src/kancolletool-viewer-${VERSION}.tar.gz ppa/kancolletool-viewer_${VERSION}.orig.tar.gz

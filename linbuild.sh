@@ -1,9 +1,9 @@
 #!/bin/bash
 
-VERSION=$(git describe --tags | grep -Po 'v\K([\w\.]+)')
+VERSION=$(<VERSION)
 
 # Remove old dist
-rm -rf dist/src
+rm -rf dist/src > /dev/null
 mkdir -p dist/src
 
 # Prepare tool sources
