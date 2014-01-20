@@ -1,3 +1,11 @@
+kancolletool (0.5.2-1) unstable; urgency=medium
+
+  * Fixes more layout bugs!
+  * Fixes the construction page
+  * Ctrl+Q now quits
+
+ -- Johannes Ekberg <uppfinnarn@gmail.com>  Mon, 20 Jan 2014 21:55:58 +0100
+
 kancolletool (0.5.1-1) unstable; urgency=medium
 
   * Fixes a whole bunch of layout bugs
