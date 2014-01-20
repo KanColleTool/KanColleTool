@@ -21,6 +21,10 @@ cp -R ../../targets/debian/kancolletool-viewer/debian kancolletool-viewer-${VERS
 # Without this, Launchpad will reject any attempt to push it
 sed -i 's/) unstable; /) saucy; /' kancolletool{,-viewer}-${VERSION}/debian/changelog
 
+# And patch in qt5-default as a build dep, otherwise Launchpad will fail to
+# build the package; "qmake: could not find a Qt installation of ''"
+sed -i 's/Build-Depends: /Build-Depends: qt5-default, /' kancolletool{,-viewer}-${VERSION}/debian/control
+
 # Make a source package (-S) of the Tool
 # The extra qmake call is to work around an annoying thing where the build
 # fails if you're using one OS to build and another to sign, such as in my case

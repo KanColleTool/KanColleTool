@@ -1,3 +1,9 @@
+kancolletool-viewer (0.5.0-2) unstable; urgency=medium
+
+  * Hopefully fixes launchpad...
+
+ -- Johannes Ekberg <uppfinnarn@gmail.com>  Mon, 20 Jan 2014 06:25:48 +0100
+
 kancolletool-viewer (0.5.0-1) unstable; urgency=low
 
   * Version Bump
