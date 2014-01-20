@@ -11,15 +11,14 @@ TARGET = KCTViewer
 TEMPLATE = app
 CONFIG += c++11
 
+macx: TARGET = KCT Viewer
+unix:!macx: TARGET = kancolletool-viewer
+
 RC_FILE = KCTViewer.rc
 VERSION = 0.5.0
 
-unix:!macx {
-	TARGET = kct-viewer
-}
-
 binaries.path = /usr/bin
-binaries.files = kct-viewer
+binaries.files = kancolletool-viewer
 INSTALLS += binaries
 
 SOURCES += main.cpp \

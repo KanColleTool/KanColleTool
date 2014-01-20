@@ -28,7 +28,7 @@ tool/kancolletool
 viewer/Makefile*
 viewer/KCTViewer.app
 viewer/KCTViewer.exe
-viewer/kct-viewer
+viewer/kancolletool-viewer
 
 macviewer/KCTViewer/build/
 

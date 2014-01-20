@@ -11,16 +11,13 @@ TARGET = KanColleTool
 TEMPLATE = app
 CONFIG += c++11
 
+unix:!macx: TARGET = kancolletool
+
 QMAKE_INFO_PLIST = Info.plist
 RC_FILE = KanColleTool.rc
 ICON = KanColleTool.icns
 
-macx {
-	LIBS += -framework Carbon -lobjc
-}
-unix:!macx {
-	TARGET = kancolletool
-}
+macx: LIBS += -framework Carbon -lobjc
 
 binaries.path = /usr/bin
 binaries.files = kancolletool
