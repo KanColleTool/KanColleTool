@@ -1,4 +1,5 @@
     #include <windows.h>
+    #include "version.h"
     
     IDI_ICON1           ICON    DISCARDABLE "KCTViewer.ico"
      
@@ -21,12 +22,12 @@
             BEGIN
                 VALUE   "CompanyName",      "MacaroniCode\0"
                 VALUE   "FileDescription",  "KCT Viewer\0"
-                VALUE   "FileVersion",      "0.5.1\0"
+                VALUE   "FileVersion",      KCT_VERSION "\0"
                 VALUE   "InternalName",     "KCTViewer\0"
                 VALUE   "LegalCopyright",   "Copyright 2014 by MacaroniCode\0"
                 VALUE   "OriginalFilename", "KCTViewer.exe\0"
                 VALUE   "ProductName",      "KCT Viewer\0"
-                VALUE   "ProductVersion",   "0.5.1\0"
+                VALUE   "ProductVersion",   KCT_VERSION "\0"
             END
         END
     END

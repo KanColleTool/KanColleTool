@@ -11,6 +11,9 @@ TARGET = KanColleTool
 TEMPLATE = app
 CONFIG += c++11
 
+# This is updated by the version bump script
+VERSION = 0.5.2
+
 unix:!macx: TARGET = kancolletool
 
 QMAKE_INFO_PLIST = Info.plist

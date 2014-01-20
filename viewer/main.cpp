@@ -2,12 +2,13 @@
 #include <QWebSettings>
 #include "KVMainWindow.h"
 #include "KVProxyServer.h"
+#include "version.h"
 
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	QCoreApplication::setApplicationName("KanColleTool");
-	QCoreApplication::setApplicationVersion("0.5.1");
+	QCoreApplication::setApplicationVersion(KCT_VERSION);
 	QCoreApplication::setOrganizationName("MacaroniCode");
 	
 	QWebSettings::globalSettings()->setAttribute(QWebSettings::PluginsEnabled, true);

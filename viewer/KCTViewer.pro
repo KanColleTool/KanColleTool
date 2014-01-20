@@ -11,11 +11,13 @@ TARGET = KCTViewer
 TEMPLATE = app
 CONFIG += c++11
 
+RC_FILE = KCTViewer.rc
+
+# This is updated by the version bump script
+VERSION = 0.5.2
+
 macx: TARGET = KCT Viewer
 unix:!macx: TARGET = kancolletool-viewer
-
-RC_FILE = KCTViewer.rc
-VERSION = 0.5.1
 
 binaries.path = $$PREFIX/usr/bin
 binaries.files = kancolletool-viewer
