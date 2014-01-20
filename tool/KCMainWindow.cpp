@@ -281,6 +281,7 @@ void KCMainWindow::updateRepairsPage()
 				repairTimerLabel->setText(delta(dock->complete).toString("H:mm:ss"));
 			}
 		}
+		else qWarning() << "Unknown State for Repair Dock" << i << ":" << dock->state;
 		
 		++i;
 	}
@@ -321,7 +322,7 @@ void KCMainWindow::updateConstructionsPage()
 			spoilCheckbox->hide();
 			spoilCheckbox->setChecked(false);	// Uncheck it!
 		}
-		else if(dock->state == KCDock::Occupied)
+		else if(dock->state == KCDock::Occupied || dock->state == KCDock::Building)
 		{
 			box->setEnabled(true);
 			
@@ -348,6 +349,7 @@ void KCMainWindow::updateConstructionsPage()
 			buildTimerLabel->setText(delta(dock->complete).toString("H:mm:ss"));
 			spoilCheckbox->show();
 		}
+		else qWarning() << "Unknown State for Construction Dock" << i << ":" << dock->state;
 		
 		++i;
 	}
@@ -376,7 +378,7 @@ void KCMainWindow::updateTimers()
 		int i = 0;
 		foreach(KCDock *dock, client->constructionDocks)
 		{
-			if(dock->state == KCDock::Occupied)
+			if(dock->state == KCDock::Building)
 			{
 				QLabel *label = findChild<QLabel*>(QString("constructionTimer") + QString::number(i+1));
 				label->setText(delta(dock->complete).toString("H:mm:ss"));
@@ -399,6 +401,7 @@ void KCMainWindow::onCredentialsGained()
 void KCMainWindow::onReceivedMasterShips()
 {
 	qDebug() << "Received Master Ship Data" << client->masterShips.size();
+	updateConstructionsPage();
 }
 
 void KCMainWindow::onReceivedPlayerShips()

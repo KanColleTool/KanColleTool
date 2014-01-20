@@ -16,7 +16,8 @@ public:
 		Locked = -1,
 		Empty = 0,
 		Occupied = 1,
-		Finished = 2
+		Building = 2,
+		Finished = 3
 	};
 	
 	KCDock(QObject *parent = 0);
