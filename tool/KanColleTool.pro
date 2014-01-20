@@ -19,7 +19,7 @@ ICON = KanColleTool.icns
 
 macx: LIBS += -framework Carbon -lobjc
 
-binaries.path = /usr/bin
+binaries.path = $$PREFIX/usr/bin
 binaries.files = kancolletool
 INSTALLS += binaries
 
