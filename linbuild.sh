@@ -3,7 +3,7 @@
 VERSION=$(git describe --tags | grep -Po 'v\K([\w\.]+)')
 
 # Remove old dist
-rm -rf dist
+rm -rf dist/src
 mkdir -p dist/src
 
 # Prepare tool sources

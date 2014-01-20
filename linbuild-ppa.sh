@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# This gives us $VERSION and dist/src
-source linbuild.sh
+VERSION=$(git describe --tags | grep -Po 'v\K([\w\.]+)')
 
 # Set up a directory structure for the ppa build
 # (copypaste from linbuild-deb.sh)
@@ -14,8 +13,8 @@ cd ppa
 tar -xf kancolletool_${VERSION}.orig.tar.gz
 tar -xf kancolletool-viewer_${VERSION}.orig.tar.gz
 
-cp -R ../../targets/debian/kancolletool/debian kancolletool-${VERSION}/
-cp -R ../../targets/debian/kancolletool-viewer/debian kancolletool-viewer-${VERSION}/
+cp -Rp ../../targets/debian/kancolletool/debian kancolletool-${VERSION}/
+cp -Rp ../../targets/debian/kancolletool-viewer/debian kancolletool-viewer-${VERSION}/
 
 # Patch the changelogs to swap 'unstable' out for 'saucy'
 # Without this, Launchpad will reject any attempt to push it
