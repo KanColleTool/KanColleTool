@@ -1,3 +1,10 @@
+kancolletool (0.5.1-1) unstable; urgency=medium
+
+  * Fixes a whole bunch of layout bugs
+  * Now supports Qt 5.0, though you won't get full performance without 5.2
+
+ -- Johannes Ekberg <uppfinnarn@gmail.com>  Mon, 20 Jan 2014 11:01:47 +0100
+
 kancolletool (0.5.0-2) unstable; urgency=medium
 
   * Hopefully fixes launchpad...

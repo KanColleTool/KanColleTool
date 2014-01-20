@@ -15,7 +15,7 @@ macx: TARGET = KCT Viewer
 unix:!macx: TARGET = kancolletool-viewer
 
 RC_FILE = KCTViewer.rc
-VERSION = 0.5.0
+VERSION = 0.5.1
 
 binaries.path = /usr/bin
 binaries.files = kancolletool-viewer

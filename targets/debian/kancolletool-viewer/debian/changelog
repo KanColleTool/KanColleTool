@@ -1,3 +1,11 @@
+kancolletool-viewer (0.5.1-1) unstable; urgency=medium
+
+  * Changed the binary name from kct-viewer to kancolletool-viewer, to match
+    the package name.
+  * Version Bump to go along with the Tool
+
+ -- Johannes Ekberg <uppfinnarn@gmail.com>  Mon, 20 Jan 2014 10:39:38 +0100
+
 kancolletool-viewer (0.5.0-2) unstable; urgency=medium
 
   * Hopefully fixes launchpad...
