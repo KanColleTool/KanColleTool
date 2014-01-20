@@ -2,6 +2,7 @@
 #include "ui_KCMainWindow.h"
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QShortcut>
 #include <QSettings>
 #include <QUrl>
 #include <QUrlQuery>
@@ -89,6 +90,12 @@ void KCMainWindow::_setupUI()
 	// (why isn't there a Qt call for this...)
 #ifdef __APPLE__
 	macSetWindowOnAllWorkspaces(this);
+#endif
+	
+	// On Mac, we get Cmd+Q to quit for free. On anything else, set it up like this
+#if !__APPLE__
+	QShortcut *quitShortcut = new QShortcut(QKeySequence("Ctrl+Q"), this);
+	connect(quitShortcut, SIGNAL(activated()), qApp, SLOT(quit()));
 #endif
 }
 
