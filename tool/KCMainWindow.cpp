@@ -322,7 +322,7 @@ void KCMainWindow::updateConstructionsPage()
 			spoilCheckbox->hide();
 			spoilCheckbox->setChecked(false);	// Uncheck it!
 		}
-		else if(dock->state == KCDock::Occupied || dock->state == KCDock::Building)
+		else if(dock->state == KCDock::Occupied || dock->state == KCDock::Building || dock->state == KCDock::Finished)
 		{
 			box->setEnabled(true);
 			
@@ -346,7 +346,10 @@ void KCMainWindow::updateConstructionsPage()
 				readingLabel->setText("");
 			}
 			
-			buildTimerLabel->setText(delta(dock->complete).toString("H:mm:ss"));
+			if(dock->state != KCDock::Finished)
+				buildTimerLabel->setText(delta(dock->complete).toString("H:mm:ss"));
+			else
+				buildTimerLabel->setText("0:00:00");
 			spoilCheckbox->show();
 		}
 		else qWarning() << "Unknown State for Construction Dock" << i << ":" << dock->state;
@@ -479,6 +482,8 @@ void KCMainWindow::onDockCompleted(KCDock *dock)
 		else
 			trayIcon->showMessage("Construction Completed!",
 				QString("Say hello to your new shipgirl!"));
+		
+		updateConstructionsPage();
 	}
 	else
 	{
@@ -489,6 +494,8 @@ void KCMainWindow::onDockCompleted(KCDock *dock)
 		else
 			trayIcon->showMessage("Repair Completed!",
 				QString("Your shipgirl is all healthy again!"));
+		
+		updateRepairsPage();
 	}
 }
 
