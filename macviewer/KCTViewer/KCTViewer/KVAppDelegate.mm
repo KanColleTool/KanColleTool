@@ -23,16 +23,16 @@
 {
 	// Register a custom URL Protocol to mess with the responses
 	[NSURLProtocol registerClass:[KVHTTPProtocol class]];
-	
+
 	// No, we don't want the web view to scroll just a few pixels up and down.
 	[self.webView.mainFrame.frameView setAllowsScrolling:NO];
-	
+
 	// Needed in Mavericks for Flash to render correctly.
-    	[self.webView setLayerUsesCoreImageFilters: YES];
-	
+	[self.webView setLayerUsesCoreImageFilters:YES];
+
 	// Treat the web view as a web browser; this makes it cache a whole lot more
 	[[WebPreferences standardPreferences] setCacheModel:WebCacheModelPrimaryWebBrowser];
-	
+
 	// Set up a cache; without this, loading the game will be slow as hell
 	NSString *cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
 	NSURLCache *cache = [[NSURLCache alloc] initWithMemoryCapacity:20 * 1024 * 1024
