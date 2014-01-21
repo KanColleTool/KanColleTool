@@ -27,6 +27,9 @@
 	// No, we don't want the web view to scroll just a few pixels up and down.
 	[self.webView.mainFrame.frameView setAllowsScrolling:NO];
 	
+	// Needed in Mavericks for Flash to render correctly.
+    	[self.webView setLayerUsesCoreImageFilters: YES];
+	
 	// Treat the web view as a web browser; this makes it cache a whole lot more
 	[[WebPreferences standardPreferences] setCacheModel:WebCacheModelPrimaryWebBrowser];
 	
