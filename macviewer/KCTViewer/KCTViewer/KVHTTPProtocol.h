@@ -12,7 +12,7 @@
 
 @property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, strong) NSMutableData *buffer;
-@property (nonatomic, assign) BOOL interesting;
+@property (nonatomic, assign, getter = isInteresting) BOOL interesting;
 
 - (id)initWithRequest:(NSURLRequest *)request cachedResponse:(NSCachedURLResponse *)cachedResponse client:(id<NSURLProtocolClient>)client;
 + (BOOL)canInitWithRequest:(NSURLRequest *)request;
