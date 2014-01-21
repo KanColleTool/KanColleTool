@@ -44,12 +44,11 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	netManager->setCache(cache);
 	
 	// Set up a local proxy
-	// (except this currently breaks everything for some reason)
-	/*proxy = new KVProxyServer(this);
-	proxy->listen(QHostAddress::LocalHost);
-	netManager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "localhost", proxy->serverPort()));
+	proxy = new KVProxy(this);
+	proxy->run();
+	netManager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "127.0.0.1", proxy->port()));
 	
-	connect(proxy, SIGNAL(apiError(KVProxyServer::APIStatus)), this, SLOT(onAPIError(KVProxyServer::APIStatus)));*/
+	//connect(proxy, SIGNAL(apiError(KVProxyServer::APIStatus)), this, SLOT(onAPIError(KVProxyServer::APIStatus)));
 	
 	// Set up the web view, using our custom Network Access Manager
 	webView = new QWebView(this);
@@ -185,7 +184,7 @@ void KVMainWindow::setHTMLAPILink()
 	webView->page()->mainFrame()->evaluateJavaScript(QString("setAPILink(\"%1\"); null").arg(apiLink.toString()));
 }
 
-void KVMainWindow::onAPIError(KVProxyServer::APIStatus error)
+/*void KVMainWindow::onAPIError(KVProxyServer::APIStatus error)
 {
 	qDebug() << error;
 	
@@ -208,4 +207,4 @@ void KVMainWindow::onAPIError(KVProxyServer::APIStatus error)
 	}
 	
 	QMessageBox::critical(this, QString("Errorcat (Code %1)").arg((int)error), readableError);
-}
+}*/

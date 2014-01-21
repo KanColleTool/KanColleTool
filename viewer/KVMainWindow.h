@@ -5,7 +5,7 @@
 #include <QWebView>
 #include <QNetworkAccessManager>
 #include <QNetworkDiskCache>
-#include "KVProxyServer.h"
+#include "KVProxy.h"
 
 class KVMainWindow : public QMainWindow
 {
@@ -31,13 +31,13 @@ private slots:
 	
 	// Never actually emmitted yet; I'm trying to get the proxy
 	// stable before I start poking at the responses.
-	void onAPIError(KVProxyServer::APIStatus error);
+	//void onAPIError(KVProxyServer::APIStatus error);
 	
 protected:
 	QWebView *webView;
 	QNetworkAccessManager *netManager;
 	QNetworkDiskCache *cache;
-	KVProxyServer *proxy;
+	KVProxy *proxy;
 	
 	QString server, apiToken;
 	QUrl apiLink;
