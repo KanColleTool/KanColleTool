@@ -9,7 +9,7 @@ class KVProxy : public QObject
 {
 	Q_OBJECT
 public:
-	KVProxy(QObject *parent = 0);
+	KVProxy(QObject *parent = 0, unsigned short port = 0);
 	virtual ~KVProxy();
 	
 	int port();

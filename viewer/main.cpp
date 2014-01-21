@@ -1,7 +1,8 @@
 #include <QApplication>
 #include <QWebSettings>
+#include <QDebug>
 #include "KVMainWindow.h"
-#include "KVProxyServer.h"
+#include "KVProxy.h"
 #include "version.h"
 
 int main(int argc, char *argv[])
@@ -17,11 +18,11 @@ int main(int argc, char *argv[])
 	
 	// The --debug-proxy argument starts the program in Proxy Debug mode, with no
 	// GUI and only the proxy server running on IPv4 port 12345.
-	//if(args.contains("--debug-proxy"))
-	if(false)
+	if(args.contains("--debug-proxy"))
 	{
-		//KVProxyServer *proxy = new KVProxyServer();
-		//proxy->listen(QHostAddress::LocalHost, 12345);
+		qDebug() << "Starting Proxy on Port 12345...";
+		KVProxy *proxy = new KVProxy(0, 12345);
+		proxy->run(12345);
 	}
 	// If we're not debugging the proxy, just start normally.
 	else

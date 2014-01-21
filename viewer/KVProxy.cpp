@@ -1,8 +1,8 @@
 #include "KVProxy.h"
 #include <iostream>
 
-KVProxy::KVProxy(QObject *parent) :
-	QObject(parent), p("127.0.0.1", 0)
+KVProxy::KVProxy(QObject *parent, unsigned short port) :
+	QObject(parent), p("127.0.0.1", port)
 {
 	// Set up the poll timer
 	connect(&pollTimer, SIGNAL(timeout()), this, SLOT(poll()));
