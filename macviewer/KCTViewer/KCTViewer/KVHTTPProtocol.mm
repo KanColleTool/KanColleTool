@@ -7,6 +7,7 @@
 //
 
 #import "KVHTTPProtocol.h"
+#import "KVTranslator.h"
 
 @implementation KVHTTPProtocol
 
@@ -59,8 +60,8 @@
 	if([self.buffer length] > 0)
 		[self deliverResponse];
 	
-	for(NSString *key in [(NSHTTPURLResponse*)response allHeaderFields])
-		NSLog(@"%@ : %@", key, [[(NSHTTPURLResponse*)response allHeaderFields] objectForKey:key]);
+	/*for(NSString *key in [(NSHTTPURLResponse*)response allHeaderFields])
+		NSLog(@"%@ : %@", key, [[(NSHTTPURLResponse*)response allHeaderFields] objectForKey:key]);*/
 	[self.client URLProtocol:self didReceiveResponse:response
 		  cacheStoragePolicy:([self.request.URL.path hasPrefix:@"/kcsapi"] ? NSURLCacheStorageNotAllowed : NSURLCacheStorageAllowed)];
 }
@@ -81,7 +82,7 @@
 	{
 		// This should always be true (we shouldn't have a buffer if the request is not interesting,
 		// but it's always good to check a second time. That might change in the future or something.
-		if([self isInteresting] && [self.request.URL.path hasSuffix:@"ship"])
+		if([self isInteresting])
 		{
 			// str is the buffer converted into a string, outstr is the output buffer
 			NSString *str = [[NSString alloc] initWithData:self.buffer encoding:NSUTF8StringEncoding];
@@ -111,10 +112,7 @@
 				// to have anyways, for debugging and such.
 				NSString *key = [str substringWithRange:[result rangeAtIndex:1]];
 				NSString *value = [str substringWithRange:[result rangeAtIndex:2]];
-				
-				// For now, just translate everyone's name to "Jane Doe"
-				if([key isEqualToString:@"api_name"] || [key isEqualToString:@"api_yomi"])
-					value = @"Jane Doe";
+				value = [[KVTranslator sharedTranslator] translate:value];
 				
 				// JSONify this key-value pair and push it too
 				[outstr appendFormat:@"\"%@\":\"%@\"", key, value];
