@@ -1,16 +1,17 @@
 #include "KVProxy.h"
+#include "KVProxy_p.h"
 #include <iostream>
 
 KVProxy::KVProxy(QObject *parent, unsigned short port) :
 	QObject(parent), p("127.0.0.1", port)
 {
-	// Set up the poll timer
+	// Make the poll timer tell the proxy to poll; this will be started with
+	// a timeout of 0, so it will effectively poll on every event loop tick
 	connect(&pollTimer, SIGNAL(timeout()), this, SLOT(poll()));
 	
-	// Set up the proxy
-	p.on_connection([](HttpProxy::Connection::Ptr c) {
-		std::cout << c->request_method << " " << c->request_path << std::endl;
-		c->forward();
+	// Pass on new connections to a function in KVProxy_p
+	p.on_connection([this](HttpProxy::Connection::Ptr con) {
+		proxyHandleConnection(this, con);
 	});
 }
 

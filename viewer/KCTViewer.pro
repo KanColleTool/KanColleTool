@@ -26,10 +26,12 @@ INSTALLS += binaries
 SOURCES += main.cpp \
 	KVMainWindow.cpp \
 	KVProxy.cpp \
+	KVProxy_p.cpp \
 	lib/HTTP-Proxy/proxy.cpp
 
 HEADERS  += KVMainWindow.h \
-	KVProxy.h
+	KVProxy.h \
+	KVProxy_p.h
 
 INCLUDEPATH += lib/HTTP-Proxy
 INCLUDEPATH += lib/HTTP-Proxy/deps/asio-1.10.1/include
