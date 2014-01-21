@@ -1,3 +1,3 @@
-[submodule "lib/HTTP-Proxy"]
-	path = lib/HTTP-Proxy
+[submodule "viewer/lib/HTTP-Proxy"]
+	path = viewer/lib/HTTP-Proxy
 	url = git@github.com:laeotropic/HTTP-Proxy.git
