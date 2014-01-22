@@ -25,13 +25,17 @@ INSTALLS += binaries
 
 SOURCES += main.cpp \
 	KVMainWindow.cpp \
+	KVTranslator.cpp \
 	KVProxy.cpp \
 	KVProxy_p.cpp \
+	KVUtil.cpp \
 	lib/HTTP-Proxy/proxy.cpp
 
 HEADERS  += KVMainWindow.h \
+	KVTranslator.h \
 	KVProxy.h \
 	KVProxy_p.h \
+	KVUtil.h \
 	crc32.h \
 	lib/HTTP-Proxy/proxy.hpp
 
