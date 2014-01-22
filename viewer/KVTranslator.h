@@ -19,8 +19,8 @@ public slots:
 	void loadTranslation(QString language = "en");
 	
 signals:
-	void loadingFinished();
-	void loadingFailed();
+	void loadFinished();
+	void loadFailed();
 	
 private slots:
 	void translationRequestFinished();

@@ -65,7 +65,7 @@ void KVTranslator::translationRequestFinished()
 	if(reply->error() != QNetworkReply::NoError)
 	{
 		qWarning() << "Network Error:" << reply->errorString();
-		emit loadingFailed();
+		emit loadFailed();
 		return;
 	}
 	QByteArray body(reply->readAll());
@@ -76,7 +76,7 @@ void KVTranslator::translationRequestFinished()
 	if(error.error != QJsonParseError::NoError)
 	{
 		qWarning() << "JSON Error:" << error.errorString();
-		emit loadingFailed();
+		emit loadFailed();
 		return;
 	}
 	QJsonObject root(doc.object());
@@ -86,12 +86,12 @@ void KVTranslator::translationRequestFinished()
 	if(success != 1)
 	{
 		qWarning() << "API Error:" << success;
-		emit loadingFailed();
+		emit loadFailed();
 		return;
 	}
 	
 	// Parse the translation data
 	translation = root.value("translation").toObject().toVariantMap();
 	
-	qDebug() << this->translate("\\u90A3\\u73C2");
+	emit loadFinished();
 }
