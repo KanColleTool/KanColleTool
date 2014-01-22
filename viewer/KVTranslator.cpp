@@ -44,19 +44,20 @@ KVTranslator::~KVTranslator()
 
 QString KVTranslator::translate(const QString &line) const
 {
-	QByteArray utf8 = unescape(line).toUtf8();
+	QString realLine = unescape(line);
+	QByteArray utf8 = realLine.toUtf8();
 	uint32_t crc = crc32(0, utf8.constData(), utf8.size());
 	
 	QString key = QString::number(crc);
 	QVariant value = translation.value(key);
 	if(value.isValid())
 	{
-		qDebug() << "TL:" << line << "->" << value.toString();
+		qDebug() << "TL:" << realLine << "->" << value.toString();
 		return value.toString();
 	}
 	else
 	{
-		qDebug() << "No TL:" << line;
+		qDebug() << "No TL:" << realLine;
 		return line;
 	}
 }

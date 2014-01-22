@@ -3,6 +3,7 @@
 #include <QString>
 #include <QRegularExpression>
 #include <QDebug>
+#include "KVTranslator.h"
 
 void proxyHandleConnection(KVProxy *proxy, HttpProxy::Connection::Ptr con)
 {
@@ -46,9 +47,9 @@ void proxyHandleResponse(KVProxy *proxy, HttpProxy::Connection::Ptr con, HttpPro
 		
 		QString key = match.captured(1);
 		QString value = match.captured(2);
-		if(key == "api_name")
-			value = "Jane Doe";
-		qDebug() << key << ":" << value;
+		
+		// Translate it!
+		value = KVTranslator::instance()->translate(value);
 		
 		outstr.append(QString("\"%1\":\"%2\"").arg(key, value));
 	}
