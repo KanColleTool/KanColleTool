@@ -31,7 +31,9 @@ SOURCES += main.cpp \
 
 HEADERS  += KVMainWindow.h \
 	KVProxy.h \
-	KVProxy_p.h
+	KVProxy_p.h \
+	crc32.h \
+	lib/HTTP-Proxy/proxy.hpp
 
 INCLUDEPATH += lib/HTTP-Proxy
 INCLUDEPATH += lib/HTTP-Proxy/deps/asio-1.10.1/include
