@@ -10,6 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = KCTViewer
 TEMPLATE = app
 CONFIG += c++11
+win32: LIBS += -lws2_32 -lmswsock
 
 RC_FILE = KCTViewer.rc
 
