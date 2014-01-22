@@ -51,12 +51,12 @@ QString KVTranslator::translate(const QString &line) const
 	QVariant value = translation.value(key);
 	if(value.isValid())
 	{
-		qDebug() << "TL:" << key << "->" << value.toString();
+		qDebug() << "TL:" << line << "->" << value.toString();
 		return value.toString();
 	}
 	else
 	{
-		qDebug() << "No TL:" << key;
+		qDebug() << "No TL:" << line;
 		return line;
 	}
 }
