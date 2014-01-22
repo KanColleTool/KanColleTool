@@ -20,7 +20,7 @@ public slots:
 	
 signals:
 	void loadFinished();
-	void loadFailed();
+	void loadFailed(QString error);
 	
 private slots:
 	void translationRequestFinished();

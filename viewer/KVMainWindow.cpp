@@ -2,7 +2,6 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QWebFrame>
-#include <QMessageBox>
 #include <QInputDialog>
 #include <QFile>
 #include <QUrl>
@@ -13,6 +12,7 @@
 #include <QSettings>
 #include <QStandardPaths>
 #include <QDebug>
+#include "KVTranslator.h"
 
 KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	QMainWindow(parent, flags)
@@ -72,11 +72,26 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	this->adjustSize();
 	this->setFixedSize(this->width(), this->height());
 	
+	// Load the translation data before doing anything, otherwise we might end
+	// up with partially translated data on spotty connections.
+	this->loadTranslation();
+	
 	// Ask for an API Link if we don't have one already, otherwise just restore it
-	this->loadAPILink();
+	//this->loadAPILink();
 	
 	// Load the bundled index.html file
-	this->loadBundledIndex();
+	//this->loadBundledIndex();
+}
+
+void KVMainWindow::loadTranslation(QString language)
+{
+	loadingMessageBox = new QMessageBox(QMessageBox::NoIcon, "Loading translation...", "This should only take a moment.", QMessageBox::Cancel);
+	loadingMessageBox->open();
+	
+	KVTranslator *translator = KVTranslator::instance();
+	connect(translator, SIGNAL(loadFinished()), this, SLOT(onTranslationLoadFinished()));
+	connect(translator, SIGNAL(loadFailed(QString)), this, SLOT(onTranslationLoadFailed(QString)));
+	translator->loadTranslation(language);
 }
 
 void KVMainWindow::loadBundledIndex()
@@ -176,6 +191,33 @@ void KVMainWindow::onLoadFinished(bool ok)
 {
 	qDebug() << "Finished Loading!" << ok;
 	if(ok) this->setHTMLAPILink();
+}
+
+void KVMainWindow::onTranslationLoadFinished()
+{
+	qDebug() << "Translation finished loading!";
+	loadingMessageBox->accept();
+	delete loadingMessageBox;
+	
+	this->loadAPILink();
+	this->loadBundledIndex();
+}
+
+void KVMainWindow::onTranslationLoadFailed(QString error)
+{
+	qDebug() << "Translation failed to load:" << error;
+	loadingMessageBox->reject();
+	delete loadingMessageBox;
+	
+	QMessageBox::StandardButton button = QMessageBox::warning(this, "Couldn't load translation", "This might mean that your connection is bad. You can continue without translation, but the game will be in Japanese.", QMessageBox::Retry|QMessageBox::Ok, QMessageBox::Ok);
+	
+	// To retry, just send the request again.
+	if(button == QMessageBox::Retry)
+		this->loadTranslation();
+	
+	// To ignore it, just pretend like it succeeded.
+	else
+		this->onTranslationLoadFinished();
 }
 
 void KVMainWindow::setHTMLAPILink()

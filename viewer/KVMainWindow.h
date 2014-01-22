@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QWebView>
+#include <QMessageBox>
 #include <QNetworkAccessManager>
 #include <QNetworkDiskCache>
 #include "KVProxy.h"
@@ -15,6 +16,7 @@ public:
 	KVMainWindow(QWidget *parent = 0, Qt::WindowFlags flags = 0);
 	
 protected:
+	void loadTranslation(QString language = "en");
 	void loadBundledIndex();
 	void loadAPILink();
 	void generateAPILinkURL();
@@ -27,6 +29,9 @@ public slots:
 private slots:
 	void onLoadStarted();
 	void onLoadFinished(bool ok);
+	void onTranslationLoadFinished();
+	void onTranslationLoadFailed(QString error);
+	
 	void setHTMLAPILink();
 	
 	// Never actually emmitted yet; I'm trying to get the proxy
@@ -35,6 +40,8 @@ private slots:
 	
 protected:
 	QWebView *webView;
+	QMessageBox *loadingMessageBox;
+	
 	QNetworkAccessManager *netManager;
 	QNetworkDiskCache *cache;
 	KVProxy *proxy;

@@ -49,7 +49,16 @@ QString KVTranslator::translate(const QString &line) const
 	
 	QString key = QString::number(crc);
 	QVariant value = translation.value(key);
-	return (value.isValid() ? value.toString() : line);
+	if(value.isValid())
+	{
+		qDebug() << "TL:" << key << "->" << value.toString();
+		return value.toString();
+	}
+	else
+	{
+		qDebug() << "No TL:" << key;
+		return line;
+	}
 }
 
 void KVTranslator::loadTranslation(QString language)
@@ -64,8 +73,7 @@ void KVTranslator::translationRequestFinished()
 	QNetworkReply *reply(qobject_cast<QNetworkReply*>(QObject::sender()));
 	if(reply->error() != QNetworkReply::NoError)
 	{
-		qWarning() << "Network Error:" << reply->errorString();
-		emit loadFailed();
+		emit loadFailed(QString("Network Error: %1").arg(reply->errorString()));
 		return;
 	}
 	QByteArray body(reply->readAll());
@@ -75,8 +83,7 @@ void KVTranslator::translationRequestFinished()
 	QJsonDocument doc(QJsonDocument::fromJson(body, &error));
 	if(error.error != QJsonParseError::NoError)
 	{
-		qWarning() << "JSON Error:" << error.errorString();
-		emit loadFailed();
+		emit loadFailed(QString("JSON Error: %1").arg(error.errorString()));
 		return;
 	}
 	QJsonObject root(doc.object());
@@ -85,8 +92,7 @@ void KVTranslator::translationRequestFinished()
 	int success = root.value("success").toInt();
 	if(success != 1)
 	{
-		qWarning() << "API Error:" << success;
-		emit loadFailed();
+		emit loadFailed(QString("API Error %1").arg(success));
 		return;
 	}
 	
