@@ -10,20 +10,23 @@ void proxyHandleConnection(KVProxy *proxy, HttpProxy::Connection::Ptr con)
 	std::cout << con->request_method << " " << con->request_path << std::endl;
 	
 	if(con->request_method == "POST")
+	{
+		std::cout << "> " << con->request_path << std::endl;
 		con->async_get_remote(con->request_headers,
 			[proxy](HttpProxy::Connection::Ptr con, HttpProxy::Response res) {
 				proxyHandleResponse(proxy, con, res);
 			});
+	}
 	else
+	{
+		std::cout << "= " << con->request_path << std::endl;
 		con->forward();
+	}
 }
 
 void proxyHandleResponse(KVProxy *proxy, HttpProxy::Connection::Ptr con, HttpProxy::Response res)
 {
 	Q_UNUSED(proxy);
-	
-	std::cout << "IN:" << std::endl;
-	std::cout << res.body << std::endl;
 	
 	// Regex that matches any JSON string-string key-value pairs
 	QRegularExpression re("\"([^\"]+)\"\\s*:\\s*\"([^\"]+)\"");
@@ -55,8 +58,7 @@ void proxyHandleResponse(KVProxy *proxy, HttpProxy::Connection::Ptr con, HttpPro
 	}
 	
 	outstr.append(str.mid(lastEnd));
-	qDebug() << "OUT:";
-	qDebug() << outstr;
 	
 	con->reply(res.status_code, res.status_message, res.headers, outstr.toStdString());
+	std::cout << "< " << con->request_path << std::endl;
 }
