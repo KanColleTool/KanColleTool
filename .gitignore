@@ -10,14 +10,15 @@ ui_*.h
 *.stash
 object_script*
 
+# Pods
+Pods
+Podfile.lock
+KCTViewer.xcworkspace
+
 # Editor User Data
 xcuserdata
 *.sublime-project
 *.sublime-workspace
-
-# Python Temporaries
-*.pyc
-__pycache__
 
 # Built Products
 tool/Makefile*
