@@ -30,8 +30,6 @@ SOURCES += main.cpp \
 	KVProxy.cpp \
 	KVProxy_p.cpp \
 	KVUtil.cpp \
-	KVNetworkAccessManager.cpp \
-	KVNetworkReply.cpp \
 	lib/HTTP-Proxy/proxy.cpp
 
 HEADERS  += KVMainWindow.h \
@@ -39,8 +37,6 @@ HEADERS  += KVMainWindow.h \
 	KVProxy.h \
 	KVProxy_p.h \
 	KVUtil.h \
-	KVNetworkAccessManager.h \
-	KVNetworkReply.h \
 	crc32.h \
 	lib/HTTP-Proxy/proxy.hpp
 
