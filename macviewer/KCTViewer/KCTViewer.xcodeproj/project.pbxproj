@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		22110FC018910B1600EDEEEC /* KVCachingHTTPProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 22110FBF18910B1600EDEEEC /* KVCachingHTTPProtocol.m */; };
+		22110FC318910B7200EDEEEC /* KVCacheEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 22110FC218910B7200EDEEEC /* KVCacheEntry.m */; };
 		22555F4B188E727900E2980B /* kc_eng.json in Resources */ = {isa = PBXBuildFile; fileRef = 22555F4A188E727900E2980B /* kc_eng.json */; };
 		22555F50188EAECF00E2980B /* NSString+KVHashes.m in Sources */ = {isa = PBXBuildFile; fileRef = 22555F4F188EAECF00E2980B /* NSString+KVHashes.m */; };
 		22555F52188EB6A300E2980B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 22555F51188EB6A300E2980B /* libz.dylib */; };
@@ -67,6 +69,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		22110FBE18910B1600EDEEEC /* KVCachingHTTPProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KVCachingHTTPProtocol.h; sourceTree = "<group>"; };
+		22110FBF18910B1600EDEEEC /* KVCachingHTTPProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KVCachingHTTPProtocol.m; sourceTree = "<group>"; };
+		22110FC118910B7200EDEEEC /* KVCacheEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KVCacheEntry.h; sourceTree = "<group>"; };
+		22110FC218910B7200EDEEEC /* KVCacheEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KVCacheEntry.m; sourceTree = "<group>"; };
 		22555F4A188E727900E2980B /* kc_eng.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = kc_eng.json; path = ../../../tldata/kc_eng.json; sourceTree = "<group>"; };
 		22555F4E188EAECF00E2980B /* NSString+KVHashes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+KVHashes.h"; sourceTree = "<group>"; };
 		22555F4F188EAECF00E2980B /* NSString+KVHashes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+KVHashes.m"; sourceTree = "<group>"; };
@@ -143,6 +149,10 @@
 			children = (
 				226F33B31886B55000FAF389 /* KVHTTPProtocol.h */,
 				226F33B41886B55000FAF389 /* KVHTTPProtocol.mm */,
+				22110FBE18910B1600EDEEEC /* KVCachingHTTPProtocol.h */,
+				22110FBF18910B1600EDEEEC /* KVCachingHTTPProtocol.m */,
+				22110FC118910B7200EDEEEC /* KVCacheEntry.h */,
+				22110FC218910B7200EDEEEC /* KVCacheEntry.m */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -369,9 +379,11 @@
 				2272E5AA186E05CA009357C4 /* main.mm in Sources */,
 				2272E5D5186E182F009357C4 /* NSURL+KVUtil.mm in Sources */,
 				22EEBD07188713A600C336D0 /* KVJSUtils.m in Sources */,
+				22110FC018910B1600EDEEEC /* KVCachingHTTPProtocol.m in Sources */,
 				22555F5B188ECC5800E2980B /* KVTranslator.m in Sources */,
 				22555F50188EAECF00E2980B /* NSString+KVHashes.m in Sources */,
 				2272E5B1186E05CA009357C4 /* KVAppDelegate.mm in Sources */,
+				22110FC318910B7200EDEEEC /* KVCacheEntry.m in Sources */,
 				226F33B51886B55000FAF389 /* KVHTTPProtocol.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
