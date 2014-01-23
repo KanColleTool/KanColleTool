@@ -5,7 +5,6 @@
 #include <QNetworkAccessManager>
 #include <QVariant>
 #include <QString>
-#include "KVNetworkAccessManager.h"
 
 class KVTranslator : public QObject
 {
@@ -27,7 +26,7 @@ private slots:
 	void translationRequestFinished();
 	
 private:
-	KVNetworkAccessManager manager;
+	QNetworkAccessManager manager;
 	QVariantMap translation;
 	
 private:
