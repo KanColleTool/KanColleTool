@@ -9,14 +9,6 @@ rm -rf dist
 mkdir dist
 mkdir dist/KanColleTool
 
-# Build macviewer
-cd macviewer/KCTViewer
-rm -r build
-xcodebuild -target KCTViewer -configuration Release
-cp -R build/Release/KCTViewer.app ../../dist/KanColleTool/
-rm -rf build
-cd ../..
-
 # Build tool
 cd tool
 rm -rf KanColleTool.app
@@ -27,6 +19,14 @@ cp -R KanColleTool.app ../dist/KanColleTool/
 make clean
 rm -rf KanColleTool.app
 cd ..
+
+# Build macviewer
+cd macviewer/KCTViewer
+rm -r build
+xcodebuild -target KCTViewer -configuration Release
+cp -R build/Release/KCTViewer.app ../../dist/KanColleTool/
+rm -rf build
+cd ../..
 
 # Make a DMG of it all
 hdiutil create "tmp.dmg" -ov -volname "KanColleTool" -fs "HFS+" -srcfolder dist/KanColleTool
