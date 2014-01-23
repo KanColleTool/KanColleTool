@@ -126,6 +126,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		22110FB71891071D00EDEEEC /* Frontend */ = {
+			isa = PBXGroup;
+			children = (
+				2272E5AF186E05CA009357C4 /* KVAppDelegate.h */,
+				2272E5B0186E05CA009357C4 /* KVAppDelegate.mm */,
+				2272E5B2186E05CA009357C4 /* MainMenu.xib */,
+				22EEBD05188713A600C336D0 /* KVJSUtils.h */,
+				22EEBD06188713A600C336D0 /* KVJSUtils.m */,
+			);
+			name = Frontend;
+			sourceTree = "<group>";
+		};
+		22110FB81891073700EDEEEC /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				226F33B31886B55000FAF389 /* KVHTTPProtocol.h */,
+				226F33B41886B55000FAF389 /* KVHTTPProtocol.mm */,
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
+		22110FB91891074100EDEEEC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				22555F59188ECC5800E2980B /* KVTranslator.h */,
+				22555F5A188ECC5800E2980B /* KVTranslator.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		22110FBA1891075A00EDEEEC /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				2272E5D3186E182F009357C4 /* NSURL+KVUtil.h */,
+				2272E5D4186E182F009357C4 /* NSURL+KVUtil.mm */,
+				22555F4E188EAECF00E2980B /* NSString+KVHashes.h */,
+				22555F4F188EAECF00E2980B /* NSString+KVHashes.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		2272E591186E05CA009357C4 = {
 			isa = PBXGroup;
 			children = (
@@ -170,23 +211,11 @@
 		2272E5A3186E05CA009357C4 /* KCTViewer */ = {
 			isa = PBXGroup;
 			children = (
-				2272E5AF186E05CA009357C4 /* KVAppDelegate.h */,
-				2272E5B0186E05CA009357C4 /* KVAppDelegate.mm */,
-				226F33B31886B55000FAF389 /* KVHTTPProtocol.h */,
-				226F33B41886B55000FAF389 /* KVHTTPProtocol.mm */,
-				22555F59188ECC5800E2980B /* KVTranslator.h */,
-				22555F5A188ECC5800E2980B /* KVTranslator.m */,
-				22EEBD05188713A600C336D0 /* KVJSUtils.h */,
-				22EEBD06188713A600C336D0 /* KVJSUtils.m */,
-				2272E5D3186E182F009357C4 /* NSURL+KVUtil.h */,
-				2272E5D4186E182F009357C4 /* NSURL+KVUtil.mm */,
-				22555F4E188EAECF00E2980B /* NSString+KVHashes.h */,
-				22555F4F188EAECF00E2980B /* NSString+KVHashes.m */,
-				2272E5B2186E05CA009357C4 /* MainMenu.xib */,
-				2272E5B5186E05CA009357C4 /* Images.xcassets */,
-				2272E5D6186E1F38009357C4 /* index.html */,
-				22555F4A188E727900E2980B /* kc_eng.json */,
-				22EEBCFE188705B300C336D0 /* JavaScript */,
+				22110FB71891071D00EDEEEC /* Frontend */,
+				22110FB91891074100EDEEEC /* Model */,
+				22110FB81891073700EDEEEC /* Network */,
+				22110FBA1891075A00EDEEEC /* Categories */,
+				22EEBCFE188705B300C336D0 /* Resources */,
 				2272E5A4186E05CA009357C4 /* Supporting Files */,
 			);
 			path = KCTViewer;
@@ -222,12 +251,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		22EEBCFE188705B300C336D0 /* JavaScript */ = {
+		22EEBCFE188705B300C336D0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2272E5B5186E05CA009357C4 /* Images.xcassets */,
+				2272E5D6186E1F38009357C4 /* index.html */,
+				22555F4A188E727900E2980B /* kc_eng.json */,
 				22EEBCFF188705C400C336D0 /* esc.js */,
 			);
-			name = JavaScript;
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
