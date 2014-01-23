@@ -13,7 +13,7 @@
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
-	return [request.URL.scheme isEqualToString:@"http"] && ![[self class] propertyForKey:@"_handled" inRequest:request];
+	return [request.URL.scheme isEqualToString:@"http"] && [request.HTTPMethod isEqualToString:@"POST"] && ![[self class] propertyForKey:@"_handled" inRequest:request];
 }
 
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request

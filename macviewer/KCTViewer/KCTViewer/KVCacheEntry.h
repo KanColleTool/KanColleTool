@@ -8,14 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-@interface KVCacheEntry : NSObject
+@interface KVCacheEntry : NSObject <NSCoding>
 
 @property (nonatomic, strong) NSURLRequest *request;
 @property (nonatomic, strong) NSURLResponse *response;
-@property (nonatomic, strong) NSMutableData *contents;
+@property (nonatomic, strong) NSMutableData *data;
 
-- (NSString *)identifier;
-- (void)save;
-- (void)load;
+- (id)initWithRequest:(NSURLRequest *)request;
+- (id)initWithCoder:(NSCoder *)aDecoder;
+- (void)encodeWithCoder:(NSCoder *)aCoder;
+
+- (void)appendData:(NSData *)data;
 
 @end

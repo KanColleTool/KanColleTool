@@ -8,6 +8,7 @@
 
 #import "KVAppDelegate.h"
 #import "KVHTTPProtocol.h"
+#import "KVCachingHTTPProtocol.h"
 #import "NSURL+KVUtil.h"
 
 @interface KVAppDelegate ()
@@ -21,7 +22,9 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-	// Register a custom URL Protocol to mess with the responses
+	// Register custom URL protocols; the order matters, as they're handled in reverse order of registration
+	// In this case, the meddling protocol will get predecence over the caching one, like it should be
+	[NSURLProtocol registerClass:[KVCachingHTTPProtocol class]];
 	[NSURLProtocol registerClass:[KVHTTPProtocol class]];
 
 	// No, we don't want the web view to scroll just a few pixels up and down.
@@ -34,7 +37,7 @@
 	[[WebPreferences standardPreferences] setCacheModel:WebCacheModelPrimaryWebBrowser];
 
 	// Set up a cache; without this, loading the game will be slow as hell
-	NSString *cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
+	NSString *cachePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"KCTViewer"];
 	NSURLCache *cache = [[NSURLCache alloc] initWithMemoryCapacity:20 * 1024 * 1024
 													  diskCapacity:100 * 1024 * 1024
 														  diskPath:cachePath];
