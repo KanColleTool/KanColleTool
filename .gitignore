@@ -12,8 +12,6 @@ object_script*
 
 # Pods
 Pods
-Podfile.lock
-KCTViewer.xcworkspace
 
 # Editor User Data
 xcuserdata

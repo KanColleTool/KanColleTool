@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>C7DBD989-9681-4B62-94FB-F5C399D71ED2</string>
+	<key>IDESourceControlProjectName</key>
+	<string>KCTViewer</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>DC786375-B4FF-4B66-B651-AE4BE7F12CB9</key>
+		<string>ssh://github.com/KanColleTool/KanColleTool.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>macviewer/KCTViewer/KCTViewer.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>DC786375-B4FF-4B66-B651-AE4BE7F12CB9</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/KanColleTool/KanColleTool.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>DC786375-B4FF-4B66-B651-AE4BE7F12CB9</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>DC786375-B4FF-4B66-B651-AE4BE7F12CB9</string>
+			<key>IDESourceControlWCCName</key>
+			<string>KanColleTool</string>
+		</dict>
+	</array>
+</dict>
+</plist>
