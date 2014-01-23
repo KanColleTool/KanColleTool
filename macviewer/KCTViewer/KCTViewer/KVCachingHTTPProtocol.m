@@ -100,7 +100,6 @@
 		}
 		
 		_cachePath = [cacheDir stringByAppendingPathComponent:cacheID];
-		NSLog(@"Cache Path: %@", _cachePath);
 	}
 	
 	return _cachePath;
