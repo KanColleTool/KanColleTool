@@ -12,6 +12,7 @@
 #include <QSettings>
 #include <QStandardPaths>
 #include <QDebug>
+#include "KVNetworkAccessManager.h"
 #include "KVTranslator.h"
 
 KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
@@ -36,7 +37,8 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	// Set a custom network access manager to let us set up a cache and proxy.
 	// Without a cache, the game takes ages to load.
 	// Without a proxy, we can't do cool things like translating the game.
-	netManager = new QNetworkAccessManager(this);
+	//netManager = new QNetworkAccessManager(this);
+	netManager = new KVNetworkAccessManager(this);
 	
 	// Set up a cache; a larger-than-normal disk cache is quite enough for our purposes
 	cache = new QNetworkDiskCache(this);
@@ -44,9 +46,9 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	netManager->setCache(cache);
 	
 	// Set up a local proxy
-	proxy = new KVProxy(this);
+	/*proxy = new KVProxy(this);
 	proxy->run();
-	netManager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "127.0.0.1", proxy->port()));
+	netManager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "127.0.0.1", proxy->port()));*/
 	
 	//connect(proxy, SIGNAL(apiError(KVProxyServer::APIStatus)), this, SLOT(onAPIError(KVProxyServer::APIStatus)));
 	
