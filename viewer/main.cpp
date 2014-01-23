@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 	{
 		qDebug() << "Starting Proxy on Port 12345...";
 		KVProxy *proxy = new KVProxy(0, 12345);
-		proxy->run(12345);
+        proxy->run();
 	}
 	// If we're not debugging the proxy, just start normally.
 	else
