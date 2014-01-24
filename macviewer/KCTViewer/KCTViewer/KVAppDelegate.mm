@@ -74,7 +74,7 @@
 												   _loadingTranslationWindow.frame.size.height) display:YES];
 	
 	// Show the window and start animating the progress bar
-	[_loadingTranslationWindow makeKeyAndOrderFront:self];
+	[_window beginSheet:_loadingTranslationWindow completionHandler:NULL];
 	[_translationLoadingBar startAnimation:self];
 	
 	// Get the English translation from the server
@@ -110,7 +110,7 @@
 
 - (void)loadTranslationFinished
 {
-	//[_loadingTranslationWindow orderOut:self];
+	[_window endSheet:_loadingTranslationWindow];
 	[_translationLoadingBar stopAnimation:self];
 	[self generateAPILink];
 	[self loadBundledIndex];
