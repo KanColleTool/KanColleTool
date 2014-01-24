@@ -3,6 +3,6 @@
 
 #define kDefaultLivestream true
 #define kDefaultAutorefresh true
-#define kDefaultAutorefreshInterval (60*15)
+#define kDefaultAutorefreshInterval (60*60)
 
 #endif
