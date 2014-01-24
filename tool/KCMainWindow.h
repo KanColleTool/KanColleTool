@@ -39,6 +39,7 @@ public slots:
 	void updateRepairsPage();
 	void updateConstructionsPage();
 	void updateTimers();
+	void updateSettingThings();
 	
 private slots:
 	void onTranslationLoadFinished();
@@ -68,7 +69,7 @@ private:
 	
 	QSystemTrayIcon *trayIcon;
 	QMenu *trayMenu;
-	QTimer timerUpdateTimer;
+	QTimer timerUpdateTimer, refreshTimer;
 	
 	KCClient *client;
 	

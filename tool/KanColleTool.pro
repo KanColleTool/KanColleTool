@@ -43,7 +43,8 @@ HEADERS  += KCMainWindow.h \
     KCShipMaster.h \
     KCFleet.h \
     KCDock.h \
-    KCTranslator.h
+    KCTranslator.h \
+    KCDefaults.h
 
 FORMS    += \
     KCMainWindow.ui \

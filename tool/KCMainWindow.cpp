@@ -14,6 +14,7 @@
 #include "KCDock.h"
 #include "KCMacUtils.h"
 #include "KCUtil.h"
+#include "KCDefaults.h"
 
 KCMainWindow::KCMainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -25,6 +26,10 @@ KCMainWindow::KCMainWindow(QWidget *parent) :
 	this->_setupClient();
 	this->_setupTrayIcon();
 	this->_setupUI();
+	
+	// Setup settings and stuff
+	connect(&refreshTimer, SIGNAL(timeout()), this, SLOT(on_actionRefresh_triggered()));
+	this->updateSettingThings();
 	
 	// Load the translation
 	KCTranslator *tl = KCTranslator::instance();
@@ -388,6 +393,17 @@ void KCMainWindow::updateTimers()
 	}
 }
 
+void KCMainWindow::updateSettingThings()
+{
+	QSettings settings;
+	
+	// Autorefreshing
+	if(settings.value("autorefresh", kDefaultAutorefresh).toBool())
+		refreshTimer.start(settings.value("autorefreshInterval", kDefaultAutorefreshInterval).toInt()*1000);
+	else
+		refreshTimer.stop();
+}
+
 void KCMainWindow::onTranslationLoadFinished()
 {
 	qDebug() << "Received Translation Data!";
@@ -560,9 +576,8 @@ void KCMainWindow::on_actionRefresh_triggered()
 
 void KCMainWindow::on_actionSettings_triggered()
 {
-	qDebug() << "Settings";
-	
 	KCSettingsDialog *settingsDialog = new KCSettingsDialog(this);
+	connect(settingsDialog, SIGNAL(accepted()), this, SLOT(updateSettingThings()));
 	connect(settingsDialog, SIGNAL(finished(int)), settingsDialog, SLOT(deleteLater()));
 	settingsDialog->show();
 }
