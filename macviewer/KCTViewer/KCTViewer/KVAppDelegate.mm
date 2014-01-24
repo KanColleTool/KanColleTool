@@ -61,10 +61,6 @@
 	{
 		[self loadTranslation];
 	}
-	
-	NSLog(@"Server: %@", self.server);
-	NSLog(@"API Token: %@", self.apiToken);
-	NSLog(@"API Link: %@", self.apiLink);
 }
 
 - (void)loadTranslation
@@ -208,6 +204,9 @@
 
 - (void)updateBrowserLink
 {
+	NSLog(@"Server: %@", self.server);
+	NSLog(@"API Token: %@", self.apiToken);
+	NSLog(@"API Link: %@", self.apiLink);
 	[self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"setAPILink(\"%@\"); null", self.apiLink]];
 }
 
