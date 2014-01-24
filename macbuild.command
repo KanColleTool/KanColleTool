@@ -23,8 +23,8 @@ cd ..
 # Build macviewer
 cd macviewer/KCTViewer
 rm -r build
-xcodebuild -target KCTViewer -configuration Release
-cp -R build/Release/KCTViewer.app ../../dist/KanColleTool/
+xcodebuild -workspace KCTViewer.xcworkspace -scheme KCTViewer -configuration Release -derivedDataPath ./build
+cp -R build/Build/Products/Release/KCTViewer.app ../../dist/KanColleTool/
 rm -rf build
 cd ../..
 
