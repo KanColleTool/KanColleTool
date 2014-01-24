@@ -26,10 +26,10 @@
 	return digestString;
 }
 
-- (int32_t)s_crc32
+- (unsigned long)crc32
 {
 	NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
-	return (int32_t)crc32(0, data.bytes, (uint32_t)data.length);
+	return crc32(0, data.bytes, (uint32_t)data.length);
 }
 
 @end

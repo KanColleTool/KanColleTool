@@ -29,7 +29,7 @@
 	CFStringTransform((__bridge CFMutableStringRef)unescapedLine, NULL, CFSTR("Any-Hex/Java"), YES);
 	
 	// Look up a translation
-	NSString *translation = [self.tldata objectForKey:[NSString stringWithFormat:@"%d", [unescapedLine s_crc32]]];
+	NSString *translation = [self.tldata objectForKey:[NSString stringWithFormat:@"%lu", [unescapedLine crc32]]];
 	
 	if(translation)
 	{
