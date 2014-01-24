@@ -59,6 +59,7 @@ private slots:
 	void on_actionRepairs_triggered();
 	void on_actionConstruction_triggered();
 	void on_actionRefresh_triggered();
+	void on_actionSettings_triggered();
 	
 	void on_fleetsTabBar_currentChanged(int index);
 	

@@ -7,6 +7,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QDebug>
+#include "KCSettingsDialog.h"
 #include "KCTranslator.h"
 #include "KCShip.h"
 #include "KCShipMaster.h"
@@ -70,7 +71,7 @@ void KCMainWindow::_setupUI()
 	// Right-align some items on the toolbar
 	QWidget *toolbarSpacer = new QWidget();
 	toolbarSpacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-	ui->toolBar->insertWidget(ui->actionRefresh, toolbarSpacer);
+	ui->toolBar->insertWidget(ui->actionSettings, toolbarSpacer);
 	
 	// Set up the Fleets page
 	{
@@ -555,6 +556,15 @@ void KCMainWindow::on_actionRefresh_triggered()
 	client->requestPlayerFleets();
 	client->requestPlayerRepairs();
 	client->requestPlayerConstructions();
+}
+
+void KCMainWindow::on_actionSettings_triggered()
+{
+	qDebug() << "Settings";
+	
+	KCSettingsDialog *settingsDialog = new KCSettingsDialog(this);
+	connect(settingsDialog, SIGNAL(finished(int)), settingsDialog, SLOT(deleteLater()));
+	settingsDialog->show();
 }
 
 void KCMainWindow::on_fleetsTabBar_currentChanged(int index)

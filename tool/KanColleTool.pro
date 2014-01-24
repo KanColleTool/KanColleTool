@@ -28,6 +28,7 @@ INSTALLS += binaries
 
 SOURCES += main.cpp \
 	KCMainWindow.cpp \
+    KCSettingsDialog.cpp \
 	KCClient.cpp \
     KCShip.cpp \
     KCShipMaster.cpp \
@@ -36,6 +37,7 @@ SOURCES += main.cpp \
     KCTranslator.cpp
 
 HEADERS  += KCMainWindow.h \
+    KCSettingsDialog.h \
 	KCClient.h \
     KCShip.h \
     KCShipMaster.h \
@@ -44,7 +46,8 @@ HEADERS  += KCMainWindow.h \
     KCTranslator.h
 
 FORMS    += \
-    KCMainWindow.ui
+    KCMainWindow.ui \
+    KCSettingsDialog.ui
 
 RESOURCES += resources.qrc
 
