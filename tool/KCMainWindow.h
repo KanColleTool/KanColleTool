@@ -41,6 +41,8 @@ public slots:
 	void updateTimers();
 	
 private slots:
+	void onTranslationLoadFinished();
+	void onTranslationLoadFailed(QString error);
 	void onCredentialsGained();
 	void onReceivedMasterShips();
 	void onReceivedPlayerShips();

@@ -7,6 +7,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QDebug>
+#include "KCTranslator.h"
 #include "KCShip.h"
 #include "KCShipMaster.h"
 #include "KCDock.h"
@@ -23,6 +24,12 @@ KCMainWindow::KCMainWindow(QWidget *parent) :
 	this->_setupClient();
 	this->_setupTrayIcon();
 	this->_setupUI();
+	
+	// Load the translation
+	KCTranslator *tl = KCTranslator::instance();
+	connect(tl, SIGNAL(loadFinished()), this, SLOT(onTranslationLoadFinished()));
+	connect(tl, SIGNAL(loadFailed(QString)), this, SLOT(onTranslationLoadFailed(QString)));
+	tl->loadTranslation();
 	
 	// Make a timer that updates the dock timers, with a 1sec interval
 	connect(&timerUpdateTimer, SIGNAL(timeout()), this, SLOT(updateTimers()));
@@ -199,7 +206,6 @@ void KCMainWindow::updateFleetsPage()
 		
 		QGroupBox *box = findChild<QGroupBox*>(QString("fleetBox") + iS);
 		QLabel *nameLabel = findChild<QLabel*>(QString("fleetName") + iS);
-		QLabel *readingLabel = findChild<QLabel*>(QString("fleetReading") + iS);
 		QProgressBar *hpBar = findChild<QProgressBar*>(QString("fleetHpBar") + iS);
 		QProgressBar *ammoBar = findChild<QProgressBar*>(QString("fleetAmmoBar") + iS);
 		QProgressBar *fuelBar = findChild<QProgressBar*>(QString("fleetFuelBar") + iS);
@@ -207,8 +213,7 @@ void KCMainWindow::updateFleetsPage()
 		QLabel *condLabel = findChild<QLabel*>(QString("fleetCond") + iS);
 		
 		box->show();
-		nameLabel->setText(ship->name);
-		readingLabel->setText(ship->reading);
+		nameLabel->setText(kcTranslate(ship->name));
 		hpBar->setRange(0, ship->maxHp);
 		hpBar->setValue(ship->hp);
 		ammoBar->setRange(0, ship->maxAmmo);
@@ -240,7 +245,7 @@ void KCMainWindow::updateShipsPage()
 		TABLE_SET_ITEM(ui->shipsTable, row, 5, ship->antiair.cur);
 		TABLE_SET_ITEM(ui->shipsTable, row, 6, ship->antisub.cur);
 		TABLE_SET_ITEM(ui->shipsTable, row, 7, ship->speed);
-		TABLE_SET_ITEM(ui->shipsTable, row, 8, QString("%1 (%2)").arg(ship->name, ship->reading));
+		TABLE_SET_ITEM(ui->shipsTable, row, 8, kcTranslate(ship->name));
 		
 		++row;
 	}
@@ -260,21 +265,18 @@ void KCMainWindow::updateRepairsPage()
 		QString iS = QString::number(i+1);
 		QGroupBox *box = findChild<QGroupBox*>(QString("repairBox") + iS);
 		QLabel *nameLabel = findChild<QLabel*>(QString("repairName") + iS);
-		QLabel *readingLabel = findChild<QLabel*>(QString("repairReading") + iS);
 		QLabel *repairTimerLabel = findChild<QLabel*>(QString("repairTimer") + iS);
 		
 		if(dock->state == KCDock::Locked)
 		{
 			box->setEnabled(false);
 			nameLabel->setText("(Locked)");
-			readingLabel->setText("");
 			repairTimerLabel->setText("");
 		}
 		else if(dock->state == KCDock::Empty)
 		{
 			box->setEnabled(true);
 			nameLabel->setText("(Empty)");
-			readingLabel->setText("");
 			repairTimerLabel->setText("0:00:00");
 		}
 		else if(dock->state == KCDock::Occupied)
@@ -283,8 +285,7 @@ void KCMainWindow::updateRepairsPage()
 			KCShip *ship = client->ships[dock->shipID];
 			if(ship)
 			{
-				nameLabel->setText(ship->name);
-				readingLabel->setText(ship->reading);
+				nameLabel->setText(kcTranslate(ship->name));
 				repairTimerLabel->setText(delta(dock->complete).toString("H:mm:ss"));
 			}
 		}
@@ -308,7 +309,6 @@ void KCMainWindow::updateConstructionsPage()
 		QString iS = QString::number(i+1);
 		QGroupBox *box = findChild<QGroupBox*>(QString("constructionBox") + iS);
 		QLabel *nameLabel = findChild<QLabel*>(QString("constructionName") + iS);
-		QLabel *readingLabel = findChild<QLabel*>(QString("constructionReading") + iS);
 		QLabel *buildTimerLabel = findChild<QLabel*>(QString("constructionTimer") + iS);
 		QCheckBox *spoilCheckbox = findChild<QCheckBox*>(QString("constructionSpoil") + iS);
 		
@@ -316,7 +316,6 @@ void KCMainWindow::updateConstructionsPage()
 		{
 			box->setEnabled(false);
 			nameLabel->setText("(Locked)");
-			readingLabel->setText("");
 			buildTimerLabel->setText("");
 			spoilCheckbox->hide();
 		}
@@ -324,7 +323,6 @@ void KCMainWindow::updateConstructionsPage()
 		{
 			box->setEnabled(true);
 			nameLabel->setText("(Empty)");
-			readingLabel->setText("");
 			buildTimerLabel->setText("0:00:00");
 			spoilCheckbox->hide();
 			spoilCheckbox->setChecked(false);	// Uncheck it!
@@ -337,21 +335,12 @@ void KCMainWindow::updateConstructionsPage()
 			{
 				KCShipMaster *ship = client->masterShips[dock->shipID];
 				if(ship)
-				{
-					nameLabel->setText(ship->name);
-					readingLabel->setText(ship->reading);
-				}
+					nameLabel->setText(kcTranslate(ship->name));
 				else
-				{
-					nameLabel->setText("...");
-					readingLabel->setText("Loading...");
-				}
+					nameLabel->setText("(Loading...)");
 			}
 			else
-			{
 				nameLabel->setText("???");
-				readingLabel->setText("");
-			}
 			
 			if(dock->state != KCDock::Finished)
 				buildTimerLabel->setText(delta(dock->complete).toString("H:mm:ss"));
@@ -396,6 +385,24 @@ void KCMainWindow::updateTimers()
 			++i;
 		}
 	}
+}
+
+void KCMainWindow::onTranslationLoadFinished()
+{
+	qDebug() << "Received Translation Data!";
+	// Update all the things!
+	updateFleetsPage();
+	updateShipsPage();
+	updateRepairsPage();
+	updateConstructionsPage();
+}
+
+void KCMainWindow::onTranslationLoadFailed(QString error)
+{
+	qDebug() << "Failed to load Translation Data..." << error;
+	QMessageBox::StandardButton button = QMessageBox::warning(this, "Couldn't load Translation", "You may choose to continue without translation data, but everything will be in Japanese.", QMessageBox::Ok|QMessageBox::Retry, QMessageBox::Retry);
+	if(button == QMessageBox::Retry)
+		KCTranslator::instance()->loadTranslation();
 }
 
 void KCMainWindow::onCredentialsGained()
@@ -485,7 +492,7 @@ void KCMainWindow::onDockCompleted(KCDock *dock)
 		KCShipMaster *shipMaster = client->masterShips[dock->shipID];
 		if(shipMaster)
 			trayIcon->showMessage("Construction Completed!",
-				QString("Say hello to %1 (%2)!").arg(shipMaster->name, shipMaster->reading));
+				QString("Say hello to %1!").arg(kcTranslate(shipMaster->name)));
 		else
 			trayIcon->showMessage("Construction Completed!",
 				QString("Say hello to your new shipgirl!"));
@@ -497,7 +504,7 @@ void KCMainWindow::onDockCompleted(KCDock *dock)
 		KCShip *ship = client->ships[dock->shipID];
 		if(ship)
 			trayIcon->showMessage("Repair Completed!",
-				QString("%1 (%2) is all healthy again!").arg(ship->name, ship->reading));
+				QString("%1 is all healthy again!").arg(kcTranslate(ship->name)));
 		else
 			trayIcon->showMessage("Repair Completed!",
 				QString("Your shipgirl is all healthy again!"));

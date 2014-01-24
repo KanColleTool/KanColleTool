@@ -6,6 +6,14 @@
 #include <QVariant>
 #include <QString>
 
+/*
+ * I had to copypaste this into the tool as "KCTranslator", because sharing the
+ * same source file between two projects seems to break everything for some
+ * reason.
+ * 
+ * Please keep the two classes synchronized!
+ */
+
 class KVTranslator : public QObject
 {
 	Q_OBJECT
@@ -39,5 +47,7 @@ private:
 	
 	KVTranslator& operator=(const KVTranslator&);
 };
+
+#define kvTranslate(_line) (KCTranslator::instance()->translate(_line))
 
 #endif

@@ -32,14 +32,16 @@ SOURCES += main.cpp \
     KCShip.cpp \
     KCShipMaster.cpp \
     KCFleet.cpp \
-    KCDock.cpp
+    KCDock.cpp \
+    KCTranslator.cpp
 
 HEADERS  += KCMainWindow.h \
 	KCClient.h \
     KCShip.h \
     KCShipMaster.h \
     KCFleet.h \
-    KCDock.h
+    KCDock.h \
+    KCTranslator.h
 
 FORMS    += \
     KCMainWindow.ui
