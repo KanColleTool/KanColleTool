@@ -52,7 +52,7 @@ void proxyHandleResponse(KVProxy *proxy, HttpProxy::Connection::Ptr con, HttpPro
 		QString value = match.captured(2);
 		
 		// Translate it!
-		value = KVTranslator::instance()->translate(value);
+		value = kvTranslate(value);
 		
 		outstr.append(QString("\"%1\":\"%2\"").arg(key, value));
 	}
