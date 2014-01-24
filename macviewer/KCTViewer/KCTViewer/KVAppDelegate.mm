@@ -69,13 +69,24 @@
 
 - (void)loadTranslation
 {
+	// Center the loading window over the main window
+	[_loadingTranslationWindow setFrame:NSMakeRect(_window.frame.origin.x +
+												   (_window.frame.size.width - _loadingTranslationWindow.frame.size.width)/2,
+												   _window.frame.origin.y +
+												   (_window.frame.size.height - _loadingTranslationWindow.frame.size.height)/2,
+												   _loadingTranslationWindow.frame.size.width,
+												   _loadingTranslationWindow.frame.size.height) display:YES];
+	
+	// Show the window and start animating the progress bar
 	[_loadingTranslationWindow makeKeyAndOrderFront:self];
 	[_translationLoadingBar startAnimation:self];
 	
+	// Get the English translation from the server
 	[_manager GET:@"http://api.comeonandsl.am/translation/en/" parameters:nil
 		  success:^(AFHTTPRequestOperation *operation, id responseObject) {
 			  
-			  //NSLog(@"%@", responseObject);
+			  // responseObject is a dictionary, unless something is really wrong here
+			  // (see: undetected Captive Portal)
 			  NSDictionary *res = responseObject;
 			  if(![[res objectForKey:@"success"] isEqual:[NSNumber numberWithInt:1]])
 			  {
@@ -103,7 +114,7 @@
 
 - (void)loadTranslationFinished
 {
-	[_loadingTranslationWindow orderOut:self];
+	//[_loadingTranslationWindow orderOut:self];
 	[_translationLoadingBar stopAnimation:self];
 	[self generateAPILink];
 	[self loadBundledIndex];
@@ -163,8 +174,6 @@
 			NSURL *url = [NSURL URLWithString:[self.apiLinkField stringValue]];
 			self.server = url.host;
 			self.apiToken = [[url queryItems] objectForKey:@"api_token"];
-			//[self generateAPILink];
-			//[self updateBrowserLink];
 			
 			[[NSUserDefaults standardUserDefaults] setObject:self.server forKey:@"server"];
 			[[NSUserDefaults standardUserDefaults] setObject:self.apiToken forKey:@"apiToken"];
