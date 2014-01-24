@@ -120,27 +120,155 @@
                <number>2</number>
               </property>
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_9">
-                <property name="spacing">
-                 <number>0</number>
+               <layout class="QGridLayout" name="gridLayout_2">
+                <property name="topMargin">
+                 <number>2</number>
                 </property>
-                <item>
-                 <spacer name="verticalSpacer_13">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Preferred</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
+                <property name="rightMargin">
+                 <number>6</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>2</number>
+                </property>
+                <property name="horizontalSpacing">
+                 <number>6</number>
+                </property>
+                <property name="verticalSpacing">
+                 <number>2</number>
+                </property>
+                <item row="0" column="2">
+                 <widget class="QProgressBar" name="fleetHpBar2">
+                  <property name="maximumSize">
                    <size>
-                    <width>20</width>
-                    <height>25</height>
+                    <width>75</width>
+                    <height>16777215</height>
                    </size>
                   </property>
-                 </spacer>
+                  <property name="value">
+                   <number>24</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
+                 </widget>
                 </item>
-                <item>
+                <item row="1" column="2">
+                 <widget class="QProgressBar" name="fleetAmmoBar2">
+                  <property name="maximumSize">
+                   <size>
+                    <width>75</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="value">
+                   <number>24</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="3">
+                 <widget class="QLabel" name="label_62">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Fuel</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLabel" name="label_63">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Ammo</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="4">
+                 <widget class="QProgressBar" name="fleetFuelBar2">
+                  <property name="maximumSize">
+                   <size>
+                    <width>75</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="value">
+                   <number>24</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLabel" name="label_61">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>HP</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="QLabel" name="label">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Cond</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="4">
+                 <widget class="QLabel" name="fleetCond2">
+                  <property name="font">
+                   <font>
+                    <pointsize>13</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>49</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
                  <widget class="QLabel" name="fleetName2">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -173,20 +301,7 @@
                   </property>
                  </widget>
                 </item>
-                <item>
-                 <spacer name="verticalSpacer_28">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
+                <item row="1" column="0">
                  <layout class="QFormLayout" name="formLayout_3">
                   <property name="fieldGrowthPolicy">
                    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
@@ -209,157 +324,6 @@
                    </widget>
                   </item>
                  </layout>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QGridLayout" name="gridLayout_2">
-                <property name="topMargin">
-                 <number>2</number>
-                </property>
-                <property name="rightMargin">
-                 <number>6</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>2</number>
-                </property>
-                <property name="horizontalSpacing">
-                 <number>6</number>
-                </property>
-                <property name="verticalSpacing">
-                 <number>2</number>
-                </property>
-                <item row="0" column="3">
-                 <widget class="QLabel" name="fleetCond2">
-                  <property name="font">
-                   <font>
-                    <pointsize>13</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>49</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2">
-                 <widget class="QLabel" name="label">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Cond</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_61">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>HP</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QProgressBar" name="fleetHpBar2">
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>24</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string>%v/%m</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QProgressBar" name="fleetAmmoBar2">
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>24</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string>%v/%m</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="2">
-                 <widget class="QLabel" name="label_62">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Fuel</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="3">
-                 <widget class="QProgressBar" name="fleetFuelBar2">
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>24</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string>%v/%m</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_63">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Ammo</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
                 </item>
                </layout>
               </item>
@@ -388,27 +352,155 @@
                <number>2</number>
               </property>
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_11">
-                <property name="spacing">
-                 <number>0</number>
+               <layout class="QGridLayout" name="gridLayout_7">
+                <property name="topMargin">
+                 <number>2</number>
                 </property>
-                <item>
-                 <spacer name="verticalSpacer_12">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
+                <property name="rightMargin">
+                 <number>6</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>2</number>
+                </property>
+                <property name="horizontalSpacing">
+                 <number>6</number>
+                </property>
+                <property name="verticalSpacing">
+                 <number>2</number>
+                </property>
+                <item row="0" column="1">
+                 <widget class="QLabel" name="label_75">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
                   </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Preferred</enum>
+                  <property name="text">
+                   <string>HP</string>
                   </property>
-                  <property name="sizeHint" stdset="0">
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="4">
+                 <widget class="QProgressBar" name="fleetFuelBar4">
+                  <property name="maximumSize">
                    <size>
-                    <width>20</width>
-                    <height>25</height>
+                    <width>75</width>
+                    <height>16777215</height>
                    </size>
                   </property>
-                 </spacer>
+                  <property name="value">
+                   <number>24</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
+                 </widget>
                 </item>
-                <item>
+                <item row="1" column="3">
+                 <widget class="QLabel" name="label_76">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Fuel</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="2">
+                 <widget class="QProgressBar" name="fleetAmmoBar4">
+                  <property name="maximumSize">
+                   <size>
+                    <width>75</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="value">
+                   <number>24</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLabel" name="label_77">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Ammo</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QProgressBar" name="fleetHpBar4">
+                  <property name="maximumSize">
+                   <size>
+                    <width>75</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="value">
+                   <number>24</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="QLabel" name="label_7">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Cond</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="4">
+                 <widget class="QLabel" name="fleetCond4">
+                  <property name="font">
+                   <font>
+                    <pointsize>13</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>49</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
                  <widget class="QLabel" name="fleetName4">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -441,20 +533,7 @@
                   </property>
                  </widget>
                 </item>
-                <item>
-                 <spacer name="verticalSpacer_27">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
+                <item row="1" column="0">
                  <layout class="QFormLayout" name="formLayout_2">
                   <property name="fieldGrowthPolicy">
                    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
@@ -477,157 +556,6 @@
                    </widget>
                   </item>
                  </layout>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QGridLayout" name="gridLayout_7">
-                <property name="topMargin">
-                 <number>2</number>
-                </property>
-                <property name="rightMargin">
-                 <number>6</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>2</number>
-                </property>
-                <property name="horizontalSpacing">
-                 <number>6</number>
-                </property>
-                <property name="verticalSpacing">
-                 <number>2</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_75">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>HP</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="3">
-                 <widget class="QProgressBar" name="fleetFuelBar4">
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>24</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string>%v/%m</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="2">
-                 <widget class="QLabel" name="label_76">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Fuel</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QProgressBar" name="fleetAmmoBar4">
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>24</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string>%v/%m</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_77">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Ammo</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QProgressBar" name="fleetHpBar4">
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>24</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string>%v/%m</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2">
-                 <widget class="QLabel" name="label_7">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Cond</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="3">
-                 <widget class="QLabel" name="fleetCond4">
-                  <property name="font">
-                   <font>
-                    <pointsize>13</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>49</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
                 </item>
                </layout>
               </item>
@@ -656,27 +584,155 @@
                <number>2</number>
               </property>
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_10">
-                <property name="spacing">
-                 <number>0</number>
+               <layout class="QGridLayout" name="gridLayout_4">
+                <property name="topMargin">
+                 <number>2</number>
                 </property>
-                <item>
-                 <spacer name="verticalSpacer_11">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Preferred</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
+                <property name="rightMargin">
+                 <number>6</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>2</number>
+                </property>
+                <property name="horizontalSpacing">
+                 <number>6</number>
+                </property>
+                <property name="verticalSpacing">
+                 <number>2</number>
+                </property>
+                <item row="1" column="2">
+                 <widget class="QProgressBar" name="fleetAmmoBar3">
+                  <property name="maximumSize">
                    <size>
-                    <width>20</width>
-                    <height>25</height>
+                    <width>75</width>
+                    <height>16777215</height>
                    </size>
                   </property>
-                 </spacer>
+                  <property name="value">
+                   <number>24</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
+                 </widget>
                 </item>
-                <item>
+                <item row="0" column="4">
+                 <widget class="QLabel" name="fleetCond3">
+                  <property name="font">
+                   <font>
+                    <pointsize>13</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>49</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="3">
+                 <widget class="QLabel" name="label_69">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Fuel</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QProgressBar" name="fleetHpBar3">
+                  <property name="maximumSize">
+                   <size>
+                    <width>75</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="value">
+                   <number>24</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLabel" name="label_68">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>HP</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="4">
+                 <widget class="QProgressBar" name="fleetFuelBar3">
+                  <property name="maximumSize">
+                   <size>
+                    <width>75</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="value">
+                   <number>24</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="QLabel" name="label_70">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Cond</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLabel" name="label_5">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Ammo</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
                  <widget class="QLabel" name="fleetName3">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -709,20 +765,7 @@
                   </property>
                  </widget>
                 </item>
-                <item>
-                 <spacer name="verticalSpacer_23">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
+                <item row="1" column="0">
                  <layout class="QFormLayout" name="formLayout_5">
                   <property name="fieldGrowthPolicy">
                    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
@@ -745,157 +788,6 @@
                    </widget>
                   </item>
                  </layout>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QGridLayout" name="gridLayout_4">
-                <property name="topMargin">
-                 <number>2</number>
-                </property>
-                <property name="rightMargin">
-                 <number>6</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>2</number>
-                </property>
-                <property name="horizontalSpacing">
-                 <number>6</number>
-                </property>
-                <property name="verticalSpacing">
-                 <number>2</number>
-                </property>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_5">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Ammo</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2">
-                 <widget class="QLabel" name="label_70">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Cond</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="3">
-                 <widget class="QProgressBar" name="fleetFuelBar3">
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>24</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string>%v/%m</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_68">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>HP</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QProgressBar" name="fleetHpBar3">
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>24</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string>%v/%m</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="2">
-                 <widget class="QLabel" name="label_69">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Fuel</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QProgressBar" name="fleetAmmoBar3">
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>24</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string>%v/%m</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="3">
-                 <widget class="QLabel" name="fleetCond3">
-                  <property name="font">
-                   <font>
-                    <pointsize>13</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>49</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
                 </item>
                </layout>
               </item>
@@ -924,27 +816,155 @@
                <number>2</number>
               </property>
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_12">
-                <property name="spacing">
-                 <number>0</number>
+               <layout class="QGridLayout" name="gridLayout_5">
+                <property name="topMargin">
+                 <number>2</number>
                 </property>
-                <item>
-                 <spacer name="verticalSpacer_15">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
+                <property name="rightMargin">
+                 <number>6</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>2</number>
+                </property>
+                <property name="horizontalSpacing">
+                 <number>6</number>
+                </property>
+                <property name="verticalSpacing">
+                 <number>2</number>
+                </property>
+                <item row="1" column="1">
+                 <widget class="QLabel" name="label_84">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
                   </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Preferred</enum>
+                  <property name="text">
+                   <string>Ammo</string>
                   </property>
-                  <property name="sizeHint" stdset="0">
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLabel" name="label_82">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>HP</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QProgressBar" name="fleetHpBar5">
+                  <property name="maximumSize">
                    <size>
-                    <width>20</width>
-                    <height>25</height>
+                    <width>75</width>
+                    <height>16777215</height>
                    </size>
                   </property>
-                 </spacer>
+                  <property name="value">
+                   <number>24</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
+                 </widget>
                 </item>
-                <item>
+                <item row="0" column="4">
+                 <widget class="QLabel" name="fleetCond5">
+                  <property name="font">
+                   <font>
+                    <pointsize>13</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>49</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="QLabel" name="label_6">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Cond</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="3">
+                 <widget class="QLabel" name="label_83">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Fuel</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="4">
+                 <widget class="QProgressBar" name="fleetFuelBar5">
+                  <property name="maximumSize">
+                   <size>
+                    <width>75</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="value">
+                   <number>24</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="2">
+                 <widget class="QProgressBar" name="fleetAmmoBar5">
+                  <property name="maximumSize">
+                   <size>
+                    <width>75</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="value">
+                   <number>24</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
                  <widget class="QLabel" name="fleetName5">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -977,20 +997,7 @@
                   </property>
                  </widget>
                 </item>
-                <item>
-                 <spacer name="verticalSpacer_25">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
+                <item row="1" column="0">
                  <layout class="QFormLayout" name="formLayout_6">
                   <property name="fieldGrowthPolicy">
                    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
@@ -1013,157 +1020,6 @@
                    </widget>
                   </item>
                  </layout>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QGridLayout" name="gridLayout_5">
-                <property name="topMargin">
-                 <number>2</number>
-                </property>
-                <property name="rightMargin">
-                 <number>6</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>2</number>
-                </property>
-                <property name="horizontalSpacing">
-                 <number>6</number>
-                </property>
-                <property name="verticalSpacing">
-                 <number>2</number>
-                </property>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_84">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Ammo</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_82">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>HP</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QProgressBar" name="fleetHpBar5">
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>24</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string>%v/%m</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="3">
-                 <widget class="QLabel" name="fleetCond5">
-                  <property name="font">
-                   <font>
-                    <pointsize>13</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>49</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2">
-                 <widget class="QLabel" name="label_6">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Cond</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="2">
-                 <widget class="QLabel" name="label_83">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Fuel</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="3">
-                 <widget class="QProgressBar" name="fleetFuelBar5">
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>24</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string>%v/%m</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QProgressBar" name="fleetAmmoBar5">
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>24</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string>%v/%m</string>
-                  </property>
-                 </widget>
                 </item>
                </layout>
               </item>
@@ -1195,27 +1051,155 @@
                <number>2</number>
               </property>
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_13">
-                <property name="spacing">
-                 <number>0</number>
+               <layout class="QGridLayout" name="gridLayout_6">
+                <property name="topMargin">
+                 <number>2</number>
                 </property>
-                <item>
-                 <spacer name="verticalSpacer_16">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Preferred</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
+                <property name="rightMargin">
+                 <number>6</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>2</number>
+                </property>
+                <property name="horizontalSpacing">
+                 <number>6</number>
+                </property>
+                <property name="verticalSpacing">
+                 <number>2</number>
+                </property>
+                <item row="1" column="2">
+                 <widget class="QProgressBar" name="fleetAmmoBar6">
+                  <property name="maximumSize">
                    <size>
-                    <width>20</width>
-                    <height>25</height>
+                    <width>75</width>
+                    <height>16777215</height>
                    </size>
                   </property>
-                 </spacer>
+                  <property name="value">
+                   <number>24</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
+                 </widget>
                 </item>
-                <item>
+                <item row="0" column="2">
+                 <widget class="QProgressBar" name="fleetHpBar6">
+                  <property name="maximumSize">
+                   <size>
+                    <width>75</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="value">
+                   <number>24</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLabel" name="label_91">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Ammo</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="4">
+                 <widget class="QLabel" name="fleetCond6">
+                  <property name="font">
+                   <font>
+                    <pointsize>13</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>49</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="QLabel" name="label_8">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Cond</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="3">
+                 <widget class="QLabel" name="label_90">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Fuel</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLabel" name="label_89">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>HP</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="4">
+                 <widget class="QProgressBar" name="fleetFuelBar6">
+                  <property name="maximumSize">
+                   <size>
+                    <width>75</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="value">
+                   <number>24</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
                  <widget class="QLabel" name="fleetName6">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -1248,20 +1232,7 @@
                   </property>
                  </widget>
                 </item>
-                <item>
-                 <spacer name="verticalSpacer_26">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
+                <item row="1" column="0">
                  <layout class="QFormLayout" name="formLayout">
                   <property name="fieldGrowthPolicy">
                    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
@@ -1284,157 +1255,6 @@
                    </widget>
                   </item>
                  </layout>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QGridLayout" name="gridLayout_6">
-                <property name="topMargin">
-                 <number>2</number>
-                </property>
-                <property name="rightMargin">
-                 <number>6</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>2</number>
-                </property>
-                <property name="horizontalSpacing">
-                 <number>6</number>
-                </property>
-                <property name="verticalSpacing">
-                 <number>2</number>
-                </property>
-                <item row="1" column="3">
-                 <widget class="QProgressBar" name="fleetFuelBar6">
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>24</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string>%v/%m</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="2">
-                 <widget class="QLabel" name="label_90">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Fuel</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2">
-                 <widget class="QLabel" name="label_8">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Cond</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="3">
-                 <widget class="QLabel" name="fleetCond6">
-                  <property name="font">
-                   <font>
-                    <pointsize>13</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>49</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_91">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Ammo</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QProgressBar" name="fleetHpBar6">
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>24</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string>%v/%m</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_89">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>HP</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QProgressBar" name="fleetAmmoBar6">
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>24</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string>%v/%m</string>
-                  </property>
-                 </widget>
                 </item>
                </layout>
               </item>
@@ -1463,27 +1283,155 @@
                <number>2</number>
               </property>
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_8">
-                <property name="spacing">
-                 <number>0</number>
+               <layout class="QGridLayout" name="gridLayout_3">
+                <property name="topMargin">
+                 <number>2</number>
                 </property>
-                <item>
-                 <spacer name="verticalSpacer_14">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Preferred</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
+                <property name="rightMargin">
+                 <number>6</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>2</number>
+                </property>
+                <property name="horizontalSpacing">
+                 <number>6</number>
+                </property>
+                <property name="verticalSpacing">
+                 <number>2</number>
+                </property>
+                <item row="1" column="2">
+                 <widget class="QProgressBar" name="fleetAmmoBar1">
+                  <property name="maximumSize">
                    <size>
-                    <width>20</width>
-                    <height>25</height>
+                    <width>75</width>
+                    <height>16777215</height>
                    </size>
                   </property>
-                 </spacer>
+                  <property name="value">
+                   <number>24</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
+                 </widget>
                 </item>
-                <item>
+                <item row="1" column="4">
+                 <widget class="QProgressBar" name="fleetFuelBar1">
+                  <property name="maximumSize">
+                   <size>
+                    <width>75</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="value">
+                   <number>24</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLabel" name="label_54">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>HP</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLabel" name="label_55">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Ammo</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="3">
+                 <widget class="QLabel" name="label_3">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Fuel</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QProgressBar" name="fleetHpBar1">
+                  <property name="maximumSize">
+                   <size>
+                    <width>75</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="value">
+                   <number>24</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string>%v/%m</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="QLabel" name="label_56">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Cond</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="4">
+                 <widget class="QLabel" name="fleetCond1">
+                  <property name="font">
+                   <font>
+                    <pointsize>13</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>49</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
                  <widget class="QLabel" name="fleetName1">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -1516,20 +1464,7 @@
                   </property>
                  </widget>
                 </item>
-                <item>
-                 <spacer name="verticalSpacer_24">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
+                <item row="1" column="0">
                  <layout class="QFormLayout" name="formLayout_4">
                   <property name="fieldGrowthPolicy">
                    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
@@ -1552,157 +1487,6 @@
                    </widget>
                   </item>
                  </layout>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QGridLayout" name="gridLayout_3">
-                <property name="topMargin">
-                 <number>2</number>
-                </property>
-                <property name="rightMargin">
-                 <number>6</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>2</number>
-                </property>
-                <property name="horizontalSpacing">
-                 <number>6</number>
-                </property>
-                <property name="verticalSpacing">
-                 <number>2</number>
-                </property>
-                <item row="0" column="1">
-                 <widget class="QProgressBar" name="fleetHpBar1">
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>24</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string>%v/%m</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QProgressBar" name="fleetAmmoBar1">
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>24</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string>%v/%m</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="2">
-                 <widget class="QLabel" name="label_3">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Fuel</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_55">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Ammo</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_54">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>HP</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="3">
-                 <widget class="QProgressBar" name="fleetFuelBar1">
-                  <property name="maximumSize">
-                   <size>
-                    <width>75</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>24</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string>%v/%m</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2">
-                 <widget class="QLabel" name="label_56">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Cond</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="3">
-                 <widget class="QLabel" name="fleetCond1">
-                  <property name="font">
-                   <font>
-                    <pointsize>13</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>49</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
                 </item>
                </layout>
               </item>
