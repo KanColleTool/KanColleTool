@@ -19,10 +19,12 @@
 @property (nonatomic, strong) AFHTTPRequestOperationManager *manager;
 
 @property (assign) IBOutlet NSWindow *window, *enterAPILinkWindow, *loadingTranslationWindow;
+@property (assign) IBOutlet NSProgressIndicator *translationLoadingBar;
 @property (assign) IBOutlet WebView *webView;
 @property (assign) IBOutlet NSTextField *apiLinkField;
 
 - (void)loadTranslation;
+- (void)loadTranslationFinished;
 - (void)loadBundledIndex;
 - (void)loadJS;
 - (WebScriptObject *)loadScript:(NSString *)name;

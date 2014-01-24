@@ -70,6 +70,7 @@
 - (void)loadTranslation
 {
 	[_loadingTranslationWindow makeKeyAndOrderFront:self];
+	[_translationLoadingBar startAnimation:self];
 	
 	[_manager GET:@"http://api.comeonandsl.am/translation/en/" parameters:nil
 		  success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -87,9 +88,7 @@
 				  [[KVTranslator sharedTranslator] setTldata:[res objectForKey:@"translation"]];
 			  }
 			  
-			  [_loadingTranslationWindow orderOut:self];
-			  [self generateAPILink];
-			  [self loadBundledIndex];
+			  [self loadTranslationFinished];
 			  
 		  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 			  
@@ -97,11 +96,17 @@
 				  if(returnCode == NSAlertDefaultReturn) [self loadTranslation];
 			  }];
 			  
-			  [_loadingTranslationWindow orderOut:self];
-			  [self generateAPILink];
-			  [self loadBundledIndex];
+			  [self loadTranslationFinished];
 			  
 		  }];
+}
+
+- (void)loadTranslationFinished
+{
+	[_loadingTranslationWindow orderOut:self];
+	[_translationLoadingBar stopAnimation:self];
+	[self generateAPILink];
+	[self loadBundledIndex];
 }
 
 - (void)loadBundledIndex

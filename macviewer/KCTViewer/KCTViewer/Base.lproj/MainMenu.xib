@@ -356,6 +356,7 @@
                 <outlet property="apiLinkField" destination="glN-qr-ay4" id="BqZ-ZX-Zz7"/>
                 <outlet property="enterAPILinkWindow" destination="Rss-np-YMc" id="j23-3t-crS"/>
                 <outlet property="loadingTranslationWindow" destination="TFM-We-NAZ" id="DAS-R0-02h"/>
+                <outlet property="translationLoadingBar" destination="5wo-QP-YeQ" id="X5P-0c-kb8"/>
                 <outlet property="webView" destination="uZg-cN-0FA" id="cZK-J9-uVK"/>
                 <outlet property="window" destination="371" id="532"/>
             </connections>
