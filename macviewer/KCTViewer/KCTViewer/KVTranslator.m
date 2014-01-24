@@ -22,30 +22,6 @@
     return sharedInstance;
 }
 
-- (id)init
-{
-	if((self = [super init]))
-	{
-		NSError *error = nil;
-		NSString *tljson = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"kc_eng" ofType:@"json"]
-													 encoding:NSUTF8StringEncoding error:&error];
-		if(error)
-		{
-			NSLog(@"Couldn't read kc_eng.json: %@", error);
-			return nil;
-		}
-		
-		self.tldata = [NSJSONSerialization JSONObjectWithData:[tljson dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
-		if(error)
-		{
-			NSLog(@"kc_eng.json is invalid: %@", error);
-			return nil;
-		}
-	}
-	
-	return self;
-}
-
 - (NSString *)translate:(NSString *)line
 {
 	// Use CFStringTransform to unescape the line

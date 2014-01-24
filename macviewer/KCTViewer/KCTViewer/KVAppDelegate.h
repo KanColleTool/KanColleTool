@@ -16,11 +16,13 @@
 @property (nonatomic, strong) NSURL *apiLink;
 
 @property (nonatomic, strong) KVJSUtils *jsUtils;
+@property (nonatomic, strong) AFHTTPRequestOperationManager *manager;
 
-@property (assign) IBOutlet NSWindow *window, *enterAPILinkWindow;
+@property (assign) IBOutlet NSWindow *window, *enterAPILinkWindow, *loadingTranslationWindow;
 @property (assign) IBOutlet WebView *webView;
 @property (assign) IBOutlet NSTextField *apiLinkField;
 
+- (void)loadTranslation;
 - (void)loadBundledIndex;
 - (void)loadJS;
 - (WebScriptObject *)loadScript:(NSString *)name;

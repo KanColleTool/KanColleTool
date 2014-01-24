@@ -9,6 +9,7 @@
 #import "KVAppDelegate.h"
 #import "KVHTTPProtocol.h"
 #import "KVCachingHTTPProtocol.h"
+#import "KVTranslator.h"
 #import "NSURL+KVUtil.h"
 
 @interface KVAppDelegate ()
@@ -26,6 +27,9 @@
 	// In this case, the meddling protocol will get predecence over the caching one, like it should be
 	[NSURLProtocol registerClass:[KVCachingHTTPProtocol class]];
 	[NSURLProtocol registerClass:[KVHTTPProtocol class]];
+	
+	// For all our out-of-browser networking needs
+	self.manager = [AFHTTPRequestOperationManager manager];
 
 	// No, we don't want the web view to scroll just a few pixels up and down.
 	[self.webView.mainFrame.frameView setAllowsScrolling:NO];
@@ -52,16 +56,52 @@
 	{
 		[self actionEnterAPILink:nil];
 	}
-	// Otherwise, generate a link and load it
+	// Otherwise, load the the translation right away, which will end up using it
 	else
 	{
-		[self generateAPILink];
-		[self loadBundledIndex];
+		[self loadTranslation];
 	}
 	
 	NSLog(@"Server: %@", self.server);
 	NSLog(@"API Token: %@", self.apiToken);
 	NSLog(@"API Link: %@", self.apiLink);
+}
+
+- (void)loadTranslation
+{
+	[_loadingTranslationWindow makeKeyAndOrderFront:self];
+	
+	[_manager GET:@"http://api.comeonandsl.am/translation/en/" parameters:nil
+		  success:^(AFHTTPRequestOperation *operation, id responseObject) {
+			  
+			  //NSLog(@"%@", responseObject);
+			  NSDictionary *res = responseObject;
+			  if(![[res objectForKey:@"success"] isEqual:[NSNumber numberWithInt:1]])
+			  {
+				  [[NSAlert alertWithMessageText:@"Translation API returned an error" defaultButton:@"Retry" alternateButton:@"Continue" otherButton:nil informativeTextWithFormat:@"The Translation API doesn't seem to be working. You can continue without translation data, but the game will be in Japanese. Continue?"] beginSheetModalForWindow:_window completionHandler:^(NSModalResponse returnCode) {
+					  if(returnCode == NSAlertDefaultReturn) [self loadTranslation];
+				  }];
+			  }
+			  else
+			  {
+				  [[KVTranslator sharedTranslator] setTldata:[res objectForKey:@"translation"]];
+			  }
+			  
+			  [_loadingTranslationWindow orderOut:self];
+			  [self generateAPILink];
+			  [self loadBundledIndex];
+			  
+		  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+			  
+			  [[NSAlert alertWithMessageText:@"Failed to load Translation Data" defaultButton:@"Retry" alternateButton:@"Continue" otherButton:nil informativeTextWithFormat:@"This usually means that your connection is down, or that the translation API is. You can continue without this, but the game will be in Japanese. Continue?"] beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+				  if(returnCode == NSAlertDefaultReturn) [self loadTranslation];
+			  }];
+			  
+			  [_loadingTranslationWindow orderOut:self];
+			  [self generateAPILink];
+			  [self loadBundledIndex];
+			  
+		  }];
 }
 
 - (void)loadBundledIndex
@@ -118,12 +158,14 @@
 			NSURL *url = [NSURL URLWithString:[self.apiLinkField stringValue]];
 			self.server = url.host;
 			self.apiToken = [[url queryItems] objectForKey:@"api_token"];
-			[self generateAPILink];
-			[self updateBrowserLink];
+			//[self generateAPILink];
+			//[self updateBrowserLink];
 			
 			[[NSUserDefaults standardUserDefaults] setObject:self.server forKey:@"server"];
 			[[NSUserDefaults standardUserDefaults] setObject:self.apiToken forKey:@"apiToken"];
 			[[NSUserDefaults standardUserDefaults] synchronize];
+			
+			[self loadTranslation];
 		}
 	}];
 }
