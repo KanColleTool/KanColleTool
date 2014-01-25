@@ -48,6 +48,6 @@ private:
 	KVTranslator& operator=(const KVTranslator&);
 };
 
-#define kvTranslate(_line) (KCTranslator::instance()->translate(_line))
+#define kvTranslate(_line) (KVTranslator::instance()->translate(_line))
 
 #endif

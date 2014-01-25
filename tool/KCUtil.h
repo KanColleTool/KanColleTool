@@ -1,6 +1,9 @@
 #ifndef KCUTIL_H
 #define KCUTIL_H
 
+#include <QRegExp>
+#include <QTime>
+
 // 
 // Taken from http://stackoverflow.com/a/7047000
 // TODO: Change the QRegExp (which is bad) to a QRegularExpression (good).

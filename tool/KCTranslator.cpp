@@ -90,7 +90,7 @@ void KCTranslator::translationRequestFinished()
 	QJsonObject root(doc.object());
 	
 	// Check the response
-	int success = root.value("success").toInt();
+	int success = (int) root.value("success").toDouble();
 	if(success != 1)
 	{
 		emit loadFailed(QString("API Error %1").arg(success));

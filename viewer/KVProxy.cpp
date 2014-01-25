@@ -28,7 +28,7 @@ int KVProxy::port()
 void KVProxy::run(bool async)
 {
 	if(async)
-		pollTimer.start(0);
+		pollTimer.start(20);
 	else
 		p.run();
 }

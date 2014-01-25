@@ -3,6 +3,7 @@
 #include "KCUtil.h"
 #include "KCClient.h"
 #include <QDebug>
+#include <QRegExp>
 
 KCDock::KCDock(QObject *parent) : KCDock(QVariantMap(), parent) {}
 

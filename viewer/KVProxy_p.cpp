@@ -52,7 +52,7 @@ void proxyHandleResponse(KVProxy *proxy, HttpProxy::Connection::Ptr con, HttpPro
 		QString value = match.captured(2);
 		
 		// Translate it!
-		value = kvTranslate(value);
+//		value = kvTranslate(value);
 		
 		outstr.append(QString("\"%1\":\"%2\"").arg(key, value));
 	}
@@ -60,5 +60,6 @@ void proxyHandleResponse(KVProxy *proxy, HttpProxy::Connection::Ptr con, HttpPro
 	outstr.append(str.mid(lastEnd));
 	
 	con->reply(res.status_code, res.status_message, res.headers, outstr.toStdString());
+	std::cout << "Repl: " << outstr.toStdString() << std::endl;
 	std::cout << "< " << con->request_path << std::endl;
 }
