@@ -1,3 +1,12 @@
+kancolletool (0.6.0-1) unstable; urgency=medium
+
+  * English translation!
+  * Autorefreshing
+  * Settings dialog
+  * Better-looking UI
+
+ -- Johannes Ekberg <uppfinnarn@gmail.com>  Sat, 25 Jan 2014 18:22:14 +0100
+
 kancolletool (0.5.2-1) unstable; urgency=medium
 
   * Fixes more layout bugs!
