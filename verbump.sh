@@ -7,7 +7,8 @@ fi
 
 echo $1 > VERSION
 
-sed -i 's/#define KCT_VERSION .*/#define KCT_VERSION "'$1'"/' {tool,viewer}/version.h
-sed -i 's/VERSION = .*/VERSION = '$1'/' {tool,viewer}/*.pro
-sed -i '/<key>CFBundleShortVersionString<\/key>/!b;n;c\\t<string>'$1'</string>' macviewer/KCTViewer/KCTViewer/KCTViewer-Info.plist
+sed -i '' -e 's/#define KCT_VERSION .*/#define KCT_VERSION "'$1'"/' {tool,viewer}/version.h
+sed -i '' -e 's/#define MyAppVersion .*/#define MyAppVersion "'$1'"/' targets/windows/KanColleTool.iss
+sed -i '' -e 's/VERSION = .*/VERSION = '$1'/' {tool,viewer}/*.pro
+sed -n -i '' -e '/CFBundleShortVersionString/{p;n;s/>.*</>'$1'</;};p' macviewer/KCTViewer/KCTViewer/KCTViewer-Info.plist
 

@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "KanColleTool"
-#define MyAppVersion "0.4.0"
+#define MyAppVersion "0.6.0"
 #define MyAppPublisher "MacaroniCode"
 #define MyAppURL "http://kancolletool.github.io/"
 
