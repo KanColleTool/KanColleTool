@@ -243,6 +243,9 @@ void KCMainWindow::updateShipsPage()
 	int row = 0;
 	foreach(KCShip *ship, client->ships)
 	{
+		if(!ship)
+			continue;
+		
 		TABLE_SET_ITEM(ui->shipsTable, row, 0, ship->level);
 		TABLE_SET_ITEM(ui->shipsTable, row, 1, ship->maxHp);
 		TABLE_SET_ITEM(ui->shipsTable, row, 2, ship->firepower.cur);
