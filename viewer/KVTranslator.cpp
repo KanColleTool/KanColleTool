@@ -3,6 +3,7 @@
 #include <QUrl>
 #include <QByteArray>
 #include <QJsonDocument>
+#include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QNetworkRequest>
@@ -42,6 +43,12 @@ KVTranslator::~KVTranslator()
 	
 }
 
+void KVTranslator::loadTranslation(QString language)
+{
+	QNetworkReply *reply = manager.get(QNetworkRequest(QString("http://api.comeonandsl.am/translation/%1/").arg(language)));
+	connect(reply, SIGNAL(finished()), this, SLOT(translationRequestFinished()));
+}
+
 QString KVTranslator::translate(const QString &line) const
 {
 	QString realLine = unescape(line);
@@ -52,20 +59,49 @@ QString KVTranslator::translate(const QString &line) const
 	QVariant value = translation.value(key);
 	if(value.isValid())
 	{
-		//qDebug() << "TL:" << realLine << "->" << value.toString();
+		qDebug() << "TL:" << realLine << "->" << value.toString();
 		return value.toString();
 	}
 	else
 	{
-		//qDebug() << "No TL:" << realLine;
+		qDebug() << "No TL:" << realLine;
 		return line;
 	}
 }
 
-void KVTranslator::loadTranslation(QString language)
+QString KVTranslator::translateJson(const QString &json) const
 {
-	QNetworkReply *reply = manager.get(QNetworkRequest(QString("http://api.comeonandsl.am/translation/%1/").arg(language)));
-	connect(reply, SIGNAL(finished()), this, SLOT(translationRequestFinished()));
+	bool hasPrefix = json.startsWith("svdata=");
+	QJsonDocument doc = QJsonDocument::fromJson(json.mid(hasPrefix ? 7 : 0).toUtf8());
+	QJsonValue val = this->_walk(QJsonValue(doc.object()));
+	//qDebug() << val;
+	QString str = QString::fromUtf8(QJsonDocument(val.toObject()).toJson(QJsonDocument::Compact));
+	return (hasPrefix ? "svdata=" + str : str);
+}
+
+QJsonValue KVTranslator::_walk(QJsonValue value) const
+{
+	switch(value.type())
+	{
+		case QJsonValue::Object:
+		{
+			QJsonObject obj = value.toObject();
+			for(QJsonObject::iterator it = obj.begin(); it != obj.end(); it++)
+				*it = this->_walk(*it);
+			return obj;
+		}
+		case QJsonValue::Array:
+		{
+			QJsonArray arr = value.toArray();
+			for(QJsonArray::iterator it = arr.begin(); it != arr.end(); it++)
+				*it = this->_walk(*it);
+			return arr;
+		}
+		case QJsonValue::String:
+			return this->translate(value.toString());
+		default:
+			return value;
+	}
 }
 
 void KVTranslator::translationRequestFinished()

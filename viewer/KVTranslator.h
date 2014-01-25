@@ -5,6 +5,7 @@
 #include <QNetworkAccessManager>
 #include <QVariant>
 #include <QString>
+#include <QJsonValue>
 
 /*
  * I had to copypaste this into the tool as "KCTranslator", because sharing the
@@ -22,9 +23,13 @@ public:
 	static KVTranslator* instance();
 	
 public slots:
-	QString translate(const QString &line) const;
-	
 	void loadTranslation(QString language = "en");
+	
+	QString translate(const QString &line) const;
+	QString translateJson(const QString &json) const;
+	
+protected:
+	QJsonValue _walk(QJsonValue value) const;
 	
 signals:
 	void loadFinished();
