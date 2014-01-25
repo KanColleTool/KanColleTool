@@ -8,6 +8,7 @@
 #include <QUrlQuery>
 #include <QApplication>
 #include <QNetworkProxy>
+#include <QNetworkReply>
 #include <QHostAddress>
 #include <QSettings>
 #include <QStandardPaths>
@@ -30,29 +31,30 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	
 	QMenu *helpMenu = menuBar->addMenu("Help");
 	helpMenu->addAction("About", this, SLOT(showAbout()));
+	helpMenu->addAction("Check for Updates", this, SLOT(checkForUpdates()));
 	
 	this->setMenuBar(menuBar);
 	
 	// Set a custom network access manager to let us set up a cache and proxy.
 	// Without a cache, the game takes ages to load.
 	// Without a proxy, we can't do cool things like translating the game.
-	netManager = new QNetworkAccessManager(this);
+	wvManager = new QNetworkAccessManager(this);
 	
 	// Set up a cache; a larger-than-normal disk cache is quite enough for our purposes
 	cache = new QNetworkDiskCache(this);
 	cache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
-	netManager->setCache(cache);
+	wvManager->setCache(cache);
 	
 	// Set up a local proxy
 	proxy = new KVProxy(this);
 	proxy->run();
-	netManager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "127.0.0.1", proxy->port()));
+	wvManager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "127.0.0.1", proxy->port()));
 	
 	//connect(proxy, SIGNAL(apiError(KVProxyServer::APIStatus)), this, SLOT(onAPIError(KVProxyServer::APIStatus)));
 	
 	// Set up the web view, using our custom Network Access Manager
 	webView = new QWebView(this);
-	webView->page()->setNetworkAccessManager(netManager);
+	webView->page()->setNetworkAccessManager(wvManager);
 	
 	// The context menu only contains "Reload" anyways
 	webView->setContextMenuPolicy(Qt::PreventContextMenu);
@@ -72,6 +74,9 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	this->adjustSize();
 	this->setFixedSize(this->width(), this->height());
 	
+	// Check for updates
+	this->checkForUpdates();
+	
 	// Load the translation data before doing anything, otherwise we might end
 	// up with partially translated data on spotty connections.
 	this->loadTranslation();
@@ -81,6 +86,12 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	
 	// Load the bundled index.html file
 	//this->loadBundledIndex();
+}
+
+void KVMainWindow::checkForUpdates()
+{
+	QNetworkReply *reply = manager.get(QNetworkRequest(QUrl("http://kancolletool.s3.amazonaws.com/downloads/VERSION")));
+	connect(reply, SIGNAL(finished()), this, SLOT(onVersionCheckFinished()));
 }
 
 void KVMainWindow::loadTranslation(QString language)
@@ -180,6 +191,35 @@ void KVMainWindow::showAbout()
 			QCoreApplication::applicationVersion()
 		)
 	);
+}
+
+void KVMainWindow::onVersionCheckFinished()
+{
+	QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
+	
+	// If the check failed, do nothing
+	if(reply->error() != QNetworkReply::NoError)
+		return;
+	
+	// Parse the version numbers
+	QString newVersion = QString::fromUtf8(reply->readAll());
+	QStringList newVersionComponents = newVersion.split(".");
+	QString appVersion = qApp->applicationVersion();
+	QStringList appVersionComponents = appVersion.split(".");
+	
+	// If we got a malformed response, ignore it
+	if(newVersionComponents.length() != 3)
+		return;
+	
+	// Compare component-per-component to see if we're outdated
+	bool outdated =
+			(newVersionComponents[0].toDouble() > appVersionComponents[0].toDouble() ||
+			newVersionComponents[0].toDouble() > appVersionComponents[1].toDouble() ||
+			newVersionComponents[2].toDouble() > appVersionComponents[2].toDouble());
+	
+	// Display a message if we are
+	if(outdated)
+		QMessageBox::information(this, "New Version Available", "Version " + newVersion + " has been released, and is available at:<br /><a href=\"http://kancolletool.github.io/downloads/\">http://kancolletool.github.io/downloads/</a>");
 }
 
 void KVMainWindow::onLoadStarted()

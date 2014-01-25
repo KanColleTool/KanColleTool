@@ -22,11 +22,13 @@ protected:
 	void generateAPILinkURL();
 	
 public slots:
+	void checkForUpdates();
 	void askForAPILink(bool reload = true);
 	void clearCache();
 	void showAbout();
 	
 private slots:
+	void onVersionCheckFinished();
 	void onLoadStarted();
 	void onLoadFinished(bool ok);
 	void onTranslationLoadFinished();
@@ -42,7 +44,7 @@ protected:
 	QWebView *webView;
 	QMessageBox *loadingMessageBox;
 	
-	QNetworkAccessManager *netManager;
+	QNetworkAccessManager *wvManager, manager;
 	QNetworkDiskCache *cache;
 	KVProxy *proxy;
 	
