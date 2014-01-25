@@ -85,8 +85,8 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 
 void KVMainWindow::loadTranslation(QString language)
 {
-	loadingMessageBox = new QMessageBox(QMessageBox::NoIcon, "Loading translation...", "This should only take a moment.", QMessageBox::Cancel);
-	loadingMessageBox->open();
+	loadingMessageBox = new QMessageBox(QMessageBox::NoIcon, "Loading translation...", "This should only take a moment.", QMessageBox::Cancel, this);
+	QTimer::singleShot(0, loadingMessageBox, SLOT(open()));
 	
 	KVTranslator *translator = KVTranslator::instance();
 	connect(translator, SIGNAL(loadFinished()), this, SLOT(onTranslationLoadFinished()));
