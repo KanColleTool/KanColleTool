@@ -90,7 +90,7 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 
 void KVMainWindow::checkForUpdates()
 {
-	QNetworkReply *reply = manager.get(QNetworkRequest(QUrl("http://kancolletool.s3.amazonaws.com/downloads/VERSION")));
+	QNetworkReply *reply = manager.get(QNetworkRequest(QUrl("http://kancolletool.github.io/VERSION")));
 	connect(reply, SIGNAL(finished()), this, SLOT(onVersionCheckFinished()));
 }
 

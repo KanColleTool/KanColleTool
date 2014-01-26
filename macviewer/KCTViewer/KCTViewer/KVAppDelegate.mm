@@ -53,9 +53,7 @@
 	self.apiToken = [[NSUserDefaults standardUserDefaults] valueForKey:@"apiToken"];
 	
 	// Check for updates
-#if !DEBUG
 	[self checkForUpdates];
-#endif
 	
 	// If we don't have them, ask for a link.
 	// Otherwise, load the the translation right away, which will end up using it.
@@ -68,7 +66,7 @@
 - (void)checkForUpdates
 {
 	AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:
-								  [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://kancolletool.s3.amazonaws.com/downloads/VERSION"]]];
+								  [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://kancolletool.github.io/VERSION"]]];
 	[op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
 		NSString *newVersion = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
 		NSLog(@"New Version: %@", newVersion);
