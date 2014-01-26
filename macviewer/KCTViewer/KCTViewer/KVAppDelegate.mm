@@ -30,6 +30,7 @@
 	
 	// For all our out-of-browser networking needs
 	self.manager = [AFHTTPRequestOperationManager manager];
+	self.manager.responseSerializer.acceptableContentTypes = [self.manager.responseSerializer.acceptableContentTypes setByAddingObject:@"application/octet-stream"];
 
 	// No, we don't want the web view to scroll just a few pixels up and down.
 	[self.webView.mainFrame.frameView setAllowsScrolling:NO];
@@ -51,6 +52,9 @@
 	self.server = [[NSUserDefaults standardUserDefaults] valueForKey:@"server"];
 	self.apiToken = [[NSUserDefaults standardUserDefaults] valueForKey:@"apiToken"];
 	
+	// Check for updates
+	[self checkForUpdates];
+	
 	// If we don't have them, ask for a link
 	if(!self.server || !self.apiToken)
 	{
@@ -61,6 +65,33 @@
 	{
 		[self loadTranslation];
 	}
+}
+
+- (void)checkForUpdates
+{
+	AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:
+								  [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://kancolletool.s3.amazonaws.com/downloads/VERSION"]]];
+	[op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+		NSString *newVersion = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+		NSLog(@"New Version: %@", newVersion);
+		NSArray *newVersionComponents = [newVersion componentsSeparatedByString:@"."];
+		NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
+		NSArray *appVersionComponents = [appVersion componentsSeparatedByString:@"."];
+		
+		BOOL outdated = ([[newVersionComponents objectAtIndex:0] intValue] > [[appVersionComponents objectAtIndex:0] intValue] ||
+						 [[newVersionComponents objectAtIndex:1] intValue] > [[appVersionComponents objectAtIndex:1] intValue] ||
+						 [[newVersionComponents objectAtIndex:2] intValue] > [[appVersionComponents objectAtIndex:2] intValue]);
+		if(outdated)
+		{
+			[[NSAlert alertWithMessageText:@"New Version Available" defaultButton:@"Download" alternateButton:@"Ignore" otherButton:nil informativeTextWithFormat:@"Version %@ has been released, and is available for download.", newVersion] beginSheetModalForWindow:_window completionHandler:^(NSModalResponse returnCode) {
+				if(returnCode == NSAlertDefaultReturn)
+					[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://kancolletool.github.io/downloads/"]];
+			}];
+		}
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		NSLog(@"Couldn't check for updates! %@", error);
+	}];
+	[op start];
 }
 
 - (void)loadTranslation
@@ -159,6 +190,11 @@
 		return nil;
 	}
 	else return [self.webView.windowScriptObject evaluateWebScript:js];
+}
+
+- (void)actionCheckForUpdates:(id)sender
+{
+	[self checkForUpdates];
 }
 
 - (void)actionEnterAPILink:(id)sender
