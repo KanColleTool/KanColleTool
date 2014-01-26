@@ -12,12 +12,12 @@
 		22555F50188EAECF00E2980B /* NSString+KVHashes.m in Sources */ = {isa = PBXBuildFile; fileRef = 22555F4F188EAECF00E2980B /* NSString+KVHashes.m */; };
 		22555F52188EB6A300E2980B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 22555F51188EB6A300E2980B /* libz.dylib */; };
 		22555F5B188ECC5800E2980B /* KVTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 22555F5A188ECC5800E2980B /* KVTranslator.m */; };
-		226F33B51886B55000FAF389 /* KVHTTPProtocol.mm in Sources */ = {isa = PBXBuildFile; fileRef = 226F33B41886B55000FAF389 /* KVHTTPProtocol.mm */; };
+		226F33B51886B55000FAF389 /* KVHTTPProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 226F33B41886B55000FAF389 /* KVHTTPProtocol.m */; };
 		2272E59E186E05CA009357C4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2272E59D186E05CA009357C4 /* Cocoa.framework */; };
 		2272E5A8186E05CA009357C4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2272E5A6186E05CA009357C4 /* InfoPlist.strings */; };
-		2272E5AA186E05CA009357C4 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2272E5A9186E05CA009357C4 /* main.mm */; };
+		2272E5AA186E05CA009357C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2272E5A9186E05CA009357C4 /* main.m */; };
 		2272E5AE186E05CA009357C4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2272E5AC186E05CA009357C4 /* Credits.rtf */; };
-		2272E5B1186E05CA009357C4 /* KVAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2272E5B0186E05CA009357C4 /* KVAppDelegate.mm */; };
+		2272E5B1186E05CA009357C4 /* KVAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2272E5B0186E05CA009357C4 /* KVAppDelegate.m */; };
 		2272E5B4186E05CA009357C4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2272E5B2186E05CA009357C4 /* MainMenu.xib */; };
 		2272E5B6186E05CA009357C4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2272E5B5186E05CA009357C4 /* Images.xcassets */; };
 		2272E5BD186E05CA009357C4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2272E5BC186E05CA009357C4 /* XCTest.framework */; };
@@ -25,7 +25,7 @@
 		2272E5C6186E05CA009357C4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2272E5C4186E05CA009357C4 /* InfoPlist.strings */; };
 		2272E5C8186E05CA009357C4 /* KCTViewerTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2272E5C7186E05CA009357C4 /* KCTViewerTests.mm */; };
 		2272E5D2186E0637009357C4 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2272E5D1186E0637009357C4 /* WebKit.framework */; };
-		2272E5D5186E182F009357C4 /* NSURL+KVUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2272E5D4186E182F009357C4 /* NSURL+KVUtil.mm */; };
+		2272E5D5186E182F009357C4 /* NSURL+KVUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 2272E5D4186E182F009357C4 /* NSURL+KVUtil.m */; };
 		2272E5D7186E1F38009357C4 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 2272E5D6186E1F38009357C4 /* index.html */; };
 		462800AEE4E14EAFBBFF83F6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6660C71C3E9B4E00A12FBBED /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -63,7 +63,7 @@
 		22555F59188ECC5800E2980B /* KVTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KVTranslator.h; sourceTree = "<group>"; };
 		22555F5A188ECC5800E2980B /* KVTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KVTranslator.m; sourceTree = "<group>"; };
 		226F33B31886B55000FAF389 /* KVHTTPProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KVHTTPProtocol.h; sourceTree = "<group>"; };
-		226F33B41886B55000FAF389 /* KVHTTPProtocol.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KVHTTPProtocol.mm; sourceTree = "<group>"; };
+		226F33B41886B55000FAF389 /* KVHTTPProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KVHTTPProtocol.m; sourceTree = "<group>"; };
 		2272E59A186E05CA009357C4 /* KCTViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KCTViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2272E59D186E05CA009357C4 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2272E5A0186E05CA009357C4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -71,11 +71,11 @@
 		2272E5A2186E05CA009357C4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2272E5A5186E05CA009357C4 /* KCTViewer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KCTViewer-Info.plist"; sourceTree = "<group>"; };
 		2272E5A7186E05CA009357C4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		2272E5A9186E05CA009357C4 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		2272E5A9186E05CA009357C4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2272E5AB186E05CA009357C4 /* KCTViewer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KCTViewer-Prefix.pch"; sourceTree = "<group>"; };
 		2272E5AD186E05CA009357C4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		2272E5AF186E05CA009357C4 /* KVAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KVAppDelegate.h; sourceTree = "<group>"; };
-		2272E5B0186E05CA009357C4 /* KVAppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = KVAppDelegate.mm; sourceTree = "<group>"; };
+		2272E5B0186E05CA009357C4 /* KVAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KVAppDelegate.m; sourceTree = "<group>"; };
 		2272E5B3186E05CA009357C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		2272E5B5186E05CA009357C4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2272E5BB186E05CA009357C4 /* KCTViewerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KCTViewerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,7 +85,7 @@
 		2272E5C7186E05CA009357C4 /* KCTViewerTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = KCTViewerTests.mm; sourceTree = "<group>"; };
 		2272E5D1186E0637009357C4 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		2272E5D3186E182F009357C4 /* NSURL+KVUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+KVUtil.h"; sourceTree = "<group>"; };
-		2272E5D4186E182F009357C4 /* NSURL+KVUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSURL+KVUtil.mm"; sourceTree = "<group>"; };
+		2272E5D4186E182F009357C4 /* NSURL+KVUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+KVUtil.m"; sourceTree = "<group>"; };
 		2272E5D6186E1F38009357C4 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = ../../../viewer/index.html; sourceTree = "<group>"; };
 		6660C71C3E9B4E00A12FBBED /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E12E3265D2C6486CA73E4158 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
@@ -119,7 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				2272E5AF186E05CA009357C4 /* KVAppDelegate.h */,
-				2272E5B0186E05CA009357C4 /* KVAppDelegate.mm */,
+				2272E5B0186E05CA009357C4 /* KVAppDelegate.m */,
 				2272E5B2186E05CA009357C4 /* MainMenu.xib */,
 			);
 			name = Frontend;
@@ -129,7 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				226F33B31886B55000FAF389 /* KVHTTPProtocol.h */,
-				226F33B41886B55000FAF389 /* KVHTTPProtocol.mm */,
+				226F33B41886B55000FAF389 /* KVHTTPProtocol.m */,
 				22110FBE18910B1600EDEEEC /* KVCachingHTTPProtocol.h */,
 				22110FBF18910B1600EDEEEC /* KVCachingHTTPProtocol.m */,
 				22110FC118910B7200EDEEEC /* KVCacheEntry.h */,
@@ -151,7 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				2272E5D3186E182F009357C4 /* NSURL+KVUtil.h */,
-				2272E5D4186E182F009357C4 /* NSURL+KVUtil.mm */,
+				2272E5D4186E182F009357C4 /* NSURL+KVUtil.m */,
 				22555F4E188EAECF00E2980B /* NSString+KVHashes.h */,
 				22555F4F188EAECF00E2980B /* NSString+KVHashes.m */,
 			);
@@ -219,7 +219,7 @@
 			children = (
 				2272E5A5186E05CA009357C4 /* KCTViewer-Info.plist */,
 				2272E5A6186E05CA009357C4 /* InfoPlist.strings */,
-				2272E5A9186E05CA009357C4 /* main.mm */,
+				2272E5A9186E05CA009357C4 /* main.m */,
 				2272E5AB186E05CA009357C4 /* KCTViewer-Prefix.pch */,
 				2272E5AC186E05CA009357C4 /* Credits.rtf */,
 			);
@@ -389,14 +389,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2272E5AA186E05CA009357C4 /* main.mm in Sources */,
-				2272E5D5186E182F009357C4 /* NSURL+KVUtil.mm in Sources */,
+				2272E5AA186E05CA009357C4 /* main.m in Sources */,
+				2272E5D5186E182F009357C4 /* NSURL+KVUtil.m in Sources */,
 				22110FC018910B1600EDEEEC /* KVCachingHTTPProtocol.m in Sources */,
 				22555F5B188ECC5800E2980B /* KVTranslator.m in Sources */,
 				22555F50188EAECF00E2980B /* NSString+KVHashes.m in Sources */,
-				2272E5B1186E05CA009357C4 /* KVAppDelegate.mm in Sources */,
+				2272E5B1186E05CA009357C4 /* KVAppDelegate.m in Sources */,
 				22110FC318910B7200EDEEEC /* KVCacheEntry.m in Sources */,
-				226F33B51886B55000FAF389 /* KVHTTPProtocol.mm in Sources */,
+				226F33B51886B55000FAF389 /* KVHTTPProtocol.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
