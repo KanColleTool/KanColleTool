@@ -53,7 +53,9 @@
 	self.apiToken = [[NSUserDefaults standardUserDefaults] valueForKey:@"apiToken"];
 	
 	// Check for updates
+#if !DEBUG
 	[self checkForUpdates];
+#endif
 	
 	// If we don't have them, ask for a link
 	if(!self.server || !self.apiToken)
