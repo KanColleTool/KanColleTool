@@ -7,6 +7,7 @@
 #include <QPointer>
 #include <QTimer>
 #include "KCClient.h"
+#include "KCToolServer.h"
 
 namespace Ui {
 	class KCMainWindow;
@@ -72,6 +73,7 @@ private:
 	QTimer timerUpdateTimer, refreshTimer;
 	
 	KCClient *client;
+	KCToolServer *server;
 	
 	bool apiLinkDialogOpen;
 };

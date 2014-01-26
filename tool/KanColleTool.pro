@@ -30,6 +30,7 @@ SOURCES += main.cpp \
 	KCMainWindow.cpp \
     KCSettingsDialog.cpp \
 	KCClient.cpp \
+    KCToolServer.cpp \
     KCShip.cpp \
     KCShipMaster.cpp \
     KCFleet.cpp \
@@ -39,6 +40,7 @@ SOURCES += main.cpp \
 HEADERS  += KCMainWindow.h \
     KCSettingsDialog.h \
 	KCClient.h \
+    KCToolServer.h \
     KCShip.h \
     KCShipMaster.h \
     KCFleet.h \

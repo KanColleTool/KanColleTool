@@ -19,6 +19,7 @@
 KCMainWindow::KCMainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::KCMainWindow),
+	server(0),
 	apiLinkDialogOpen(false)
 {
 	ui->setupUi(this);
@@ -399,6 +400,21 @@ void KCMainWindow::updateTimers()
 void KCMainWindow::updateSettingThings()
 {
 	QSettings settings;
+	
+	// Server for Viewer data livestreaming
+	if(settings.value("livestream", kDefaultLivestream).toBool())
+	{
+		if(!server)
+		{
+			server = new KCToolServer(this);
+			server->listen(QHostAddress::Any, 54321);
+		}
+	}
+	else
+	{
+		if(server)
+			delete server;
+	}
 	
 	// Autorefreshing
 	if(settings.value("autorefresh", kDefaultAutorefresh).toBool())
