@@ -189,6 +189,7 @@
 - (IBAction)actionClearCache:(id)sender
 {
 	[[NSURLCache sharedURLCache] removeAllCachedResponses];
+	[[NSFileManager defaultManager] removeItemAtPath:[KVCachingHTTPProtocol cacheDir] error:NULL];
 	[self loadBundledIndex];
 }
 

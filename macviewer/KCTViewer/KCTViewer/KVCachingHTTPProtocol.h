@@ -21,6 +21,7 @@
 + (BOOL)canInitWithRequest:(NSURLRequest *)request;
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request;
 
++ (NSString *)cacheDir;
 - (NSString *)cachePath;
 
 - (void)startLoading;
