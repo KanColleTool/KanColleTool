@@ -8,14 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
-#import "KVJSUtils.h"
 
 @interface KVAppDelegate : NSObject <NSApplicationDelegate>
 
 @property (nonatomic, strong) NSString *server, *apiToken;
 @property (nonatomic, strong) NSURL *apiLink;
 
-@property (nonatomic, strong) KVJSUtils *jsUtils;
 @property (nonatomic, strong) AFHTTPRequestOperationManager *manager;
 
 @property (assign) IBOutlet NSWindow *window, *enterAPILinkWindow, *loadingTranslationWindow;
@@ -27,8 +25,6 @@
 - (void)loadTranslation;
 - (void)loadTranslationFinished;
 - (void)loadBundledIndex;
-- (void)loadJS;
-- (WebScriptObject *)loadScript:(NSString *)name;
 
 - (IBAction)actionCheckForUpdates:(id)sender;
 - (IBAction)actionEnterAPILink:(id)sender;

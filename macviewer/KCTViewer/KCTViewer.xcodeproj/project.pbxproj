@@ -27,9 +27,6 @@
 		2272E5D2186E0637009357C4 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2272E5D1186E0637009357C4 /* WebKit.framework */; };
 		2272E5D5186E182F009357C4 /* NSURL+KVUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2272E5D4186E182F009357C4 /* NSURL+KVUtil.mm */; };
 		2272E5D7186E1F38009357C4 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 2272E5D6186E1F38009357C4 /* index.html */; };
-		22EEBD00188705C400C336D0 /* esc.js in Sources */ = {isa = PBXBuildFile; fileRef = 22EEBCFF188705C400C336D0 /* esc.js */; };
-		22EEBD041887107F00C336D0 /* esc.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 22EEBCFF188705C400C336D0 /* esc.js */; };
-		22EEBD07188713A600C336D0 /* KVJSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 22EEBD06188713A600C336D0 /* KVJSUtils.m */; };
 		462800AEE4E14EAFBBFF83F6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6660C71C3E9B4E00A12FBBED /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -54,19 +51,6 @@
 			remoteInfo = KCTViewer;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		22EEBD031887107400C336D0 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 7;
-			files = (
-				22EEBD041887107F00C336D0 /* esc.js in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		22110FBE18910B1600EDEEEC /* KVCachingHTTPProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KVCachingHTTPProtocol.h; sourceTree = "<group>"; };
@@ -103,9 +87,6 @@
 		2272E5D3186E182F009357C4 /* NSURL+KVUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+KVUtil.h"; sourceTree = "<group>"; };
 		2272E5D4186E182F009357C4 /* NSURL+KVUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSURL+KVUtil.mm"; sourceTree = "<group>"; };
 		2272E5D6186E1F38009357C4 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = ../../../viewer/index.html; sourceTree = "<group>"; };
-		22EEBCFF188705C400C336D0 /* esc.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = esc.js; path = ../../../viewer/esc.js; sourceTree = "<group>"; };
-		22EEBD05188713A600C336D0 /* KVJSUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KVJSUtils.h; sourceTree = "<group>"; };
-		22EEBD06188713A600C336D0 /* KVJSUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KVJSUtils.m; sourceTree = "<group>"; };
 		6660C71C3E9B4E00A12FBBED /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E12E3265D2C6486CA73E4158 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -140,8 +121,6 @@
 				2272E5AF186E05CA009357C4 /* KVAppDelegate.h */,
 				2272E5B0186E05CA009357C4 /* KVAppDelegate.mm */,
 				2272E5B2186E05CA009357C4 /* MainMenu.xib */,
-				22EEBD05188713A600C336D0 /* KVJSUtils.h */,
-				22EEBD06188713A600C336D0 /* KVJSUtils.m */,
 			);
 			name = Frontend;
 			sourceTree = "<group>";
@@ -270,7 +249,6 @@
 			children = (
 				2272E5B5186E05CA009357C4 /* Images.xcassets */,
 				2272E5D6186E1F38009357C4 /* index.html */,
-				22EEBCFF188705C400C336D0 /* esc.js */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -286,7 +264,6 @@
 				2272E596186E05CA009357C4 /* Sources */,
 				2272E597186E05CA009357C4 /* Frameworks */,
 				2272E598186E05CA009357C4 /* Resources */,
-				22EEBD031887107400C336D0 /* CopyFiles */,
 				B1253A33E83745209F6D4744 /* Copy Pods Resources */,
 			);
 			buildRules = (
@@ -412,10 +389,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22EEBD00188705C400C336D0 /* esc.js in Sources */,
 				2272E5AA186E05CA009357C4 /* main.mm in Sources */,
 				2272E5D5186E182F009357C4 /* NSURL+KVUtil.mm in Sources */,
-				22EEBD07188713A600C336D0 /* KVJSUtils.m in Sources */,
 				22110FC018910B1600EDEEEC /* KVCachingHTTPProtocol.m in Sources */,
 				22555F5B188ECC5800E2980B /* KVTranslator.m in Sources */,
 				22555F50188EAECF00E2980B /* NSString+KVHashes.m in Sources */,

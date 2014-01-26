@@ -31,10 +31,9 @@
 - (NSString *)translate:(NSString *)line
 {
 	// Don't translate things that are just numbers and punctuation, such as some stats that are sent as
-	// strings for no real reason and timers.
-	// Make a set containing only numbers and punctuation, invert it to match everything /but/ numbers and
-	// punctuation, and check if it contains anything matching this inverted set. If it doesn't, there's
-	// nothing but numbers and/or punctuation, and thus nothing to translate.
+	// strings for no real reason and timers. Make a set containing only numbers and punctuation, invert it
+	// to match everything /but/ it, and check if it contains anything matching this inverted set. If it
+	// doesn't, there's nothing to translate.
 	NSCharacterSet *set = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789,.:-"] invertedSet];
 	if([line rangeOfCharacterFromSet:set].location == NSNotFound)
 		return line;
@@ -49,7 +48,6 @@
 	if(translation)
 	{
 		//NSLog(@"TL: %@ -> %@", unescapedLine, translation);
-		
 		return translation;
 	}
 	else
@@ -61,8 +59,6 @@
 
 - (NSData *)translateJSON:(NSData *)json
 {
-	NSLog(@"Translating a JSON blob");
-	
 	// Skip the svdata= prefix if it exists
 	NSData *prefixData = [@"svdata=" dataUsingEncoding:NSUTF8StringEncoding];
 	BOOL hasPrefix = [[json subdataWithRange:NSMakeRange(0, [prefixData length])] isEqual:prefixData];

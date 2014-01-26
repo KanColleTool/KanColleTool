@@ -91,8 +91,8 @@
 		
 		NSString *cacheID = [[self.request.URL absoluteString] sha1];
 		NSString *cacheDir = [[[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"KCTViewer"] stringByAppendingPathComponent:@"ProtocolCache"];
-		BOOL cacheDirIsDir;
 		
+		BOOL cacheDirIsDir;
 		if(![fm fileExistsAtPath:cacheDir isDirectory:&cacheDirIsDir] || !cacheDirIsDir)
 		{
 			if(!cacheDirIsDir) [fm removeItemAtPath:cacheDir error:NULL];
