@@ -84,45 +84,8 @@
 		// but it's always good to check a second time. That might change in the future or something.
 		if([self isInteresting])
 		{
-			// str is the buffer converted into a string, outstr is the output buffer
-			NSString *str = [[NSString alloc] initWithData:self.buffer encoding:NSUTF8StringEncoding];
-			NSMutableString *outstr = [[NSMutableString alloc] init];
-			
-			// Build an expression matching any string-string key-valye pairs in a JSON file
-			NSError *error = nil;
-			NSRegularExpression *exp = [[NSRegularExpression alloc] initWithPattern:@"\"([^\"]+)\"\\s*:\\s*\"([^\"]+)\"" options:0 error:&error];
-			if(error) NSLog(@"Expression Error: %@", exp);
-			
-			// Find all matches in the string, this gives us an array of NSTextCheckingResult*
-			NSArray *matches = [exp matchesInString:str options:0 range:NSMakeRange(0, [str length])];
-			
-			// lastEnd is where the last chunk we added to the string ended
-			NSUInteger lastEnd = 0;
-			
-			// Loop through all the matches to replace them
-			for(NSTextCheckingResult *result in matches)
-			{
-				// Since we found a match, that means we most likely skipped a chunk of data that's
-				// most likely important. So push that chunk and mark its end to keep from repeating it.
-				[outstr appendString:[str substringWithRange:NSMakeRange(lastEnd, result.range.location - lastEnd)]];
-				lastEnd = result.range.location + result.range.length;
-				
-				// Extract the key and value to be able to match on them; later, only the value will
-				// really be used (its CRC32 is the key to the translation data), but the key is good
-				// to have anyways, for debugging and such.
-				NSString *key = [str substringWithRange:[result rangeAtIndex:1]];
-				NSString *value = [str substringWithRange:[result rangeAtIndex:2]];
-				value = [[KVTranslator sharedTranslator] translate:value];
-				
-				// JSONify this key-value pair and push it too
-				[outstr appendFormat:@"\"%@\":\"%@\"", key, value];
-			}
-			
-			// Push the remaining stuff at the end
-			[outstr appendString:[str substringFromIndex:lastEnd]];
-			
-			// Feed the client the resulting data
-			[self.client URLProtocol:self didLoadData:[outstr dataUsingEncoding:NSUTF8StringEncoding]];
+			NSData *translatedData = [[KVTranslator sharedTranslator] translateJSON:self.buffer];
+			[self.client URLProtocol:self didLoadData:translatedData];
 		}
 		// If this request is uninteresting, just feed the client the buffer, and wonder why
 		// the heck we buffered the response in the first place.

@@ -14,5 +14,6 @@
 + (instancetype)sharedTranslator;
 
 - (NSString *)translate:(NSString *)line;
+- (NSData *)translateJSON:(NSData *)json;
 
 @end
