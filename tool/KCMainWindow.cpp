@@ -352,7 +352,7 @@ void KCMainWindow::updateConstructionsPage()
 			else
 				nameLabel->setText("???");
 			
-			if(dock->state != KCDock::Finished)
+			if(dock->state == KCDock::Occupied || dock->state == KCDock::Building)
 				buildTimerLabel->setText(delta(dock->complete).toString("H:mm:ss"));
 			else
 				buildTimerLabel->setText("0:00:00");

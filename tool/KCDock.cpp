@@ -63,7 +63,7 @@ void KCDock::loadFrom(QVariantMap data)
 	extract(data, baux, "api_item4");
 	
 	// Start the timer
-	if(state == Occupied)
+	if(state == Occupied || state == Building)
 		timer.start(complete.toMSecsSinceEpoch() - QDateTime::currentMSecsSinceEpoch());
 }
 
