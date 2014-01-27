@@ -8,7 +8,7 @@
 #include "KCShipMaster.h"
 #include "KCFleet.h"
 
-#define kClientUseCache 1
+#define kClientUseCache 0
 
 
 
@@ -25,10 +25,15 @@
 	void KCClient::on##_id_##RequestFinished() \
 	{ \
 		QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender()); \
-		ErrorCode error; \
-		QVariant data = this->dataFromRawResponse(reply->readAll(), &error); \
-		if(data.isValid()) _process##_id_##Data(data); \
-		else emit requestError(error); \
+		if(reply->error() == QNetworkReply::NoError) \
+		{ \
+			ErrorCode error; \
+			QVariant data = this->dataFromRawResponse(reply->readAll(), &error); \
+			if(data.isValid()) _process##_id_##Data(data); \
+			else { qDebug() << error; emit requestError(error); } \
+		} \
+		else if(reply->error() == QNetworkReply::UnknownNetworkError) \
+			qWarning() << "Connection Failed:" << reply->errorString(); \
 	}
 
 SYNTHESIZE_RESPONSE_HANDLERS(MasterShips, masterShips)
