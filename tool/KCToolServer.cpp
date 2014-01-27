@@ -32,15 +32,15 @@ void KCToolServer::handleRequest(QTcpSocket *socket)
 	{
 		QVariant data = client->dataFromRawResponse(content);
 		
-		if(path == "/api_get_master/ship")
+		if(path == "/kcsapi/api_get_master/ship")
 			client->_processMasterShipsData(data);
-		else if(path == "/api_get_member/ship")
+		else if(path == "/kcsapi/api_get_member/ship")
 			client->_processPlayerShipsData(data);
-		else if(path == "/api_get_member/deck")
+		else if(path == "/kcsapi/api_get_member/deck")
 			client->_processPlayerFleetsData(data);
-		else if(path == "/api_get_member/ndock")
+		else if(path == "/kcsapi/api_get_member/ndock")
 			client->_processPlayerRepairsData(data);
-		else if(path == "/api_get_member/kdock")
+		else if(path == "/kcsapi/api_get_member/kdock")
 			client->_processPlayerConstructionsData(data);
 		else
 		{
@@ -52,6 +52,7 @@ void KCToolServer::handleRequest(QTcpSocket *socket)
 	// I might add other methods later (if I find a use), but for now, refuse them
 	else
 	{
+		qDebug() << "Invalid Method:" << method;
 		resCode = 405;
 		resMsg = "Method Not Allowed";
 	}
@@ -107,6 +108,7 @@ void KCToolServer::onSocketReadyRead()
 		QString path(line.mid(sepPos1+1, sepPos2 - sepPos1 - 1));
 		socket->setProperty("method", method);
 		socket->setProperty("path", path);
+		socket->setProperty("firstLineRead", true);
 	}
 	
 	// Parse Headers!
