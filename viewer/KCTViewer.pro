@@ -15,7 +15,7 @@ win32: LIBS += -lws2_32 -lmswsock
 RC_FILE = KCTViewer.rc
 
 # This is updated by the version bump script
-VERSION = 0.6.1
+VERSION = 0.7.0
 
 macx: TARGET = KCT Viewer
 unix:!macx: TARGET = kancolletool-viewer
