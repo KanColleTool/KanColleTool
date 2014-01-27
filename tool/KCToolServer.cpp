@@ -78,7 +78,7 @@ void KCToolServer::handleRequest(QTcpSocket *socket)
 void KCToolServer::reply(QTcpSocket *socket, int code, QString message, QString contentType, QByteArray body)
 {
 	socket->write(QString("HTTP/1.1 %1 %2\r\n").arg(QString::number(code), message).toUtf8());
-	socket->write(QString("Date: %1\r\n").arg(QDateTime::currentDateTime().toString(Qt::RFC2822Date)).toUtf8());
+	socket->write(QString("Date: %1\r\n").arg(QDateTime::currentDateTimeUtc().toString("ddd, d MMM yyyy hh:mm:ss")).toUtf8());
 	socket->write(QString("Content-Length: %1\r\n").arg(QString::number(body.size())).toUtf8());
 	socket->write(QString("Content-Type: %1\r\n").arg(contentType).toUtf8());
 	socket->write(QString("\r\n").toUtf8());
