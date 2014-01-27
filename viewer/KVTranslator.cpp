@@ -75,7 +75,12 @@ QString KVTranslator::translateJson(const QString &json) const
 	QJsonDocument doc = QJsonDocument::fromJson(json.mid(hasPrefix ? 7 : 0).toUtf8());
 	QJsonValue val = this->_walk(QJsonValue(doc.object()));
 	//qDebug() << val;
-	QString str = QString::fromUtf8(QJsonDocument(val.toObject()).toJson(QJsonDocument::Compact));
+	doc = QJsonDocument(val.toObject());
+#if QT_VERSION >= 0x050100
+	QString str = QString::fromUtf8(doc.toJson(QJsonDocument::Compact));
+#else
+	QString str = QString::fromUtf8(doc.toJson());
+#endif
 	return (hasPrefix ? "svdata=" + str : str);
 }
 
