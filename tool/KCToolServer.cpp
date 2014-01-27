@@ -24,8 +24,8 @@ void KCToolServer::handleRequest(QTcpSocket *socket)
 	// Hold response data
 	int resCode(200);
 	QString resMsg("OK");
-	QString resType("text/plain");
-	QByteArray resBody;
+	QString resType("text/json");
+	QByteArray resBody = "{ \"success\": true }";
 	
 	// Handle POSTs
 	if(method == "POST")
@@ -44,7 +44,7 @@ void KCToolServer::handleRequest(QTcpSocket *socket)
 			client->_processPlayerConstructionsData(data);
 		else
 		{
-			qDebug() << "Dunno what to do about" << path;
+			//qDebug() << "Dunno what to do about" << path;
 			resCode = 404;
 			resMsg = "Not Found";
 		}
@@ -52,7 +52,7 @@ void KCToolServer::handleRequest(QTcpSocket *socket)
 	// I might add other methods later (if I find a use), but for now, refuse them
 	else
 	{
-		qDebug() << "Invalid Method:" << method;
+		qDebug() << "Invalid Method:" << method << "(" << path << ")";
 		resCode = 405;
 		resMsg = "Method Not Allowed";
 	}
