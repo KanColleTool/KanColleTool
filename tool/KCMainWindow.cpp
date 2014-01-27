@@ -406,7 +406,7 @@ void KCMainWindow::updateSettingThings()
 	{
 		if(!server)
 		{
-			server = new KCToolServer(this);
+			server = new KCToolServer(client, this);
 			server->listen(QHostAddress::Any, 54321);
 		}
 	}

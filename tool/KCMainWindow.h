@@ -6,6 +6,7 @@
 #include <QSystemTrayIcon>
 #include <QPointer>
 #include <QTimer>
+#include <QNetworkAccessManager>
 #include "KCClient.h"
 #include "KCToolServer.h"
 
@@ -74,6 +75,7 @@ private:
 	
 	KCClient *client;
 	KCToolServer *server;
+	QNetworkAccessManager manager;
 	
 	bool apiLinkDialogOpen;
 };

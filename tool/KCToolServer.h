@@ -3,17 +3,26 @@
 
 #include <QTcpServer>
 
+class QTcpSocket;
+class KCClient;
 class KCToolServer : public QTcpServer
 {
 	Q_OBJECT
 	
 public:
-	KCToolServer(QObject *parent = 0);
+	KCToolServer(KCClient *client, QObject *parent = 0);
 	virtual ~KCToolServer();
 	
-private slots:
+protected:
+	void handleRequest(QTcpSocket *socket);
+	void reply(QTcpSocket *socket, int code, QString message);
+	
+protected slots:
 	void onNewConnection();
 	void onSocketReadyRead();
+	
+protected:
+	KCClient *client;
 };
 
 #endif

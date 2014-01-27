@@ -13,9 +13,12 @@
 #include "KCFleet.h"
 #include "KCDock.h"
 
+class KCToolServer;
 class KCClient : public QObject
 {
 	Q_OBJECT
+	friend class KCToolServer;
+	
 public:
 	typedef enum ErrorCode {
 		JsonError = -1,
