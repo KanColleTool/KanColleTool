@@ -15,27 +15,73 @@ KCToolServer::~KCToolServer()
 
 void KCToolServer::handleRequest(QTcpSocket *socket)
 {
+	// Get the data out of it
+	QString method = socket->property("method").toString();
 	QString path = socket->property("path").toString();
 	QByteArray content = socket->property("buffer").toByteArray();
+	QVariantMap headers = socket->property("headers").toMap();
 	
-	QVariant data = client->dataFromRawResponse(content);
-	if(path == "/api_get_member/ship")
-		client->_processPlayerShipsData(data);
+	// Hold response data
+	int resCode(200);
+	QString resMsg("OK");
+	QString resType("text/plain");
+	QByteArray resBody;
+	
+	// Handle POSTs
+	if(method == "POST")
+	{
+		QVariant data = client->dataFromRawResponse(content);
+		
+		if(path == "/api_get_master/ship")
+			client->_processMasterShipsData(data);
+		else if(path == "/api_get_member/ship")
+			client->_processPlayerShipsData(data);
+		else if(path == "/api_get_member/deck")
+			client->_processPlayerFleetsData(data);
+		else if(path == "/api_get_member/ndock")
+			client->_processPlayerRepairsData(data);
+		else if(path == "/api_get_member/kdock")
+			client->_processPlayerConstructionsData(data);
+		else
+		{
+			qDebug() << "Dunno what to do about" << path;
+			resCode = 404;
+			resMsg = "Not Found";
+		}
+	}
+	// I might add other methods later (if I find a use), but for now, refuse them
 	else
 	{
-		qDebug() << "Dunno what to do about" << path;
-		reply(socket, 404, "Not Found");
+		resCode = 405;
+		resMsg = "Method Not Allowed";
 	}
 	
-	reply(socket, 200, "OK");
+	// Write out a reply to the client
+	reply(socket, resCode, resMsg, resType, (resBody.size() > 0 ? resBody : resMsg.toUtf8()));
+	
+	// If it's not a Connection: close request, reset the state properties
+	if(headers.value("Connection").toString() != "close")
+	{
+		socket->setProperty("firstLineRead", QVariant());
+		socket->setProperty("headerRead", QVariant());
+		socket->setProperty("method", QVariant());
+		socket->setProperty("path", QVariant());
+		socket->setProperty("buffer", QVariant());
+		socket->setProperty("headers", QVariant());
+	}
+	// Otherwise, close it behind us
+	else
+		socket->close();
 }
 
-void KCToolServer::reply(QTcpSocket *socket, int code, QString message)
+void KCToolServer::reply(QTcpSocket *socket, int code, QString message, QString contentType, QByteArray body)
 {
-	socket->write(QString("HTTP/1.1 %1 %1\r\n").arg(QString::number(code), message).toUtf8());
+	socket->write(QString("HTTP/1.1 %1 %2\r\n").arg(QString::number(code), message).toUtf8());
 	socket->write(QString("Date: %1\r\n").arg(QDateTime::currentDateTime().toString(Qt::RFC2822Date)).toUtf8());
-	socket->write(QString("Content-Length: 0\r\n").toUtf8());
+	socket->write(QString("Content-Length: %1\r\n").arg(QString::number(body.size())).toUtf8());
+	socket->write(QString("Content-Type: %1\r\n").arg(contentType).toUtf8());
 	socket->write(QString("\r\n").toUtf8());
+	socket->write(body);
 }
 
 void KCToolServer::onNewConnection()
@@ -105,12 +151,16 @@ void KCToolServer::onSocketReadyRead()
 		if(contentLength == -1)
 			contentLength = socket->property("headers").toMap().value("Content-Length").toInt();
 		
-		// If we have a Content-Length (toLong() fails with 0), disconnect after that
+		// If we have a Content-Length (toLong() fails with 0)
 		if(contentLength > 0 && buffer.size() >= contentLength)
 		{
-			qDebug() << "Content-Length hit!";
 			this->handleRequest(socket);
 			socket->close();
 		}
+	}
+	else if(contentLength == -1 || contentLength == 0)
+	{
+		this->handleRequest(socket);
+		socket->close();
 	}
 }
