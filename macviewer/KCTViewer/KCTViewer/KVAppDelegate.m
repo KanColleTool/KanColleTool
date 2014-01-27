@@ -220,6 +220,11 @@
 	[self updateBrowserLink];
 }
 
+- (NSUInteger)webView:(WebView *)webView dragDestinationActionMaskForDraggingInfo:(id<NSDraggingInfo>)draggingInfo
+{
+	return WebDragDestinationActionNone;
+}
+
 - (id)webView:(WebView *)sender identifierForInitialRequest:(NSURLRequest *)request fromDataSource:(WebDataSource *)dataSource
 {
 	return request.URL;
