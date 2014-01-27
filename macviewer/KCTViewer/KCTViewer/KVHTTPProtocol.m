@@ -13,7 +13,7 @@
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
-	return [request.URL.scheme isEqualToString:@"http"] && [request.HTTPMethod isEqualToString:@"POST"] && ![[self class] propertyForKey:@"_handled" inRequest:request];
+	return [request.URL.scheme isEqualToString:@"http"] && ![request.URL.host isEqualToString:@"localhost"] && ![request.URL.host isEqualToString:@"127.0.0.1"] && [request.HTTPMethod isEqualToString:@"POST"] && ![[self class] propertyForKey:@"_handled" inRequest:request];
 }
 
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request
@@ -62,8 +62,7 @@
 	
 	/*for(NSString *key in [(NSHTTPURLResponse*)response allHeaderFields])
 		NSLog(@"%@ : %@", key, [[(NSHTTPURLResponse*)response allHeaderFields] objectForKey:key]);*/
-	[self.client URLProtocol:self didReceiveResponse:response
-		  cacheStoragePolicy:([self.request.URL.path hasPrefix:@"/kcsapi"] ? NSURLCacheStorageNotAllowed : NSURLCacheStorageAllowed)];
+	[self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -81,11 +80,24 @@
 	if(self.buffer)
 	{
 		// This should always be true (we shouldn't have a buffer if the request is not interesting,
-		// but it's always good to check a second time. That might change in the future or something.
+		// but it's always good to check a second time. That might change in the future or something.)
 		if([self isInteresting])
 		{
+			// Deliver data to the client
 			NSData *translatedData = [[KVTranslator sharedTranslator] translateJSON:self.buffer];
 			[self.client URLProtocol:self didLoadData:translatedData];
+			
+			// Forward to the tool
+			NSURL *toolURL = [NSURL URLWithString:@"http://127.0.0.1:54321/"];
+			NSMutableURLRequest *toolRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:self.request.URL.path relativeToURL:toolURL]];
+			toolRequest.HTTPMethod = @"POST";
+			toolRequest.HTTPBody = self.buffer;
+			AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:toolRequest];
+			op.responseSerializer = [AFJSONResponseSerializer serializer];
+			op.responseSerializer.acceptableStatusCodes = [NSMutableIndexSet indexSet];
+			[(NSMutableIndexSet*)op.responseSerializer.acceptableStatusCodes addIndex:200];
+			[(NSMutableIndexSet*)op.responseSerializer.acceptableStatusCodes addIndex:404];
+			[op start];
 		}
 		// If this request is uninteresting, just feed the client the buffer, and wonder why
 		// the heck we buffered the response in the first place.
