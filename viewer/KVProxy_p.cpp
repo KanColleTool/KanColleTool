@@ -2,8 +2,14 @@
 #include <iostream>
 #include <QString>
 #include <QRegularExpression>
+#include <QPointer>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QUrl>
 #include <QDebug>
 #include "KVTranslator.h"
+
+static QPointer<QNetworkAccessManager> manager;
 
 void proxyHandleConnection(KVProxy *proxy, HttpProxy::Connection::Ptr con)
 {
@@ -26,9 +32,16 @@ void proxyHandleConnection(KVProxy *proxy, HttpProxy::Connection::Ptr con)
 
 void proxyHandleResponse(KVProxy *proxy, HttpProxy::Connection::Ptr con, HttpProxy::Response res)
 {
-	Q_UNUSED(proxy);
-	
 	QString body = QString::fromStdString(res.body);
-	body = KVTranslator::instance()->translateJson(body);
-	con->reply(res.status_code, res.status_message, res.headers, body.toStdString());
+	QString tlBody = KVTranslator::instance()->translateJson(body);
+	con->reply(res.status_code, res.status_message, res.headers, tlBody.toStdString());
+	
+	QUrl toolUrl("http://localhost:54321/");
+	QUrl url(QString::fromStdString(con->request_path));
+	QNetworkRequest request(toolUrl.resolved(url));
+	request.setRawHeader("Content-Type", "text/json");
+	
+	if(!manager)
+		manager = new QNetworkAccessManager(proxy);
+	manager->post(request, body.toUtf8());
 }
