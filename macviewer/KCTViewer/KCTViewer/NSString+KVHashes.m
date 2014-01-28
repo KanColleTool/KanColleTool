@@ -26,6 +26,20 @@
 	return digestString;
 }
 
+- (NSString *)sha256
+{
+	NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
+	
+	unsigned char digest[CC_SHA256_DIGEST_LENGTH];
+	CC_SHA256(data.bytes, (CC_LONG)data.length, digest);
+	
+	NSMutableString *digestString = [[NSMutableString alloc] initWithCapacity:CC_SHA256_DIGEST_LENGTH*2];
+	for(int i = 0; i < CC_SHA256_DIGEST_LENGTH; i++)
+		[digestString appendFormat:@"%02x", digest[i]];
+	
+	return digestString;
+}
+
 - (unsigned long)crc32
 {
 	NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];

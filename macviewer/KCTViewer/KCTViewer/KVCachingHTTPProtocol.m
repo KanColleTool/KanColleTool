@@ -94,7 +94,7 @@
 	{
 		NSFileManager *fm = [[NSFileManager alloc] init];
 		
-		NSString *cacheID = [[self.request.URL absoluteString] sha1];
+		NSString *cacheID = [[self.request.URL absoluteString] sha256];
 		NSString *cacheDir = [[self class] cacheDir];
 		
 		BOOL cacheDirIsDir;
