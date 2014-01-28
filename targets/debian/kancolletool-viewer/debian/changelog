@@ -1,3 +1,13 @@
+kancolletool-viewer (0.7.0-1) unstable; urgency=low
+
+  * Livestreaming of data from the viewer to the tool!
+  * Improved overall performance
+  * Fixed the update notifications not looking right
+  * Fixed the update notifications not comparing version numbers right
+  * Fixed dropping an image on the viewer replacing the game (Closes: #8)
+
+ -- Johannes Ekberg <uppfinnarn@gmail.com>  Tue, 28 Jan 2014 21:37:40 +0100
+
 kancolletool-viewer (0.6.1-1) unstable; urgency=low
 
   * Update checking

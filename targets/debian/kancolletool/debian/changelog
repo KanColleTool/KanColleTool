@@ -1,3 +1,14 @@
+kancolletool (0.7.0-1) unstable; urgency=low
+
+  * Livestreaming from the viewer!
+  * The first time you close the window, it'll tell you that it's still in the tray
+  * Setting to disable Minimize to Tray
+  * Fixed Construction timers rolling over when finished (Closes: #15)
+  * Fixed Construction timers not showing notifications properly
+  * Fixes error popup spam when the connection drops (Closes: #16)
+
+ -- Johannes Ekberg <uppfinnarn@gmail.com>  Tue, 28 Jan 2014 21:34:04 +0100
+
 kancolletool (0.6.1-1) unstable; urgency=low
 
   * Fixed a stupid crash
