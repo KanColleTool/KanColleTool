@@ -203,19 +203,25 @@ void KVMainWindow::onVersionCheckFinished()
 	
 	// Parse the version numbers
 	QString newVersion = QString::fromUtf8(reply->readAll()).trimmed();
-	QStringList newVersionComponents = newVersion.split(".");
-	QString appVersion = qApp->applicationVersion();
-	QStringList appVersionComponents = appVersion.split(".");
+	QList<int> newVersionComponents;
+	foreach(QString part, newVersion.split("."))
+		newVersionComponents.append(part.toInt());
 	
-	// If we got a malformed response, ignore it
-	if(newVersionComponents.length() != 3)
-		return;
+	QString appVersion = qApp->applicationVersion();
+	QList<int> appVersionComponents;
+	foreach(QString part, appVersion.split("."))
+		appVersionComponents.append(part.toInt());
 	
 	// Compare component-per-component to see if we're outdated
-	bool outdated =
-			(newVersionComponents[0].toDouble() > appVersionComponents[0].toDouble() ||
-			newVersionComponents[0].toDouble() > appVersionComponents[1].toDouble() ||
-			newVersionComponents[2].toDouble() > appVersionComponents[2].toDouble());
+	bool outdated = false;
+	for(int i = 0; i < qMin(newVersionComponents.length(), appVersionComponents.length()); i++)
+	{
+		if(newVersionComponents[i] != appVersionComponents[i])
+		{
+			outdated = (newVersionComponents[i] > appVersionComponents[i]);
+			break;
+		}
+	}
 	
 	// Display a message if we are
 	if(outdated)
