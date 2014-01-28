@@ -202,7 +202,7 @@ void KVMainWindow::onVersionCheckFinished()
 		return;
 	
 	// Parse the version numbers
-	QString newVersion = QString::fromUtf8(reply->readAll());
+	QString newVersion = QString::fromUtf8(reply->readAll()).trimmed();
 	QStringList newVersionComponents = newVersion.split(".");
 	QString appVersion = qApp->applicationVersion();
 	QStringList appVersionComponents = appVersion.split(".");
