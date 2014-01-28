@@ -31,7 +31,8 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	
 	QMenu *helpMenu = menuBar->addMenu("Help");
 	helpMenu->addAction("About", this, SLOT(showAbout()));
-#if !Q_OS_LINUX // Updates on Linux are handled by the package manager
+	// Updates on Linux are handled by the package manager
+#if !defined(Q_OS_LINUX)
 	helpMenu->addAction("Check for Updates", this, SLOT(checkForUpdates()));
 #endif
 	
@@ -77,7 +78,8 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	this->setFixedSize(this->width(), this->height());
 	
 	// Check for updates
-#if !Q_OS_LINUX // Updates on Linux are handled by the package manager
+	// Updates on Linux are handled by the package manager
+#if !defined(Q_OS_LINUX)
 	this->checkForUpdates();
 #endif
 	
