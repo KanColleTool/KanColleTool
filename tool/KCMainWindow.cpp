@@ -137,6 +137,33 @@ void KCMainWindow::_setupClient()
 	else this->onCredentialsGained();
 }
 
+void KCMainWindow::closeEvent(QCloseEvent *event)
+{
+	QSettings settings;
+	if(settings.value("minimizeToTray", kDefaultMinimizeToTray).toBool())
+	{
+		// The first time the application is minimized to the tray, display a
+		// message to alert the user about this, in case their window manager
+		// hides it by default (*cough* Windows 7 *cough*).
+		// This doesn't make sense on OSX, because the program is always in the
+		// menu bar in the first place there, with no dock icon at all.
+#ifndef __APPLE__
+		if(!settings.value("closeToTrayNotificationShown").toBool())
+		{
+			trayIcon->showMessage("Still running!", "KanColleTool is still running in the tray.\nYou can disable that in the settings.");
+			settings.setValue("closeToTrayNotificationShown", true);
+		}
+#endif
+	}
+	else
+	{
+		// Just quit if we're not set to stay in the tray when closed
+		qApp->quit();
+	}
+	
+	event->accept();
+}
+
 bool KCMainWindow::isApplicationActive()
 {
 #ifdef __APPLE__

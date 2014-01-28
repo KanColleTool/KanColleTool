@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QMenu>
 #include <QSystemTrayIcon>
+#include <QCloseEvent>
 #include <QPointer>
 #include <QTimer>
 #include <QNetworkAccessManager>
@@ -26,6 +27,9 @@ private:
 	void _setupTrayIcon();
 	void _setupUI();
 	void _setupClient();
+	
+protected:
+	virtual void closeEvent(QCloseEvent *event);
 	
 public:
 	bool isApplicationActive();
