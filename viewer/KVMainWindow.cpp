@@ -31,7 +31,9 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	
 	QMenu *helpMenu = menuBar->addMenu("Help");
 	helpMenu->addAction("About", this, SLOT(showAbout()));
+#if !Q_OS_LINUX // Updates on Linux are handled by the package manager
 	helpMenu->addAction("Check for Updates", this, SLOT(checkForUpdates()));
+#endif
 	
 	this->setMenuBar(menuBar);
 	
@@ -75,7 +77,9 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	this->setFixedSize(this->width(), this->height());
 	
 	// Check for updates
+#if !Q_OS_LINUX // Updates on Linux are handled by the package manager
 	this->checkForUpdates();
+#endif
 	
 	// Load the translation data before doing anything, otherwise we might end
 	// up with partially translated data on spotty connections.
