@@ -174,6 +174,11 @@
 			[[NSUserDefaults standardUserDefaults] setObject:self.apiToken forKey:@"apiToken"];
 			[[NSUserDefaults standardUserDefaults] synchronize];
 			
+			// Sync the settings to the tool
+			NSUserDefaults *toolSettings = [[NSUserDefaults alloc] initWithSuiteName:@"com.macaronicode.KanColleTool"];
+			[toolSettings setValuesForKeysWithDictionary:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]];
+			[toolSettings synchronize];
+			
 			[self loadTranslation];
 		}
 	}];
