@@ -15,6 +15,10 @@ void proxyHandleConnection(KVProxy *proxy, HttpProxy::Connection::Ptr con)
 {
 	std::cout << con->request_method << " " << con->request_path << std::endl;
 	
+	// Spoof the User-Agent to make us look like Google Chrome
+	con->request_headers["User-Agent"].clear();
+	con->request_headers["User-Agent"].push_back("Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36");
+	
 	if(con->request_method == "POST")
 	{
 		std::cout << "> " << con->request_path << std::endl;

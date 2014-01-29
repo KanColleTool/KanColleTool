@@ -23,7 +23,12 @@
 
 - (id)initWithRequest:(NSURLRequest *)request cachedResponse:(NSCachedURLResponse *)cachedResponse client:(id<NSURLProtocolClient>)client
 {
-	return [super initWithRequest:[request mutableCopy] cachedResponse:cachedResponse client:client];
+	if((self = [super initWithRequest:[request mutableCopy] cachedResponse:cachedResponse client:client]))
+	{
+		[(NSMutableURLRequest*)self.request setValue:@"Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36" forHTTPHeaderField:@"User-Agent"];
+	}
+	
+	return self;
 }
 
 - (void)startLoading
