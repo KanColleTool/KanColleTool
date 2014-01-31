@@ -1,0 +1,1599 @@
+movie 'title.swf' {
+// flash 14, total frames: 40, frame rate: 30 fps, 800x480 px, compressed
+
+  frame 1 {
+    var title = new as.port.scenes.title.SceneTitleClass(this);
+  }
+
+  movieClip 9  {
+  }
+
+  movieClip 13  {
+  }
+
+  movieClip 15  {
+  }
+
+  movieClip 18  {
+  }
+
+  movieClip 19  {
+
+    frame 1 {
+      stop();
+      var kiras = [kira1, kira2, kira3, kira4, kira5, kira6, kira7, kira8, kira9, kira10, kira11, kira12, kira13];
+      var kiras_i = new Array(kiras.length);
+      var kiras_imax = new Array(kiras.length);
+      var i = 0;
+      while (i < kiras.length) {
+        kiras_i[i] = 0;
+        kiras_imax[i] = random(30) + 30;
+        ++i;
+      }
+      onEnterFrame = mx.utils.Delegate.create(this, function () {
+        var v1 = 0;
+        while (v1 < kiras.length) {
+          var v2 = kiras[v1];
+          if (kiras_i[v1] < kiras_imax[v1]) {
+            v2._alpha = 0;
+          } else {
+            if (kiras_i[v1] < kiras_imax[v1] + 5) {
+              v2._alpha += 20;
+            } else {
+              if (kiras_i[v1] < kiras_imax[v1] + 10) {
+                v2._alpha -= 20;
+              } else {
+                kiras_i[v1] = 0;
+                kiras_imax[v1] = Math.floor(Math.random() * 30) + 30;
+              }
+            }
+          }
+          ++kiras_i[v1];
+          ++v1;
+        }
+      });
+    }
+
+    frame 2 {
+      onEnterFrame = null;
+      stop();
+    }
+  }
+
+  movieClip 53 __Packages.as.port.scenes.title.SceneTitleClass {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.scenes) {
+        _global.as.port.scenes = new Object();
+      }
+      if (!_global.as.port.scenes.title) {
+        _global.as.port.scenes.title = new Object();
+      }
+      if (!_global.as.port.scenes.title.SceneTitleClass) {
+        var v1 = function (mc) {
+          this._mc = mc;
+          this._mc.stop();
+          var v6 = Math.floor(Math.random() * 3) + 1;
+          this._mc.bg.gotoAndStop(v6);
+          this._mc.loading.bar._xscale = 0;
+          var v3 = Math.floor(Math.random() * 20) + 1;
+          v3 = v3 < 10 ? '0' + v3 : v3;
+          this._sound = new Sound(this._mc);
+          var v5 = v3 + '.mp3';
+          var v4 = _global.CONSTANTS.DEFAULT_BASE_URL_SOUND;
+          v4 += 'sound/titlecall/a/' + v5;
+          this._sound.loadSound(v4, true);
+          if (_global.PORT.voiceFlag) {
+            this._sound.setVolume(_global.PORT.voiceVolume);
+          } else {
+            this._sound.setVolume(1);
+          }
+          _global.methods.log('sound A Play:' + v5);
+          this._mc.onEnterFrame = mx.utils.Delegate.create(this, this._handleEnterFrame);
+        };
+
+        as.port.scenes.title.SceneTitleClass = v1;
+        var v2 = v1.prototype;
+        v2._handleEnterFrame = function () {
+          var v6 = 9999;
+          var v5 = 0;
+          if (_global.PORT) {
+            v6 = _global.PORT.getBytesTotal();
+            v5 = _global.PORT.getBytesLoaded();
+          }
+          var v4 = 9999;
+          var v3 = 0;
+          if (_global.BATTLE) {
+            v4 = _global.BATTLE.getBytesTotal();
+            v3 = _global.BATTLE.getBytesLoaded();
+          }
+          var v8 = 9999;
+          var v7 = 0;
+          if (_global.BGSET) {
+            v8 = _global.BGSET.getBytesTotal();
+            v7 = _global.BGSET.getBytesLoaded();
+          }
+          this._loadedFramePer = ((v5 + v3) / (v6 + v4)) * 100;
+          if (this._updateGauge()) {
+            if (!this._isLoadFinished) {
+              this._isLoadFinished = true;
+              this._next();
+            }
+          }
+        };
+
+        v2._updateGauge = function () {
+          if (this._mc.loading.bar._xscale < this._loadedFramePer) {
+            ++this._mc.loading.bar._xscale;
+            trace('loading... ' + this._mc.loading.bar._xscale + '%');
+          }
+          return this._mc.loading.bar._xscale >= 100;
+        };
+
+        v2._next = function () {
+          _global.methods.log('場面1終了');
+          this._mc.onEnterFrame = null;
+          this._mc.play();
+        };
+
+        v2._mc = null;
+        v2._loadedFramePer = 0;
+        v2._sound = null;
+        v2._isLoadFinished = false;
+        ASSetPropFlags(as.port.scenes.title.SceneTitleClass.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 54 __Packages.mx.utils.Delegate {
+
+    #initclip
+      if (!_global.mx) {
+        _global.mx = new Object();
+      }
+      if (!_global.mx.utils) {
+        _global.mx.utils = new Object();
+      }
+      if (!_global.mx.utils.Delegate) {
+        var v1 = function (f) {
+          super();
+          this.func = f;
+        };
+
+        mx.utils.Delegate = v1;
+        mx.utils.Delegate extends Object;
+        var v2 = v1.prototype;
+        v1.create = function (obj, func) {
+          var v2 = function () {
+            var v2 = arguments.callee.target;
+            var v3 = arguments.callee.func;
+            return v3.apply(v2, arguments);
+          };
+
+          v2.target = obj;
+          v2.func = func;
+          return v2;
+        };
+
+        v2.createDelegate = function (obj) {
+          return mx.utils.Delegate.create(obj, this.func);
+        };
+
+        ASSetPropFlags(mx.utils.Delegate.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 55 __Packages.as.common.JSON {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.common) {
+        _global.as.common = new Object();
+      }
+      if (!_global.as.common.JSON) {
+        var v1 = function () {};
+
+        as.common.JSON = v1;
+        var v2 = v1.prototype;
+        v1.stringify = function (arg) {
+          var v3;
+          var v2;
+          var v6;
+          var v1 = '';
+          var v4;
+          switch (typeof arg) {
+              return 'null';
+            case 'object':
+              if (arg) {
+                if (arg instanceof Array) {
+                  v2 = 0;
+                  while (v2 < arg.length) {
+                    v4 = as.common.JSON.stringify(arg[v2]);
+                    if (v1) {
+                      v1 += ',';
+                    }
+                    v1 += v4;
+                    ++v2;
+                  }
+                  return '[' + v1 + ']';
+                } else {
+                  if (typeof arg.toString != 'undefined') {
+                    for (v2 in arg) {
+                      v4 = arg[v2];
+                      if (typeof v4 != 'undefined' && typeof v4 != 'function') {
+                        v4 = as.common.JSON.stringify(v4);
+                        if (v1) {
+                          v1 += ',';
+                        }
+                        v1 += as.common.JSON.stringify(v2) + ':' + v4;
+                      }
+                    }
+                    return '{' + v1 + '}';
+                  }
+                }
+              }
+              return 'null';
+            case 'number':
+              return isFinite(arg) ? String(arg) : 'null';
+            case 'string':
+              v6 = arg.length;
+              v1 = '"';
+              v2 = 0;
+              while (v2 < v6) {
+                v3 = arg.charAt(v2);
+                if (v3 >= ' ') {
+                  if (v3 == '\\' || v3 == '"') {
+                    v1 += '\\';
+                  }
+                  v1 += v3;
+                } else {
+                  switch (v3) {
+                    case '\b':
+                      v1 += '\\b';
+                      break;
+                    case '\f':
+                      v1 += '\\f';
+                      break;
+                    case '\n':
+                      v1 += '\\n';
+                      break;
+                    case '\r':
+                      v1 += '\\r';
+                      break;
+                    case '\t':
+                      v1 += '\\t';
+                      break;
+                    default:
+                      v3 = v3.charCodeAt();
+                      v1 += '\\u00' + (Math.floor(v3 / 16)).toString(16) + (v3 % 16).toString(16);
+                  }
+                }
+                v2 += 1;
+              }
+              return v1 + '"';
+            case 'boolean':
+              return String(arg);
+          }
+          return 'null';
+        };
+
+        v2.error = function (m) {
+          throw {'name': 'JSONError', 'message': m, 'at': this.at - 1, 'text': this.text};
+        };
+
+        v2.next = function () {
+          this.ch = this.text.charAt(this.at);
+          this.at += 1;
+          return this.ch;
+        };
+
+        v2.white = function () {
+          while (this.ch) {
+            if (this.ch <= ' ') {
+              this.next();
+            } else {
+              if (this.ch == '/') {
+                switch (this.next()) {
+                  case '/':
+                    for (;;) {
+                      if (!(this.next() && this.ch != '\n' && this.ch != '\r')) break;
+                    }
+                    break;
+                  case '*':
+                    this.next();
+                    for (;;) {
+                      if (this.ch) {
+                        if (this.ch == '*') {
+                          if (this.next() == '/') {
+                            this.next();
+                            break;
+                          }
+                        } else {
+                          this.next();
+                        }
+                        continue;
+                      }
+                      this.error('Unterminated comment');
+                    }
+                    break;
+                  default:
+                    this.error('Syntax error');
+                }
+              } else {
+                break;
+              }
+            }
+          }
+        };
+
+        v2.str = function () {
+          var v5;
+          var v2 = '';
+          var v4;
+          var v3;
+          var v6 = false;
+          if (this.ch == '"') {
+            while (this.next()) {
+              if (this.ch == '"') {
+                this.next();
+                return v2;
+              } else {
+                if (this.ch == '\\') {
+                  switch (this.next()) {
+                    case 'b':
+                      v2 += '\b';
+                      break;
+                    case 'f':
+                      v2 += '\f';
+                      break;
+                    case 'n':
+                      v2 += '\n';
+                      break;
+                    case 'r':
+                      v2 += '\r';
+                      break;
+                    case 't':
+                      v2 += '\t';
+                      break;
+                    case 'u':
+                      v3 = 0;
+                      v5 = 0;
+                      while (v5 < 4) {
+                        v4 = parseInt(this.next(), 16);
+                        if (!isFinite(v4)) {
+                          v6 = true;
+                          break;
+                        }
+                        v3 = v3 * 16 + v4;
+                        v5 += 1;
+                      }
+                      if (v6) {
+                        v6 = false;
+                      } else {
+                        v2 += String.fromCharCode(v3);
+                        break;
+                      default:
+                        v2 += this.ch;
+                      }
+                  }
+                } else {
+                  v2 += this.ch;
+                }
+              }
+            }
+          } else {
+            while (!false) {
+              if ('a' <= this.ch && this.ch <= 'z' || 'A' <= this.ch && this.ch <= 'Z' || this.ch == '_' || '0' <= this.ch && this.ch <= '9' || this.ch > String.fromCharCode(127)) {
+                v2 += this.ch;
+                this.next();
+              } else {
+                break;
+              }
+            }
+            if (v2.length > 0) {
+              return v2;
+            }
+          }
+          this.error('Bad string');
+        };
+
+        v2.arr = function () {
+          var v2 = [];
+          if (this.ch == '[') {
+            this.next();
+            this.white();
+            if (this.ch == ']') {
+              this.next();
+              return v2;
+            }
+            while (this.ch) {
+              v2.push(this.value());
+              this.white();
+              if (this.ch == ']') {
+                this.next();
+                return v2;
+              } else {
+                if (this.ch != ',') {
+                  break;
+                }
+              }
+              this.next();
+              this.white();
+            }
+          }
+          this.error('Bad array');
+        };
+
+        v2.obj = function () {
+          var v3;
+          var v2 = {};
+          if (this.ch == '{') {
+            this.next();
+            this.white();
+            if (this.ch == '}') {
+              this.next();
+              return v2;
+            }
+            while (this.ch) {
+              v3 = this.str();
+              this.white();
+              if (this.ch != ':') {
+                break;
+              }
+              this.next();
+              v2[v3] = this.value();
+              this.white();
+              if (this.ch == '}') {
+                this.next();
+                return v2;
+              } else {
+                if (this.ch != ',') {
+                  break;
+                }
+              }
+              this.next();
+              this.white();
+            }
+          }
+          this.error('Bad object');
+        };
+
+        v2.num = function () {
+          var v2 = '';
+          var v3;
+          if (this.ch == '-') {
+            v2 = '-';
+            this.next();
+          }
+          for (;;) {
+            if (!(this.ch >= '0' && this.ch <= '9')) break;
+            v2 += this.ch;
+            this.next();
+          }
+          if (this.ch == '.') {
+            v2 += '.';
+            this.next();
+            for (;;) {
+              if (!(this.ch >= '0' && this.ch <= '9')) break;
+              v2 += this.ch;
+              this.next();
+            }
+          }
+          if (this.ch == 'e' || this.ch == 'E') {
+            v2 += this.ch;
+            this.next();
+            if (this.ch == '-' || this.ch == '+') {
+              v2 += this.ch;
+              this.next();
+            }
+            for (;;) {
+              if (!(this.ch >= '0' && this.ch <= '9')) break;
+              v2 += this.ch;
+              this.next();
+            }
+          }
+          v3 = Number(v2);
+          if (!isFinite(v3)) {
+            this.error('Bad number');
+          }
+          return v3;
+        };
+
+        v2.word = function () {
+          switch (this.ch) {
+            case 't':
+              if (this.next() == 'r' && this.next() == 'u' && this.next() == 'e') {
+                this.next();
+                return true;
+              }
+              break;
+            case 'f':
+              if (this.next() == 'a' && this.next() == 'l' && this.next() == 's' && this.next() == 'e') {
+                this.next();
+                return false;
+              }
+              break;
+            case 'n':
+              if (this.next() == 'u' && this.next() == 'l' && this.next() == 'l') {
+                this.next();
+                return null;
+              }
+          }
+          this.error('Syntax error');
+        };
+
+        v2.value = function () {
+          this.white();
+          switch (this.ch) {
+            case '{':
+              return this.obj();
+            case '[':
+              return this.arr();
+            case '"':
+              return this.str();
+            case '-':
+              return this.num();
+          }
+          return (this.ch >= '0' && this.ch <= '9') ? this.num() : this.word();
+        };
+
+        v2._parse = function (json_txt) {
+          this.at = 0;
+          this.ch = ' ';
+          this.text = json_txt;
+          return this.value();
+        };
+
+        v1.parse = function (text) {
+          var v1 = new as.common.JSON();
+          return v1._parse(text);
+        };
+
+        ASSetPropFlags(as.common.JSON.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 56 __Packages.as.port.scenes.title.SceneTitlePhase2Class {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.scenes) {
+        _global.as.port.scenes = new Object();
+      }
+      if (!_global.as.port.scenes.title) {
+        _global.as.port.scenes.title = new Object();
+      }
+      if (!_global.as.port.scenes.title.SceneTitlePhase2Class) {
+        var v1 = function (mc) {
+          this._mc = mc;
+          this._mc.stop();
+          this._mc.btn.onPress = mx.utils.Delegate.create(this, this._handleBtnClick);
+          var v3 = Math.floor(Math.random() * 13) + 1;
+          v3 = v3 < 10 ? '0' + v3 : v3;
+          this._sound2 = new Sound(this._mc);
+          var v5 = v3 + '.mp3';
+          var v4 = _global.CONSTANTS.DEFAULT_BASE_URL_SOUND;
+          v4 += 'sound/titlecall/b/' + v5;
+          if (_global.PORT.voiceFlag) {
+            this._sound2.setVolume(_global.PORT.voiceVolume);
+          } else {
+            this._sound2.setVolume(1);
+          }
+          this._sound2.loadSound(v4, true);
+          if (_global.PORT.voiceFlag) {
+            this._sound2.setVolume(_global.PORT.voiceVolume);
+          } else {
+            this._sound2.setVolume(1);
+          }
+          _global.methods.log('sound B Play:' + v5 + ' ' + _global.PORT.voiceVolume);
+          this._loadUserData();
+        };
+
+        as.port.scenes.title.SceneTitlePhase2Class = v1;
+        var v2 = v1.prototype;
+        v2._handleBtnClick = function () {
+          this._mc.btn.onPress = null;
+          this._mc.onEnterFrame = mx.utils.Delegate.create(this, this._handleEnterFrame1);
+        };
+
+        v2._handleEnterFrame1 = function () {
+          this._mc.btn._alpha -= 10;
+          if (this._mc.btn._alpha <= 0) {
+            this._mc.onEnterFrame = mx.utils.Delegate.create(this, this._handleEnterFrame2);
+          }
+        };
+
+        v2._handleEnterFrame2 = function () {
+          this._mc._alpha -= 5;
+          if (this._mc._alpha <= 0) {
+            this._mc.onEnterFrame = null;
+            this._playVoiceC();
+          }
+        };
+
+        v2._playVoiceC = function () {
+          var v3 = Math.floor(Math.random() * 11) + 1;
+          v3 = v3 < 10 ? '0' + v3 : v3;
+          this._sound = new Sound(this._mc);
+          var v5 = v3 + '.mp3';
+          var v4 = _global.CONSTANTS.DEFAULT_BASE_URL_SOUND;
+          v4 += 'sound/titlecall/c/' + v5;
+          this._sound.onSoundComplete = mx.utils.Delegate.create(this, this._voicePlayEnded);
+          this._sound.loadSound(v4, true);
+          if (_global.PORT.voiceFlag) {
+            this._sound.setVolume(_global.PORT.voiceVolume);
+          } else {
+            this._sound.setVolume(1);
+          }
+          _global.methods.log('sound C Play:' + v5);
+          this._startInterval();
+          _global.methods.log('タイマーセットした時点でのtimerIDは' + this.timerID);
+        };
+
+        v2._startInterval = function () {
+          if (this.timerID != null) {
+            clearInterval(this.timerID);
+          }
+          this.timerID = setInterval(this, '_endInterval', 6400);
+        };
+
+        v2._endInterval = function () {
+          this._voicePlayEnded();
+        };
+
+        v2._voicePlayEnded = function () {
+          _global.methods.log('_voicePlayEnded ' + this.timerID);
+          clearInterval(this.timerID);
+          this._isEndVoicePlay = true;
+          this._next();
+        };
+
+        v2._loadUserData = function () {
+          var v2 = new as.port.classes.loader.UserDataLoader(this, function (json, str) {
+            this._loadShipMaster();
+          }, this._error);
+          v2.load();
+        };
+
+        v2._loadShipMaster = function () {
+          var v2 = new as.port.classes.loader.ShipMasterLoader(this, function (json, str) {
+            this._loadShipTypeMaster();
+          }, this._error);
+          v2.load();
+        };
+
+        v2._loadShipTypeMaster = function () {
+          var v2 = new as.port.classes.loader.ShipTypeMasterLoader(this, function (json, str) {
+            this._loadShipData();
+          }, this._error);
+          v2.load();
+        };
+
+        v2._loadShipData = function () {
+          var v2 = new as.port.classes.loader.ShipDataLoader(this, function (json, str) {
+            this._loadDeckData();
+          }, this._error);
+          v2.load();
+        };
+
+        v2._loadDeckData = function () {
+          var v2 = new as.port.classes.loader.DeckDataLoader(this, function (json, str) {
+            this._loadItemData();
+          }, this._error);
+          v2.load();
+        };
+
+        v2._loadItemData = function () {
+          var v2 = new as.port.classes.loader.ItemDataLoader(this, function (json, str) {
+            this._loadKDockData();
+          }, this._error);
+          v2.load();
+        };
+
+        v2._loadNDockData = function () {
+          var v2 = new as.port.classes.loader.NDockDataLoader(this, function (json, str) {
+            this._loadKDockData();
+          }, this._error);
+          v2.load();
+        };
+
+        v2._loadKDockData = function () {
+          var v2 = new as.port.classes.loader.KDockDataLoader(this, function (json, str) {
+            this._loadKFurnitureMaster();
+          }, this._error);
+          v2.load();
+        };
+
+        v2._loadKFurnitureMaster = function () {
+          var v2 = new as.port.classes.loader.FurnitureMasterLoader(this, function (json, str) {
+            this._loadFurnitureData();
+          }, this._error);
+          v2.load();
+        };
+
+        v2._loadFurnitureData = function () {
+          var v2 = new as.port.classes.loader.FurnitureDataLoader(this, function (json, str) {
+            this._loadSlotItemMaster();
+          }, this._error);
+          v2.load();
+        };
+
+        v2._loadSlotItemMaster = function () {
+          var v2 = new as.port.classes.loader.SlotItemMasterLoader(this, function (json, str) {
+            this._loadSlotItemData();
+          }, this._error);
+          v2.load();
+        };
+
+        v2._loadSlotItemData = function () {
+          var v2 = new as.port.classes.loader.SlotItemDataLoader(this, function (json, str) {
+            this._loadShipPositionMaster();
+          }, this._error);
+          v2.load();
+        };
+
+        v2._loadShipPositionMaster = function () {
+          var v2 = new as.port.classes.loader.ShipPositionMasterLoader(this, function (json, str) {
+            this._loadUseItemMaster();
+          }, this._error);
+          v2.load();
+        };
+
+        v2._loadUseItemMaster = function () {
+          var v2 = new as.port.classes.loader.UseItemMasterLoader(this, function (json, str) {
+            this._loadUseItemData();
+          }, this._error);
+          v2.load();
+        };
+
+        v2._loadUseItemData = function () {
+          var v2 = new as.port.classes.loader.UseItemDataLoader(this, function (json, str) {
+            this._loadMapAreaMaster();
+          }, this._error);
+          v2.load();
+        };
+
+        v2._loadMapAreaMaster = function () {
+          var v2 = new as.port.classes.loader.MapAreaMasterLoader(this, function (json, str) {
+            this._isEndApiConnections = true;
+            this._next();
+          }, this._error);
+          v2.load();
+        };
+
+        v2._loadMapInfo = function () {
+          var v2 = new as.port.classes.loader.MapInfoLoader(this, function (json, str) {
+            this._isEndApiConnections = true;
+            this._next();
+          }, this._error);
+          v2.load();
+        };
+
+        v2._next = function () {
+          if (this._isEndVoicePlay && this._isEndApiConnections) {
+            if (this._isEndScene) {
+              return undefined;
+            }
+            this._isEndScene = true;
+            if (_global.UserData.getFirstFlg() == 0) {
+              _global.methods.log('[logged in -> チュートリアル]');
+              gotoAndPlay('tutorial');
+            } else {
+              _global.methods.log('[logged in -> 母港]');
+              this._mc._parent.play();
+            }
+          }
+        };
+
+        v2._error = function (json, str) {
+          _global.methods.log(str);
+          this._mc._parent.gotoSysError2('タイトル画面', json);
+        };
+
+        v2._mc = null;
+        v2._sound = null;
+        v2._sound2 = null;
+        v2.timerID = new Number();
+        v2._isEndVoicePlay = false;
+        v2._isEndApiConnections = false;
+        v2._isEndScene = false;
+        ASSetPropFlags(as.port.scenes.title.SceneTitlePhase2Class.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 57 __Packages.as.port.classes.loader.DataLoaderBase {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.classes) {
+        _global.as.port.classes = new Object();
+      }
+      if (!_global.as.port.classes.loader) {
+        _global.as.port.classes.loader = new Object();
+      }
+      if (!_global.as.port.classes.loader.DataLoaderBase) {
+        var v1 = function (target, completeFunc, errorFunc) {
+          this._target = target;
+          this._completeFunc = completeFunc;
+          this._errorFunc = errorFunc;
+        };
+
+        as.port.classes.loader.DataLoaderBase = v1;
+        var v2 = v1.prototype;
+        v2.load = function () {
+          if (!this._nowConnection) {
+            this._nowConnection = true;
+            this._sender = new LoadVars();
+            this._preLoad();
+            this._receiver = new LoadVars();
+            this._receiver.onLoad = mx.utils.Delegate.create(this, this._receiveData);
+            this._sender.sendAndLoad(this._getURL(), this._receiver, this.METHOD);
+          }
+        };
+
+        v2._preLoad = function () {
+          this._sender.api_token = _global.UserData.getAPIToken();
+          this._sender.api_verno = '1';
+        };
+
+        v2._postLoad = function (json) {};
+
+        v2._receiveData = function (success) {
+          this._nowConnection = false;
+          this._receiver.onLoad = null;
+          if (success) {
+            var v3 = {};
+            v3 = as.common.JSON.parse(this._receiver.svdata);
+            if (v3.api_result == 1) {
+              _global.methods.log('[<->]' + this.connectionName + '完了');
+              this._postLoad(v3);
+            } else {
+              this._error(v3);
+              return undefined;
+            }
+          } else {
+            this._error(null);
+            return undefined;
+          }
+          if (this._completeFunc != null) {
+            (mx.utils.Delegate.create(this._target, this._completeFunc))(storedv3, this._receiver.svdata);
+          }
+          this._sender = null;
+          this._receiver = null;
+          delete this._sender;
+          delete this._receiver;
+        };
+
+        v2._error = function (json) {
+          _global.methods.log('[<->]' + this.connectionName + '失敗');
+          if (this._errorFunc != null) {
+            (mx.utils.Delegate.create(this._target, this._errorFunc))(json, this._receiver.svdata);
+          }
+        };
+
+        v2._getURL = function () {
+          if (this.BASE_URL == '') {
+            this.BASE_URL = _global.CONSTANTS.DEFAULT_BASE_URL;
+          }
+          return this.BASE_URL + this.URL;
+        };
+
+        v2.BASE_URL = '';
+        v2.URL = '';
+        v2.METHOD = 'POST';
+        v2._completeFunc = null;
+        v2._errorFunc = null;
+        v2._nowConnection = false;
+        v2.connectionName = '';
+        ASSetPropFlags(as.port.classes.loader.DataLoaderBase.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 58 __Packages.as.port.classes.loader.UserDataLoader {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.classes) {
+        _global.as.port.classes = new Object();
+      }
+      if (!_global.as.port.classes.loader) {
+        _global.as.port.classes.loader = new Object();
+      }
+      if (!_global.as.port.classes.loader.UserDataLoader) {
+        var v1 = function (target, completeFunc, errorFunc) {
+          super(target, completeFunc, errorFunc);
+        };
+
+        as.port.classes.loader.UserDataLoader = v1;
+        as.port.classes.loader.UserDataLoader extends as.port.classes.loader.DataLoaderBase;
+        var v2 = v1.prototype;
+        v2._postLoad = function (json) {
+          _global.UserData.setUserData(json.api_data);
+        };
+
+        v2.URL = 'api_get_member/basic';
+        v2.connectionName = 'ユーザー基本情報';
+        ASSetPropFlags(as.port.classes.loader.UserDataLoader.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 59 __Packages.as.port.classes.loader.ShipMasterLoader {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.classes) {
+        _global.as.port.classes = new Object();
+      }
+      if (!_global.as.port.classes.loader) {
+        _global.as.port.classes.loader = new Object();
+      }
+      if (!_global.as.port.classes.loader.ShipMasterLoader) {
+        var v1 = function (target, completeFunc, errorFunc) {
+          super(target, completeFunc, errorFunc);
+        };
+
+        as.port.classes.loader.ShipMasterLoader = v1;
+        as.port.classes.loader.ShipMasterLoader extends as.port.classes.loader.DataLoaderBase;
+        var v2 = v1.prototype;
+        v2._postLoad = function (json) {
+          _global.ShipData.setMaster(json.api_data);
+        };
+
+        v2.URL = 'api_get_master/ship';
+        v2.connectionName = '艦マスタ情報';
+        ASSetPropFlags(as.port.classes.loader.ShipMasterLoader.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 60 __Packages.as.port.classes.loader.ShipTypeMasterLoader {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.classes) {
+        _global.as.port.classes = new Object();
+      }
+      if (!_global.as.port.classes.loader) {
+        _global.as.port.classes.loader = new Object();
+      }
+      if (!_global.as.port.classes.loader.ShipTypeMasterLoader) {
+        var v1 = function (target, completeFunc, errorFunc) {
+          super(target, completeFunc, errorFunc);
+        };
+
+        as.port.classes.loader.ShipTypeMasterLoader = v1;
+        as.port.classes.loader.ShipTypeMasterLoader extends as.port.classes.loader.DataLoaderBase;
+        var v2 = v1.prototype;
+        v2._postLoad = function (json) {
+          _global.ShipData.setTypeMaster(json.api_data);
+        };
+
+        v2.URL = 'api_get_master/stype';
+        v2.connectionName = '艦タイプマスタ情報';
+        ASSetPropFlags(as.port.classes.loader.ShipTypeMasterLoader.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 61 __Packages.as.port.classes.loader.ShipDataLoader {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.classes) {
+        _global.as.port.classes = new Object();
+      }
+      if (!_global.as.port.classes.loader) {
+        _global.as.port.classes.loader = new Object();
+      }
+      if (!_global.as.port.classes.loader.ShipDataLoader) {
+        var v1 = function (target, completeFunc, errorFunc) {
+          super(target, completeFunc, errorFunc);
+        };
+
+        as.port.classes.loader.ShipDataLoader = v1;
+        as.port.classes.loader.ShipDataLoader extends as.port.classes.loader.DataLoaderBase;
+        var v2 = v1.prototype;
+        v2._postLoad = function (json) {
+          _global.ShipData.setShipData(json.api_data);
+        };
+
+        v2.URL = 'api_get_member/ship';
+        v2.connectionName = '所有艦情報';
+        ASSetPropFlags(as.port.classes.loader.ShipDataLoader.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 62 __Packages.as.port.classes.loader.DeckDataLoader {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.classes) {
+        _global.as.port.classes = new Object();
+      }
+      if (!_global.as.port.classes.loader) {
+        _global.as.port.classes.loader = new Object();
+      }
+      if (!_global.as.port.classes.loader.DeckDataLoader) {
+        var v1 = function (target, completeFunc, errorFunc) {
+          super(target, completeFunc, errorFunc);
+        };
+
+        as.port.classes.loader.DeckDataLoader = v1;
+        as.port.classes.loader.DeckDataLoader extends as.port.classes.loader.DataLoaderBase;
+        var v2 = v1.prototype;
+        v2._postLoad = function (json) {
+          _global.DeckData.setData(json.api_data);
+        };
+
+        v2.URL = 'api_get_member/deck';
+        v2.connectionName = 'デッキ情報';
+        ASSetPropFlags(as.port.classes.loader.DeckDataLoader.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 63 __Packages.as.port.classes.loader.ItemDataLoader {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.classes) {
+        _global.as.port.classes = new Object();
+      }
+      if (!_global.as.port.classes.loader) {
+        _global.as.port.classes.loader = new Object();
+      }
+      if (!_global.as.port.classes.loader.ItemDataLoader) {
+        var v1 = function (target, completeFunc, errorFunc) {
+          super(target, completeFunc, errorFunc);
+        };
+
+        as.port.classes.loader.ItemDataLoader = v1;
+        as.port.classes.loader.ItemDataLoader extends as.port.classes.loader.DataLoaderBase;
+        var v2 = v1.prototype;
+        v2._postLoad = function (json) {
+          _global.ItemData.setData(json.api_data);
+        };
+
+        v2.URL = 'api_get_member/material';
+        v2.connectionName = 'アイテム情報';
+        ASSetPropFlags(as.port.classes.loader.ItemDataLoader.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 64 __Packages.as.port.classes.loader.NDockDataLoader {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.classes) {
+        _global.as.port.classes = new Object();
+      }
+      if (!_global.as.port.classes.loader) {
+        _global.as.port.classes.loader = new Object();
+      }
+      if (!_global.as.port.classes.loader.NDockDataLoader) {
+        var v1 = function (target, completeFunc, errorFunc) {
+          super(target, completeFunc, errorFunc);
+        };
+
+        as.port.classes.loader.NDockDataLoader = v1;
+        as.port.classes.loader.NDockDataLoader extends as.port.classes.loader.DataLoaderBase;
+        var v2 = v1.prototype;
+        v2._postLoad = function (json) {
+          _global.NDockData.setData(json.api_data);
+        };
+
+        v2.URL = 'api_get_member/ndock';
+        v2.connectionName = '入渠情報';
+        ASSetPropFlags(as.port.classes.loader.NDockDataLoader.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 65 __Packages.as.port.classes.loader.KDockDataLoader {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.classes) {
+        _global.as.port.classes = new Object();
+      }
+      if (!_global.as.port.classes.loader) {
+        _global.as.port.classes.loader = new Object();
+      }
+      if (!_global.as.port.classes.loader.KDockDataLoader) {
+        var v1 = function (target, completeFunc, errorFunc) {
+          super(target, completeFunc, errorFunc);
+        };
+
+        as.port.classes.loader.KDockDataLoader = v1;
+        as.port.classes.loader.KDockDataLoader extends as.port.classes.loader.DataLoaderBase;
+        var v2 = v1.prototype;
+        v2._postLoad = function (json) {
+          _global.KDockData.setData(json.api_data);
+        };
+
+        v2.URL = 'api_get_member/kdock';
+        v2.connectionName = '工廠情報';
+        ASSetPropFlags(as.port.classes.loader.KDockDataLoader.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 66 __Packages.as.port.classes.loader.FurnitureMasterLoader {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.classes) {
+        _global.as.port.classes = new Object();
+      }
+      if (!_global.as.port.classes.loader) {
+        _global.as.port.classes.loader = new Object();
+      }
+      if (!_global.as.port.classes.loader.FurnitureMasterLoader) {
+        var v1 = function (target, completeFunc, errorFunc) {
+          super(target, completeFunc, errorFunc);
+        };
+
+        as.port.classes.loader.FurnitureMasterLoader = v1;
+        as.port.classes.loader.FurnitureMasterLoader extends as.port.classes.loader.DataLoaderBase;
+        var v2 = v1.prototype;
+        v2._postLoad = function (json) {
+          _global.FurnitureData.setMaster(json.api_data);
+        };
+
+        v2.URL = 'api_get_master/furniture';
+        v2.connectionName = '家具マスタ情報';
+        ASSetPropFlags(as.port.classes.loader.FurnitureMasterLoader.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 67 __Packages.as.port.classes.loader.FurnitureDataLoader {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.classes) {
+        _global.as.port.classes = new Object();
+      }
+      if (!_global.as.port.classes.loader) {
+        _global.as.port.classes.loader = new Object();
+      }
+      if (!_global.as.port.classes.loader.FurnitureDataLoader) {
+        var v1 = function (target, completeFunc, errorFunc) {
+          super(target, completeFunc, errorFunc);
+        };
+
+        as.port.classes.loader.FurnitureDataLoader = v1;
+        as.port.classes.loader.FurnitureDataLoader extends as.port.classes.loader.DataLoaderBase;
+        var v2 = v1.prototype;
+        v2._postLoad = function (json) {
+          _global.FurnitureData.setData(json.api_data);
+        };
+
+        v2.URL = 'api_get_member/furniture';
+        v2.connectionName = '家具情報';
+        ASSetPropFlags(as.port.classes.loader.FurnitureDataLoader.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 68 __Packages.as.port.classes.loader.SlotItemMasterLoader {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.classes) {
+        _global.as.port.classes = new Object();
+      }
+      if (!_global.as.port.classes.loader) {
+        _global.as.port.classes.loader = new Object();
+      }
+      if (!_global.as.port.classes.loader.SlotItemMasterLoader) {
+        var v1 = function (target, completeFunc, errorFunc) {
+          super(target, completeFunc, errorFunc);
+        };
+
+        as.port.classes.loader.SlotItemMasterLoader = v1;
+        as.port.classes.loader.SlotItemMasterLoader extends as.port.classes.loader.DataLoaderBase;
+        var v2 = v1.prototype;
+        v2._postLoad = function (json) {
+          _global.SlotItemData.setMaster(json.api_data);
+        };
+
+        v2.URL = 'api_get_master/slotitem';
+        v2.connectionName = 'スロットアイテムマスタ情報';
+        ASSetPropFlags(as.port.classes.loader.SlotItemMasterLoader.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 69 __Packages.as.port.classes.loader.SlotItemDataLoader {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.classes) {
+        _global.as.port.classes = new Object();
+      }
+      if (!_global.as.port.classes.loader) {
+        _global.as.port.classes.loader = new Object();
+      }
+      if (!_global.as.port.classes.loader.SlotItemDataLoader) {
+        var v1 = function (target, completeFunc, errorFunc) {
+          super(target, completeFunc, errorFunc);
+        };
+
+        as.port.classes.loader.SlotItemDataLoader = v1;
+        as.port.classes.loader.SlotItemDataLoader extends as.port.classes.loader.DataLoaderBase;
+        var v2 = v1.prototype;
+        v2._postLoad = function (json) {
+          _global.SlotItemData.setData(json.api_data);
+        };
+
+        v2.URL = 'api_get_member/slotitem';
+        v2.connectionName = 'スロットアイテム情報';
+        ASSetPropFlags(as.port.classes.loader.SlotItemDataLoader.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 70 __Packages.as.port.classes.loader.ShipPositionMasterLoader {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.classes) {
+        _global.as.port.classes = new Object();
+      }
+      if (!_global.as.port.classes.loader) {
+        _global.as.port.classes.loader = new Object();
+      }
+      if (!_global.as.port.classes.loader.ShipPositionMasterLoader) {
+        var v1 = function (target, completeFunc, errorFunc) {
+          super(target, completeFunc, errorFunc);
+        };
+
+        as.port.classes.loader.ShipPositionMasterLoader = v1;
+        as.port.classes.loader.ShipPositionMasterLoader extends as.port.classes.loader.DataLoaderBase;
+        var v2 = v1.prototype;
+        v2._postLoad = function (json) {
+          _global.SlotItemData.setPosMaster(json.api_data_mst_slotitemgraph);
+          _global.ShipData.setPosMaster(json.api_data_mst_shipgraph);
+          _global.FurnitureData.setPosMaster(json.api_data_mst_furnituregraph);
+        };
+
+        v2.URL = 'api_start';
+        v2.connectionName = '艦座標マスタ情報';
+        ASSetPropFlags(as.port.classes.loader.ShipPositionMasterLoader.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 71 __Packages.as.port.classes.loader.UseItemMasterLoader {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.classes) {
+        _global.as.port.classes = new Object();
+      }
+      if (!_global.as.port.classes.loader) {
+        _global.as.port.classes.loader = new Object();
+      }
+      if (!_global.as.port.classes.loader.UseItemMasterLoader) {
+        var v1 = function (target, completeFunc, errorFunc) {
+          super(target, completeFunc, errorFunc);
+        };
+
+        as.port.classes.loader.UseItemMasterLoader = v1;
+        as.port.classes.loader.UseItemMasterLoader extends as.port.classes.loader.DataLoaderBase;
+        var v2 = v1.prototype;
+        v2._postLoad = function (json) {
+          _global.ItemData.setUseItemMaster(json.api_data);
+        };
+
+        v2.URL = 'api_get_master/useitem';
+        v2.connectionName = '使用アイテムマスタ情報';
+        ASSetPropFlags(as.port.classes.loader.UseItemMasterLoader.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 72 __Packages.as.port.classes.loader.UseItemDataLoader {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.classes) {
+        _global.as.port.classes = new Object();
+      }
+      if (!_global.as.port.classes.loader) {
+        _global.as.port.classes.loader = new Object();
+      }
+      if (!_global.as.port.classes.loader.UseItemDataLoader) {
+        var v1 = function (target, completeFunc, errorFunc) {
+          super(target, completeFunc, errorFunc);
+        };
+
+        as.port.classes.loader.UseItemDataLoader = v1;
+        as.port.classes.loader.UseItemDataLoader extends as.port.classes.loader.DataLoaderBase;
+        var v2 = v1.prototype;
+        v2._postLoad = function (json) {
+          _global.ItemData.setUseItemData(json.api_data);
+        };
+
+        v2.URL = 'api_get_member/useitem';
+        v2.connectionName = '使用アイテム情報';
+        ASSetPropFlags(as.port.classes.loader.UseItemDataLoader.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 73 __Packages.as.port.classes.loader.MapAreaMasterLoader {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.classes) {
+        _global.as.port.classes = new Object();
+      }
+      if (!_global.as.port.classes.loader) {
+        _global.as.port.classes.loader = new Object();
+      }
+      if (!_global.as.port.classes.loader.MapAreaMasterLoader) {
+        var v1 = function (target, completeFunc, errorFunc) {
+          super(target, completeFunc, errorFunc);
+        };
+
+        as.port.classes.loader.MapAreaMasterLoader = v1;
+        as.port.classes.loader.MapAreaMasterLoader extends as.port.classes.loader.DataLoaderBase;
+        var v2 = v1.prototype;
+        v2._postLoad = function (json) {
+          _global.MapAreaData.setMaster(json.api_data);
+        };
+
+        v2.URL = 'api_get_master/maparea';
+        v2.connectionName = 'マップエリアマスタ情報';
+        ASSetPropFlags(as.port.classes.loader.MapAreaMasterLoader.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  movieClip 74 __Packages.as.port.classes.loader.MapInfoLoader {
+
+    #initclip
+      if (!_global.as) {
+        _global.as = new Object();
+      }
+      if (!_global.as.port) {
+        _global.as.port = new Object();
+      }
+      if (!_global.as.port.classes) {
+        _global.as.port.classes = new Object();
+      }
+      if (!_global.as.port.classes.loader) {
+        _global.as.port.classes.loader = new Object();
+      }
+      if (!_global.as.port.classes.loader.MapInfoLoader) {
+        var v1 = function (target, completeFunc, errorFunc) {
+          super(target, completeFunc, errorFunc);
+        };
+
+        as.port.classes.loader.MapInfoLoader = v1;
+        as.port.classes.loader.MapInfoLoader extends as.port.classes.loader.DataLoaderBase;
+        var v2 = v1.prototype;
+        v2._postLoad = function (json) {
+          _global.MapAreaData.setInfoMaster(json.api_data);
+        };
+
+        v2.URL = 'api_get_master/mapinfo';
+        v2.connectionName = 'マップインフォ情報';
+        ASSetPropFlags(as.port.classes.loader.MapInfoLoader.prototype, null, 1);
+      }
+    #endinitclip
+  }
+
+  frame 9 {
+    tr_obj = new LoadVars();
+    recv_obj = new LoadVars();
+    lop = new Object();
+    recv_obj.onLoad = function (success) {
+      if (success) {
+        recv = _level1.login_view_container.recv_obj.svdata;
+        delete _level1.login_view_container.lop;
+        _level1.login_view_container.lop = new Object();
+        _level1.login_view_container.lop = as.common.JSON.parse(recv);
+        _level1.login_view_container.nextFrame();
+      } else {
+        _level1.login_view_container.stop();
+        _level1.err_id = -1;
+        _level1.err_from = 'インセンティブ情報取得';
+        _level1.err_mes = '通信エラー';
+        _level1.gotoAndPlay('sys_err1');
+      }
+    };
+
+    tr_obj.api_token = _level1.userToken;
+    tr_obj.api_verno = _level1.FLA_VER;
+    tr_obj.sendAndLoad(_level1.BASE_URL + 'api_req_member/get_incentive', recv_obj, 'POST');
+    stop();
+  }
+
+  frame 10 {
+    if (lop.api_result == 1) {
+      _global.FULL_incent = new Object();
+      _global.FULL_incent = lop.api_data;
+      _global.incentFlag = _global.FULL_incent.api_count > 0;
+      play();
+    } else {
+      stop();
+      _level1.err_id = lop.api_result;
+      _level1.err_mes = lop.api_result_msg;
+      _level1.err_from = 'デッキ情報取得';
+      _level1.gotoAndPlay('sys_err2');
+    }
+  }
+
+  frame 20 {
+    stop();
+  }
+
+  movieClip 22  {
+  }
+
+  movieClip 24  {
+
+    frame 1 {
+      btn.enabled = false;
+    }
+
+    frame 90 {
+      stop();
+      _parent.nextFrame();
+    }
+  }
+
+  frame 21 {
+    stop();
+    tinju.gotoAndStop(_global.world_id);
+    var title = new as.port.scenes.title.SceneTitlePhase2Class(this);
+  }
+
+  movieClip 51  {
+
+    frame 1 {
+      stop();
+    }
+  }
+
+  frame 22 {
+    stop();
+  }
+
+  frame 28 {
+    stop();
+  }
+
+  frame 33 {
+    stop();
+    var mcl = new MovieClipLoader();
+    var mcl_eListener = new Object();
+    var loading_count = 0;
+    mcl_eListener.onLoadProgress = function (target_mc, nLoadedBytes, nTotalBytes) {
+      ++loading_count;
+      if (loading_count % 60 == 0) {
+        var v2 = Math.floor((nLoadedBytes / nTotalBytes) * 100);
+        _global.methods.log('load-' + v2 + '% [' + nLoadedBytes + '/' + nTotalBytes + ']');
+      }
+    };
+
+    mcl_eListener.onLoadInit = function (target_mc) {
+      _global.methods.log('loaded.');
+      mcl.removeListener(mcl_eListener);
+    };
+
+    mcl.addListener(mcl_eListener);
+    mcl.loadClip('scenes/tutorial.swf?q=' + (new Date()).getTime(), container);
+  }
+
+  movieClip 52  {
+  }
+}
