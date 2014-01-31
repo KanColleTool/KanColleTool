@@ -41,6 +41,7 @@ KCMainWindow::KCMainWindow(QWidget *parent) :
 	// Make a timer that updates the dock timers, with a 1sec interval
 	connect(&timerUpdateTimer, SIGNAL(timeout()), this, SLOT(updateTimers()));
 	timerUpdateTimer.start(1000);
+	updateTimers();	// Don't wait a whole second to update timers
 	
 	// Set the Fleets page regardless of what the UI file says.
 	// (This saves me from accidentally releasing a version with the wrong
@@ -395,6 +396,39 @@ void KCMainWindow::updateConstructionsPage()
 
 void KCMainWindow::updateTimers()
 {
+	// Fleet Status
+	{
+		KCFleet *fleet = client->fleets[ui->fleetsTabBar->currentIndex()+1];
+		
+		QLabel *fleetStatusLabel = findChild<QLabel*>("fleetStatus");
+		QWidget *fleetCountdownContainer = findChild<QWidget*>("fleetCountdownContainer");
+		QLabel *fleetCountdownLabel = findChild<QLabel*>("fleetCountdown");
+		
+		// Second condition is a hack to make sure to wait for updateFleetsPage()
+		if(fleet && !findChild<QGroupBox*>("fleetBox1")->isHidden())
+		{
+			fleetStatusLabel->show();
+			
+			if(fleet->mission.page > 0 && fleet->mission.no > 0 && fleet->mission.complete > QDateTime::currentDateTime())
+			{
+				fleetStatusLabel->setText(QString("Doing Expedition %1-%2").arg(
+					QString::number(fleet->mission.page), QString::number(fleet->mission.no)));
+				fleetCountdownLabel->setText(delta(fleet->mission.complete).toString("H:mm:ss"));
+				fleetCountdownContainer->show();
+			}
+			else
+			{
+				fleetStatusLabel->setText("Combat-Ready!");
+				fleetCountdownContainer->hide();
+			}
+		}
+		else
+		{
+			fleetStatusLabel->hide();
+			fleetCountdownContainer->hide();
+		}
+	}
+	
 	// Repair Docks
 	{
 		int i = 0;
@@ -498,7 +532,10 @@ void KCMainWindow::onReceivedPlayerFleets()
 	
 	// If we're on an active tab, update it
 	if(ui->fleetsTabBar->currentIndex() < client->fleets.size())
+	{
 		updateFleetsPage();
+		updateTimers();
+	}
 	
 	// Disable locked fleets; if the user is on an invalid page, this will
 	// move them to Fleet #1, and trigger updateFleetsPage from currentChanged
@@ -633,4 +670,5 @@ void KCMainWindow::on_fleetsTabBar_currentChanged(int index)
 	//qDebug() << "Fleets page on Tab" << index;
 	Q_UNUSED(index);
 	updateFleetsPage();
+	updateTimers();
 }

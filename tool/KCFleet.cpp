@@ -23,7 +23,12 @@ void KCFleet::loadFrom(QVariantMap data)
 	// int api_name - Name of the fleet
 	extract(data, name, "api_name");
 	// string api_name_id - ??? (Always "" for me)
-	// int[4] api_mission - ???
+	// int[4] api_mission - The expedition the fleet is currently on (page, number, completion timestamp, ???)
+	extract(data, mission.page, "api_mission", 0);
+	extract(data, mission.no, "api_mission", 1);
+	qint64 missionCT;
+	extract(data, missionCT, "api_mission", 2);
+	mission.complete = QDateTime::fromMSecsSinceEpoch(missionCT);
 	// string api_flagship - ??? (always "0" for me)
 	// int[6] api_ship - Local ID of the ships in the fleet
 	extract(data, ships, 6, "api_ship");
