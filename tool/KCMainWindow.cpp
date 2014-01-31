@@ -230,33 +230,35 @@ void KCMainWindow::updateFleetsPage()
 	
 	// Otherwise, retreive it
 	KCFleet *fleet = client->fleets[ui->fleetsTabBar->currentIndex()+1];
-	
-	// Loop through all the ships in the fleet and put their info up
-	for(int i = 0; i < fleet->shipCount; i++)
+	if(fleet)
 	{
-		KCShip *ship = client->ships[fleet->ships[i]];
-		if(!ship) continue;
-		
-		QString iS = QString::number(i+1);
-		
-		QGroupBox *box = findChild<QGroupBox*>(QString("fleetBox") + iS);
-		QLabel *nameLabel = findChild<QLabel*>(QString("fleetName") + iS);
-		QProgressBar *hpBar = findChild<QProgressBar*>(QString("fleetHpBar") + iS);
-		QProgressBar *ammoBar = findChild<QProgressBar*>(QString("fleetAmmoBar") + iS);
-		QProgressBar *fuelBar = findChild<QProgressBar*>(QString("fleetFuelBar") + iS);
-		QLabel *levelLabel = findChild<QLabel*>(QString("fleetLevel") + iS);
-		QLabel *condLabel = findChild<QLabel*>(QString("fleetCond") + iS);
-		
-		box->show();
-		nameLabel->setText(kcTranslate(ship->name));
-		hpBar->setRange(0, ship->maxHp);
-		hpBar->setValue(ship->hp);
-		ammoBar->setRange(0, ship->maxAmmo);
-		ammoBar->setValue(ship->ammo);
-		fuelBar->setRange(0, ship->maxFuel);
-		fuelBar->setValue(ship->fuel);
-		levelLabel->setText(QString::number(ship->level));
-		condLabel->setText(QString::number(ship->condition));
+		// Loop through all the ships in the fleet and put their info up
+		for(int i = 0; i < fleet->shipCount; i++)
+		{
+			KCShip *ship = client->ships[fleet->ships[i]];
+			if(!ship) continue;
+			
+			QString iS = QString::number(i+1);
+			
+			QGroupBox *box = findChild<QGroupBox*>(QString("fleetBox") + iS);
+			QLabel *nameLabel = findChild<QLabel*>(QString("fleetName") + iS);
+			QProgressBar *hpBar = findChild<QProgressBar*>(QString("fleetHpBar") + iS);
+			QProgressBar *ammoBar = findChild<QProgressBar*>(QString("fleetAmmoBar") + iS);
+			QProgressBar *fuelBar = findChild<QProgressBar*>(QString("fleetFuelBar") + iS);
+			QLabel *levelLabel = findChild<QLabel*>(QString("fleetLevel") + iS);
+			QLabel *condLabel = findChild<QLabel*>(QString("fleetCond") + iS);
+			
+			box->show();
+			nameLabel->setText(kcTranslate(ship->name));
+			hpBar->setRange(0, ship->maxHp);
+			hpBar->setValue(ship->hp);
+			ammoBar->setRange(0, ship->maxAmmo);
+			ammoBar->setValue(ship->ammo);
+			fuelBar->setRange(0, ship->maxFuel);
+			fuelBar->setValue(ship->fuel);
+			levelLabel->setText(QString::number(ship->level));
+			condLabel->setText(QString::number(ship->condition));
+		}
 	}
 	
 	ui->fleetsPage->setUpdatesEnabled(true);
