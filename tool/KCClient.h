@@ -25,7 +25,8 @@ public:
 		Unknown = 0,
 		NoError = 1,
 		InvalidAPIVersion = 200,
-		InvalidCredentials = 201
+		InvalidCredentials = 201,
+		ExpiredAPIToken = 202
 	} ErrorCode;
 	
 	explicit KCClient(QObject *parent = 0);
