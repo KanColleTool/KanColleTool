@@ -48,11 +48,8 @@ void KCDock::loadFrom(QVariantMap data)
 		isConstruction = true;
 	}
 	// int api_complete_time ??? (definitely not a timestamp...)
+	extractTimestamp(data, complete, "api_complete_time");
 	// string api_complete_time_str When it'll be complete, YYYY-MM-DD HH:MM:SS
-	QString completeStr;
-	extract(data, completeStr, "api_complete_time_str");
-	complete = QDateTime::fromString(completeStr, "yyyy-MM-dd HH:mm:ss");
-	complete = adjustDateTimeForTimezoneOffset(complete, 9*60*60);
 	// int api_item1 Fuel used
 	extract(data, fuel, "api_item1");
 	// int api_item2 Ammo used
