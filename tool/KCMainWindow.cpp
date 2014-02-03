@@ -402,32 +402,28 @@ void KCMainWindow::updateTimers()
 	{
 		KCFleet *fleet = client->fleets[ui->fleetsTabBar->currentIndex()+1];
 		
-		QLabel *fleetStatusLabel = findChild<QLabel*>("fleetStatus");
-		QWidget *fleetCountdownContainer = findChild<QWidget*>("fleetCountdownContainer");
-		QLabel *fleetCountdownLabel = findChild<QLabel*>("fleetCountdown");
-		
 		// Second condition is a hack to make sure to wait for updateFleetsPage()
-		if(fleet && !findChild<QGroupBox*>("fleetBox1")->isHidden())
+		if(fleet && !ui->fleetBox1->isHidden())
 		{
-			fleetStatusLabel->show();
+			ui->fleetStatus->show();
 			
 			if(fleet->mission.page > 0 && fleet->mission.no > 0 && fleet->mission.complete > QDateTime::currentDateTime())
 			{
-				fleetStatusLabel->setText(QString("Doing Expedition %1-%2").arg(
+				ui->fleetStatus->setText(QString("Doing Expedition %1-%2").arg(
 					QString::number(fleet->mission.page), QString::number(fleet->mission.no)));
-				fleetCountdownLabel->setText(delta(fleet->mission.complete).toString("H:mm:ss"));
-				fleetCountdownContainer->show();
+				ui->fleetCountdown->setText(delta(fleet->mission.complete).toString("H:mm:ss"));
+				ui->fleetCountdownContainer->show();
 			}
 			else
 			{
-				fleetStatusLabel->setText("Combat-Ready!");
-				fleetCountdownContainer->hide();
+				ui->fleetStatus->setText("Combat-Ready!");
+				ui->fleetCountdownContainer->hide();
 			}
 		}
 		else
 		{
-			fleetStatusLabel->hide();
-			fleetCountdownContainer->hide();
+			ui->fleetStatus->hide();
+			ui->fleetCountdownContainer->hide();
 		}
 	}
 	
