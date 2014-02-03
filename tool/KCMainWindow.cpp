@@ -436,16 +436,47 @@ void KCMainWindow::updateTimers()
 		{
 			ui->fleetStatus->show();
 			
+			bool busy = false;
+			QString status = "Combat-Ready";
+			QTime dT;
+			
+			// Check if the fleet is out on an expedition
 			if(fleet->mission.page > 0 && fleet->mission.no > 0 && fleet->mission.complete > QDateTime::currentDateTime())
 			{
-				ui->fleetStatus->setText(QString("Doing Expedition %1-%2").arg(
-					QString::number(fleet->mission.page), QString::number(fleet->mission.no)));
-				ui->fleetCountdown->setText(delta(fleet->mission.complete).toString("H:mm:ss"));
+				busy = true;
+				status = QString("Doing Expedition %1-%2").arg(
+					QString::number(fleet->mission.page), QString::number(fleet->mission.no));
+				dT = delta(fleet->mission.complete);
+			}
+			
+			// Check if anyone is in the bath; you never disturb a lady who's
+			// taking a bath, not even if an Airfield Hime invades the base
+			for(int i = 0; i < fleet->shipCount; i++)
+			{
+				KCShip *ship = client->ships[fleet->ships[i]];
+				foreach(KCDock *dock, client->repairDocks)
+				{
+					// Important: use the longest time, not the last one
+					QTime dT2 = delta(dock->complete);
+					if(dock->shipID == ship->id && dT2 > dT)
+					{
+						busy = true;
+						status = QString("%1 is taking a bath").arg(ship->name);
+						dT = dT2;
+					}
+				}
+			}
+			
+			// Show it all
+			if(busy)
+			{
+				ui->fleetStatus->setText(status);
+				ui->fleetCountdown->setText(dT.toString("H:mm:ss"));
 				ui->fleetCountdownContainer->show();
 			}
 			else
 			{
-				ui->fleetStatus->setText("Combat-Ready!");
+				ui->fleetStatus->setText(status);
 				ui->fleetCountdownContainer->hide();
 			}
 		}
