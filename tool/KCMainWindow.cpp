@@ -592,7 +592,14 @@ void KCMainWindow::onDockCompleted(KCDock *dock)
 	if(dock->isConstruction)
 	{
 		KCShipMaster *shipMaster = client->masterShips[dock->shipID];
-		if(shipMaster)
+		
+		// Only name the ship if the player has asked for a spoiler already
+		bool spoil = false;
+		for(int i = 0; i < client->constructionDocks.size(); i++)
+			if(client->constructionDocks[i] == dock)
+				spoil = findChild<QCheckBox*>(QString("constructionSpoil") + QString::number(i+1))->isChecked();
+		
+		if(shipMaster && spoil)
 			trayIcon->showMessage("Construction Completed!",
 				QString("Say hello to %1!").arg(kcTranslate(shipMaster->name)));
 		else
