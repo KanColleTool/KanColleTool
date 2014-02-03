@@ -27,6 +27,7 @@ KCMainWindow::KCMainWindow(QWidget *parent) :
 	this->_setupClient();
 	this->_setupTrayIcon();
 	this->_setupUI();
+	this->_showDisclaimer();
 	
 	// Setup settings and stuff
 	connect(&refreshTimer, SIGNAL(timeout()), this, SLOT(on_actionRefresh_triggered()));
@@ -136,6 +137,34 @@ void KCMainWindow::_setupClient()
 			qApp->quit();
 	}
 	else this->onCredentialsGained();
+}
+
+void KCMainWindow::_showDisclaimer()
+{
+	QSettings settings;
+	
+	// Only show the disclaimer if it has not already been shown
+	// Using an int here because I might want to show it again if I make any
+	// big changes to it sometime; shouldn't happen though...
+	if(settings.value("disclaimerShown", 0).toInt() <= 0)
+	{
+		QMessageBox::information(this, "Disclaimer",
+			"<p>"
+#if __APPLE__
+			"Disclaimer:"
+			"</p>"
+			"<p>"
+#endif
+			"It's important to note that KanColleTool is not a cheat tool.<br /> "
+			"It will not let you do anything the game would not usually let you do."
+			"</p>"
+			"<p>"
+			"Using KanColleTool will not increase your chances of getting banned.<br />"
+			"If you're a foreign player, that's already reason enough to ban you, but KCT "
+			"is impossible to differentiate from a web browser on their end."
+			"</p>");
+		settings.setValue("disclaimerShown", 1);
+	}
 }
 
 void KCMainWindow::closeEvent(QCloseEvent *event)

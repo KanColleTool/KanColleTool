@@ -27,6 +27,7 @@ private:
 	void _setupTrayIcon();
 	void _setupUI();
 	void _setupClient();
+	void _showDisclaimer();
 	
 protected:
 	virtual void closeEvent(QCloseEvent *event);
