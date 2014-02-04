@@ -496,6 +496,8 @@ void KCMainWindow::updateTimers()
 		int i = 0;
 		foreach(KCDock *dock, client->repairDocks)
 		{
+			if(!dock) continue;
+			
 			if(dock->state == KCDock::Occupied)
 			{
 				QLabel *label = findChild<QLabel*>(QString("repairTimer") + QString::number(i+1));
@@ -510,6 +512,8 @@ void KCMainWindow::updateTimers()
 		int i = 0;
 		foreach(KCDock *dock, client->constructionDocks)
 		{
+			if(!dock) continue;
+			
 			if(dock->state == KCDock::Building)
 			{
 				QLabel *label = findChild<QLabel*>(QString("constructionTimer") + QString::number(i+1));
