@@ -460,13 +460,9 @@ void KCMainWindow::updateTimers()
 				KCShip *ship = client->ships[fleet->ships[i]];
 				foreach(KCDock *dock, client->repairDocks)
 				{
-					// Skip docks that are already completed
-					if(dock->complete < QDateTime::currentDateTime())
-						continue;
-					
 					// Important: use the longest time, not the last one
 					QTime dT2 = delta(dock->complete);
-					if(dock->shipID == ship->id && dT2 > dT)
+					if(dock->shipID == ship->id && dT2 > dT && dock->complete < QDateTime::currentDateTime())
 					{
 						busy = true;
 						status = QString("%1 is taking a bath").arg(kcTranslate(ship->name));
