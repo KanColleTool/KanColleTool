@@ -274,8 +274,8 @@ void KVMainWindow::onTranslationLoadFailed(QString error)
 
 void KVMainWindow::setHTMLAPILink()
 {
-	qDebug() << "Updating API Link in the web view to" << apiLink.toString();
-	webView->page()->mainFrame()->evaluateJavaScript(QString("setAPILink(\"%1\"); null").arg(apiLink.toString()));
+	qDebug() << "Updating web view credentials to" << server << "-" << apiToken;
+	webView->page()->mainFrame()->evaluateJavaScript(QString("setCredentials(\"%1\", \"%2\"); null").arg(server, apiToken));
 }
 
 /*void KVMainWindow::onAPIError(KVProxyServer::APIStatus error)
