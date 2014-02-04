@@ -331,6 +331,8 @@ void KCMainWindow::updateRepairsPage()
 	int i = 0;
 	foreach(KCDock *dock, client->repairDocks)
 	{
+		if(!dock) continue;
+		
 		QString iS = QString::number(i+1);
 		QGroupBox *box = findChild<QGroupBox*>(QString("repairBox") + iS);
 		QLabel *nameLabel = findChild<QLabel*>(QString("repairName") + iS);
@@ -375,6 +377,8 @@ void KCMainWindow::updateConstructionsPage()
 	int i = 0;
 	foreach(KCDock *dock, client->constructionDocks)
 	{
+		if(!dock) continue;
+		
 		QString iS = QString::number(i+1);
 		QGroupBox *box = findChild<QGroupBox*>(QString("constructionBox") + iS);
 		QLabel *nameLabel = findChild<QLabel*>(QString("constructionName") + iS);
