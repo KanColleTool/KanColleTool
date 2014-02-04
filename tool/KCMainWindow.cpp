@@ -461,7 +461,7 @@ void KCMainWindow::updateTimers()
 					if(dock->shipID == ship->id && dT2 > dT)
 					{
 						busy = true;
-						status = QString("%1 is taking a bath").arg(ship->name);
+						status = QString("%1 is taking a bath").arg(kcTranslate(ship->name));
 						dT = dT2;
 					}
 				}
