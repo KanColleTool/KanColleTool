@@ -212,7 +212,7 @@
 	NSLog(@"Server: %@", self.server);
 	NSLog(@"API Token: %@", self.apiToken);
 	NSLog(@"API Link: %@", self.apiLink);
-	[self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"setAPILink(\"%@\"); null", self.apiLink]];
+	[self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"setCredentials(\"%@\", \"%@\"); null", self.server, self.apiToken]];
 }
 
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
