@@ -456,15 +456,22 @@ void KCMainWindow::updateTimers()
 			
 			// Check if anyone is in the bath; you never disturb a lady who's
 			// taking a bath, not even if an Airfield Hime invades the base
-			for(int i = 0; i < fleet->shipCount; i++)
+			foreach(KCDock *dock, client->repairDocks)
 			{
-				KCShip *ship = client->ships[fleet->ships[i]];
-				foreach(KCDock *dock, client->repairDocks)
+				// Skip already done or empty (completion time = Epoch+0ms) docks
+				if(dock->complete < QDateTime::currentDateTime())
+					continue;
+				
+				for(int i = 0; i < fleet->shipCount; i++)
 				{
-					// Important: use the longest time, not the last one
-					QTime dT2 = delta(dock->complete);
-					if(dock->shipID == ship->id && dT2 > dT && dock->complete < QDateTime::currentDateTime())
+					if(fleet->ships[i] == dock->shipID)
 					{
+						// Make sure to use the longest reppair countdown
+						QTime dT2 = delta(dock->complete);
+						if(dT2 < dT)
+							continue;
+						
+						KCShip *ship = client->ships[fleet->ships[i]];
 						busy = true;
 						status = QString("%1 is taking a bath").arg(kcTranslate(ship->name));
 						dT = dT2;
