@@ -2915,20 +2915,32 @@
    <property name="text">
     <string>Fleets</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+1</string>
+   </property>
   </action>
   <action name="actionRepairs">
    <property name="text">
     <string>Repairs</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+3</string>
    </property>
   </action>
   <action name="actionConstruction">
    <property name="text">
     <string>Construction</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+4</string>
+   </property>
   </action>
   <action name="actionShips">
    <property name="text">
     <string>Ships</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+2</string>
    </property>
   </action>
   <action name="actionRefresh">

@@ -102,14 +102,18 @@ void KCMainWindow::_setupUI()
 		connect(ui->constructionSpoil4, SIGNAL(toggled(bool)), this, SLOT(updateConstructionsPage()));
 	}
 	
+#ifdef __APPLE__
 	// On Mac, make the window join all spaces
 	// (why isn't there a Qt call for this...)
-#ifdef __APPLE__
 	macSetWindowOnAllWorkspaces(this);
+	
+	// Cmd+R (given to Qt as Ctrl+R and remapped) makes more sense for the
+	// refresh command than F5 on OSX, where you generally avoid F-keys
+	ui->actionRefresh->setShortcut(Qt::CTRL|Qt::Key_R);
 #endif
 	
 	// On Mac, we get Cmd+Q to quit for free. On anything else, set it up like this
-#if !__APPLE__
+#if !defined(__APPLE__)
 	QShortcut *quitShortcut = new QShortcut(QKeySequence("Ctrl+Q"), this);
 	connect(quitShortcut, SIGNAL(activated()), qApp, SLOT(quit()));
 #endif
