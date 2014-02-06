@@ -127,6 +127,7 @@ void KCMainWindow::_setupClient()
 	connect(client, SIGNAL(receivedPlayerConstructions()), this, SLOT(onReceivedPlayerConstructions()));
 	connect(client, SIGNAL(requestError(KCClient::ErrorCode)), this, SLOT(onRequestError(KCClient::ErrorCode)));
 	connect(client, SIGNAL(dockCompleted(KCDock *)), this, SLOT(onDockCompleted(KCDock *)));
+	connect(client, SIGNAL(missionCompleted(KCFleet*)), this, SLOT(onMissionCompleted(KCFleet*)));
 	
 	if(!client->hasCredentials())
 	{
