@@ -52,6 +52,7 @@ signals:
 	void requestError(KCClient::ErrorCode error);
 	
 	void dockCompleted(KCDock *dock);
+	void missionCompleted(KCFleet *fleet);
 	
 public slots:
 	void setCredentials(QString server, QString apiToken);
@@ -70,6 +71,7 @@ protected slots:
 	void onPlayerConstructionsRequestFinished();
 	
 	void onDockCompleted();
+	void onMissionCompleted();
 	
 protected:
 	void _processMasterShipsData(QVariant data);

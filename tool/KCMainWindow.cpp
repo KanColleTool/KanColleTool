@@ -686,6 +686,15 @@ void KCMainWindow::onDockCompleted(KCDock *dock)
 	}
 }
 
+void KCMainWindow::onMissionCompleted(KCFleet *fleet)
+{
+	int id = client->fleets.key(fleet);
+	trayIcon->showMessage("Expedition Complete",
+		QString("Fleet %1 returned from Expedition %2-%3").arg(
+			QString::number(id), QString::number(fleet->mission.page), QString::number(fleet->mission.no)));
+	updateTimers();
+}
+
 void KCMainWindow::on_actionFleets_triggered()
 {
 	ui->actionFleets->setEnabled(false);

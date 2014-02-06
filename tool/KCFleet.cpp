@@ -1,12 +1,22 @@
 #include "KCFleet.h"
 #include "KCWrapperUtils.h"
+#include "KCClient.h"
 
 KCFleet::KCFleet(QObject *parent) : KCFleet(QVariantMap(), parent) {}
 
 KCFleet::KCFleet(QVariantMap data, QObject *parent):
 	QObject(parent)
 {
+	missionTimer.setSingleShot(true);
+	connect(&missionTimer, SIGNAL(timeout()), this, SLOT(onMissionTimeout()));
 	loadFrom(data);
+}
+
+KCFleet::KCFleet(KCClient *parent) : KCFleet(QVariantMap(), parent) {}
+
+KCFleet::KCFleet(QVariantMap data, KCClient *parent) : KCFleet(data, (QObject*)parent)
+{
+	connect(this, SIGNAL(missionCompleted()), parent, SLOT(onMissionCompleted()));
 }
 
 KCFleet::~KCFleet()
@@ -33,4 +43,14 @@ void KCFleet::loadFrom(QVariantMap data)
 	// int[6] api_ship - Local ID of the ships in the fleet
 	extract(data, ships, 6, "api_ship");
 	extractCount(data, shipCount, "api_ship");
+	
+	if(mission.page > 0 && mission.no > 0 && mission.complete > QDateTime::currentDateTime())
+		missionTimer.start(mission.complete.toMSecsSinceEpoch() - QDateTime::currentMSecsSinceEpoch());
+	else
+		missionTimer.stop();
+}
+
+void KCFleet::onMissionTimeout()
+{
+	emit missionCompleted();
 }

@@ -117,6 +117,11 @@ void KCClient::onDockCompleted()
 	emit dockCompleted(qobject_cast<KCDock*>(QObject::sender()));
 }
 
+void KCClient::onMissionCompleted()
+{
+	emit missionCompleted(qobject_cast<KCFleet*>(QObject::sender()));
+}
+
 QNetworkReply* KCClient::call(QString endpoint, QUrlQuery params)
 {
 #if kClientUseCache
