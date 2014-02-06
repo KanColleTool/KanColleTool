@@ -45,4 +45,5 @@ INCLUDEPATH += lib/HTTP-Proxy/deps/asio-1.10.1/include
 
 RESOURCES += resources.qrc
 
-OTHER_FILES += KCTViewer.rc
+OTHER_FILES += KCTViewer.rc \
+    index.html
