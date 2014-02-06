@@ -1,3 +1,15 @@
+kancolletool (0.8.0-1) unstable; urgency=low
+
+  * Fleet status display (accounts for expeditions and baths/repairs)
+  * Expedition notifications
+  * Ctrl+<num> switches tab, <num> on the Fleets page switches fleet
+  * Smaller font sizes and margins to make sure all names fit
+  * Construction notifications now only name the new ship if the Spoiler box is checked (Closes: #18)
+  * Fixes a few crashes caused by race conditions and null pointer dereferences
+  * Fixes incorrect handling of instant repairs (notifications still fired) (Closes: #17)
+
+ -- Johannes Ekberg <uppfinnarn@gmail.com>  Thu, 6 Feb 2014 17:37:00 +0100
+
 kancolletool (0.7.0-1) unstable; urgency=low
 
   * Livestreaming from the viewer!
