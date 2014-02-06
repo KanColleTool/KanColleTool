@@ -31,6 +31,7 @@ private:
 	
 protected:
 	virtual void closeEvent(QCloseEvent *event);
+	virtual void keyPressEvent(QKeyEvent *event);
 	
 public:
 	bool isApplicationActive();

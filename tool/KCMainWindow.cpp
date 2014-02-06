@@ -199,6 +199,29 @@ void KCMainWindow::closeEvent(QCloseEvent *event)
 	event->accept();
 }
 
+void KCMainWindow::keyPressEvent(QKeyEvent *event)
+{
+	// Only do this on the fleets page
+	if(!ui->actionFleets->isEnabled())
+	{
+		int moveToTab = -1;
+		switch(event->key())
+		{
+			case Qt::Key_1:		moveToTab = 0; break;
+			case Qt::Key_2:		moveToTab = 1; break;
+			case Qt::Key_3:		moveToTab = 2; break;
+			case Qt::Key_4:		moveToTab = 3; break;
+			default: break;
+		}
+		
+		if(moveToTab != -1)
+			if(ui->fleetsTabBar->isTabEnabled(moveToTab))
+				ui->fleetsTabBar->setCurrentIndex(moveToTab);
+	}
+	
+	QMainWindow::keyPressEvent(event);
+}
+
 bool KCMainWindow::isApplicationActive()
 {
 #ifdef __APPLE__
