@@ -19,6 +19,7 @@
 KCMainWindow::KCMainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::KCMainWindow),
+	server(0),
 	apiLinkDialogOpen(false)
 {
 	ui->setupUi(this);
@@ -26,6 +27,7 @@ KCMainWindow::KCMainWindow(QWidget *parent) :
 	this->_setupClient();
 	this->_setupTrayIcon();
 	this->_setupUI();
+	this->_showDisclaimer();
 	
 	// Setup settings and stuff
 	connect(&refreshTimer, SIGNAL(timeout()), this, SLOT(on_actionRefresh_triggered()));
@@ -40,6 +42,7 @@ KCMainWindow::KCMainWindow(QWidget *parent) :
 	// Make a timer that updates the dock timers, with a 1sec interval
 	connect(&timerUpdateTimer, SIGNAL(timeout()), this, SLOT(updateTimers()));
 	timerUpdateTimer.start(1000);
+	updateTimers();	// Don't wait a whole second to update timers
 	
 	// Set the Fleets page regardless of what the UI file says.
 	// (This saves me from accidentally releasing a version with the wrong
@@ -99,14 +102,18 @@ void KCMainWindow::_setupUI()
 		connect(ui->constructionSpoil4, SIGNAL(toggled(bool)), this, SLOT(updateConstructionsPage()));
 	}
 	
+#ifdef __APPLE__
 	// On Mac, make the window join all spaces
 	// (why isn't there a Qt call for this...)
-#ifdef __APPLE__
 	macSetWindowOnAllWorkspaces(this);
+	
+	// Cmd+R (given to Qt as Ctrl+R and remapped) makes more sense for the
+	// refresh command than F5 on OSX, where you generally avoid F-keys
+	ui->actionRefresh->setShortcut(Qt::CTRL|Qt::Key_R);
 #endif
 	
 	// On Mac, we get Cmd+Q to quit for free. On anything else, set it up like this
-#if !__APPLE__
+#if !defined(__APPLE__)
 	QShortcut *quitShortcut = new QShortcut(QKeySequence("Ctrl+Q"), this);
 	connect(quitShortcut, SIGNAL(activated()), qApp, SLOT(quit()));
 #endif
@@ -124,6 +131,7 @@ void KCMainWindow::_setupClient()
 	connect(client, SIGNAL(receivedPlayerConstructions()), this, SLOT(onReceivedPlayerConstructions()));
 	connect(client, SIGNAL(requestError(KCClient::ErrorCode)), this, SLOT(onRequestError(KCClient::ErrorCode)));
 	connect(client, SIGNAL(dockCompleted(KCDock *)), this, SLOT(onDockCompleted(KCDock *)));
+	connect(client, SIGNAL(missionCompleted(KCFleet*)), this, SLOT(onMissionCompleted(KCFleet*)));
 	
 	if(!client->hasCredentials())
 	{
@@ -134,6 +142,84 @@ void KCMainWindow::_setupClient()
 			qApp->quit();
 	}
 	else this->onCredentialsGained();
+}
+
+void KCMainWindow::_showDisclaimer()
+{
+	QSettings settings;
+	
+	// Only show the disclaimer if it has not already been shown
+	// Using an int here because I might want to show it again if I make any
+	// big changes to it sometime; shouldn't happen though...
+	if(settings.value("disclaimerShown", 0).toInt() <= 0)
+	{
+		QMessageBox::information(this, "Disclaimer",
+			"<p>"
+#if __APPLE__
+			"Disclaimer:"
+			"</p>"
+			"<p>"
+#endif
+			"It's important to note that KanColleTool is not a cheat tool.<br /> "
+			"It will not let you do anything the game would not usually let you do."
+			"</p>"
+			"<p>"
+			"Using KanColleTool will not increase your chances of getting banned.<br />"
+			"If you're a foreign player, that's already reason enough to ban you, but KCT "
+			"is impossible to differentiate from a web browser on their end."
+			"</p>");
+		settings.setValue("disclaimerShown", 1);
+	}
+}
+
+void KCMainWindow::closeEvent(QCloseEvent *event)
+{
+	QSettings settings;
+	if(settings.value("minimizeToTray", kDefaultMinimizeToTray).toBool())
+	{
+		// The first time the application is minimized to the tray, display a
+		// message to alert the user about this, in case their window manager
+		// hides it by default (*cough* Windows 7 *cough*).
+		// This doesn't make sense on OSX, because the program is always in the
+		// menu bar in the first place there, with no dock icon at all.
+#ifndef __APPLE__
+		if(!settings.value("closeToTrayNotificationShown").toBool())
+		{
+			trayIcon->showMessage("Still running!", "KanColleTool is still running in the tray.\nYou can disable that in the settings.");
+			settings.setValue("closeToTrayNotificationShown", true);
+		}
+#endif
+	}
+	else
+	{
+		// Just quit if we're not set to stay in the tray when closed
+		qApp->quit();
+	}
+	
+	event->accept();
+}
+
+void KCMainWindow::keyPressEvent(QKeyEvent *event)
+{
+	// Only do this on the fleets page
+	if(!ui->actionFleets->isEnabled())
+	{
+		int moveToTab = -1;
+		switch(event->key())
+		{
+			case Qt::Key_1:		moveToTab = 0; break;
+			case Qt::Key_2:		moveToTab = 1; break;
+			case Qt::Key_3:		moveToTab = 2; break;
+			case Qt::Key_4:		moveToTab = 3; break;
+			default: break;
+		}
+		
+		if(moveToTab != -1)
+			if(ui->fleetsTabBar->isTabEnabled(moveToTab))
+				ui->fleetsTabBar->setCurrentIndex(moveToTab);
+	}
+	
+	QMainWindow::keyPressEvent(event);
 }
 
 bool KCMainWindow::isApplicationActive()
@@ -201,33 +287,35 @@ void KCMainWindow::updateFleetsPage()
 	
 	// Otherwise, retreive it
 	KCFleet *fleet = client->fleets[ui->fleetsTabBar->currentIndex()+1];
-	
-	// Loop through all the ships in the fleet and put their info up
-	for(int i = 0; i < fleet->shipCount; i++)
+	if(fleet)
 	{
-		KCShip *ship = client->ships[fleet->ships[i]];
-		if(!ship) continue;
-		
-		QString iS = QString::number(i+1);
-		
-		QGroupBox *box = findChild<QGroupBox*>(QString("fleetBox") + iS);
-		QLabel *nameLabel = findChild<QLabel*>(QString("fleetName") + iS);
-		QProgressBar *hpBar = findChild<QProgressBar*>(QString("fleetHpBar") + iS);
-		QProgressBar *ammoBar = findChild<QProgressBar*>(QString("fleetAmmoBar") + iS);
-		QProgressBar *fuelBar = findChild<QProgressBar*>(QString("fleetFuelBar") + iS);
-		QLabel *levelLabel = findChild<QLabel*>(QString("fleetLevel") + iS);
-		QLabel *condLabel = findChild<QLabel*>(QString("fleetCond") + iS);
-		
-		box->show();
-		nameLabel->setText(kcTranslate(ship->name));
-		hpBar->setRange(0, ship->maxHp);
-		hpBar->setValue(ship->hp);
-		ammoBar->setRange(0, ship->maxAmmo);
-		ammoBar->setValue(ship->ammo);
-		fuelBar->setRange(0, ship->maxFuel);
-		fuelBar->setValue(ship->fuel);
-		levelLabel->setText(QString::number(ship->level));
-		condLabel->setText(QString::number(ship->condition));
+		// Loop through all the ships in the fleet and put their info up
+		for(int i = 0; i < fleet->shipCount; i++)
+		{
+			KCShip *ship = client->ships[fleet->ships[i]];
+			if(!ship) continue;
+			
+			QString iS = QString::number(i+1);
+			
+			QGroupBox *box = findChild<QGroupBox*>(QString("fleetBox") + iS);
+			QLabel *nameLabel = findChild<QLabel*>(QString("fleetName") + iS);
+			QProgressBar *hpBar = findChild<QProgressBar*>(QString("fleetHpBar") + iS);
+			QProgressBar *ammoBar = findChild<QProgressBar*>(QString("fleetAmmoBar") + iS);
+			QProgressBar *fuelBar = findChild<QProgressBar*>(QString("fleetFuelBar") + iS);
+			QLabel *levelLabel = findChild<QLabel*>(QString("fleetLevel") + iS);
+			QLabel *condLabel = findChild<QLabel*>(QString("fleetCond") + iS);
+			
+			box->show();
+			nameLabel->setText(kcTranslate(ship->name));
+			hpBar->setRange(0, ship->maxHp);
+			hpBar->setValue(ship->hp);
+			ammoBar->setRange(0, ship->maxAmmo);
+			ammoBar->setValue(ship->ammo);
+			fuelBar->setRange(0, ship->maxFuel);
+			fuelBar->setValue(ship->fuel);
+			levelLabel->setText(QString::number(ship->level));
+			condLabel->setText(QString::number(ship->condition));
+		}
 	}
 	
 	ui->fleetsPage->setUpdatesEnabled(true);
@@ -243,6 +331,9 @@ void KCMainWindow::updateShipsPage()
 	int row = 0;
 	foreach(KCShip *ship, client->ships)
 	{
+		if(!ship)
+			continue;
+		
 		TABLE_SET_ITEM(ui->shipsTable, row, 0, ship->level);
 		TABLE_SET_ITEM(ui->shipsTable, row, 1, ship->maxHp);
 		TABLE_SET_ITEM(ui->shipsTable, row, 2, ship->firepower.cur);
@@ -268,6 +359,8 @@ void KCMainWindow::updateRepairsPage()
 	int i = 0;
 	foreach(KCDock *dock, client->repairDocks)
 	{
+		if(!dock) continue;
+		
 		QString iS = QString::number(i+1);
 		QGroupBox *box = findChild<QGroupBox*>(QString("repairBox") + iS);
 		QLabel *nameLabel = findChild<QLabel*>(QString("repairName") + iS);
@@ -312,6 +405,8 @@ void KCMainWindow::updateConstructionsPage()
 	int i = 0;
 	foreach(KCDock *dock, client->constructionDocks)
 	{
+		if(!dock) continue;
+		
 		QString iS = QString::number(i+1);
 		QGroupBox *box = findChild<QGroupBox*>(QString("constructionBox") + iS);
 		QLabel *nameLabel = findChild<QLabel*>(QString("constructionName") + iS);
@@ -348,7 +443,7 @@ void KCMainWindow::updateConstructionsPage()
 			else
 				nameLabel->setText("???");
 			
-			if(dock->state != KCDock::Finished)
+			if(dock->state == KCDock::Occupied || dock->state == KCDock::Building)
 				buildTimerLabel->setText(delta(dock->complete).toString("H:mm:ss"));
 			else
 				buildTimerLabel->setText("0:00:00");
@@ -364,11 +459,80 @@ void KCMainWindow::updateConstructionsPage()
 
 void KCMainWindow::updateTimers()
 {
+	// Fleet Status
+	{
+		KCFleet *fleet = client->fleets[ui->fleetsTabBar->currentIndex()+1];
+		
+		// Second condition is a hack to make sure to wait for updateFleetsPage()
+		if(fleet && !ui->fleetBox1->isHidden())
+		{
+			ui->fleetStatus->show();
+			
+			bool busy = false;
+			QString status = "Combat-Ready";
+			QTime dT;
+			
+			// Check if the fleet is out on an expedition
+			if(fleet->mission.page > 0 && fleet->mission.no > 0 && fleet->mission.complete > QDateTime::currentDateTime())
+			{
+				busy = true;
+				status = QString("Doing Expedition %1-%2").arg(
+					QString::number(fleet->mission.page), QString::number(fleet->mission.no));
+				dT = delta(fleet->mission.complete);
+			}
+			
+			// Check if anyone is in the bath; you never disturb a lady who's
+			// taking a bath, not even if an Airfield Hime invades the base
+			foreach(KCDock *dock, client->repairDocks)
+			{
+				// Skip already done or empty (completion time = Epoch+0ms) docks
+				if(dock->complete < QDateTime::currentDateTime())
+					continue;
+				
+				for(int i = 0; i < fleet->shipCount; i++)
+				{
+					if(fleet->ships[i] == dock->shipID)
+					{
+						// Make sure to use the longest reppair countdown
+						QTime dT2 = delta(dock->complete);
+						if(dT2 < dT)
+							continue;
+						
+						KCShip *ship = client->ships[fleet->ships[i]];
+						busy = true;
+						status = QString("%1 is taking a bath").arg(kcTranslate(ship->name));
+						dT = dT2;
+					}
+				}
+			}
+			
+			// Show it all
+			if(busy)
+			{
+				ui->fleetStatus->setText(status);
+				ui->fleetCountdown->setText(dT.toString("H:mm:ss"));
+				ui->fleetCountdownContainer->show();
+			}
+			else
+			{
+				ui->fleetStatus->setText(status);
+				ui->fleetCountdownContainer->hide();
+			}
+		}
+		else
+		{
+			ui->fleetStatus->hide();
+			ui->fleetCountdownContainer->hide();
+		}
+	}
+	
 	// Repair Docks
 	{
 		int i = 0;
 		foreach(KCDock *dock, client->repairDocks)
 		{
+			if(!dock) continue;
+			
 			if(dock->state == KCDock::Occupied)
 			{
 				QLabel *label = findChild<QLabel*>(QString("repairTimer") + QString::number(i+1));
@@ -383,6 +547,8 @@ void KCMainWindow::updateTimers()
 		int i = 0;
 		foreach(KCDock *dock, client->constructionDocks)
 		{
+			if(!dock) continue;
+			
 			if(dock->state == KCDock::Building)
 			{
 				QLabel *label = findChild<QLabel*>(QString("constructionTimer") + QString::number(i+1));
@@ -396,6 +562,21 @@ void KCMainWindow::updateTimers()
 void KCMainWindow::updateSettingThings()
 {
 	QSettings settings;
+	
+	// Server for Viewer data livestreaming
+	if(settings.value("livestream", kDefaultLivestream).toBool())
+	{
+		if(!server)
+		{
+			server = new KCToolServer(client, this);
+			server->listen(QHostAddress::Any, 54321);
+		}
+	}
+	else
+	{
+		if(server)
+			delete server;
+	}
 	
 	// Autorefreshing
 	if(settings.value("autorefresh", kDefaultAutorefresh).toBool())
@@ -452,7 +633,10 @@ void KCMainWindow::onReceivedPlayerFleets()
 	
 	// If we're on an active tab, update it
 	if(ui->fleetsTabBar->currentIndex() < client->fleets.size())
+	{
 		updateFleetsPage();
+		updateTimers();
+	}
 	
 	// Disable locked fleets; if the user is on an invalid page, this will
 	// move them to Fleet #1, and trigger updateFleetsPage from currentChanged
@@ -507,7 +691,14 @@ void KCMainWindow::onDockCompleted(KCDock *dock)
 	if(dock->isConstruction)
 	{
 		KCShipMaster *shipMaster = client->masterShips[dock->shipID];
-		if(shipMaster)
+		
+		// Only name the ship if the player has asked for a spoiler already
+		bool spoil = false;
+		for(int i = 0; i < client->constructionDocks.size(); i++)
+			if(client->constructionDocks[i] == dock)
+				spoil = findChild<QCheckBox*>(QString("constructionSpoil") + QString::number(i+1))->isChecked();
+		
+		if(shipMaster && spoil)
 			trayIcon->showMessage("Construction Completed!",
 				QString("Say hello to %1!").arg(kcTranslate(shipMaster->name)));
 		else
@@ -528,6 +719,15 @@ void KCMainWindow::onDockCompleted(KCDock *dock)
 		
 		updateRepairsPage();
 	}
+}
+
+void KCMainWindow::onMissionCompleted(KCFleet *fleet)
+{
+	int id = client->fleets.key(fleet);
+	trayIcon->showMessage("Expedition Complete",
+		QString("Fleet %1 returned from Expedition %2-%3").arg(
+			QString::number(id), QString::number(fleet->mission.page), QString::number(fleet->mission.no)));
+	updateTimers();
 }
 
 void KCMainWindow::on_actionFleets_triggered()
@@ -587,4 +787,5 @@ void KCMainWindow::on_fleetsTabBar_currentChanged(int index)
 	//qDebug() << "Fleets page on Tab" << index;
 	Q_UNUSED(index);
 	updateFleetsPage();
+	updateTimers();
 }

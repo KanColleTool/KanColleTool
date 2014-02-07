@@ -13,16 +13,20 @@
 #include "KCFleet.h"
 #include "KCDock.h"
 
+class KCToolServer;
 class KCClient : public QObject
 {
 	Q_OBJECT
+	friend class KCToolServer;
+	
 public:
 	typedef enum ErrorCode {
 		JsonError = -1,
 		Unknown = 0,
 		NoError = 1,
 		InvalidAPIVersion = 200,
-		InvalidCredentials = 201
+		InvalidCredentials = 201,
+		ExpiredAPIToken = 202
 	} ErrorCode;
 	
 	explicit KCClient(QObject *parent = 0);
@@ -48,6 +52,7 @@ signals:
 	void requestError(KCClient::ErrorCode error);
 	
 	void dockCompleted(KCDock *dock);
+	void missionCompleted(KCFleet *fleet);
 	
 public slots:
 	void setCredentials(QString server, QString apiToken);
@@ -66,6 +71,7 @@ protected slots:
 	void onPlayerConstructionsRequestFinished();
 	
 	void onDockCompleted();
+	void onMissionCompleted();
 	
 protected:
 	void _processMasterShipsData(QVariant data);

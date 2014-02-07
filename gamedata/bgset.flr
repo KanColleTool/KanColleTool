@@ -1,0 +1,14 @@
+movie 'bgset.swf' {
+// flash 15, total frames: 9, frame rate: 30 fps, 800x480 px, compressed
+
+  metadata <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/"> <xmp:CreatorTool>Adobe Flash Professional CS6 - build 537</xmp:CreatorTool> <xmp:CreateDate>2013-11-15T19:23:01+09:00</xmp:CreateDate> <xmp:MetadataDate>2013-11-26T14:02:21+09:00</xmp:MetadataDate> <xmp:ModifyDate>2013-11-26T14:02:21+09:00</xmp:ModifyDate> </rdf:Description> <rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/"> <dc:format>application/x-shockwave-flash</dc:format> </rdf:Description> <rdf:Description rdf:about="" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#"> <xmpMM:InstanceID>xmp.iid:6FCF8BC35556E3119C13D6DF83DC9A95</xmpMM:InstanceID> <xmpMM:DocumentID>xmp.did:6FCF8BC35556E3119C13D6DF83DC9A95</xmpMM:DocumentID> <xmpMM:OriginalDocumentID>xmp.did:175AE19BA74DE311835283D70815245B</xmpMM:OriginalDocumentID> <xmpMM:DerivedFrom rdf:parseType="Resource"> <stRef:instanceID>xmp.iid:E16B8F214D56E3119C13D6DF83DC9A95</stRef:instanceID> <stRef:documentID>xmp.did:175AE19BA74DE311835283D70815245B</stRef:documentID> <stRef:originalDocumentID>xmp.did:175AE19BA74DE311835283D70815245B</stRef:originalDocumentID> </xmpMM:DerivedFrom> </rdf:Description> </rdf:RDF> 
+
+  frame 1 {
+    v;
+  }
+
+  frame 1 {
+    stop();
+    _global.BGSET = this;
+  }
+}

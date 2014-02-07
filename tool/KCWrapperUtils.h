@@ -1,6 +1,8 @@
 #ifndef KCWRAPPERMACROS_H
 #define KCWRAPPERMACROS_H
 
+#include <QDateTime>
+
 // QSequentialIterable isn't available before Qt 5.2, and Ubuntu is stuck on 5.0! (╯°□°)╯︵ ┻━┻
 // So just because they can't keep up-to-date with things, I'll just do the quick-and-dirty
 // workaround of defining QSequentialIterable to be a QList. No one will ever be able to tell.
@@ -40,7 +42,7 @@ inline void extract(const QVariantMap &source, T dest[], int count, const QStrin
  * Extract a single item from a list into a T&
  */
 template<typename T>
-void extract(const QVariantMap &source, T& dest, const QString &key, int index)
+inline void extract(const QVariantMap &source, T& dest, const QString &key, int index)
 {
 	QSequentialIterable iter = source[key].value<QSequentialIterable>();
 	dest = iter.at(index).value<T>();
@@ -52,6 +54,16 @@ void extract(const QVariantMap &source, T& dest, const QString &key, int index)
 inline void extractCount(const QVariantMap &source, int& dest, const QString &key)
 {
 	dest = source[key].value<QSequentialIterable>().size();
+}
+
+/*
+ * Extract a timestamp given as msecs since start of epoch into a QDateTime
+ */
+inline void extractTimestamp(const QVariantMap &source, QDateTime& dest, const QString &key)
+{
+	qint64 tmp;
+	extract(source, tmp, key);
+	dest = QDateTime::fromMSecsSinceEpoch(tmp);
 }
 
 /*

@@ -8,7 +8,7 @@
 #include "KCShipMaster.h"
 #include "KCFleet.h"
 
-#define kClientUseCache 1
+#define kClientUseCache 0
 
 
 
@@ -25,10 +25,15 @@
 	void KCClient::on##_id_##RequestFinished() \
 	{ \
 		QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender()); \
-		ErrorCode error; \
-		QVariant data = this->dataFromRawResponse(reply->readAll(), &error); \
-		if(data.isValid()) _process##_id_##Data(data); \
-		else emit requestError(error); \
+		if(reply->error() == QNetworkReply::NoError) \
+		{ \
+			ErrorCode error; \
+			QVariant data = this->dataFromRawResponse(reply->readAll(), &error); \
+			if(data.isValid()) _process##_id_##Data(data); \
+			else { qDebug() << error; emit requestError(error); } \
+		} \
+		else if(reply->error() == QNetworkReply::UnknownNetworkError) \
+			qWarning() << "Connection Failed:" << reply->errorString(); \
 	}
 
 SYNTHESIZE_RESPONSE_HANDLERS(MasterShips, masterShips)
@@ -112,6 +117,11 @@ void KCClient::onDockCompleted()
 	emit dockCompleted(qobject_cast<KCDock*>(QObject::sender()));
 }
 
+void KCClient::onMissionCompleted()
+{
+	emit missionCompleted(qobject_cast<KCFleet*>(QObject::sender()));
+}
+
 QNetworkReply* KCClient::call(QString endpoint, QUrlQuery params)
 {
 #if kClientUseCache
@@ -138,6 +148,7 @@ QNetworkReply* KCClient::call(QString endpoint, QUrlQuery params)
 	QNetworkRequest request(this->urlForEndpoint(endpoint));
 	request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 	request.setRawHeader("Referer", QString("http://%1/kcs/mainD2.swf").arg(server).toUtf8());
+	request.setRawHeader("User-Agent", QString("Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36").toUtf8());
 	
 	params.addQueryItem("api_verno", "1");
 	params.addQueryItem("api_token", apiToken);

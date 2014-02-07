@@ -12429,7 +12429,7 @@
                 28,
                 69
             ],
-            "api_voicef": 0,
+            "api_voicef": 1,
             "api_yomi": "\u304b\u304c"
         },
         {
@@ -21753,7 +21753,7 @@
                 18,
                 59
             ],
-            "api_voicef": 1,
+            "api_voicef": 3,
             "api_yomi": "\u3072\u3073\u304d"
         },
         {
@@ -24125,15 +24125,15 @@
             "api_yomi": "\u307e\u308b\u3086"
         },
         {
-            "api_afterbull": 0,
-            "api_afterfuel": 0,
-            "api_afterlv": 0,
-            "api_aftershipid": "0",
+            "api_afterbull": 100,
+            "api_afterfuel": 100,
+            "api_afterlv": 20,
+            "api_aftershipid": "308",
             "api_atap": [
                 0,
                 0
             ],
-            "api_backs": 0,
+            "api_backs": 3,
             "api_bakk": [
                 0,
                 0
@@ -24143,24 +24143,24 @@
                 0
             ],
             "api_broken": [
-                0,
-                0,
-                0,
+                1,
+                1,
+                4,
                 0
             ],
-            "api_buildtime": 0,
-            "api_bull_max": 0,
-            "api_cnum": 1,
-            "api_ctype": 1,
+            "api_buildtime": 18,
+            "api_bull_max": 15,
+            "api_cnum": 3,
+            "api_ctype": 28,
             "api_defeq": [
-                -1,
+                1,
                 -1,
                 -1,
                 -1
             ],
             "api_enqflg": "0",
-            "api_fuel_max": 0,
-            "api_getmes": "",
+            "api_fuel_max": 15,
+            "api_getmes": "\u521d\u3081\u307e\u3057\u3066\u3001\u5f25\u751f\u3001\u7740\u4efb\u2026\u3002<br>\u3042\u3001\u6c17\u3092\u4f7f\u308f\u306a\u3044\u3067\u304f\u308c\u3066\u3044\u3044\u2026\u3067\u3059\u3002",
             "api_gomes": null,
             "api_gomes2": null,
             "api_grow": [
@@ -24181,8 +24181,8 @@
             ],
             "api_homemes": null,
             "api_houg": [
-                0,
-                0
+                6,
+                29
             ],
             "api_houk": [
                 0,
@@ -24194,13 +24194,13 @@
             ],
             "api_id": 164,
             "api_kaih": [
-                0,
-                0
+                37,
+                69
             ],
-            "api_leng": 0,
+            "api_leng": 1,
             "api_luck": [
-                0,
-                0
+                10,
+                49
             ],
             "api_maxeq": [
                 0,
@@ -24210,16 +24210,16 @@
                 0
             ],
             "api_missions": null,
-            "api_name": "\u306a\u3057",
+            "api_name": "\u5f25\u751f",
             "api_powup": [
-                0,
-                0,
+                1,
+                1,
                 0,
                 0
             ],
             "api_raig": [
-                0,
-                0
+                18,
+                49
             ],
             "api_raik": [
                 0,
@@ -24234,27 +24234,27 @@
                 0
             ],
             "api_saku": [
-                0,
-                0
+                4,
+                17
             ],
-            "api_sinfo": "",
-            "api_slot_num": 0,
-            "api_soku": 0,
-            "api_sokuh": 0,
-            "api_sortno": 0,
+            "api_sinfo": "\u7766\u6708\u578b\u99c6\u9010\u8266\u4e09\u756a\u8266\u300c\u5f25\u751f\u300d\u3067\u3059\u3002<br>\u6a2a\u9808\u8cc0\u306e\u6d66\u8cc0\u751f\u307e\u308c\u3002\u300c\u7766\u6708\u300d\u3084\u300c\u671b\u6708\u300d\u3068\u8266\u968a\u3092\u7d44\u3093\u3067\u8272\u3005\u9811\u5f35\u308a\u307e\u3057\u305f\u3002\u7206\u6483\u6a5f\u3068\u304b\u306f\u5acc\u3044\u3002\u3088\u308d\u3057\u304f\u306d\u3002",
+            "api_slot_num": 2,
+            "api_soku": 10,
+            "api_sokuh": 1,
+            "api_sortno": 164,
             "api_souk": [
-                0,
-                0
+                5,
+                18
             ],
             "api_stype": 2,
             "api_systems": null,
             "api_taik": [
-                0,
-                0
+                13,
+                24
             ],
             "api_tais": [
-                0,
-                0
+                16,
+                39
             ],
             "api_touchs": [
                 null,
@@ -24266,22 +24266,22 @@
                 0
             ],
             "api_tyku": [
-                0,
-                0
+                7,
+                29
             ],
-            "api_voicef": 0,
-            "api_yomi": "\u306a\u3057"
+            "api_voicef": 1,
+            "api_yomi": "\u3084\u3088\u3044"
         },
         {
-            "api_afterbull": 0,
-            "api_afterfuel": 0,
-            "api_afterlv": 0,
-            "api_aftershipid": "0",
+            "api_afterbull": 100,
+            "api_afterfuel": 100,
+            "api_afterlv": 25,
+            "api_aftershipid": "309",
             "api_atap": [
                 0,
                 0
             ],
-            "api_backs": 0,
+            "api_backs": 3,
             "api_bakk": [
                 0,
                 0
@@ -24291,24 +24291,24 @@
                 0
             ],
             "api_broken": [
-                0,
-                0,
-                0,
+                1,
+                1,
+                4,
                 0
             ],
-            "api_buildtime": 0,
-            "api_bull_max": 0,
-            "api_cnum": 1,
-            "api_ctype": 1,
+            "api_buildtime": 18,
+            "api_bull_max": 15,
+            "api_cnum": 4,
+            "api_ctype": 28,
             "api_defeq": [
-                -1,
+                1,
                 -1,
                 -1,
                 -1
             ],
             "api_enqflg": "0",
-            "api_fuel_max": 0,
-            "api_getmes": "",
+            "api_fuel_max": 15,
+            "api_getmes": "\u3084\u3063\u305f\u3041\uff01 \u3067\u305f\u3063\u3074\u3087\u3093\uff01 \u536f\u6708\u3067\u3063\u3059\uff01 <br>\u3046\u30fc\u3061\u3083\u3093\u3063\u3066\u547c\u3070\u308c\u3066\u307e\u3063\u3059\uff01",
             "api_gomes": null,
             "api_gomes2": null,
             "api_grow": [
@@ -24329,8 +24329,8 @@
             ],
             "api_homemes": null,
             "api_houg": [
-                0,
-                0
+                6,
+                29
             ],
             "api_houk": [
                 0,
@@ -24342,13 +24342,13 @@
             ],
             "api_id": 165,
             "api_kaih": [
-                0,
-                0
+                37,
+                69
             ],
-            "api_leng": 0,
+            "api_leng": 1,
             "api_luck": [
-                0,
-                0
+                10,
+                49
             ],
             "api_maxeq": [
                 0,
@@ -24358,16 +24358,16 @@
                 0
             ],
             "api_missions": null,
-            "api_name": "\u306a\u3057",
+            "api_name": "\u536f\u6708",
             "api_powup": [
                 0,
-                0,
+                1,
                 0,
                 0
             ],
             "api_raig": [
-                0,
-                0
+                18,
+                49
             ],
             "api_raik": [
                 0,
@@ -24382,27 +24382,27 @@
                 0
             ],
             "api_saku": [
-                0,
-                0
+                4,
+                17
             ],
-            "api_sinfo": "",
-            "api_slot_num": 0,
-            "api_soku": 0,
-            "api_sokuh": 0,
-            "api_sortno": 0,
+            "api_sinfo": "\u7766\u6708\u578b\u99c6\u9010\u8266\u56db\u756a\u8266\u306e\u300c\u536f\u6708\u300d\u3060\u3074\u3087\u3093\u3002\u8239\u56e3\u8b77\u885b\u304b\u3089\u653b\u7565\u4f5c\u6226\u307e\u3067\u3001\u9811\u5f35\u3063\u3066\u50cd\u3044\u305f\u3093\u3067\u3063\u3059\uff01\u3000\u6700\u5f8c\u306e\u307b\u3046\u306f\u7832\u3092\u3044\u304f\u3064\u304b\u4e0b\u3057\u3066\u6a5f\u9283\u3092\u4e00\u676f\u7a4d\u3093\u3060\u3088\u3002<br>\u3046\u30fc\u3061\u3083\u3093\u3001\u7206\u6483\u3058\u3083\u6c88\u307e\u306a\u3044\u304b\u3089\uff01",
+            "api_slot_num": 2,
+            "api_soku": 10,
+            "api_sokuh": 1,
+            "api_sortno": 165,
             "api_souk": [
-                0,
-                0
+                5,
+                18
             ],
             "api_stype": 2,
             "api_systems": null,
             "api_taik": [
-                0,
-                0
+                13,
+                24
             ],
             "api_tais": [
-                0,
-                0
+                16,
+                39
             ],
             "api_touchs": [
                 null,
@@ -24414,11 +24414,11 @@
                 0
             ],
             "api_tyku": [
-                0,
-                0
+                7,
+                29
             ],
-            "api_voicef": 0,
-            "api_yomi": "\u306a\u3057"
+            "api_voicef": 1,
+            "api_yomi": "\u3046\u3065\u304d"
         },
         {
             "api_afterbull": 0,
@@ -37293,7 +37293,7 @@
                 12,
                 39
             ],
-            "api_voicef": 0,
+            "api_voicef": 1,
             "api_yomi": "\u3082\u3061\u3065\u304d"
         },
         {
@@ -39513,7 +39513,7 @@
                 33,
                 99
             ],
-            "api_voicef": 0,
+            "api_voicef": 1,
             "api_yomi": "\u3080\u3064"
         },
         {
@@ -39809,7 +39809,7 @@
                 30,
                 79
             ],
-            "api_voicef": 0,
+            "api_voicef": 3,
             "api_yomi": "\u304b\u304c"
         },
         {
@@ -40845,7 +40845,7 @@
                 15,
                 39
             ],
-            "api_voicef": 0,
+            "api_voicef": 1,
             "api_yomi": "\u307b\u3046\u3057\u3087\u3046"
         },
         {
@@ -43807,6 +43807,302 @@
             ],
             "api_voicef": 3,
             "api_yomi": "\u3084\u306f\u304e"
+        },
+        {
+            "api_afterbull": 0,
+            "api_afterfuel": 0,
+            "api_afterlv": 0,
+            "api_aftershipid": "0",
+            "api_atap": [
+                0,
+                0
+            ],
+            "api_backs": 4,
+            "api_bakk": [
+                0,
+                0
+            ],
+            "api_baku": [
+                0,
+                0
+            ],
+            "api_broken": [
+                1,
+                1,
+                4,
+                0
+            ],
+            "api_buildtime": 18,
+            "api_bull_max": 15,
+            "api_cnum": 3,
+            "api_ctype": 28,
+            "api_defeq": [
+                48,
+                13,
+                -1,
+                -1
+            ],
+            "api_enqflg": "0",
+            "api_fuel_max": 15,
+            "api_getmes": "\u521d\u3081\u307e\u3057\u3066\u3001\u5f25\u751f\u3001\u7740\u4efb\u2026\u3002<br>\u3042\u3001\u6c17\u3092\u4f7f\u308f\u306a\u3044\u3067\u304f\u308c\u3066\u3044\u3044\u2026\u3067\u3059\u3002",
+            "api_gomes": null,
+            "api_gomes2": null,
+            "api_grow": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "api_gumax": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "api_homemes": null,
+            "api_houg": [
+                9,
+                39
+            ],
+            "api_houk": [
+                0,
+                0
+            ],
+            "api_houm": [
+                0,
+                0
+            ],
+            "api_id": 308,
+            "api_kaih": [
+                40,
+                89
+            ],
+            "api_leng": 1,
+            "api_luck": [
+                12,
+                59
+            ],
+            "api_maxeq": [
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "api_missions": null,
+            "api_name": "\u5f25\u751f\u6539",
+            "api_powup": [
+                1,
+                1,
+                0,
+                0
+            ],
+            "api_raig": [
+                18,
+                69
+            ],
+            "api_raik": [
+                0,
+                0
+            ],
+            "api_raim": [
+                0,
+                0
+            ],
+            "api_sakb": [
+                0,
+                0
+            ],
+            "api_saku": [
+                6,
+                39
+            ],
+            "api_sinfo": "\u7766\u6708\u578b\u99c6\u9010\u8266\u4e09\u756a\u8266\u300c\u5f25\u751f\u300d\u3067\u3059\u3002<br>\u6a2a\u9808\u8cc0\u306e\u6d66\u8cc0\u751f\u307e\u308c\u3002\u300c\u7766\u6708\u300d\u3084\u300c\u671b\u6708\u300d\u3068\u8266\u968a\u3092\u7d44\u3093\u3067\u8272\u3005\u9811\u5f35\u308a\u307e\u3057\u305f\u3002\u7206\u6483\u6a5f\u3068\u304b\u306f\u5acc\u3044\u3002\u3088\u308d\u3057\u304f\u306d\u3002",
+            "api_slot_num": 3,
+            "api_soku": 10,
+            "api_sokuh": 1,
+            "api_sortno": 404,
+            "api_souk": [
+                11,
+                39
+            ],
+            "api_stype": 2,
+            "api_systems": null,
+            "api_taik": [
+                24,
+                39
+            ],
+            "api_tais": [
+                18,
+                59
+            ],
+            "api_touchs": [
+                null,
+                null,
+                null
+            ],
+            "api_tous": [
+                0,
+                0
+            ],
+            "api_tyku": [
+                12,
+                39
+            ],
+            "api_voicef": 1,
+            "api_yomi": "\u3084\u3088\u3044"
+        },
+        {
+            "api_afterbull": 0,
+            "api_afterfuel": 0,
+            "api_afterlv": 0,
+            "api_aftershipid": "0",
+            "api_atap": [
+                0,
+                0
+            ],
+            "api_backs": 4,
+            "api_bakk": [
+                0,
+                0
+            ],
+            "api_baku": [
+                0,
+                0
+            ],
+            "api_broken": [
+                1,
+                1,
+                4,
+                0
+            ],
+            "api_buildtime": 18,
+            "api_bull_max": 15,
+            "api_cnum": 4,
+            "api_ctype": 28,
+            "api_defeq": [
+                40,
+                39,
+                27,
+                -1
+            ],
+            "api_enqflg": "0",
+            "api_fuel_max": 15,
+            "api_getmes": "\u3084\u3063\u305f\u3041\uff01 \u3067\u305f\u3063\u3074\u3087\u3093\uff01 \u536f\u6708\u3067\u3063\u3059\uff01 <br>\u3046\u30fc\u3061\u3083\u3093\u3063\u3066\u547c\u3070\u308c\u3066\u307e\u3063\u3059\uff01",
+            "api_gomes": null,
+            "api_gomes2": null,
+            "api_grow": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "api_gumax": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "api_homemes": null,
+            "api_houg": [
+                7,
+                34
+            ],
+            "api_houk": [
+                0,
+                0
+            ],
+            "api_houm": [
+                0,
+                0
+            ],
+            "api_id": 309,
+            "api_kaih": [
+                40,
+                89
+            ],
+            "api_leng": 1,
+            "api_luck": [
+                14,
+                59
+            ],
+            "api_maxeq": [
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "api_missions": null,
+            "api_name": "\u536f\u6708\u6539",
+            "api_powup": [
+                0,
+                1,
+                0,
+                0
+            ],
+            "api_raig": [
+                18,
+                69
+            ],
+            "api_raik": [
+                0,
+                0
+            ],
+            "api_raim": [
+                0,
+                0
+            ],
+            "api_sakb": [
+                0,
+                0
+            ],
+            "api_saku": [
+                6,
+                39
+            ],
+            "api_sinfo": "\u7766\u6708\u578b\u99c6\u9010\u8266\u56db\u756a\u8266\u306e\u300c\u536f\u6708\u300d\u3060\u3074\u3087\u3093\u3002\u8239\u56e3\u8b77\u885b\u304b\u3089\u653b\u7565\u4f5c\u6226\u307e\u3067\u3001\u9811\u5f35\u3063\u3066\u50cd\u3044\u305f\u3093\u3067\u3063\u3059\uff01\u3000\u6700\u5f8c\u306e\u307b\u3046\u306f\u7832\u3092\u3044\u304f\u3064\u304b\u4e0b\u3057\u3066\u6a5f\u9283\u3092\u4e00\u676f\u7a4d\u3093\u3060\u3088\u3002<br>\u3046\u30fc\u3061\u3083\u3093\u3001\u7206\u6483\u3058\u3083\u6c88\u307e\u306a\u3044\u304b\u3089\uff01",
+            "api_slot_num": 3,
+            "api_soku": 10,
+            "api_sokuh": 1,
+            "api_sortno": 405,
+            "api_souk": [
+                12,
+                39
+            ],
+            "api_stype": 2,
+            "api_systems": null,
+            "api_taik": [
+                24,
+                39
+            ],
+            "api_tais": [
+                21,
+                63
+            ],
+            "api_touchs": [
+                null,
+                null,
+                null
+            ],
+            "api_tous": [
+                0,
+                0
+            ],
+            "api_tyku": [
+                18,
+                49
+            ],
+            "api_voicef": 1,
+            "api_yomi": "\u3046\u3065\u304d"
         },
         {
             "api_afterbull": 0,

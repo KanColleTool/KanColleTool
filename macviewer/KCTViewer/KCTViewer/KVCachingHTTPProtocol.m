@@ -83,16 +83,21 @@
 	self.connection = nil;
 }
 
++ (NSString *)cacheDir
+{
+	return [[[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"KCTViewer"] stringByAppendingPathComponent:@"ProtocolCache"];
+}
+
 - (NSString *)cachePath
 {
 	if(!_cachePath)
 	{
 		NSFileManager *fm = [[NSFileManager alloc] init];
 		
-		NSString *cacheID = [[self.request.URL absoluteString] sha1];
-		NSString *cacheDir = [[[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"KCTViewer"] stringByAppendingPathComponent:@"ProtocolCache"];
-		BOOL cacheDirIsDir;
+		NSString *cacheID = [[self.request.URL absoluteString] sha256];
+		NSString *cacheDir = [[self class] cacheDir];
 		
+		BOOL cacheDirIsDir;
 		if(![fm fileExistsAtPath:cacheDir isDirectory:&cacheDirIsDir] || !cacheDirIsDir)
 		{
 			if(!cacheDirIsDir) [fm removeItemAtPath:cacheDir error:NULL];

@@ -11,6 +11,7 @@
 @interface NSString (KVHashes)
 
 - (NSString *)sha1;
+- (NSString *)sha256;
 - (unsigned long)crc32;
 
 @end

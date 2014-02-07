@@ -12,7 +12,7 @@ TEMPLATE = app
 CONFIG += c++11
 
 # This is updated by the version bump script
-VERSION = 0.6.0
+VERSION = 0.8.1
 
 unix:!macx: TARGET = kancolletool
 
@@ -30,6 +30,7 @@ SOURCES += main.cpp \
 	KCMainWindow.cpp \
     KCSettingsDialog.cpp \
 	KCClient.cpp \
+    KCToolServer.cpp \
     KCShip.cpp \
     KCShipMaster.cpp \
     KCFleet.cpp \
@@ -39,6 +40,7 @@ SOURCES += main.cpp \
 HEADERS  += KCMainWindow.h \
     KCSettingsDialog.h \
 	KCClient.h \
+    KCToolServer.h \
     KCShip.h \
     KCShipMaster.h \
     KCFleet.h \

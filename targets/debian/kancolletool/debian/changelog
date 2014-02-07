@@ -1,3 +1,32 @@
+kancolletool (0.8.0-1) unstable; urgency=low
+
+  * Fleet status display (accounts for expeditions and baths/repairs)
+  * Expedition notifications
+  * Ctrl+<num> switches tab, <num> on the Fleets page switches fleet
+  * Smaller font sizes and margins to make sure all names fit
+  * Construction notifications now only name the new ship if the Spoiler box is checked (Closes: #18)
+  * Fixes a few crashes caused by race conditions and null pointer dereferences
+  * Fixes incorrect handling of instant repairs (notifications still fired) (Closes: #17)
+
+ -- Johannes Ekberg <uppfinnarn@gmail.com>  Thu, 6 Feb 2014 17:37:00 +0100
+
+kancolletool (0.7.0-1) unstable; urgency=low
+
+  * Livestreaming from the viewer!
+  * The first time you close the window, it'll tell you that it's still in the tray
+  * Setting to disable Minimize to Tray
+  * Fixed Construction timers rolling over when finished (Closes: #15)
+  * Fixed Construction timers not showing notifications properly
+  * Fixes error popup spam when the connection drops (Closes: #16)
+
+ -- Johannes Ekberg <uppfinnarn@gmail.com>  Tue, 28 Jan 2014 21:34:04 +0100
+
+kancolletool (0.6.1-1) unstable; urgency=low
+
+  * Fixed a stupid crash
+
+ -- Johannes Ekberg <uppfinnarn@gmail.com>  Sun, 26 Jan 2014 02:08:40 +0100
+
 kancolletool (0.6.0-1) unstable; urgency=medium
 
   * English translation!

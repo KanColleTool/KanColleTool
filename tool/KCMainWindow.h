@@ -4,9 +4,12 @@
 #include <QMainWindow>
 #include <QMenu>
 #include <QSystemTrayIcon>
+#include <QCloseEvent>
 #include <QPointer>
 #include <QTimer>
+#include <QNetworkAccessManager>
 #include "KCClient.h"
+#include "KCToolServer.h"
 
 namespace Ui {
 	class KCMainWindow;
@@ -24,6 +27,11 @@ private:
 	void _setupTrayIcon();
 	void _setupUI();
 	void _setupClient();
+	void _showDisclaimer();
+	
+protected:
+	virtual void closeEvent(QCloseEvent *event);
+	virtual void keyPressEvent(QKeyEvent *event);
 	
 public:
 	bool isApplicationActive();
@@ -54,6 +62,7 @@ private slots:
 	
 	void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
 	void onDockCompleted(KCDock *dock);
+	void onMissionCompleted(KCFleet *fleet);
 	
 	void on_actionFleets_triggered();
 	void on_actionShips_triggered();
@@ -72,6 +81,8 @@ private:
 	QTimer timerUpdateTimer, refreshTimer;
 	
 	KCClient *client;
+	KCToolServer *server;
+	QNetworkAccessManager manager;
 	
 	bool apiLinkDialogOpen;
 };
