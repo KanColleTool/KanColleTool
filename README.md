@@ -13,7 +13,7 @@ Its features include:
 * Notifications for quests, repairs and construction
 * Optional spoilers for constructions
 
-If you think of anything I should include, please tell me; either [open an issue](http://github.com/KanColleTool/KanColleTool/issues/) or [mention @uppfinnarn](http://twitter.com/uppfinnarn).
+If you think of anything I should include, please tell me; either open an [issue](http://github.com/KanColleTool/KanColleTool/issues/) or mention [@uppfinnarn](http://twitter.com/uppfinnarn).
 
 Downloads and FAQ can be found at <http://kancolletool.github.io/>.
 
