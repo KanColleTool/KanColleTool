@@ -12,7 +12,7 @@ TEMPLATE = app
 CONFIG += c++11
 
 # This is updated by the version bump script
-VERSION = 0.8.0
+VERSION = 0.8.1
 
 unix:!macx: TARGET = kancolletool
 
