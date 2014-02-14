@@ -86,7 +86,7 @@
 	{
 		// This should always be true (we shouldn't have a buffer if the request is not interesting,
 		// but it's always good to check a second time. That might change in the future or something.)
-		if([self isInteresting])
+		if([self isInteresting] && [[NSUserDefaults standardUserDefaults] boolForKey:@"translationEnabled"])
 		{
 			// Deliver data to the client
 			NSData *translatedData = [[KVTranslator sharedTranslator] translateJSON:self.buffer];
