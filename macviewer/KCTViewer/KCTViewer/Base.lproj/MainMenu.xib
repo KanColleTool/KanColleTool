@@ -32,7 +32,11 @@
                             <menuItem isSeparatorItem="YES" id="236">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Preferences…" keyEquivalent="," id="129"/>
+                            <menuItem title="Preferences…" keyEquivalent="," id="129">
+                                <connections>
+                                    <action selector="makeKeyAndOrderFront:" target="1AP-nc-sKE" id="a1w-CU-FPI"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="143">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
@@ -474,6 +478,43 @@ Gw
                 </subviews>
             </view>
         </window>
+        <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="1AP-nc-sKE">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="109" y="132" width="500" height="175"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="778"/>
+            <view key="contentView" id="ePj-q1-i6w">
+                <rect key="frame" x="0.0" y="0.0" width="500" height="175"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XiU-Sr-D01">
+                        <rect key="frame" x="18" y="139" width="464" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Enable Translation" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="1cb-7H-kwS">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="RcK-pO-sWk" name="value" keyPath="values.translationEnabled" id="YwL-Yz-r4S"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QQb-Eh-aGs">
+                        <rect key="frame" x="18" y="20" width="464" height="98"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="hS1-Ou-Rx7">
+                            <font key="font" metaFont="smallSystem"/>
+                            <string key="title">Translation is done by intercepting and modifying data as it flows from the server.
+No data ever leaves your machine, no files are modified, and this does not increase your chances of getting banned.
+
+The only translation available is currently the one provided by Commie. If you would like to provide an alternate translation, please contact me and we'll work something out. I'm @uppfinnarn on Twitter.</string>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+            </view>
+        </window>
+        <userDefaultsController representsSharedInstance="YES" id="RcK-pO-sWk"/>
     </objects>
     <resources>
         <image name="NSUserAccounts" width="32" height="32"/>
