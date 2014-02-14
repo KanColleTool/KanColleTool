@@ -307,6 +307,11 @@
                                     <action selector="performMiniaturize:" target="-1" id="37"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Close" keyEquivalent="w" id="1XI-kr-9Tc">
+                                <connections>
+                                    <action selector="performClose:" target="-1" id="m8a-Sg-YmK"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="Zoom" id="239">
                                 <connections>
                                     <action selector="performZoom:" target="-1" id="240"/>
