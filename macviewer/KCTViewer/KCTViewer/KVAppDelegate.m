@@ -191,6 +191,11 @@
 	[self loadBundledIndex];
 }
 
+- (IBAction)actionReset:(id)sender
+{
+	[self loadBundledIndex];
+}
+
 - (void)actionAPILinkEntered:(id)sender
 {
 	[self.window endSheet:self.enterAPILinkWindow returnCode:NSModalResponseOK];

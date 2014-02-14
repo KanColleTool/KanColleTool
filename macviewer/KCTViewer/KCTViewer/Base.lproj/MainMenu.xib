@@ -89,6 +89,12 @@
                                     <action selector="actionClearCache:" target="494" id="IKM-VD-1du"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Reset" id="2el-bg-Vnu">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="actionReset:" target="494" id="asa-HM-W3f"/>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>
@@ -495,7 +501,7 @@ Gw
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XiU-Sr-D01">
                         <rect key="frame" x="18" y="139" width="464" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Enable Translation" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="1cb-7H-kwS">
+                        <buttonCell key="cell" type="check" title="Enable Translation (takes effect upon reset)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="1cb-7H-kwS">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>

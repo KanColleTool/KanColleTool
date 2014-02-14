@@ -29,6 +29,7 @@
 - (IBAction)actionCheckForUpdates:(id)sender;
 - (IBAction)actionEnterAPILink:(id)sender;
 - (IBAction)actionClearCache:(id)sender;
+- (IBAction)actionReset:(id)sender;
 - (IBAction)actionAPILinkEntered:(id)sender;
 - (IBAction)actionAPILinkCanceled:(id)sender;
 
