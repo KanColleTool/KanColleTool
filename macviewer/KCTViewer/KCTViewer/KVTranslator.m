@@ -45,7 +45,7 @@
 	// Look up a translation
 	NSString *translation = [self.tldata objectForKey:[NSString stringWithFormat:@"%lu", [unescapedLine crc32]]];
 	
-	if(translation)
+	if(translation != nil && (NSNull*)translation != [NSNull null])
 	{
 		//NSLog(@"TL: %@ -> %@", unescapedLine, translation);
 		return translation;
