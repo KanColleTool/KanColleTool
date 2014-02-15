@@ -6,7 +6,7 @@
 	</style>
 	<script type="text/javascript">
 	function setCredentials(server, token) {
-		setAPILink("http://" + server + "/kcs/mainD2.swf?api_token=" + token)
+		setAPILink("http://" + server + "/kcs/mainD2.swf?api_token=" + token + "&api_starttime=" + new Date().getTime())
 	}
 	
 	function setAPILink(link) {
