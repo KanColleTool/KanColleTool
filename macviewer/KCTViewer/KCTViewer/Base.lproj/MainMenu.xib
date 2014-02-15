@@ -517,7 +517,7 @@ Gw
                             <string key="title">Translation is done by intercepting and modifying data as it flows from the server.
 No data ever leaves your machine, no files are modified, and this does not increase your chances of getting banned.
 
-The only translation available is currently the one provided by Commie. If you would like to provide an alternate translation, please contact me and we'll work something out. I'm @uppfinnarn on Twitter.</string>
+The only translation available is currently the one provided by Commie. If you would like to provide an alternate translation, please contact me and we'll work something out.</string>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
