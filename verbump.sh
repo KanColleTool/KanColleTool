@@ -8,6 +8,7 @@ fi
 VERSION="${1}.${2}.${3}"
 VERSION_RC="${1}, ${2}, ${3}, 0"
 
+git tag "v$1.$2.$3"
 echo $VERSION > VERSION
 
 sed -i '' -e "s/#define KCT_VERSION .*/#define KCT_VERSION \"$VERSION\"/" {tool,viewer}/version.h
