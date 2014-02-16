@@ -58,9 +58,13 @@ package() {
 	cd "$srcdir/$pkgname"
 
 	cd viewer
+	install -Dm644 KCTViewer.png "$pkgdir/usr/share/icons/hicolor/192x192/apps/KCTViewer.png"
+	install -Dm644 KCTViewer.desktop "$pkgdir/usr/share/applications/KCTViewer.desktop"
 	make install
 	cd ..
 	cd tool
 	make install
+	install -Dm644 KanColleTool.png "$pkgdir/usr/share/icons/hicolor/192x192/apps/KanColleTool.png"
+	install -Dm644 KanColleTool.desktop "$pkgdir/usr/share/applications/KanColleTool.desktop"
 	cd ..
 }
