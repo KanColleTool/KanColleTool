@@ -33,18 +33,14 @@
 {
 	[[self class] setProperty:[NSNumber numberWithBool:YES] forKey:@"_handled" inRequest:(NSMutableURLRequest*)self.request];
 	
-	if([[NSFileManager defaultManager] fileExistsAtPath:[self cachePath]])
+	if((self.cacheEntry = [NSKeyedUnarchiver unarchiveObjectWithFile:[self cachePath]]) && self.cacheEntry.response && self.cacheEntry.data)
 	{
-		self.cacheEntry = [NSKeyedUnarchiver unarchiveObjectWithFile:[self cachePath]];
-		[self.client URLProtocol:self didReceiveResponse:self.cacheEntry.response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
-		[self.client URLProtocol:self didLoadData:self.cacheEntry.data];
-		[self.client URLProtocolDidFinishLoading:self];
+		NSLog(@"   -- Cache Entry Exists");
+		[(NSMutableURLRequest *)self.request setValue:[[(NSHTTPURLResponse *)self.cacheEntry.response allHeaderFields] valueForKey:@"Date"] forHTTPHeaderField:@"If-Modified-Since"];
 	}
-	else
-	{
-		self.cacheEntry = [[KVCacheEntry alloc] initWithRequest:self.request];
-		self.connection = [NSURLConnection connectionWithRequest:self.request delegate:self];
-	}
+	else self.cacheEntry = [[KVCacheEntry alloc] initWithRequest:self.request];
+	
+	self.connection = [NSURLConnection connectionWithRequest:self.request delegate:self];
 }
 
 - (void)stopLoading
@@ -66,14 +62,24 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-	if(self.cacheEntry.response)
+	if([(NSHTTPURLResponse *)response statusCode] == 304)
+	{
+		NSLog(@"   -- Unmodified!");
+		[self.client URLProtocol:self didReceiveResponse:self.cacheEntry.response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+		[self.client URLProtocol:self didLoadData:self.cacheEntry.data];
+		[self.client URLProtocolDidFinishLoading:self];
+		[self.connection cancel];
+	}
+	else if(self.cacheEntry.response)
 	{
 		[NSKeyedArchiver archiveRootObject:self.cacheEntry toFile:[self cachePath]];
 		self.cacheEntry = [[KVCacheEntry alloc] initWithRequest:self.request];
 	}
-	
-	self.cacheEntry.response = response;
-	[self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+	else
+	{
+		self.cacheEntry.response = response;
+		[self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+	}
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
