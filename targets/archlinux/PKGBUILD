@@ -1,6 +1,6 @@
 # Maintainer: Johannes Ekberg <uppfinnarn@gmail.com>
 pkgname=kancolletool-git
-pkgver=0.5.1
+pkgver=0.7.1
 pkgrel=1
 epoch=
 pkgdesc="Makes KanColle better"
@@ -19,9 +19,11 @@ backup=()
 options=()
 install=
 changelog=
-source=("$pkgname"::'git+https://github.com/KanColleTool/KanColleTool.git')
+source=("$pkgname"::'git://github.com/KanColleTool/KanColleTool.git'
+        'https://github.com/laeotropic/HTTP-Proxy')
 noextract=()
-md5sums=('SKIP') #generate with 'makepkg -g'
+md5sums=('SKIP'
+         'SKIP')
 
 pkgver() {
 	cd "$srcdir/$pkgname"
@@ -29,15 +31,22 @@ pkgver() {
 	git describe --tags | grep -Po 'v\K([\w\.]+)'
 }
 
+prepare() {
+	cd "$srcdir/$pkgname"
+	git submodule init
+	git config submodule.HTTP-Proxy.url $srcdir/HTTP-Proxy
+	git submodule update
+}
+
 build() {
 	cd "$srcdir/$pkgname"
-	
+
 	# Build Tool
 	cd "tool"
 	qmake PREFIX="$pkgdir"
 	make
 	cd ..
-	
+
 	# Build Viewer
 	cd "viewer"
 	qmake PREFIX="$pkgdir"
@@ -47,7 +56,7 @@ build() {
 
 package() {
 	cd "$srcdir/$pkgname"
-	
+
 	cd viewer
 	make install
 	cd ..
