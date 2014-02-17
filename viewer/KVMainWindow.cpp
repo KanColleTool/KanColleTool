@@ -28,7 +28,9 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 
 	QMenu *viewerMenu = menuBar->addMenu("Viewer");
 	viewerMenu->addAction("Change API Link", this, SLOT(askForAPILink()), Qt::CTRL + Qt::Key_L);
-	viewerMenu->addAction("Enable Translation", this, SLOT(toggleTranslation(bool)))->setCheckable(true);
+	QAction *translationAction = viewerMenu->addAction("Enable Translation", this, SLOT(toggleTranslation(bool)));
+	translationAction->setCheckable(true);
+	translationAction->setChecked(KVTranslator::instance()->enabled);
 	viewerMenu->addAction("Clear Cache", this, SLOT(clearCache()));
 	viewerMenu->addSeparator();
 	viewerMenu->addAction("Quit", qApp, SLOT(quit()), Qt::CTRL + Qt::Key_Q);
