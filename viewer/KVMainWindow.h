@@ -51,7 +51,6 @@ protected:
 
 	QString server, apiToken;
 	QUrl apiLink;
-	bool translation;
 };
 
 #endif

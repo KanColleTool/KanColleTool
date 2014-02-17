@@ -56,8 +56,7 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	proxy = new KVProxy(this);
 	proxy->run();
 
-	if(translation)
-		wvManager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "127.0.0.1", proxy->port()));
+	wvManager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "127.0.0.1", proxy->port()));
 
 	//connect(proxy, SIGNAL(apiError(KVProxyServer::APIStatus)), this, SLOT(onAPIError(KVProxyServer::APIStatus)));
 
@@ -143,12 +142,13 @@ void KVMainWindow::loadSettings()
 	}
 	else this->generateAPILinkURL();
 
-	translation = settings.value("translation").toBool();
+	KVTranslator *translator = KVTranslator::instance();
+	translator->enabled = settings.value("translation").toBool();
 
 	qDebug() << "Server:" << server;
 	qDebug() << "API Token:" << apiToken;
 	qDebug() << "API Link:" << apiLink.toString();
-	qDebug() << "Translation:" << (translation ? "enabled" : "disabled");
+	qDebug() << "Translation:" << (translator->enabled ? "enabled" : "disabled");
 }
 
 void KVMainWindow::generateAPILinkURL()
@@ -190,15 +190,11 @@ void KVMainWindow::askForAPILink(bool reload)
 
 void KVMainWindow::toggleTranslation(bool checked)
 {
-	translation = checked;
-
-	if(translation)
-		wvManager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "127.0.0.1", proxy->port()));
-	else
-		wvManager->setProxy(QNetworkProxy::NoProxy);
+	KVTranslator *translator = KVTranslator::instance();
+	translator->enabled = checked;
 
 	QSettings settings;
-	settings.setValue("translation", translation);
+	settings.setValue("translation", translator->enabled);
 	settings.sync();
 
 	this->loadBundledIndex();
