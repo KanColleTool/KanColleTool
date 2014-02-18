@@ -34,29 +34,23 @@ KVNetworkReply::~KVNetworkReply()
 
 void KVNetworkReply::translateRequest()
 {
+	if(d->finished) return;
+
 	QString data = d->copied->readAll();
+
 	KVTranslator *translator = KVTranslator::instance();
 	data = translator->translateJson(data);
-	setContent(data);
+	d->content = data.toUtf8();
+	d->offset = 0;
+
+	open(ReadOnly | Unbuffered);
 	qDebug() << "translated:" << d->content.constData();
 
 	d->finished = true;
 
-	QTimer::singleShot(0, this, SIGNAL(finished()));
-	QTimer::singleShot(0, this, SIGNAL(readyRead()));
-}
-
-void KVNetworkReply::setContent(const QString &content)
-{
-	setContent(content.toUtf8());
-}
-
-void KVNetworkReply::setContent(const QByteArray &content)
-{
-	d->content = content;
-	d->offset = 0;
-
-	open(ReadOnly | Unbuffered);
+	emit finished();
+	emit readChannelFinished();
+	emit readyRead();
 }
 
 // Whether this reply has finished loading
@@ -65,7 +59,26 @@ bool KVNetworkReply::isRunning() const { return !d->finished; }
 
 qint64 KVNetworkReply::bytesAvailable() const
 {
-	return d->content.size() - d->offset + QIODevice::bytesAvailable();
+	return d->content.size() - d->offset;
+}
+
+qint64 KVNetworkReply::peek(char *data, qint64 maxSize)
+{
+	if (d->offset >= d->content.size())
+		return -1;
+
+	qint64 numBytes = qMin(maxSize, d->content.size() - d->offset);
+	memcpy(data, d->content.constData() + d->offset, numBytes);
+
+	return numBytes;
+}
+
+QByteArray KVNetworkReply::peek(qint64 maxSize)
+{
+	char *data = new char[maxSize];
+	qint64 size = peek(data, maxSize);
+
+	return QByteArray(data, size);
 }
 
 qint64 KVNetworkReply::readData(char *data, qint64 maxSize)
@@ -73,11 +86,11 @@ qint64 KVNetworkReply::readData(char *data, qint64 maxSize)
 	if (d->offset >= d->content.size())
 		return -1;
 
-	qint64 number = qMin(maxSize, d->content.size() - d->offset);
-	memcpy(data, d->content.constData() + d->offset, number);
-	d->offset += number;
+	qint64 numBytes = qMin(maxSize, d->content.size() - d->offset);
+	memcpy(data, d->content.constData() + d->offset, numBytes);
+	d->offset += numBytes;
 
-	return number;
+	return numBytes;
 }
 
 /*
@@ -117,6 +130,10 @@ QSslConfiguration KVNetworkReply::sslConfiguration() const
 { return d->copied->sslConfiguration(); }
 QUrl KVNetworkReply::url() const
 { return d->copied->url(); }
+bool KVNetworkReply::event(QEvent *e)
+{ return d->copied->event(e); }
+void KVNetworkReply::close()
+{ d->copied->close(); }
 
 void KVNetworkReply::abort()
 { d->copied->abort(); }

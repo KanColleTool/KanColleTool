@@ -11,9 +11,6 @@ public:
 	KVNetworkReply(QObject *parent, QNetworkReply *toCopy);
 	~KVNetworkReply();
 
-	void setContent(const QString &content);
-	void setContent(const QByteArray &content);
-
 	QVariant attribute(QNetworkRequest::Attribute code) const;
 	QNetworkReply::NetworkError error() const;
 	bool hasRawHeader(const QByteArray &headerName) const;
@@ -32,6 +29,8 @@ public:
 	void setSslConfiguration(const QSslConfiguration &config);
 	QSslConfiguration sslConfiguration() const;
 	QUrl url() const;
+	bool event(QEvent *e);
+	void close();
 
 	void abort();
 	void ignoreSslErrors();
@@ -39,15 +38,14 @@ public:
 	qint64 bytesAvailable() const;
 	bool isSequential() const;
 
+	qint64 peek(char *data, qint64 maxSize);
+	QByteArray peek(qint64 maxSize);
+
 public slots:
 	void translateRequest();
 
 protected:
 	qint64 readData(char *data, qint64 maxSize);
-
-signals:
-	void finished();
-	void encrypted();
 
 private:
 	struct KVNetworkReplyPrivate *d;
