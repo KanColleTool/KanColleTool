@@ -11,40 +11,29 @@ public:
 	KVNetworkReply(QObject *parent, QNetworkReply *toCopy);
 	~KVNetworkReply();
 
-	QVariant attribute(QNetworkRequest::Attribute code) const;
-	QNetworkReply::NetworkError error() const;
-	bool hasRawHeader(const QByteArray &headerName) const;
-	QVariant header(QNetworkRequest::KnownHeaders header) const;
-	void ignoreSslErrors(const QList<QSslError> &errors);
+	void copyAttribute(QNetworkRequest::Attribute attr);
+
+	qint64 bytesAvailable() const;
 	bool isFinished() const;
 	bool isRunning() const;
-	QNetworkAccessManager* manager() const;
-	QNetworkAccessManager::Operation operation() const;
-	QByteArray rawHeader(const QByteArray &headerName) const;
-	QList<QByteArray> rawHeaderList() const;
-	const QList<QNetworkReply::RawHeaderPair>& rawHeaderPairs() const;
-	qint64 readBufferSize() const;
-	QNetworkRequest request() const;
-	void setReadBufferSize(qint64 size);
-	void setSslConfiguration(const QSslConfiguration &config);
+
+	void ignoreSslErrors(const QList<QSslError> &errors);
 	QSslConfiguration sslConfiguration() const;
-	QUrl url() const;
+	void setSslConfiguration(const QSslConfiguration &config);
+	QNetworkAccessManager* manager() const;
 	bool event(QEvent *e);
 	void close();
 
 	void abort();
 	void ignoreSslErrors();
 
-	qint64 bytesAvailable() const;
 	bool isSequential() const;
-
-	qint64 peek(char *data, qint64 maxSize);
-	QByteArray peek(qint64 maxSize);
 
 public slots:
 	void translateRequest();
 
 protected:
+	void setFinished(bool finished);
 	qint64 readData(char *data, qint64 maxSize);
 
 private:
