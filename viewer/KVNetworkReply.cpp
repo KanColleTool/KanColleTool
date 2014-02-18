@@ -4,7 +4,7 @@
 #include <QBuffer>
 #include <QTimer>
 
-#include "KVUtil.h"
+#include "KVTranslator.h"
 
 struct KVNetworkReplyPrivate
 {
@@ -35,14 +35,15 @@ KVNetworkReply::~KVNetworkReply()
 void KVNetworkReply::translateRequest()
 {
 	QString data = d->copied->readAll();
-	data = unescape(data);
+	KVTranslator *translator = KVTranslator::instance();
+	data = translator->translateJson(data);
 	setContent(data);
-	qDebug() << "translate:" << readAll();
-	setContent(data);
+	qDebug() << "translated:" << d->content.constData();
 
 	d->finished = true;
 
-	emit finished();
+	QTimer::singleShot(0, this, SIGNAL(finished()));
+	QTimer::singleShot(0, this, SIGNAL(readyRead()));
 }
 
 void KVNetworkReply::setContent(const QString &content)
@@ -56,8 +57,6 @@ void KVNetworkReply::setContent(const QByteArray &content)
 	d->offset = 0;
 
 	open(ReadOnly | Unbuffered);
-
-	QTimer::singleShot( 0, this, SIGNAL(readyRead()) );
 }
 
 // Whether this reply has finished loading
