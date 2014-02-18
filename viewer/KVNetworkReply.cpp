@@ -34,10 +34,13 @@ KVNetworkReply::~KVNetworkReply()
 
 void KVNetworkReply::translateRequest()
 {
-	setContent(unescape(d->copied->read(d->copied->bytesAvailable())));
-	d->finished = true;
+	QString data = d->copied->readAll();
+	data = unescape(data);
+	setContent(data);
+	qDebug() << "translate:" << readAll();
+	setContent(data);
 
-	qDebug() << "translate:" << d->content;
+	d->finished = true;
 
 	emit finished();
 }
