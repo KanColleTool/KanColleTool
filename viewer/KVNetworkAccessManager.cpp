@@ -1,6 +1,8 @@
+#include "KVNetworkAccessManager.h"
+
 #include <QDebug>
 
-#include "KVNetworkAccessManager.h"
+#include "KVNetworkReply.h"
 
 KVNetworkAccessManager::KVNetworkAccessManager(QObject *parent) :
 	QNetworkAccessManager(parent) {}
@@ -9,18 +11,16 @@ QNetworkReply *KVNetworkAccessManager::createRequest(Operation op,
                                                      const QNetworkRequest &req,
                                                      QIODevice *outgoingData)
 {
-	switch(op)
+	if(op == QNetworkAccessManager::PostOperation)
 	{
-	case QNetworkAccessManager::PostOperation:
 		qDebug() << "POST" << req.url().toString();
-		break;
-	case QNetworkAccessManager::GetOperation:
+		QNetworkReply *r = QNetworkAccessManager::createRequest(op, req, outgoingData);
+		KVNetworkReply *reply = new KVNetworkReply(r->parent(), r);
+		return reply;
+	} else if(op == QNetworkAccessManager::GetOperation) {
 		qDebug() << "GET" << req.url().toString();
-		break;
-	default:
-		break;
 	}
 
-	QNetworkReply *reply = QNetworkAccessManager::createRequest( op, req, outgoingData );
+	QNetworkReply *reply = QNetworkAccessManager::createRequest(op, req, outgoingData);
 	return reply;
 }

@@ -27,11 +27,13 @@ INSTALLS += binaries
 SOURCES += main.cpp \
 	KVMainWindow.cpp \
   KVNetworkAccessManager.cpp \
+  KVNetworkReply.cpp \
 	KVTranslator.cpp \
 	KVUtil.cpp
 
 HEADERS  += KVMainWindow.h \
 	KVNetworkAccessManager.h \
+  KVNetworkReply.h \
 	KVTranslator.h \
 	KVUtil.h \
 	crc32.h
