@@ -15,8 +15,8 @@ KVProxy::KVProxy(QObject *parent, unsigned short port) :
 		proxyHandleConnection(this, con);
 	});
 
-	p.on_error([](std::string str, bool){
-		qDebug() << "Proxy Error: " << str.c_str();
+	p.on_failure([](std::string str, bool){
+		qDebug("Proxy Error: %s", str.c_str());
 	});
 }
 
