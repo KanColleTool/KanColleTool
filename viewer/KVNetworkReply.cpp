@@ -62,7 +62,7 @@ void KVNetworkReply::translateRequest()
 
 	QString data = d->copied->readAll();
 
-	qDebug() << "to translate:" << data.constData();
+	//qDebug() << "to translate:" << data.constData();
 
 	KVTranslator *translator = KVTranslator::instance();
 	data = translator->translateJson(data);
@@ -72,7 +72,7 @@ void KVNetworkReply::translateRequest()
 	setHeader(QNetworkRequest::ContentLengthHeader, QVariant(d->content.size()));
 
 	open(ReadOnly | Unbuffered);
-	qDebug() << "translated:" << d->content.constData();
+	//qDebug() << "translated:" << d->content.constData();
 
 	setFinished(true);
 
