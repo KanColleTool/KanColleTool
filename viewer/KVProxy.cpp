@@ -1,6 +1,7 @@
 #include "KVProxy.h"
 #include "KVProxy_p.h"
 #include <iostream>
+#include <string>
 
 KVProxy::KVProxy(QObject *parent, unsigned short port) :
 	QObject(parent), p("127.0.0.1", port)
@@ -12,6 +13,10 @@ KVProxy::KVProxy(QObject *parent, unsigned short port) :
 	// Pass on new connections to a function in KVProxy_p
 	p.on_connection([this](HttpProxy::Connection::Ptr con) {
 		proxyHandleConnection(this, con);
+	});
+
+	p.on_error([](std::string str, bool){
+		qDebug() << "Proxy Error: " << str.c_str();
 	});
 }
 
