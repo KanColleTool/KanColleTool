@@ -13,12 +13,12 @@ QNetworkReply *KVNetworkAccessManager::createRequest(Operation op,
 {
 	if(op == QNetworkAccessManager::PostOperation)
 	{
-		qDebug() << "POST" << req.url().toString();
+		qDebug() << "POST" << req.url().path();
 		QNetworkReply *r = QNetworkAccessManager::createRequest(op, req, outgoingData);
 		KVNetworkReply *reply = new KVNetworkReply(r->parent(), r);
 		return reply;
 	} else if(op == QNetworkAccessManager::GetOperation) {
-		qDebug() << "GET" << req.url().toString();
+		qDebug() << "GET" << req.url().path();
 	}
 
 	QNetworkReply *reply = QNetworkAccessManager::createRequest(op, req, outgoingData);
