@@ -19,6 +19,7 @@ KVNetworkReply::KVNetworkReply(QObject *parent, QNetworkReply *toCopy)
 	: QNetworkReply(parent)
 {
 	d = new KVNetworkReplyPrivate;
+	d->finished = false;
 	d->copied = toCopy;
 
 	setOperation(d->copied->operation());
@@ -26,9 +27,10 @@ KVNetworkReply::KVNetworkReply(QObject *parent, QNetworkReply *toCopy)
 	setUrl(d->copied->url());
 
 	// Translate reply when it's complete
-	connect(d->copied, SIGNAL(finished()), this, SLOT(translateRequest()));
+	connect(d->copied, SIGNAL(finished()), SLOT(translateRequest()));
 
-	connect(d->copied, SIGNAL(encrypted()), this, SIGNAL(encrypted()));
+	connect(d->copied, SIGNAL(encrypted()), SIGNAL(encrypted()));
+	connect(d->copied, SIGNAL(metaDataChanged()), SIGNAL(metaDataChanged()));
 }
 
 KVNetworkReply::~KVNetworkReply()
@@ -45,7 +47,7 @@ void KVNetworkReply::copyAttribute(QNetworkRequest::Attribute attr)
 
 void KVNetworkReply::translateRequest()
 {
-	if(isFinished()) return;
+	if(d->finished) return;
 
 	setError(d->copied->error(), d->copied->errorString());
 
@@ -61,11 +63,12 @@ void KVNetworkReply::translateRequest()
 		setRawHeader(headers[i].first, headers[i].second);
 
 	QString data = d->copied->readAll();
+	d->copied->abort();
 
-	//qDebug() << "to translate:" << data.constData();
+	//qDebug() << "content:" << data.constData();
 
 	KVTranslator *translator = KVTranslator::instance();
-	data = translator->translateJson(data);
+	data = translator->translateJson(data).toUtf8();
 
 	d->content = data.toUtf8();
 	d->offset = 0;
@@ -74,17 +77,11 @@ void KVNetworkReply::translateRequest()
 	open(ReadOnly | Unbuffered);
 	//qDebug() << "translated:" << d->content.constData();
 
-	setFinished(true);
+	d->finished = true;
 
 	emit finished();
 	emit readChannelFinished();
-	emit readyRead();
 }
-
-// Whether this reply has finished loading
-bool KVNetworkReply::isFinished() const { return d->finished; }
-bool KVNetworkReply::isRunning() const { return !d->finished; }
-void KVNetworkReply::setFinished(bool finished) { d->finished = finished; }
 
 qint64 KVNetworkReply::bytesAvailable() const
 {
@@ -118,11 +115,9 @@ QSslConfiguration KVNetworkReply::sslConfiguration() const
 { return d->copied->sslConfiguration(); }
 bool KVNetworkReply::event(QEvent *e)
 { return d->copied->event(e); }
-void KVNetworkReply::close()
-{ QNetworkReply::close(); d->copied->close(); }
 
 void KVNetworkReply::abort()
-{ setFinished(true); d->copied->abort(); }
+{ d->finished = true; d->copied->abort(); }
 void KVNetworkReply::ignoreSslErrors()
 { d->copied->ignoreSslErrors(); }
 bool KVNetworkReply::isSequential() const
