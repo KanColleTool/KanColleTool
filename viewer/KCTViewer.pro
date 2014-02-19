@@ -38,9 +38,6 @@ HEADERS  += KVMainWindow.h \
 	KVUtil.h \
 	crc32.h
 
-INCLUDEPATH += lib/HTTP-Proxy
-INCLUDEPATH += lib/HTTP-Proxy/deps/asio-1.10.1/include
-
 RESOURCES += resources.qrc
 
 OTHER_FILES += KCTViewer.rc \
