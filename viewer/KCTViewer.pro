@@ -35,8 +35,7 @@ HEADERS  += KVMainWindow.h \
 	KVNetworkAccessManager.h \
   KVNetworkReply.h \
 	KVTranslator.h \
-	KVUtil.h \
-	crc32.h
+	KVUtil.h
 
 RESOURCES += resources.qrc
 

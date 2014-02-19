@@ -10,7 +10,6 @@
 #include <QNetworkReply>
 #include <QDebug>
 #include "KVUtil.h"
-#include "crc32.h"
 
 KVTranslator* KVTranslator::m_instance = 0;
 
@@ -96,7 +95,7 @@ QString KVTranslator::translate(const QString &line) const
 
 	QString realLine = unescape(line);
 	QByteArray utf8 = realLine.toUtf8();
-	uint32_t crc = crc32(0, utf8.constData(), utf8.size());
+	quint32 crc = crc32(0, utf8.constData(), utf8.size());
 
 	QString key = QString::number(crc);
 	QVariant value = translation.value(key);
