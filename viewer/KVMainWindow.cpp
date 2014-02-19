@@ -56,8 +56,6 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	cache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
 	wvManager->setCache(cache);
 
-	//connect(proxy, SIGNAL(apiError(KVProxyServer::APIStatus)), this, SLOT(onAPIError(KVProxyServer::APIStatus)));
-
 	// Set up the web view, using our custom Network Access Manager
 	webView = new QWebView(this);
 	webView->page()->setNetworkAccessManager(wvManager);
@@ -88,10 +86,10 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 
 	// Load the translation data before doing anything, otherwise we might end
 	// up with partially translated data on spotty connections.
-	this->loadTranslation();
-
-	// Load the bundled index.html file
-	//this->loadBundledIndex();
+	if(KVTranslator::instance()->enabled)
+		this->loadTranslation();
+	else
+		this->loadBundledIndex();
 }
 
 void KVMainWindow::checkForUpdates()
@@ -102,10 +100,12 @@ void KVMainWindow::checkForUpdates()
 
 void KVMainWindow::loadTranslation(QString language)
 {
+	KVTranslator *translator = KVTranslator::instance();
+	if(translator->loaded()) return;
+
 	loadingMessageBox = new QMessageBox(QMessageBox::NoIcon, "Loading translation...", "This should only take a moment.", QMessageBox::Cancel, this);
 	QTimer::singleShot(0, loadingMessageBox, SLOT(open()));
 
-	KVTranslator *translator = KVTranslator::instance();
 	connect(translator, SIGNAL(loadFinished()), this, SLOT(onTranslationLoadFinished()));
 	connect(translator, SIGNAL(loadFailed(QString)), this, SLOT(onTranslationLoadFailed(QString)));
 	translator->loadTranslation(language);
@@ -188,14 +188,16 @@ void KVMainWindow::askForAPILink(bool reload)
 
 void KVMainWindow::toggleTranslation(bool checked)
 {
-	KVTranslator *translator = KVTranslator::instance();
-	translator->enabled = checked;
+	KVTranslator::instance()->enabled = checked;
 
 	QSettings settings;
-	settings.setValue("translation", translator->enabled);
+	settings.setValue("translation", checked);
 	settings.sync();
 
-	this->loadBundledIndex();
+	if(checked)
+		this->loadTranslation();
+	else
+		this->loadBundledIndex();
 }
 
 void KVMainWindow::clearCache()

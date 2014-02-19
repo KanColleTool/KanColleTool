@@ -43,10 +43,51 @@ KVTranslator::~KVTranslator()
 
 }
 
+bool KVTranslator::loaded()
+{
+	return isLoaded;
+}
+
 void KVTranslator::loadTranslation(QString language)
 {
 	QNetworkReply *reply = manager.get(QNetworkRequest(QString("http://api.comeonandsl.am/translation/%1/").arg(language)));
 	connect(reply, SIGNAL(finished()), this, SLOT(translationRequestFinished()));
+}
+
+void KVTranslator::translationRequestFinished()
+{
+	// Read the response body
+	QNetworkReply *reply(qobject_cast<QNetworkReply*>(QObject::sender()));
+	if(reply->error() != QNetworkReply::NoError)
+	{
+		emit loadFailed(QString("Network Error: %1").arg(reply->errorString()));
+		return;
+	}
+	QByteArray body(reply->readAll());
+
+	// Parse the JSON
+	QJsonParseError error;
+	QJsonDocument doc(QJsonDocument::fromJson(body, &error));
+	if(error.error != QJsonParseError::NoError)
+	{
+		emit loadFailed(QString("JSON Error: %1").arg(error.errorString()));
+		return;
+	}
+	QJsonObject root(doc.object());
+
+	// Check the response
+	int success = (int) root.value("success").toDouble();
+	if(success != 1)
+	{
+		emit loadFailed(QString("API Error %1").arg(success));
+		return;
+	}
+
+	// Parse the translation data
+	translation = root.value("translation").toObject().toVariantMap();
+
+	isLoaded = true;
+	emit loadFinished();
 }
 
 QString KVTranslator::translate(const QString &line) const
@@ -109,39 +150,4 @@ QJsonValue KVTranslator::_walk(QJsonValue value) const
 		default:
 			return value;
 	}
-}
-
-void KVTranslator::translationRequestFinished()
-{
-	// Read the response body
-	QNetworkReply *reply(qobject_cast<QNetworkReply*>(QObject::sender()));
-	if(reply->error() != QNetworkReply::NoError)
-	{
-		emit loadFailed(QString("Network Error: %1").arg(reply->errorString()));
-		return;
-	}
-	QByteArray body(reply->readAll());
-
-	// Parse the JSON
-	QJsonParseError error;
-	QJsonDocument doc(QJsonDocument::fromJson(body, &error));
-	if(error.error != QJsonParseError::NoError)
-	{
-		emit loadFailed(QString("JSON Error: %1").arg(error.errorString()));
-		return;
-	}
-	QJsonObject root(doc.object());
-
-	// Check the response
-	int success = (int) root.value("success").toDouble();
-	if(success != 1)
-	{
-		emit loadFailed(QString("API Error %1").arg(success));
-		return;
-	}
-
-	// Parse the translation data
-	translation = root.value("translation").toObject().toVariantMap();
-
-	emit loadFinished();
 }

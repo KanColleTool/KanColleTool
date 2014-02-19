@@ -21,6 +21,7 @@ class KVTranslator : public QObject
 
 public:
 	static KVTranslator* instance();
+	bool loaded();
 	bool enabled;
 
 public slots:
@@ -44,6 +45,8 @@ private:
 	QVariantMap translation;
 
 private:
+	bool isLoaded;
+
 	// Singleton stuff
 	static KVTranslator *m_instance;
 
