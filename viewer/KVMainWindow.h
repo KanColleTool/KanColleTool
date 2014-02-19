@@ -6,7 +6,6 @@
 #include <QMessageBox>
 #include <QNetworkAccessManager>
 #include <QNetworkDiskCache>
-#include "KVProxy.h"
 
 class KVMainWindow : public QMainWindow
 {
@@ -47,7 +46,6 @@ protected:
 
 	QNetworkAccessManager *wvManager, manager;
 	QNetworkDiskCache *cache;
-	KVProxy *proxy;
 
 	QString server, apiToken;
 	QUrl apiLink;
