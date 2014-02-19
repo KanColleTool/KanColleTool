@@ -18,6 +18,11 @@ xcuserdata
 *.sublime-project
 *.sublime-workspace
 
+# Editor Temporaries
+*~
+[#]*[#]
+.\#*
+
 # Built Products
 tool/Makefile*
 tool/KanColleTool.app

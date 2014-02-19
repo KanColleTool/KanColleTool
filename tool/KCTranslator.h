@@ -9,41 +9,42 @@
 /*
  * Literally just copypaste of viewer/KVTranslator, because sharing code
  * between the two projects seems to somehow break everything >_>
- * 
+ *
  * Please keep the two classes synchronized!
  */
 
 class KCTranslator : public QObject
 {
 	Q_OBJECT
-	
+
 public:
 	static KCTranslator* instance();
-	
+	bool enabled;
+
 public slots:
 	QString translate(const QString &line) const;
-	
+
 	void loadTranslation(QString language = "en");
-	
+
 signals:
 	void loadFinished();
 	void loadFailed(QString error);
-	
+
 private slots:
 	void translationRequestFinished();
-	
+
 private:
 	QNetworkAccessManager manager;
 	QVariantMap translation;
-	
+
 private:
 	// Singleton stuff
 	static KCTranslator *m_instance;
-	
+
 	KCTranslator(QObject *parent = 0);
 	KCTranslator(const KCTranslator&);
 	virtual ~KCTranslator();
-	
+
 	KCTranslator& operator=(const KCTranslator&);
 };
 

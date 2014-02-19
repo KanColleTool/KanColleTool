@@ -26,22 +26,17 @@ INSTALLS += binaries
 
 SOURCES += main.cpp \
 	KVMainWindow.cpp \
+  KVNetworkAccessManager.cpp \
+  KVNetworkReply.cpp \
 	KVTranslator.cpp \
-	KVProxy.cpp \
-	KVProxy_p.cpp \
-	KVUtil.cpp \
-	lib/HTTP-Proxy/proxy.cpp
+	KVUtil.cpp
 
 HEADERS  += KVMainWindow.h \
+	KVNetworkAccessManager.h \
+  KVNetworkReply.h \
 	KVTranslator.h \
-	KVProxy.h \
-	KVProxy_p.h \
 	KVUtil.h \
-	crc32.h \
-	lib/HTTP-Proxy/proxy.hpp
-
-INCLUDEPATH += lib/HTTP-Proxy
-INCLUDEPATH += lib/HTTP-Proxy/deps/asio-1.10.1/include
+	crc32.h
 
 RESOURCES += resources.qrc
 

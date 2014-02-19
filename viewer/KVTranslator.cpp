@@ -25,7 +25,7 @@ KVTranslator* KVTranslator::instance()
 			m_instance = new KVTranslator;
 		mutex.unlock();
 	}
-	
+
 	return m_instance;
 }
 // --
@@ -35,12 +35,12 @@ KVTranslator* KVTranslator::instance()
 KVTranslator::KVTranslator(QObject *parent):
 	QObject(parent)
 {
-	
+
 }
 
 KVTranslator::~KVTranslator()
 {
-	
+
 }
 
 void KVTranslator::loadTranslation(QString language)
@@ -51,10 +51,12 @@ void KVTranslator::loadTranslation(QString language)
 
 QString KVTranslator::translate(const QString &line) const
 {
+	if(!enabled) return line;
+
 	QString realLine = unescape(line);
 	QByteArray utf8 = realLine.toUtf8();
 	uint32_t crc = crc32(0, utf8.constData(), utf8.size());
-	
+
 	QString key = QString::number(crc);
 	QVariant value = translation.value(key);
 	if(value.isValid())
@@ -119,7 +121,7 @@ void KVTranslator::translationRequestFinished()
 		return;
 	}
 	QByteArray body(reply->readAll());
-	
+
 	// Parse the JSON
 	QJsonParseError error;
 	QJsonDocument doc(QJsonDocument::fromJson(body, &error));
@@ -129,7 +131,7 @@ void KVTranslator::translationRequestFinished()
 		return;
 	}
 	QJsonObject root(doc.object());
-	
+
 	// Check the response
 	int success = (int) root.value("success").toDouble();
 	if(success != 1)
@@ -137,9 +139,9 @@ void KVTranslator::translationRequestFinished()
 		emit loadFailed(QString("API Error %1").arg(success));
 		return;
 	}
-	
+
 	// Parse the translation data
 	translation = root.value("translation").toObject().toVariantMap();
-	
+
 	emit loadFinished();
 }
