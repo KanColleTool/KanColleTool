@@ -19,23 +19,14 @@ backup=()
 options=()
 install=
 changelog=
-source=("$pkgname"::'git://github.com/KanColleTool/KanColleTool.git'
-        'git://github.com/laeotropic/HTTP-Proxy.git')
+source=("$pkgname"::'git://github.com/KanColleTool/KanColleTool.git')
 noextract=()
-md5sums=('SKIP'
-         'SKIP')
+md5sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/$pkgname"
 	# Use the tag of the last commit
 	git describe --tags | grep -Po 'v\K([\w\.]+)'
-}
-
-prepare() {
-	cd "$srcdir/$pkgname"
-	git submodule init
-	git config submodule.viewer/lib/HTTP-Proxy.url $srcdir/HTTP-Proxy
-	git submodule update
 }
 
 build() {
