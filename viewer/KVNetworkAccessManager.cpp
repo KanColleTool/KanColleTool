@@ -14,14 +14,17 @@ QNetworkReply *KVNetworkAccessManager::createRequest(Operation op,
 	QNetworkRequest request = req;
 	request.setRawHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36");
 
-	if(op == QNetworkAccessManager::PostOperation)
+	if(request.url().host() != "localhost")
 	{
-		qDebug() << "POST" << request.url().path();
-		QNetworkReply *r = QNetworkAccessManager::createRequest(op, request, outgoingData);
-		KVNetworkReply *reply = new KVNetworkReply(r->parent(), r);
-		return reply;
-	} else if(op == QNetworkAccessManager::GetOperation) {
-		qDebug() << "GET" << request.url().path();
+		if(op == QNetworkAccessManager::PostOperation)
+		{
+			qDebug() << "POST" << request.url().path();
+			QNetworkReply *r = QNetworkAccessManager::createRequest(op, request, outgoingData);
+			KVNetworkReply *reply = new KVNetworkReply(r->parent(), r, this);
+			return reply;
+		} else if(op == QNetworkAccessManager::GetOperation) {
+			qDebug() << "GET" << request.url().path();
+		}
 	}
 
 	QNetworkReply *reply = QNetworkAccessManager::createRequest(op, request, outgoingData);

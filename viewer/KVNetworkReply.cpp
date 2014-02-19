@@ -13,14 +13,17 @@ struct KVNetworkReplyPrivate
 	QByteArray content;
 	qint64 offset;
 	bool finished;
+
+	QNetworkAccessManager *manager;
 };
 
-KVNetworkReply::KVNetworkReply(QObject *parent, QNetworkReply *toCopy)
+KVNetworkReply::KVNetworkReply(QObject *parent, QNetworkReply *toCopy, QNetworkAccessManager *mgr)
 	: QNetworkReply(parent)
 {
 	d = new KVNetworkReplyPrivate;
 	d->finished = false;
 	d->copied = toCopy;
+	d->manager = mgr;
 
 	setOperation(d->copied->operation());
 	setRequest(d->copied->request());
@@ -67,12 +70,15 @@ void KVNetworkReply::translateRequest()
 
 	//qDebug() << "content:" << data.constData();
 
-	KVTranslator *translator = KVTranslator::instance();
-	data = translator->translateJson(data).toUtf8();
+	data = KVTranslator::instance()->translateJson(data).toUtf8();
 
 	d->content = data.toUtf8();
 	d->offset = 0;
 	setHeader(QNetworkRequest::ContentLengthHeader, QVariant(d->content.size()));
+
+	QNetworkRequest toolReq(QUrl("http://localhost:54321").resolved(url().path()));
+	toolReq.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("text/json"));
+	d->manager->post(toolReq, d->content);
 
 	open(ReadOnly | Unbuffered);
 	//qDebug() << "translated:" << d->content.constData();
