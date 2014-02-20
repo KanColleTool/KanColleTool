@@ -4,6 +4,5 @@
 	<file>index.html</file>
 	<file>esc.js</file>
 	<file>test.js</file>
-	<file>proxy-plugins/translate-names.js</file>
 </qresource>
 </RCC>
