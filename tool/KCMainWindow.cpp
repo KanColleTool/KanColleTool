@@ -35,8 +35,6 @@ KCMainWindow::KCMainWindow(QWidget *parent) :
 
 	// Load the translation
 	KCTranslator *tl = KCTranslator::instance();
-	QSettings settings;
-	tl->enabled = settings.value("translation").toBool();
 	connect(tl, SIGNAL(loadFinished()), this, SLOT(onTranslationLoadFinished()));
 	connect(tl, SIGNAL(loadFailed(QString)), this, SLOT(onTranslationLoadFailed(QString)));
 	tl->loadTranslation();
@@ -564,6 +562,23 @@ void KCMainWindow::updateTimers()
 void KCMainWindow::updateSettingThings()
 {
 	QSettings settings;
+	
+	// Translation
+	{
+		bool wasEnabled = KCTranslator::instance()->enabled;
+		bool newEnabled = settings.value("toolTranslation", kDefaultTranslation).toBool();
+		qDebug() << "Translation Enabled:" << wasEnabled << "->" << newEnabled;
+		KCTranslator::instance()->enabled = newEnabled;
+		
+		if(wasEnabled != newEnabled)
+		{
+			this->updateFleetsPage();
+			this->updateShipsPage();
+			this->updateRepairsPage();
+			this->updateConstructionsPage();
+		}
+	}
+	
 
 	// Server for Viewer data livestreaming
 	if(settings.value("livestream", kDefaultLivestream).toBool())

@@ -9,6 +9,7 @@
 #include <QNetworkReply>
 #include <QDebug>
 #include "KCUtil.h"
+#include "KCDefaults.h"
 
 KCTranslator* KCTranslator::m_instance = 0;
 
@@ -31,7 +32,7 @@ KCTranslator* KCTranslator::instance()
 
 
 KCTranslator::KCTranslator(QObject *parent):
-	QObject(parent)
+	QObject(parent), enabled(kDefaultTranslation)
 {
 
 }
