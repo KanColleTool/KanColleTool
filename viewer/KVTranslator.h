@@ -5,6 +5,7 @@
 #include <QNetworkAccessManager>
 #include <QVariant>
 #include <QString>
+#include <QFile>
 #include <QJsonValue>
 #include <QTimeZone>
 
@@ -33,6 +34,7 @@ public slots:
 	QString translateJson(const QString &json) const;
 
 protected:
+	void parseTranslationData(const QByteArray &data);
 	QJsonValue _walk(QJsonValue value, QString key="") const;
 
 signals:
@@ -44,6 +46,7 @@ private slots:
 
 private:
 	bool isLoaded;
+	QFile cacheFile;
 	QNetworkAccessManager manager;
 	QVariantMap translation;
 	QTimeZone JST;

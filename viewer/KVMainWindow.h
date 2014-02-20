@@ -31,7 +31,6 @@ private slots:
 	void onVersionCheckFinished();
 	void onLoadStarted();
 	void onLoadFinished(bool ok);
-	void onTranslationLoadFinished();
 	void onTranslationLoadFailed(QString error);
 
 	void setHTMLAPILink();

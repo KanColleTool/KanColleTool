@@ -1,7 +1,10 @@
 #include "KVTranslator.h"
 #include <QMutex>
 #include <QUrl>
+#include <QStandardPaths>
+#include <QDir>
 #include <QByteArray>
+#include <QEventLoop>
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -35,7 +38,7 @@ KVTranslator* KVTranslator::instance()
 KVTranslator::KVTranslator(QObject *parent):
 	QObject(parent), isLoaded(false), JST(32400)
 {
-
+	cacheFile.setFileName(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)).filePath("translation.json"));
 }
 
 KVTranslator::~KVTranslator()
@@ -50,6 +53,12 @@ bool KVTranslator::loaded()
 
 void KVTranslator::loadTranslation(QString language)
 {
+	if(cacheFile.exists()) {
+		cacheFile.open(QIODevice::ReadOnly | QIODevice::Unbuffered);
+		parseTranslationData(cacheFile.readAll());
+		cacheFile.close();
+	}
+
 	QNetworkReply *reply = manager.get(QNetworkRequest(QString("http://api.comeonandsl.am/translation/%1/").arg(language)));
 	connect(reply, SIGNAL(finished()), this, SLOT(translationRequestFinished()));
 }
@@ -65,9 +74,19 @@ void KVTranslator::translationRequestFinished()
 	}
 	QByteArray body(reply->readAll());
 
+	parseTranslationData(body);
+	qDebug() << "Network translation loaded!";
+
+	cacheFile.open(QIODevice::WriteOnly | QIODevice::Truncate);
+	cacheFile.write(body);
+	cacheFile.close();
+}
+
+void KVTranslator::parseTranslationData(const QByteArray &data)
+{
 	// Parse the JSON
 	QJsonParseError error;
-	QJsonDocument doc(QJsonDocument::fromJson(body, &error));
+	QJsonDocument doc(QJsonDocument::fromJson(data, &error));
 	if(error.error != QJsonParseError::NoError)
 	{
 		emit loadFailed(QString("JSON Error: %1").arg(error.errorString()));
@@ -124,6 +143,16 @@ QString KVTranslator::fixTime(const QString &time) const
 
 QString KVTranslator::translateJson(const QString &json) const
 {
+	if(!enabled) return json;
+
+	// Block until translation is loaded
+	if(!isLoaded) {
+		QEventLoop loop;
+		loop.connect(this, SIGNAL(translationLoaded()), SLOT(quit()));
+		loop.connect(this, SIGNAL(loadFailed()), SLOT(quit()));
+		loop.exec();
+	}
+
 	bool hasPrefix = json.startsWith("svdata=");
 	QJsonDocument doc = QJsonDocument::fromJson(json.mid(hasPrefix ? 7 : 0).toUtf8());
 	QJsonValue val = this->_walk(QJsonValue(doc.object()));

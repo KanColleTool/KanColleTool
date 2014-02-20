@@ -89,8 +89,8 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	// up with partially translated data on spotty connections.
 	if(KVTranslator::instance()->enabled)
 		this->loadTranslation();
-	else
-		this->loadBundledIndex();
+
+	this->loadBundledIndex();
 }
 
 void KVMainWindow::checkForUpdates()
@@ -102,12 +102,8 @@ void KVMainWindow::checkForUpdates()
 void KVMainWindow::loadTranslation(QString language)
 {
 	KVTranslator *translator = KVTranslator::instance();
-	if(translator->loaded()) return this->loadBundledIndex();
+	if(translator->loaded()) return;
 
-	loadingMessageBox = new QMessageBox(QMessageBox::NoIcon, "Loading translation...", "This should only take a moment.", QMessageBox::Cancel, this);
-	QTimer::singleShot(0, loadingMessageBox, SLOT(open()));
-
-	connect(translator, SIGNAL(loadFinished()), this, SLOT(onTranslationLoadFinished()));
 	connect(translator, SIGNAL(loadFailed(QString)), this, SLOT(onTranslationLoadFailed(QString)));
 	translator->loadTranslation(language);
 }
@@ -197,8 +193,8 @@ void KVMainWindow::toggleTranslation(bool checked)
 
 	if(checked)
 		this->loadTranslation();
-	else
-		this->loadBundledIndex();
+
+	this->loadBundledIndex();
 }
 
 void KVMainWindow::clearCache()
@@ -264,30 +260,26 @@ void KVMainWindow::onLoadFinished(bool ok)
 	if(ok) this->setHTMLAPILink();
 }
 
-void KVMainWindow::onTranslationLoadFinished()
-{
-	qDebug() << "Translation finished loading!";
-	loadingMessageBox->accept();
-	delete loadingMessageBox;
-
-	this->loadBundledIndex();
-}
-
 void KVMainWindow::onTranslationLoadFailed(QString error)
 {
 	qDebug() << "Translation failed to load:" << error;
 	loadingMessageBox->reject();
 	delete loadingMessageBox;
 
-	QMessageBox::StandardButton button = QMessageBox::warning(this, "Couldn't load translation", "This might mean that your connection is bad. You can continue without translation, but the game will be in Japanese.", QMessageBox::Retry|QMessageBox::Ok, QMessageBox::Ok);
+	QMessageBox::StandardButton button;
+	if(KVTranslator::instance()->loaded()) {
+		button = QMessageBox::warning(this, "Couldn't load network translation", "This might mean that your connection is bad. However, a cached translation has been loaded. Would you like to retry loading the translation from the network?", QMessageBox::Retry|QMessageBox::Ok, QMessageBox::Ok);
+	} else {
+		button = QMessageBox::warning(this, "Couldn't load translation", "This might mean that your connection is bad. You can continue without translation, but the game will be in Japanese.", QMessageBox::Retry|QMessageBox::Ok, QMessageBox::Ok);
+
+		// Disable translation if they want it
+		if(button != QMessageBox::Retry)
+			KVTranslator::instance()->enabled = false;
+	}
 
 	// To retry, just send the request again.
 	if(button == QMessageBox::Retry)
 		this->loadTranslation();
-
-	// To ignore it, just pretend like it succeeded.
-	else
-		this->onTranslationLoadFinished();
 }
 
 void KVMainWindow::setHTMLAPILink()
