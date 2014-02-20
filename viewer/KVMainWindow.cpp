@@ -35,7 +35,7 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	translationAction->setChecked(KVTranslator::instance()->enabled);
 	viewerMenu->addAction("Clear Cache", this, SLOT(clearCache()));
 	viewerMenu->addSeparator();
-	viewerMenu->addAction("Refresh", this, SLOT(loadBundledIndex));
+	viewerMenu->addAction("Refresh", this, SLOT(loadBundledIndex()));
 	viewerMenu->addAction("Quit", qApp, SLOT(quit()), Qt::CTRL + Qt::Key_Q);
 
 	QMenu *helpMenu = menuBar->addMenu("Help");
