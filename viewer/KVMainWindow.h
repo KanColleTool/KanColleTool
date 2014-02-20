@@ -16,11 +16,11 @@ public:
 
 protected:
 	void loadTranslation(QString language = "en");
-	void loadBundledIndex();
 	void loadSettings();
 	void generateAPILinkURL();
 
 public slots:
+	void loadBundledIndex();
 	void checkForUpdates();
 	void askForAPILink(bool reload = true);
 	void toggleTranslation(bool toEnable = false);
