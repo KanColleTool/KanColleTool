@@ -15,7 +15,7 @@ public:
 	
 protected:
 	void handleRequest(QTcpSocket *socket);
-	void reply(QTcpSocket *socket, int code, QString message, QString contentType = "text/plain", QByteArray body = QByteArray());
+	void reply(QTcpSocket *socket);
 	
 protected slots:
 	void onNewConnection();

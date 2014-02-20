@@ -65,7 +65,7 @@ void KCToolServer::handleRequest(QTcpSocket *socket)
 		socket->close();
 }
 
-void KCToolServer::reply(QTcpSocket *socket, int code, QString message)
+void KCToolServer::reply(QTcpSocket *socket)
 {
 	socket->write("HTTP/1.1 204 No Content\r\n\r\n");
 }
