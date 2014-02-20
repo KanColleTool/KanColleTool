@@ -7,6 +7,7 @@ const std::map<QString, C::processFunc> C::processFuncs = {
 	{ "/kcsapi/api_get_master/ship", &C::_processMasterShipsData },
 	//  Sortie maps
 	{ "/kcsapi/api_get_master/mapinfo", 0 },
+	{ "/kcsapi/api_get_master/mapcell", 0 },
 	//  Expeditions
 	{ "/kcsapi/api_get_master/mission", 0 },
 
@@ -15,6 +16,7 @@ const std::map<QString, C::processFunc> C::processFuncs = {
 	{ "/kcsapi/api_get_member/record", 0 },
 	//  Items
 	{ "/kcsapi/api_get_member/slotitem", 0 }, // Current items
+	{ "/kcsapi/api_get_member/unsetslot", 0 }, // Remove item
 	{ "/kcsapi/api_get_member/useitem", 0 },
 	//  Ships
 	{ "/kcsapi/api_get_memeber/ship", &C::_processPlayerShipsData },
@@ -34,8 +36,21 @@ const std::map<QString, C::processFunc> C::processFuncs = {
 	{ "/kcsapi/api_req_kaisou/powerup", 0 }, // Modernization
 	{ "/kcsapi/api_req_kaisou/remodeling", 0 },
 	{ "/kcsapi/api_req_hokyu/charge", 0 }, // TODO (Resupplying)
-	{ "/kcsapi/api_get_member/actionlog", 0 },
 	{ "/kcsapi/api_req_hensei/change", 0 }, // Swap out ships
+	{ "/kcsapi/api_req_nyukyo/start", 0 }, // Start a bath
+	{ "/kcsapi/api_req_nyukyo/speedchange", 0 }, // Buckets are cool
+	{ "/kcsapi/api_req_kousyou/createship", 0 },
+	{ "/kcsapi/api_req_kousyou/createship_speedchange", 0 }, // FLAME
+	{ "/kcsapi/api_req_kousyou/getship", 0 }, // Finish construction
+	{ "/kcsapi/api_req_kousyou/destroyship", 0 },
+	{ "/kcsapi/api_req_kousyou/createitem", 0 },
+	{ "/kcsapi/api_req_kousyou/destroyitem2", 0 },
+	{ "/kcsapi/api_get_member/actionlog", 0 },
+	//  Furniture
+	{ "/kcsapi/api_req_furniture/change", 0 },
+	//  Store
+	{ "/kcsapi/api_get_master/payitem", 0 }, // Load the pay shop
+	{ "/kcsapi/api_req_furniture/buy", 0 },
 	// ???
 	{ "/kcsapi/api_get_member/deck_port", 0 },
 
@@ -45,6 +60,7 @@ const std::map<QString, C::processFunc> C::processFuncs = {
 	{ "/kcsapi/api_req_mission/result", 0 },
 	//  Sorties
 	{ "/kcsapi/api_req_map/start", 0 }, // Start a sortie
+	{ "/kcsapi/api_req_map/next", 0 }, // Next cell to go to
 	{ "/kcsapi/api_req_sortie/battle", 0 },
 	{ "/kcsapi/api_req_battle_midnight/battle", 0 },
 	{ "/kcsapi/api_req_sortie/battleresult", 0 },
