@@ -22,7 +22,7 @@ void KCToolServer::handleRequest(QTcpSocket *socket)
 	QVariantMap headers = socket->property("headers").toMap();
 
 	// Write out a reply to the client
-	reply(socket);
+	socket->write("HTTP/1.1 204 No Content\r\n\r\n");
 
 	// Handle POSTs
 	if(method == "POST")
@@ -61,11 +61,6 @@ void KCToolServer::handleRequest(QTcpSocket *socket)
 	// Otherwise, close it behind us
 	else
 		socket->close();
-}
-
-void KCToolServer::reply(QTcpSocket *socket)
-{
-	socket->write("HTTP/1.1 204 No Content\r\n\r\n");
 }
 
 void KCToolServer::onNewConnection()
