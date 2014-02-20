@@ -263,8 +263,6 @@ void KVMainWindow::onLoadFinished(bool ok)
 void KVMainWindow::onTranslationLoadFailed(QString error)
 {
 	qDebug() << "Translation failed to load:" << error;
-	loadingMessageBox->reject();
-	delete loadingMessageBox;
 
 	QMessageBox::StandardButton button;
 	if(KVTranslator::instance()->loaded()) {

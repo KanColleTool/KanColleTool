@@ -41,7 +41,6 @@ private slots:
 
 protected:
 	QWebView *webView;
-	QMessageBox *loadingMessageBox;
 
 	QNetworkAccessManager *wvManager, manager;
 	QNetworkDiskCache *cache;
