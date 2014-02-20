@@ -16,10 +16,6 @@
  * One day, I will think of a better way. Until then, this stands.
  */
 #define SYNTHESIZE_RESPONSE_HANDLERS(_id_, _var_) \
-	void KCClient::_process##_id_##Data(const QVariant &data) { \
-		modelizeResponse(data, _var_, this); \
-		emit received##_id_(); \
-	} \
 	void KCClient::on##_id_##RequestFinished() \
 	{ \
 		QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender()); \
@@ -27,7 +23,7 @@
 		{ \
 			ErrorCode error; \
 			QVariant data = this->dataFromRawResponse(reply->readAll(), &error); \
-			if(data.isValid()) _process##_id_##Data(data); \
+			if(data.isValid()) callPFunc(reply->url().path(), data); \
 			else { qDebug() << error; emit requestError(error); } \
 		} \
 		else if(reply->error() == QNetworkReply::UnknownNetworkError) \
@@ -43,6 +39,15 @@ SYNTHESIZE_RESPONSE_HANDLERS(PlayerConstructions, constructionDocks)
 // ------------------------------------------------------------------------- //
 
 
+void KCClient::callPFunc(const QString &path, const QVariant &data)
+{
+	try {
+		processFunc func = processFuncs.at(path);
+		if(func) func(this, data);
+	} catch (std::out_of_range e) {
+		qDebug() << "Unknown path:" << path;
+	}
+}
 
 KCClient::KCClient(QObject *parent) :
 	QObject(parent)
@@ -129,7 +134,7 @@ QNetworkReply* KCClient::call(QString endpoint, QUrlQuery params)
 		qDebug() << "Loading Fixture:" << endpoint;
 		QVariant response = this->dataFromRawResponse(file.readAll());
 
-		(this->*processFuncs[endpoint])(response);
+		callPFunc(endpoint, response);
 
 		return 0;
 	}

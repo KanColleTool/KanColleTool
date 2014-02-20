@@ -1,10 +1,17 @@
 #include "KCClient.h"
+#define pf [](KCClient *client, const QVariant &data)
 typedef KCClient C;
 
 const std::map<QString, C::processFunc> C::processFuncs = {
 	// Global info -------------------------------------------------------------
 	//  Ships
-	{ "/kcsapi/api_get_master/ship", &C::_processMasterShipsData },
+	{
+		"/kcsapi/api_get_master/ship",
+		pf {
+			modelizeResponse(data, client->masterShips, client);
+			emit client->receivedMasterShips();
+		}
+	},
 	//  Sortie maps
 	{ "/kcsapi/api_get_master/mapinfo", 0 },
 	{ "/kcsapi/api_get_master/mapcell", 0 },
@@ -19,14 +26,38 @@ const std::map<QString, C::processFunc> C::processFuncs = {
 	{ "/kcsapi/api_get_member/unsetslot", 0 }, // Remove item
 	{ "/kcsapi/api_get_member/useitem", 0 },
 	//  Ships
-	{ "/kcsapi/api_get_memeber/ship", &C::_processPlayerShipsData },
+	{
+		"/kcsapi/api_get_member/ship",
+		pf {
+			modelizeResponse(data, client->ships, client);
+			emit client->receivedPlayerShips();
+		}
+	},
 	{ "/kcsapi/api_get_member/ship2", 0 }, // TODO
 	{ "/kcsapi/api_get_member/ship3", 0 }, // TODO
 	{ "/kcsapi/api_get_member/material", 0 }, // Resources
 	//  Various statuses
-	{ "/kcsapi/api_get_member/deck", &C::_processPlayerFleetsData }, // Fleets
-	{ "/kcsapi/api_get_member/ndock", &C::_processPlayerRepairsData }, // Dock (repair)
-	{ "/kcsapi/api_get_member/kdock", &C::_processPlayerConstructionsData }, // Construction
+	{ // Fleets
+		"/kcsapi/api_get_member/deck",
+		pf {
+			modelizeResponse(data, client->fleets, client);
+			emit client->receivedPlayerFleets();
+		}
+	},
+	{ // Dock (repair)
+		"/kcsapi/api_get_member/ndock",
+		pf {
+			modelizeResponse(data, client->repairDocks, client);
+			emit client->receivedPlayerRepairs();
+		}
+	},
+	{ // Construction
+		"/kcsapi/api_get_member/kdock",
+		pf {
+			modelizeResponse(data, client->constructionDocks, client);
+			emit client->receivedPlayerConstructions();
+		}
+	},
 	//  Quests
 	{ "/kcsapi/api_get_member/questlist", 0 },
 	{ "/kcsapi/api_req_quest/start", 0 }, // Start tracking

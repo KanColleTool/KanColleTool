@@ -7,6 +7,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
+
 #include "KCWrapperUtils.h"
 #include "KCShipMaster.h"
 #include "KCShip.h"
@@ -20,8 +21,9 @@ class KCClient : public QObject
 	friend class KCToolServer;
 
 public:
-	typedef void (KCClient::*processFunc)(const QVariant&);
-	static const std::map<QString, processFunc> processFuncs;
+	typedef std::function<void(KCClient *client, const QVariant&)> processFunc;
+
+	void callPFunc(const QString &path, const QVariant &data);
 
 	typedef enum ErrorCode {
 		JsonError = -1,
@@ -77,17 +79,14 @@ protected slots:
 	void onMissionCompleted();
 
 protected:
-	void _processMasterShipsData(const QVariant &data);
-	void _processPlayerShipsData(const QVariant &data);
-	void _processPlayerFleetsData(const QVariant &data);
-	void _processPlayerRepairsData(const QVariant &data);
-	void _processPlayerConstructionsData(const QVariant &data);
-
 	QNetworkReply* call(QString endpoint, QUrlQuery params = QUrlQuery());
 	QUrl urlForEndpoint(QString endpoint);
 	QVariant dataFromRawResponse(QString text, ErrorCode *error = 0);
 
 	QNetworkAccessManager *manager;
+
+private:
+	static const std::map<QString, processFunc> processFuncs;
 };
 
 #endif // KCCLIENT_H
