@@ -6,6 +6,7 @@
 #include <QVariant>
 #include <QString>
 #include <QJsonValue>
+#include <QTimeZone>
 
 /*
  * I had to copypaste this into the tool as "KCTranslator", because sharing the
@@ -28,10 +29,11 @@ public slots:
 	void loadTranslation(QString language = "en");
 
 	QString translate(const QString &line) const;
+	QString fixTime(const QString &time) const;
 	QString translateJson(const QString &json) const;
 
 protected:
-	QJsonValue _walk(QJsonValue value) const;
+	QJsonValue _walk(QJsonValue value, QString key="") const;
 
 signals:
 	void loadFinished();
@@ -41,12 +43,12 @@ private slots:
 	void translationRequestFinished();
 
 private:
+	bool isLoaded;
 	QNetworkAccessManager manager;
 	QVariantMap translation;
+	QTimeZone JST;
 
 private:
-	bool isLoaded;
-
 	// Singleton stuff
 	static KVTranslator *m_instance;
 

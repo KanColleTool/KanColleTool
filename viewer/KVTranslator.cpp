@@ -6,6 +6,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QDateTime>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QDebug>
@@ -32,7 +33,7 @@ KVTranslator* KVTranslator::instance()
 
 
 KVTranslator::KVTranslator(QObject *parent):
-	QObject(parent), isLoaded(false)
+	QObject(parent), isLoaded(false), JST(32400)
 {
 
 }
@@ -111,6 +112,16 @@ QString KVTranslator::translate(const QString &line) const
 	}
 }
 
+QString KVTranslator::fixTime(const QString &time) const
+{
+	QDateTime realTime = QDateTime::fromString(time, "yyyy-MM-dd hh:mm:ss");
+	if(!realTime.isValid()) return time;
+	realTime.setTimeZone(JST);
+	realTime = realTime.toLocalTime();
+	qDebug() << "fix time" << time << "to" << realTime.toString("yyyy-MM-dd hh:mm:ss");
+	return realTime.toString("yyyy-MM-dd hh:mm:ss");
+}
+
 QString KVTranslator::translateJson(const QString &json) const
 {
 	bool hasPrefix = json.startsWith("svdata=");
@@ -126,7 +137,7 @@ QString KVTranslator::translateJson(const QString &json) const
 	return (hasPrefix ? "svdata=" + str : str);
 }
 
-QJsonValue KVTranslator::_walk(QJsonValue value) const
+QJsonValue KVTranslator::_walk(QJsonValue value, QString key) const
 {
 	switch(value.type())
 	{
@@ -134,7 +145,7 @@ QJsonValue KVTranslator::_walk(QJsonValue value) const
 		{
 			QJsonObject obj = value.toObject();
 			for(QJsonObject::iterator it = obj.begin(); it != obj.end(); it++)
-				*it = this->_walk(*it);
+				*it = this->_walk(*it, it.key());
 			return obj;
 		}
 		case QJsonValue::Array:
@@ -145,6 +156,8 @@ QJsonValue KVTranslator::_walk(QJsonValue value) const
 			return arr;
 		}
 		case QJsonValue::String:
+			if(key == "api_complete_time_str")
+				return this->fixTime(value.toString());
 			return this->translate(value.toString());
 		default:
 			return value;
