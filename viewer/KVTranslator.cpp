@@ -32,7 +32,7 @@ KVTranslator* KVTranslator::instance()
 
 
 KVTranslator::KVTranslator(QObject *parent):
-	QObject(parent)
+	QObject(parent), isLoaded(false)
 {
 
 }

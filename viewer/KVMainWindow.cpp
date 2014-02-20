@@ -101,7 +101,7 @@ void KVMainWindow::checkForUpdates()
 void KVMainWindow::loadTranslation(QString language)
 {
 	KVTranslator *translator = KVTranslator::instance();
-	if(translator->loaded()) return;
+	if(translator->loaded()) return this->loadBundledIndex();
 
 	loadingMessageBox = new QMessageBox(QMessageBox::NoIcon, "Loading translation...", "This should only take a moment.", QMessageBox::Cancel, this);
 	QTimer::singleShot(0, loadingMessageBox, SLOT(open()));
