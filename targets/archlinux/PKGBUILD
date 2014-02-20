@@ -32,11 +32,11 @@ pkgver() {
 
 build() {
 	cd "$srcdir/$pkgbase/tool"
-	qmake PREFIX="$pkgdir"
+	qmake
 	make
 
 	cd "$srcdir/$pkgbase/viewer"
-	qmake PREFIX="$pkgdir"
+	qmake
 	make
 }
 
@@ -44,14 +44,14 @@ package_kancolletool-git() {
 	depends+=('qt5-webkit' 'flashplugin')
 
 	cd "$srcdir/$pkgbase/tool"
-	make install
+	make INSTALL_ROOT="$pkgdir" install
 	install -Dm644 KanColleTool.png "$pkgdir/usr/share/icons/hicolor/192x192/apps/KanColleTool.png"
 	install -Dm644 KanColleTool.desktop "$pkgdir/usr/share/applications/KanColleTool.desktop"
 }
 
 package_kancolletool-viewer-git() {
 	cd "$srcdir/$pkgbase/viewer"
-	make install
+	make INSTALL_ROOT="$pkgdir" install
 	install -Dm644 KCTViewer.png "$pkgdir/usr/share/icons/hicolor/192x192/apps/KCTViewer.png"
 	install -Dm644 KCTViewer.desktop "$pkgdir/usr/share/applications/KCTViewer.desktop"
 }
