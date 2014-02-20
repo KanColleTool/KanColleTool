@@ -9,7 +9,6 @@
 #include <QNetworkReply>
 #include <QDebug>
 #include "KCUtil.h"
-#include "crc32.h"
 
 KCTranslator* KCTranslator::m_instance = 0;
 
