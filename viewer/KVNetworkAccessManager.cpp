@@ -13,7 +13,7 @@ KVNetworkAccessManager::KVNetworkAccessManager(QObject *parent) :
 QNetworkReply *KVNetworkAccessManager::createRequest(Operation op, const QNetworkRequest &req, QIODevice *outgoingData)
 {
 	QNetworkRequest request = req;
-	request.setRawHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36");
+	request.setRawHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36");
 
 	if(request.url().host() != "localhost" && request.url().host() != "127.0.0.1")
 	{
