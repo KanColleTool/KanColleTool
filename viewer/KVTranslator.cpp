@@ -137,7 +137,7 @@ QString KVTranslator::fixTime(const QString &time) const
 	if(!realTime.isValid()) return time;
 	realTime.setTimeZone(JST);
 	realTime = realTime.toLocalTime();
-	qDebug() << "fix time" << time << "to" << realTime.toString("yyyy-MM-dd hh:mm:ss");
+	//qDebug() << "fix time" << time << "to" << realTime.toString("yyyy-MM-dd hh:mm:ss");
 	return realTime.toString("yyyy-MM-dd hh:mm:ss");
 }
 
