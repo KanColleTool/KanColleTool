@@ -103,34 +103,38 @@
 		[_translationLoadingBar startAnimation:self];
 		
 		// Get the English translation from the server
-		[_manager GET:@"http://api.comeonandsl.am/translation/en/" parameters:nil
-			  success:^(AFHTTPRequestOperation *operation, id responseObject) {
-				  
-				  // responseObject is a dictionary, unless something is really wrong here
-				  // (see: undetected Captive Portal)
-				  NSDictionary *res = responseObject;
-				  if(![[res objectForKey:@"success"] isEqual:[NSNumber numberWithInt:1]])
-				  {
-					  [[NSAlert alertWithMessageText:@"Translation API returned an error" defaultButton:@"Retry" alternateButton:@"Continue" otherButton:nil informativeTextWithFormat:@"The Translation API doesn't seem to be working. You can continue without translation data, but the game will be in Japanese. Continue?"] beginSheetModalForWindow:_window completionHandler:^(NSModalResponse returnCode) {
-						  if(returnCode == NSAlertDefaultReturn) [self loadTranslation];
-					  }];
-				  }
-				  else
-				  {
-					  [[KVTranslator sharedTranslator] setTldata:[res objectForKey:@"translation"]];
-				  }
-				  
-				  [self loadTranslationFinished];
-				  
-			  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-				  
-				  [[NSAlert alertWithMessageText:@"Failed to load Translation Data" defaultButton:@"Retry" alternateButton:@"Continue" otherButton:nil informativeTextWithFormat:@"This usually means that your connection is down, or that the translation API is. You can continue without this, but the game will be in Japanese. Continue?"] beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
-					  if(returnCode == NSAlertDefaultReturn) [self loadTranslation];
-				  }];
-				  
-				  [self loadTranslationFinished];
-				  
-			  }];
+		NSMutableURLRequest *req = [_manager.requestSerializer requestWithMethod:@"GET"
+																	   URLString:@"http://api.comeonandsl.am/translation/en/"
+																	  parameters:nil error:NULL];
+		[req setTimeoutInterval:10];
+		AFHTTPRequestOperation *op = [_manager HTTPRequestOperationWithRequest:req success:^(AFHTTPRequestOperation *operation, id responseObject) {
+			
+			// responseObject is a dictionary, unless something is really wrong here
+			// (see: undetected Captive Portal)
+			NSDictionary *res = responseObject;
+			if(![[res objectForKey:@"success"] isEqual:[NSNumber numberWithInt:1]])
+			{
+				[[NSAlert alertWithMessageText:@"Translation API returned an error" defaultButton:@"Retry" alternateButton:@"Continue" otherButton:nil informativeTextWithFormat:@"The Translation API doesn't seem to be working. You can continue without translation data, but the game will be in Japanese. Continue?"] beginSheetModalForWindow:_window completionHandler:^(NSModalResponse returnCode) {
+					if(returnCode == NSAlertDefaultReturn) [self loadTranslation];
+				}];
+			}
+			else
+			{
+				[[KVTranslator sharedTranslator] setTldata:[res objectForKey:@"translation"]];
+			}
+			
+			[self loadTranslationFinished];
+			
+		} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+			
+			[[NSAlert alertWithMessageText:@"Failed to load Translation Data" defaultButton:@"Retry" alternateButton:@"Continue" otherButton:nil informativeTextWithFormat:@"This usually means that your connection is down, or that the translation API is. You can continue without this, but the game will be in Japanese. Continue?"] beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+				if(returnCode == NSAlertDefaultReturn) [self loadTranslation];
+			}];
+			
+			[self loadTranslationFinished];
+			
+		}];
+		[op start];
 	}
 	else [self loadTranslationFinished];
 }
