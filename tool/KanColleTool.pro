@@ -30,7 +30,7 @@ SOURCES += main.cpp \
 	KCMainWindow.cpp \
 	KCSettingsDialog.cpp \
 	KCClient.cpp \
-	processfuncs.cpp \
+	KCClient_p.cpp \
 	KCToolServer.cpp \
 	KCShip.cpp \
 	KCShipMaster.cpp \
