@@ -1,9 +1,10 @@
 # Maintainer: Johannes Ekberg <uppfinnarn@gmail.com>
 pkgname=('kancolletool-git' 'kancolletool-viewer-git')
+pkgbase='kancolletool-git'
 pkgver=0.0.0
 pkgrel=1
 epoch=
-pkgdesc="Makes KanColle better"
+pkgdesc="A tool that makes KanColle better"
 arch=('i686', 'x86_64')
 url="http://kancolletool.github.io/"
 license=('MIT')
@@ -19,22 +20,22 @@ backup=()
 options=()
 install=
 changelog=
-source=("$pkgname"::'git://github.com/KanColleTool/KanColleTool.git')
+source=("$pkgbase"::'git://github.com/KanColleTool/KanColleTool.git')
 noextract=()
 md5sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/$pkgname"
+	cd "$srcdir/$pkgbase"
 	# Use the tag of the last commit
 	git describe --tags | grep -Po 'v\K([\w\.]+)'
 }
 
 build() {
-	cd "$srcdir/$pkgname/tool"
+	cd "$srcdir/$pkgbase/tool"
 	qmake PREFIX="$pkgdir"
 	make
 
-	cd "$srcdir/$pkgname/viewer"
+	cd "$srcdir/$pkgbase/viewer"
 	qmake PREFIX="$pkgdir"
 	make
 }
@@ -42,14 +43,14 @@ build() {
 package_kancolletool-git() {
 	depends+=('qt5-webkit' 'flashplugin')
 
-	cd "$srcdir/$pkgname/tool"
+	cd "$srcdir/$pkgbase/tool"
 	make install
 	install -Dm644 KanColleTool.png "$pkgdir/usr/share/icons/hicolor/192x192/apps/KanColleTool.png"
 	install -Dm644 KanColleTool.desktop "$pkgdir/usr/share/applications/KanColleTool.desktop"
 }
 
 package_kancolletool-viewer-git() {
-	cd "$srcdir/$pkgname/viewer"
+	cd "$srcdir/$pkgbase/viewer"
 	make install
 	install -Dm644 KCTViewer.png "$pkgdir/usr/share/icons/hicolor/192x192/apps/KCTViewer.png"
 	install -Dm644 KCTViewer.desktop "$pkgdir/usr/share/applications/KCTViewer.desktop"
