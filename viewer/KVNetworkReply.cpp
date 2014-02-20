@@ -30,7 +30,7 @@ KVNetworkReply::KVNetworkReply(QObject *parent, QNetworkReply *toCopy, QNetworkA
 	setUrl(d->copied->url());
 
 	// Translate reply when it's complete
-	connect(d->copied, SIGNAL(finished()), SLOT(translateRequest()));
+	connect(d->copied, SIGNAL(finished()), SLOT(handleResponse()));
 
 	connect(d->copied, SIGNAL(encrypted()), SIGNAL(encrypted()));
 	connect(d->copied, SIGNAL(metaDataChanged()), SIGNAL(metaDataChanged()));
@@ -48,7 +48,7 @@ void KVNetworkReply::copyAttribute(QNetworkRequest::Attribute attr)
 		setAttribute(attr, attribute);
 }
 
-void KVNetworkReply::translateRequest()
+void KVNetworkReply::handleResponse()
 {
 	if(d->finished) return;
 

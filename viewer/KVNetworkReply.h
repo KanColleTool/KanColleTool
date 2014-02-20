@@ -26,8 +26,8 @@ public:
 
 	bool isSequential() const;
 
-public slots:
-	void translateRequest();
+protected slots:
+	void handleResponse();
 
 protected:
 	qint64 readData(char *data, qint64 maxSize);
