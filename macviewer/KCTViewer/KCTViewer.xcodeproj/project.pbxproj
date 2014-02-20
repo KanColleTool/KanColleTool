@@ -302,7 +302,7 @@
 			attributes = {
 				CLASSPREFIX = KV;
 				LastUpgradeCheck = 0500;
-				ORGANIZATIONNAME = MacaroniCode;
+				ORGANIZATIONNAME = KanColleTool;
 				TargetAttributes = {
 					2272E5BA186E05CA009357C4 = {
 						TestTargetID = 2272E599186E05CA009357C4;
