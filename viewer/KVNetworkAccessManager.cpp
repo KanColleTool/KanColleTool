@@ -15,7 +15,7 @@ QNetworkReply *KVNetworkAccessManager::createRequest(Operation op, const QNetwor
 	QNetworkRequest request = req;
 	request.setRawHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36");
 
-	if(request.url().host() != "localhost")
+	if(request.url().host() != "localhost" && request.url().host() != "127.0.0.1")
 	{
 		if(op == QNetworkAccessManager::PostOperation)
 		{
