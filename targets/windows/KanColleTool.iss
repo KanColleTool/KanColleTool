@@ -3,7 +3,7 @@
 
 #define MyAppName "KanColleTool"
 #define MyAppVersion "0.8.2"
-#define MyAppPublisher "MacaroniCode"
+#define MyAppPublisher "KanColleTool"
 #define MyAppURL "http://kancolletool.github.io/"
 
 [Setup]

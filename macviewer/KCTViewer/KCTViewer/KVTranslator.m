@@ -3,7 +3,7 @@
 //  KCTViewer
 //
 //  Created by Johannes Ekberg on 2014-01-21.
-//  Copyright (c) 2014 MacaroniCode. All rights reserved.
+//  Copyright (c) 2014 the KanColleTool team. All rights reserved.
 //
 
 #import "KVTranslator.h"

@@ -1,8 +1,8 @@
     #include <windows.h>
     #include "version.h"
-    
+
     IDI_ICON1           ICON    DISCARDABLE "KanColleTool.ico"
-     
+
     VS_VERSION_INFO     VERSIONINFO
     FILEVERSION         0, 8, 2, 0
     PRODUCTVERSION      0, 8, 2, 0
@@ -20,11 +20,11 @@
         BEGIN
             BLOCK   "040904b0"
             BEGIN
-                VALUE   "CompanyName",      "MacaroniCode\0"
+                VALUE   "CompanyName",      "KanColleTool\0"
                 VALUE   "FileDescription",  "KanColleTool\0"
                 VALUE   "FileVersion",      KCT_VERSION "\0"
                 VALUE   "InternalName",     "KanColleTool\0"
-                VALUE   "LegalCopyright",   "Copyright 2014 by MacaroniCode\0"
+                VALUE   "LegalCopyright",   "Copyright 2014 by the KanColle team\0"
                 VALUE   "OriginalFilename", "KanColleTool.exe\0"
                 VALUE   "ProductName",      "KanColleTool\0"
                 VALUE   "ProductVersion",   KCT_VERSION "\0"

@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 	QApplication app(argc, argv);
 	QCoreApplication::setApplicationName("KanColleTool");
 	QCoreApplication::setApplicationVersion(KCT_VERSION);
-	QCoreApplication::setOrganizationName("MacaroniCode");
+	QCoreApplication::setOrganizationName("KanColleTool");
 
 	QWebSettings::globalSettings()->setAttribute(QWebSettings::PluginsEnabled, true);
 
