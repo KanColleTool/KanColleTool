@@ -39,10 +39,8 @@ void KCToolServer::handleRequest(QTcpSocket *socket)
 			client->_processPlayerRepairsData(data);
 		else if(path == "/kcsapi/api_get_member/kdock")
 			client->_processPlayerConstructionsData(data);
-		else
-		{
-			qDebug() << "Unknown api path:" << path;
-		}
+		//else
+		//	qDebug() << "Unknown api path:" << path;
 	}
 	// I might add other methods later (if I find a use), but for now, refuse them
 	else
