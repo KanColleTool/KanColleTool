@@ -106,25 +106,41 @@ qint64 KVNetworkReply::readData(char *data, qint64 maxSize)
 	return numBytes;
 }
 
+
+
 /*
  * Pass all these through to the underlying 'copied' QNetworkRequest because
  * There isn't a copy constructor. I now understand why everything in the
  * standard libraries has a copy constructor...
  */
-void KVNetworkReply::ignoreSslErrors(const QList<QSslError> &errors)
-{ d->copied->ignoreSslErrors(errors); }
-QNetworkAccessManager* KVNetworkReply::manager() const
-{ return d->copied->manager(); }
-void KVNetworkReply::setSslConfiguration(const QSslConfiguration &config)
-{ d->copied->setSslConfiguration(config); }
-QSslConfiguration KVNetworkReply::sslConfiguration() const
-{ return d->copied->sslConfiguration(); }
-bool KVNetworkReply::event(QEvent *e)
-{ return d->copied->event(e); }
+void KVNetworkReply::ignoreSslErrors(const QList<QSslError> &errors) {
+	d->copied->ignoreSslErrors(errors);
+}
 
-void KVNetworkReply::abort()
-{ d->finished = true; d->copied->abort(); }
-void KVNetworkReply::ignoreSslErrors()
-{ d->copied->ignoreSslErrors(); }
-bool KVNetworkReply::isSequential() const
-{	return true; }
+QNetworkAccessManager* KVNetworkReply::manager() const {
+	return d->copied->manager();
+}
+
+void KVNetworkReply::setSslConfiguration(const QSslConfiguration &config) {
+	d->copied->setSslConfiguration(config);
+}
+
+QSslConfiguration KVNetworkReply::sslConfiguration() const {
+	return d->copied->sslConfiguration();
+}
+
+bool KVNetworkReply::event(QEvent *e) {
+	return d->copied->event(e);
+}
+
+void KVNetworkReply::abort() {
+	d->finished = true; d->copied->abort();
+}
+
+void KVNetworkReply::ignoreSslErrors() {
+	d->copied->ignoreSslErrors();
+}
+
+bool KVNetworkReply::isSequential() const {
+	return true;
+}
