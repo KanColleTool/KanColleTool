@@ -29,18 +29,15 @@ void KCToolServer::handleRequest(QTcpSocket *socket)
 	{
 		QVariant data = client->dataFromRawResponse(content);
 
-		if(path == "/kcsapi/api_get_master/ship")
-			client->_processMasterShipsData(data);
-		else if(path == "/kcsapi/api_get_member/ship")
-			client->_processPlayerShipsData(data);
-		else if(path == "/kcsapi/api_get_member/deck")
-			client->_processPlayerFleetsData(data);
-		else if(path == "/kcsapi/api_get_member/ndock")
-			client->_processPlayerRepairsData(data);
-		else if(path == "/kcsapi/api_get_member/kdock")
-			client->_processPlayerConstructionsData(data);
-		//else
-		//	qDebug() << "Unknown api path:" << path;
+		try
+		{
+			KCClient::processFunc func = client->processFuncs.at(path);
+			(client->*func)(data);
+		}
+		catch (std::out_of_range oor)
+		{
+			//qDebug() << "Unknown api path:" << path;
+		}
 	}
 	// I might add other methods later (if I find a use), but for now, refuse them
 	else

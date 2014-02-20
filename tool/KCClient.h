@@ -18,7 +18,7 @@ class KCClient : public QObject
 {
 	Q_OBJECT
 	friend class KCToolServer;
-	
+
 public:
 	typedef enum ErrorCode {
 		JsonError = -1,
@@ -28,20 +28,23 @@ public:
 		InvalidCredentials = 201,
 		ExpiredAPIToken = 202
 	} ErrorCode;
-	
+
 	explicit KCClient(QObject *parent = 0);
 	virtual ~KCClient();
-	
+
 	QString server, apiToken;
-	
+
 	QMap<int, KCShipMaster*> masterShips;
 	QMap<int, KCShip*> ships;
 	QMap<int, KCFleet*> fleets;
 	QMap<int, KCDock*> repairDocks;
 	QMap<int, KCDock*> constructionDocks;
-	
+
 	bool hasCredentials();
-	
+
+	typedef void (KCClient::*processFunc)(const QVariant&);
+	std::map<QString, processFunc> processFuncs;
+
 signals:
 	void credentialsGained();
 	void receivedMasterShips();
@@ -50,40 +53,40 @@ signals:
 	void receivedPlayerRepairs();
 	void receivedPlayerConstructions();
 	void requestError(KCClient::ErrorCode error);
-	
+
 	void dockCompleted(KCDock *dock);
 	void missionCompleted(KCFleet *fleet);
-	
+
 public slots:
 	void setCredentials(QString server, QString apiToken);
-	
+
 	void requestMasterShips();
 	void requestPlayerShips();
 	void requestPlayerFleets();
 	void requestPlayerRepairs();
 	void requestPlayerConstructions();
-	
+
 protected slots:
 	void onMasterShipsRequestFinished();
 	void onPlayerShipsRequestFinished();
 	void onPlayerFleetsRequestFinished();
 	void onPlayerRepairsRequestFinished();
 	void onPlayerConstructionsRequestFinished();
-	
+
 	void onDockCompleted();
 	void onMissionCompleted();
-	
+
 protected:
-	void _processMasterShipsData(QVariant data);
-	void _processPlayerShipsData(QVariant data);
-	void _processPlayerFleetsData(QVariant data);
-	void _processPlayerRepairsData(QVariant data);
-	void _processPlayerConstructionsData(QVariant data);
-	
+	void _processMasterShipsData(const QVariant &data);
+	void _processPlayerShipsData(const QVariant &data);
+	void _processPlayerFleetsData(const QVariant &data);
+	void _processPlayerRepairsData(const QVariant &data);
+	void _processPlayerConstructionsData(const QVariant &data);
+
 	QNetworkReply* call(QString endpoint, QUrlQuery params = QUrlQuery());
 	QUrl urlForEndpoint(QString endpoint);
 	QVariant dataFromRawResponse(QString text, ErrorCode *error = 0);
-	
+
 	QNetworkAccessManager *manager;
 };
 

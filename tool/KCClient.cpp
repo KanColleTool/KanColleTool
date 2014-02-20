@@ -18,7 +18,7 @@
  * One day, I will think of a better way. Until then, this stands.
  */
 #define SYNTHESIZE_RESPONSE_HANDLERS(_id_, _var_) \
-	void KCClient::_process##_id_##Data(QVariant data) { \
+	void KCClient::_process##_id_##Data(const QVariant &data) { \
 		modelizeResponse(data, _var_, this); \
 		emit received##_id_(); \
 	} \
@@ -49,8 +49,14 @@ SYNTHESIZE_RESPONSE_HANDLERS(PlayerConstructions, constructionDocks)
 KCClient::KCClient(QObject *parent) :
 	QObject(parent)
 {
+	processFuncs["/kcsapi/api_get_master/ship"] = &KCClient::_processMasterShipsData;
+	processFuncs["/kcsapi/api_get_member/ship"] = &KCClient::_processPlayerShipsData;
+	processFuncs["/kcsapi/api_get_member/deck"] = &KCClient::_processPlayerFleetsData;
+	processFuncs["/kcsapi/api_get_member/ndock"] = &KCClient::_processPlayerRepairsData;
+	processFuncs["/kcsapi/api_get_member/kdock"] = &KCClient::_processPlayerConstructionsData;
+
 	manager = new QNetworkAccessManager(this);
-	
+
 	QSettings settings;
 	server = settings.value("server").toString();
 	apiToken = settings.value("apiToken").toString();
@@ -58,7 +64,7 @@ KCClient::KCClient(QObject *parent) :
 
 KCClient::~KCClient()
 {
-	
+
 }
 
 bool KCClient::hasCredentials()
@@ -70,14 +76,14 @@ void KCClient::setCredentials(QString server, QString apiToken)
 {
 	this->server = server;
 	this->apiToken = apiToken;
-	
+
 	if(this->hasCredentials())
 	{
 		QSettings settings;
 		settings.setValue("server", server);
 		settings.setValue("apiToken", apiToken);
 		settings.sync();
-		
+
 		emit credentialsGained();
 	}
 }
@@ -130,18 +136,9 @@ QNetworkReply* KCClient::call(QString endpoint, QUrlQuery params)
 	{
 		qDebug() << "Loading Fixture:" << endpoint;
 		QVariant response = this->dataFromRawResponse(file.readAll());
-		
-		if(endpoint == "/api_get_master/ship")
-			_processMasterShipsData(response);
-		else if(endpoint == "/api_get_member/ship")
-			_processPlayerShipsData(response);
-		else if(endpoint == "/api_get_member/deck")
-			_processPlayerFleetsData(response);
-		else if(endpoint == "/api_get_member/ndock")
-			_processPlayerRepairsData(response);
-		else if(endpoint == "/api_get_member/kdock")
-			_processPlayerConstructionsData(response);
-		
+
+		(this->*processFuncs[endpoint])(response);
+
 		return 0;
 	}
 #endif
@@ -149,11 +146,11 @@ QNetworkReply* KCClient::call(QString endpoint, QUrlQuery params)
 	request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 	request.setRawHeader("Referer", QString("http://%1/kcs/mainD2.swf").arg(server).toUtf8());
 	request.setRawHeader("User-Agent", QString("Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36").toUtf8());
-	
+
 	params.addQueryItem("api_verno", "1");
 	params.addQueryItem("api_token", apiToken);
 	QString query = params.toString(QUrl::FullyEncoded);
-	
+
 	return manager->post(request, query.toUtf8());
 }
 
@@ -166,7 +163,7 @@ QVariant KCClient::dataFromRawResponse(QString text, ErrorCode *error)
 {
 	if(text.startsWith("svdata="))
 		text = text.mid(7);
-	
+
 	QJsonParseError jsonErr;
 	QJsonDocument doc = QJsonDocument::fromJson(text.toUtf8(), &jsonErr);
 	if(jsonErr.error != QJsonParseError::NoError)
@@ -174,14 +171,14 @@ QVariant KCClient::dataFromRawResponse(QString text, ErrorCode *error)
 		if(error) *error = JsonError;
 		return QVariant();
 	}
-	
+
 	QMap<QString, QVariant> data = doc.toVariant().toMap();
 	if(data.value("api_result").toInt() != NoError)
 	{
 		if(error) *error = (ErrorCode)data.value("api_result").toInt();
 		return QVariant();
 	}
-	
+
 	if(error) *error = NoError;
 	return data.value("api_data");
 }
