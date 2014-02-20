@@ -17,7 +17,7 @@ RC_FILE = KCTViewer.rc
 # This is updated by the version bump script
 VERSION = 0.8.2
 
-macx: TARGET = KCT Viewer
+macx: TARGET = "KCT Viewer"
 unix:!macx: TARGET = kancolletool-viewer
 
 binaries.path = $$PREFIX/usr/bin
