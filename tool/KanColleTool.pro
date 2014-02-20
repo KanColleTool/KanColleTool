@@ -28,25 +28,26 @@ INSTALLS += binaries
 
 SOURCES += main.cpp \
 	KCMainWindow.cpp \
-    KCSettingsDialog.cpp \
+	KCSettingsDialog.cpp \
 	KCClient.cpp \
-    KCToolServer.cpp \
-    KCShip.cpp \
-    KCShipMaster.cpp \
-    KCFleet.cpp \
-    KCDock.cpp \
-    KCTranslator.cpp
+	processfuncs.cpp \
+	KCToolServer.cpp \
+	KCShip.cpp \
+	KCShipMaster.cpp \
+	KCFleet.cpp \
+	KCDock.cpp \
+	KCTranslator.cpp
 
 HEADERS  += KCMainWindow.h \
-    KCSettingsDialog.h \
+	KCSettingsDialog.h \
 	KCClient.h \
-    KCToolServer.h \
-    KCShip.h \
-    KCShipMaster.h \
-    KCFleet.h \
-    KCDock.h \
-    KCTranslator.h \
-    KCDefaults.h
+	KCToolServer.h \
+	KCShip.h \
+	KCShipMaster.h \
+	KCFleet.h \
+	KCDock.h \
+	KCTranslator.h \
+	KCDefaults.h
 
 FORMS    += \
     KCMainWindow.ui \

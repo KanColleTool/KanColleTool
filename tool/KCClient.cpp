@@ -10,8 +10,6 @@
 
 #define kClientUseCache 0
 
-
-
 /*
  * This is ugly, but it's so repetitive that it's better to keep it out of the
  * way and synthesize it all like this than to copypaste this over and over.
@@ -49,12 +47,6 @@ SYNTHESIZE_RESPONSE_HANDLERS(PlayerConstructions, constructionDocks)
 KCClient::KCClient(QObject *parent) :
 	QObject(parent)
 {
-	processFuncs["/kcsapi/api_get_master/ship"] = &KCClient::_processMasterShipsData;
-	processFuncs["/kcsapi/api_get_member/ship"] = &KCClient::_processPlayerShipsData;
-	processFuncs["/kcsapi/api_get_member/deck"] = &KCClient::_processPlayerFleetsData;
-	processFuncs["/kcsapi/api_get_member/ndock"] = &KCClient::_processPlayerRepairsData;
-	processFuncs["/kcsapi/api_get_member/kdock"] = &KCClient::_processPlayerConstructionsData;
-
 	manager = new QNetworkAccessManager(this);
 
 	QSettings settings;

@@ -31,12 +31,13 @@ void KCToolServer::handleRequest(QTcpSocket *socket)
 
 		try
 		{
-			KCClient::processFunc func = client->processFuncs.at(path);
-			(client->*func)(data);
+			KCClient::processFunc func = KCClient::processFuncs.at(path);
+			if(func)
+				(client->*func)(data);
 		}
 		catch (std::out_of_range oor)
 		{
-			//qDebug() << "Unknown api path:" << path;
+			qDebug() << "Unknown api path:" << path;
 		}
 	}
 	// I might add other methods later (if I find a use), but for now, refuse them

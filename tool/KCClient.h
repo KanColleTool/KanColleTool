@@ -20,6 +20,9 @@ class KCClient : public QObject
 	friend class KCToolServer;
 
 public:
+	typedef void (KCClient::*processFunc)(const QVariant&);
+	static const std::map<QString, processFunc> processFuncs;
+
 	typedef enum ErrorCode {
 		JsonError = -1,
 		Unknown = 0,
@@ -41,9 +44,6 @@ public:
 	QMap<int, KCDock*> constructionDocks;
 
 	bool hasCredentials();
-
-	typedef void (KCClient::*processFunc)(const QVariant&);
-	std::map<QString, processFunc> processFuncs;
 
 signals:
 	void credentialsGained();
