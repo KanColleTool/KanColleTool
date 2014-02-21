@@ -8,19 +8,19 @@ KCSettingsDialog::KCSettingsDialog(KCMainWindow *parent, Qt::WindowFlags f):
 	ui(new Ui::KCSettingsDialog)
 {
 	ui->setupUi(this);
-	
+
 	ui->minimizeToTrayCheckbox->setChecked(settings.value("minimizeToTray", kDefaultMinimizeToTray).toBool());
 	ui->translationCheckbox->setChecked(settings.value("toolTranslation", kDefaultTranslation).toBool());
 	ui->livestreamCheckbox->setChecked(settings.value("livestream", kDefaultLivestream).toBool());
 	ui->autorefreshCheckbox->setChecked(settings.value("autorefresh", kDefaultAutorefresh).toBool());
-	ui->autorefreshInterval->setTime(QTime(0,0,0,0).addSecs(settings.value("autorefreshInterval", kDefaultAutorefresh).toInt()));
-	
+	ui->autorefreshInterval->setValue(settings.value("autorefreshInterval", kDefaultAutorefresh).toInt());
+
 	// This whole thing makes no sense on OSX, so just hide the whole box there
 	// The application is always running (only) in the menu bar there
 #ifdef __APPLE__
 	ui->minimizeToTrayContainer->hide();
 #endif
-	
+
 	// Autoadjust the size to fit, because that's easier than trying to make it
 	// look everywhere good manually. Takes into account font size differences
 	// and stuff too, so yeah.
@@ -29,7 +29,7 @@ KCSettingsDialog::KCSettingsDialog(KCMainWindow *parent, Qt::WindowFlags f):
 
 KCSettingsDialog::~KCSettingsDialog()
 {
-	
+
 }
 
 void KCSettingsDialog::done(int r)
@@ -40,9 +40,9 @@ void KCSettingsDialog::done(int r)
 		settings.setValue("toolTranslation", ui->translationCheckbox->isChecked());
 		settings.setValue("livestream", ui->livestreamCheckbox->isChecked());
 		settings.setValue("autorefresh", ui->autorefreshCheckbox->isChecked());
-		settings.setValue("autorefreshInterval", QTime(0,0,0,0).secsTo(ui->autorefreshInterval->time()));
+		settings.setValue("autorefreshInterval", ui->autorefreshInterval->value());
 		settings.sync();
 	}
-	
+
 	QDialog::done(r);
 }

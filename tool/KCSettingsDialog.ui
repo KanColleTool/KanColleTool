@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>535</width>
+    <width>656</width>
     <height>350</height>
    </rect>
   </property>
@@ -26,16 +26,7 @@
       <property name="spacing">
        <number>0</number>
       </property>
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
+      <property name="margin">
        <number>0</number>
       </property>
       <item>
@@ -168,9 +159,19 @@ If you would like to provide an alternate translation, contact us and we'll work
       </widget>
      </item>
      <item>
-      <widget class="QTimeEdit" name="autorefreshInterval">
-       <property name="currentSection">
-        <enum>QDateTimeEdit::MinuteSection</enum>
+      <widget class="QSpinBox" name="autorefreshInterval">
+       <property name="maximum">
+        <number>86400</number>
+       </property>
+       <property name="value">
+        <number>300</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>seconds</string>
        </property>
       </widget>
      </item>
