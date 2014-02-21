@@ -34,7 +34,7 @@ public slots:
 	QString translateJson(const QString &json) const;
 
 protected:
-	void parseTranslationData(const QByteArray &data);
+	bool parseTranslationData(const QByteArray &data);
 	QJsonValue _walk(QJsonValue value, QString key="") const;
 
 signals:

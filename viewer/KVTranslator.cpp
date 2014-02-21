@@ -74,15 +74,15 @@ void KVTranslator::translationRequestFinished()
 	}
 	QByteArray body(reply->readAll());
 
-	parseTranslationData(body);
-	qDebug() << "Network translation loaded!";
-
-	cacheFile.open(QIODevice::WriteOnly | QIODevice::Truncate);
-	cacheFile.write(body);
-	cacheFile.close();
+	if(parseTranslationData(body)) {
+		qDebug() << "Network translation loaded!";
+		cacheFile.open(QIODevice::WriteOnly | QIODevice::Truncate);
+		cacheFile.write(body);
+		cacheFile.close();
+	}
 }
 
-void KVTranslator::parseTranslationData(const QByteArray &data)
+bool KVTranslator::parseTranslationData(const QByteArray &data)
 {
 	// Parse the JSON
 	QJsonParseError error;
@@ -90,7 +90,7 @@ void KVTranslator::parseTranslationData(const QByteArray &data)
 	if(error.error != QJsonParseError::NoError)
 	{
 		emit loadFailed(QString("JSON Error: %1").arg(error.errorString()));
-		return;
+		return false;
 	}
 	QJsonObject root(doc.object());
 
@@ -99,7 +99,7 @@ void KVTranslator::parseTranslationData(const QByteArray &data)
 	if(success != 1)
 	{
 		emit loadFailed(QString("API Error %1").arg(success));
-		return;
+		return false;
 	}
 
 	// Parse the translation data
@@ -107,6 +107,7 @@ void KVTranslator::parseTranslationData(const QByteArray &data)
 
 	isLoaded = true;
 	emit loadFinished();
+	return true;
 }
 
 QString KVTranslator::translate(const QString &line) const
