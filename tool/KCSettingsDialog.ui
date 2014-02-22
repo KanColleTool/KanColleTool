@@ -163,9 +163,6 @@ If you would like to provide an alternate translation, contact us and we'll work
        <property name="maximum">
         <number>86400</number>
        </property>
-       <property name="value">
-        <number>300</number>
-       </property>
       </widget>
      </item>
      <item>
