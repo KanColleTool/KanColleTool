@@ -14,6 +14,7 @@
 #include <QStandardPaths>
 #include <QDebug>
 #include <QTimer>
+#include "KVSettingsDialog.h"
 #include "KVNetworkAccessManager.h"
 #include "KVTranslator.h"
 
@@ -30,9 +31,7 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 
 	QMenu *viewerMenu = menuBar->addMenu("Viewer");
 	viewerMenu->addAction("Change API Link", this, SLOT(askForAPILink()), Qt::CTRL + Qt::Key_L);
-	QAction *translationAction = viewerMenu->addAction("Enable Translation", this, SLOT(toggleTranslation(bool)));
-	translationAction->setCheckable(true);
-	translationAction->setChecked(KVTranslator::instance()->enabled);
+	viewerMenu->addAction("Settings", this, SLOT(openSettings()));
 	viewerMenu->addAction("Clear Cache", this, SLOT(clearCache()));
 	viewerMenu->addSeparator();
 	viewerMenu->addAction("Refresh", this, SLOT(loadBundledIndex()));
@@ -138,7 +137,7 @@ void KVMainWindow::loadSettings()
 	else this->generateAPILinkURL();
 
 	KVTranslator *translator = KVTranslator::instance();
-	translator->enabled = settings.value("translation").toBool();
+	translator->enabled = settings.value("viewerTranslation").toBool();
 
 	qDebug() << "Server:" << server;
 	qDebug() << "API Token:" << apiToken;
@@ -183,18 +182,30 @@ void KVMainWindow::askForAPILink(bool reload)
 		this->loadBundledIndex();
 }
 
-void KVMainWindow::toggleTranslation(bool checked)
+void KVMainWindow::openSettings()
 {
-	KVTranslator::instance()->enabled = checked;
+	KVSettingsDialog *settingsDialog = new KVSettingsDialog(this);
+	connect(settingsDialog, SIGNAL(accepted()), SLOT(implementSettings()));
+	connect(settingsDialog, SIGNAL(finished(int)), settingsDialog, SLOT(deleteLater()));
+	settingsDialog->show();
+}
 
+void KVMainWindow::implementSettings()
+{
 	QSettings settings;
-	settings.setValue("translation", checked);
-	settings.sync();
 
-	if(checked)
-		this->loadTranslation();
+	// Translation
+	{
+		KVTranslator *translator = KVTranslator::instance();
+		bool enabled = settings.value("viewerTranslation").toBool();
 
-	this->loadBundledIndex();
+		if(enabled != translator->enabled)
+		{
+			translator->enabled = enabled;
+			if(enabled) loadTranslation();
+			loadBundledIndex();
+		}
+	}
 }
 
 void KVMainWindow::clearCache()

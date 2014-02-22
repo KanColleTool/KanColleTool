@@ -26,18 +26,23 @@ INSTALLS += binaries
 
 SOURCES += main.cpp \
 	KVMainWindow.cpp \
-  KVNetworkAccessManager.cpp \
-  KVNetworkReply.cpp \
+	KVSettingsDialog.cpp \
+	KVNetworkAccessManager.cpp \
+	KVNetworkReply.cpp \
 	KVTranslator.cpp \
 	KVUtil.cpp
 
 HEADERS  += KVMainWindow.h \
+	KVSettingsDialog.h \
 	KVNetworkAccessManager.h \
-  KVNetworkReply.h \
+	KVNetworkReply.h \
 	KVTranslator.h \
 	KVUtil.h
+
+FORMS += \
+	KVSettingsDialog.ui
 
 RESOURCES += resources.qrc
 
 OTHER_FILES += KCTViewer.rc \
-    index.html
+	index.html

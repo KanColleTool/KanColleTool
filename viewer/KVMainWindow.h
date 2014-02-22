@@ -23,7 +23,8 @@ public slots:
 	void loadBundledIndex();
 	void checkForUpdates();
 	void askForAPILink(bool reload = true);
-	void toggleTranslation(bool toEnable = false);
+	void openSettings();
+	void implementSettings();
 	void clearCache();
 	void showAbout();
 
