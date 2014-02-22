@@ -4,19 +4,21 @@ typedef KCClient C;
 
 const std::map<QString, C::processFunc> C::processFuncs = {
 	// Global info -------------------------------------------------------------
-	//  Ships
-	{
+	{ // Ships
 		"/kcsapi/api_get_master/ship",
 		pf {
 			modelizeResponse(data, client->masterShips, client);
 			emit client->receivedMasterShips();
 		}
 	},
+	{ "/kcsapi/api_get_master/slotitem", 0 },	// Items
+	{ "/kcsapi/api_get_master/furniture", 0 }, // Furniture
+	{ "/kcsapi/api_get_master/mission", 0 }, // Expeditions
 	//  Sortie maps
 	{ "/kcsapi/api_get_master/mapinfo", 0 },
 	{ "/kcsapi/api_get_master/mapcell", 0 },
-	//  Expeditions
-	{ "/kcsapi/api_get_master/mission", 0 },
+	// ???
+	{ "/kcsapi/api_get_master/maparea", 0 },
 
 	// Member info -------------------------------------------------------------
 	{ "/kcsapi/api_get_member/basic", 0 },
@@ -79,11 +81,13 @@ const std::map<QString, C::processFunc> C::processFuncs = {
 	{ "/kcsapi/api_get_member/actionlog", 0 },
 	//  Furniture
 	{ "/kcsapi/api_req_furniture/change", 0 },
+	{ "/kcsapi/api_get_member/furniture", 0 },
 	//  Store
 	{ "/kcsapi/api_get_master/payitem", 0 }, // Load the pay shop
 	{ "/kcsapi/api_req_furniture/buy", 0 },
 	// ???
 	{ "/kcsapi/api_get_member/deck_port", 0 },
+	{ "/kcsapi/api_get_master/useitem", 0 },
 
 	// Battle info -------------------------------------------------------------
 	//  Expeditions
