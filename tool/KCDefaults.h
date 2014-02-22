@@ -1,10 +1,10 @@
 #ifndef KCDEFAULTS_H
 #define KCDEFAULTS_H
 
-#define kDefaultMinimizeToTray true
-#define kDefaultTranslation true
-#define kDefaultLivestream true
-#define kDefaultAutorefresh true
-#define kDefaultAutorefreshInterval (60*60)
+const bool kDefaultMinimizeToTray =  true;
+const bool kDefaultTranslation = true;
+const bool kDefaultLivestream = true
+const bool kDefaultAutorefresh = true
+const int kDefaultAutorefreshInterval = 3600
 
 #endif
