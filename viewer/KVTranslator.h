@@ -49,7 +49,6 @@ private:
 	QFile cacheFile;
 	QNetworkAccessManager manager;
 	QVariantMap translation;
-	QTimeZone JST;
 
 private:
 	// Singleton stuff

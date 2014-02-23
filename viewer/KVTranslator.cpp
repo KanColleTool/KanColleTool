@@ -36,7 +36,7 @@ KVTranslator* KVTranslator::instance()
 
 
 KVTranslator::KVTranslator(QObject *parent):
-	QObject(parent), isLoaded(false), JST(32400)
+	QObject(parent), isLoaded(false)
 {
 	cacheFile.setFileName(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)).filePath("translation.json"));
 }
@@ -136,7 +136,7 @@ QString KVTranslator::fixTime(const QString &time) const
 {
 	QDateTime realTime = QDateTime::fromString(time, "yyyy-MM-dd hh:mm:ss");
 	if(!realTime.isValid()) return time;
-	realTime.setTimeZone(JST);
+	realTime.addSecs(-32400);
 	realTime = realTime.toLocalTime();
 	//qDebug() << "fix time" << time << "to" << realTime.toString("yyyy-MM-dd hh:mm:ss");
 	return realTime.toString("yyyy-MM-dd hh:mm:ss");
