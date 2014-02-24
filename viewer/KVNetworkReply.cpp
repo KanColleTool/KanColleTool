@@ -68,7 +68,7 @@ void KVNetworkReply::handleResponse()
 	QString data = d->copied->readAll();
 	d->copied->abort();
 
-	//qDebug() << "content:" << data.constData();
+	//qDebug() << "content:" << data;
 
 	data = KVTranslator::instance()->translateJson(data).toUtf8();
 

@@ -7,7 +7,7 @@
 KVNetworkAccessManager::KVNetworkAccessManager(QObject *parent) :
 	QNetworkAccessManager(parent)
 {
-	
+
 }
 
 QNetworkReply *KVNetworkAccessManager::createRequest(Operation op, const QNetworkRequest &req, QIODevice *outgoingData)
@@ -23,10 +23,6 @@ QNetworkReply *KVNetworkAccessManager::createRequest(Operation op, const QNetwor
 			QNetworkReply *r = QNetworkAccessManager::createRequest(op, request, outgoingData);
 			KVNetworkReply *reply = new KVNetworkReply(r->parent(), r, this);
 			return reply;
-		}
-		else if(op == QNetworkAccessManager::GetOperation)
-		{
-			qDebug() << "GET" << request.url().path();
 		}
 	}
 
