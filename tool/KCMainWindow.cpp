@@ -138,15 +138,18 @@ void KCMainWindow::_setupClient()
 	connect(client, SIGNAL(dockCompleted(KCDock *)), this, SLOT(onDockCompleted(KCDock *)));
 	connect(client, SIGNAL(missionCompleted(KCFleet*)), this, SLOT(onMissionCompleted(KCFleet*)));
 
-	if(!client->hasCredentials())
-	{
+	if(!client->hasCredentials()) {
 		this->askForAPILink();
 
 		// Quit if the user pressed Cancel, instead of erroring out
 		if(!client->hasCredentials())
 			qApp->quit();
+	} else {
+		QEventLoop loop;
+		loop.connect(client, SIGNAL(receivedMasterShips()), SLOT(quit()));
+		this->onCredentialsGained();
+		loop.exec();
 	}
-	else this->onCredentialsGained();
 }
 
 void KCMainWindow::_showDisclaimer()
