@@ -24,10 +24,15 @@ KCMainWindow::KCMainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 
+	QMessageBox loadingMessageBox(QMessageBox::NoIcon, "Loading...",
+	                              "This should only take a few moments.",
+	                              QMessageBox::Cancel, this);
+	loadingMessageBox.open();
 	this->_setupClient();
 	this->_setupTrayIcon();
 	this->_setupUI();
 	this->_showDisclaimer();
+	loadingMessageBox.accept();
 
 	// Setup settings and stuff
 	connect(&refreshTimer, SIGNAL(timeout()), this, SLOT(on_actionRefresh_triggered()));
@@ -113,7 +118,7 @@ void KCMainWindow::_setupUI()
 #endif
 
 	// On Mac, we get Cmd+Q to quit for free. On anything else, set it up like this
-#if !defined(__APPLE__)
+#ifndef __APPLE__
 	QShortcut *quitShortcut = new QShortcut(QKeySequence("Ctrl+Q"), this);
 	connect(quitShortcut, SIGNAL(activated()), qApp, SLOT(quit()));
 #endif
@@ -294,6 +299,8 @@ void KCMainWindow::updateFleetsPage()
 		{
 			KCShip *ship = client->ships[fleet->ships[i]];
 			if(!ship) continue;
+			KCShipMaster *type = client->masterShips[ship->master];
+			if(!type) continue;
 
 			QString iS = QString::number(i+1);
 
@@ -306,12 +313,12 @@ void KCMainWindow::updateFleetsPage()
 			QLabel *condLabel = findChild<QLabel*>(QString("fleetCond") + iS);
 
 			box->show();
-			nameLabel->setText(kcTranslate(ship->name));
+			nameLabel->setText(kcTranslate(type->name));
 			hpBar->setRange(0, ship->maxHp);
 			hpBar->setValue(ship->hp);
-			ammoBar->setRange(0, ship->maxAmmo);
+			ammoBar->setRange(0, type->maxAmmo);
 			ammoBar->setValue(ship->ammo);
-			fuelBar->setRange(0, ship->maxFuel);
+			fuelBar->setRange(0, type->maxFuel);
 			fuelBar->setValue(ship->fuel);
 			levelLabel->setText(QString::number(ship->level));
 			condLabel->setText(QString::number(ship->condition));
@@ -331,8 +338,9 @@ void KCMainWindow::updateShipsPage()
 	int row = 0;
 	foreach(KCShip *ship, client->ships)
 	{
-		if(!ship)
-			continue;
+		if(!ship) continue;
+		KCShipMaster *type = client->masterShips[ship->master];
+		if(!type) continue;
 
 		TABLE_SET_ITEM(ui->shipsTable, row, 0, ship->level);
 		TABLE_SET_ITEM(ui->shipsTable, row, 1, ship->maxHp);
@@ -342,7 +350,7 @@ void KCMainWindow::updateShipsPage()
 		TABLE_SET_ITEM(ui->shipsTable, row, 5, ship->antiair.cur);
 		TABLE_SET_ITEM(ui->shipsTable, row, 6, ship->antisub.cur);
 		TABLE_SET_ITEM(ui->shipsTable, row, 7, ship->speed);
-		TABLE_SET_ITEM(ui->shipsTable, row, 8, kcTranslate(ship->name));
+		TABLE_SET_ITEM(ui->shipsTable, row, 8, kcTranslate(type->name));
 
 		++row;
 	}
@@ -384,7 +392,9 @@ void KCMainWindow::updateRepairsPage()
 			KCShip *ship = client->ships[dock->shipID];
 			if(ship)
 			{
-				nameLabel->setText(kcTranslate(ship->name));
+				KCShipMaster *type = client->masterShips[ship->master];
+				if(type)
+					nameLabel->setText(kcTranslate(type->name));
 				repairTimerLabel->setText(delta(dock->complete).toString("H:mm:ss"));
 			}
 		}
@@ -499,8 +509,10 @@ void KCMainWindow::updateTimers()
 							continue;
 
 						KCShip *ship = client->ships[fleet->ships[i]];
+						KCShipMaster *type = client->masterShips[ship->master];
 						busy = true;
-						status = QString("%1 is taking a bath").arg(kcTranslate(ship->name));
+						if(type)
+							status = QString("%1 is taking a bath").arg(kcTranslate(type->name));
 						dT = dT2;
 					}
 				}
@@ -562,14 +574,14 @@ void KCMainWindow::updateTimers()
 void KCMainWindow::updateSettingThings()
 {
 	QSettings settings;
-	
+
 	// Translation
 	{
 		bool wasEnabled = KCTranslator::instance()->enabled;
 		bool newEnabled = settings.value("toolTranslation", kDefaultTranslation).toBool();
 		qDebug() << "Translation Enabled:" << wasEnabled << "->" << newEnabled;
 		KCTranslator::instance()->enabled = newEnabled;
-		
+
 		if(wasEnabled != newEnabled)
 		{
 			this->updateFleetsPage();
@@ -578,7 +590,7 @@ void KCMainWindow::updateSettingThings()
 			this->updateConstructionsPage();
 		}
 	}
-	
+
 
 	// Server for Viewer data livestreaming
 	if(settings.value("livestream", kDefaultLivestream).toBool())
@@ -727,12 +739,15 @@ void KCMainWindow::onDockCompleted(KCDock *dock)
 	else
 	{
 		KCShip *ship = client->ships[dock->shipID];
-		if(ship)
-			trayIcon->showMessage("Repair Completed!",
-				QString("%1 is all healthy again!").arg(kcTranslate(ship->name)));
-		else
+		if(ship) {
+			KCShipMaster *type = client->masterShips[ship->master];
+			if(type)
+				trayIcon->showMessage("Repair Completed!",
+				                      QString("%1 is all healthy again!").arg(kcTranslate(type->name)));
+		} else {
 			trayIcon->showMessage("Repair Completed!",
 				QString("Your shipgirl is all healthy again!"));
+		}
 
 		updateRepairsPage();
 	}

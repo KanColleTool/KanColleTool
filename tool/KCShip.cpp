@@ -31,7 +31,6 @@ void KCShip::loadFrom(const QVariantMap &data) {
 	// int api_bull - Bullets held
 	extract(data, ammo, "api_bull");
 	// int api_bull_max - Bullet capacity
-	extract(data, maxAmmo, "api_bull_max");
 	// int api_cond - Condition (fatigue)
 	extract(data, condition, "api_cond");
 	// int api_exp - Total EXP
@@ -39,7 +38,6 @@ void KCShip::loadFrom(const QVariantMap &data) {
 	// int api_fuel - Fuel
 	extract(data, fuel, "api_fuel");
 	// int api_fuel_max - Fuel capacity
-	extract(data, maxFuel, "api_fuel_max");
 	// ??? api_gomes - ??? (always null?)
 	// ??? api_gomes2 - ??? (always null?)
 	// int[2] api_houg - Firepower, with modernization (cur, max)
@@ -72,7 +70,6 @@ void KCShip::loadFrom(const QVariantMap &data) {
 	// int api_member_id - ID of her admiral
 	extract(data, admiral, "api_member_id");
 	// string api_name - Her name, with Kanji
-	extract(data, name, "api_name");
 	// int[2] api_ndock_item - Current cost to repair (Steel, Fuel)
 	extract(data, repairCost.steel, "api_ndock_item", 0);
 	extract(data, repairCost.fuel, "api_ndock_item", 1);
@@ -131,12 +128,9 @@ void KCShip::loadFrom(const QVariantMap &data) {
 	extract(data, antiairBase.cur, "api_tyku", 0);
 	extract(data, antiairBase.max, "api_tyku", 1);
 	// int[2] api_use_bull - Ammo cost per point to resupply
-	extract(data, ammoCost, "api_use_bull");
 	// int[2] api_use_fuel - Fuel cost per point to resupply
-	extract(data, fuelCost, "api_use_fuel");
 	// int[2] api_voicef - 1 or 3 if the ship has extra (hourly?) voice clips
 	// string api_yomi - Name, in Hiragana/Katakana
-	extract(data, reading, "api_yomi");
 }
 
 void KCShip::loadFrom2(const QVariantMap &data) {

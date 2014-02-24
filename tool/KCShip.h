@@ -17,7 +17,6 @@ public:
 
 	int master;
 
-	QString name, reading;
 	int id, admiral;
 	int level, exp;
 	bool heartLock;
@@ -34,8 +33,7 @@ public:
 	int range, speed;
 
 	int hp, maxHp;
-	int ammo, maxAmmo, ammoCost;
-	int fuel, maxFuel, fuelCost;
+	int ammo, fuel;
 	int condition;
 
 	int equipment[5];

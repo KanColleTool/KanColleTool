@@ -1,6 +1,7 @@
 #include "KCClient.h"
 #include <QDebug>
 #include <QSettings>
+#include <QEventLoop>
 #include <QUrlQuery>
 #include <QJsonDocument>
 #include <QFile>
@@ -89,6 +90,9 @@ void KCClient::requestMasterShips()
 {
 	QNetworkReply *reply = this->call("/api_get_master/ship");
 	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onMasterShipsRequestFinished()));
+	QEventLoop loop;
+	loop.connect(reply, SIGNAL(finished()), SLOT(quit()));
+	loop.exec();
 }
 
 void KCClient::requestPlayerShips()
