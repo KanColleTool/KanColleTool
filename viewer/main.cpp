@@ -18,5 +18,8 @@ int main(int argc, char *argv[])
 	KVMainWindow *win = new KVMainWindow();
 	win->show();
 
-	return app.exec();
+	int ret = app.exec();
+	delete win;
+
+	return ret;
 }
