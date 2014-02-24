@@ -3,26 +3,26 @@
 
 KCShip::KCShip(QObject *parent) : KCShip(QVariantMap(), parent) {}
 
-KCShip::KCShip(QVariantMap data, QObject *parent):
+KCShip::KCShip(QVariantMap data, QObject *parent, bool use2):
 	QObject(parent)
 {
-	loadFrom(data);
+	if(use2) loadFrom2(data);
+	else loadFrom(data);
 }
 
 KCShip::~KCShip()
 {
-	
+
 }
 
-void KCShip::loadFrom(QVariantMap data)
-{
+void KCShip::loadFrom(const QVariantMap &data) {
 	// Unlike KCShipMaster, I'm keeping only the values we actually use here.
 	// The Master object has most of this stuff already, so we're just keeping
 	// the individual girl's values here.
 	// (And her name, because not letting her keep her own name would be mean.)
 	// Again, in the same order as in the API response to make missing values
 	// easier to spot, not like it's really needed here...
-	
+
 	// int api_afterlv - Remodel level
 	// int api_aftershipid - Remodels into...
 	// int api_backs - Rarity
@@ -110,10 +110,10 @@ void KCShip::loadFrom(QVariantMap data)
 	// int api_sortno - The number on the card
 	// int api_souk - Armor, with modernization (cur, max)
 	extract(data, armorBase.cur, "api_souk", 0);
-	extract(data, armorBase.cur, "api_souk", 1);
+	extract(data, armorBase.max, "api_souk", 1);
 	// int api_soukou - Armor, with modernization and equipment (cur, max)
 	extract(data, armor.cur, "api_soukou", 0);
-	extract(data, armor.cur, "api_soukou", 1);
+	extract(data, armor.max, "api_soukou", 1);
 	// int api_srate - Always seems to be the same as api_star
 	// int api_star - "Heart Lock"?
 	extract(data, heartLock, "api_star");
@@ -122,8 +122,8 @@ void KCShip::loadFrom(QVariantMap data)
 	extract(data, hpBase.cur, "api_taik", 0);
 	extract(data, hpBase.max, "api_taik", 1);
 	// int[2] api_taiku - Anti-Air, with modernization and equipment (cur, max)
-	extract(data, antiair.cur, "api_taik", 0);
-	extract(data, antiair.max, "api_taik", 1);
+	extract(data, antiair.cur, "api_taiku", 0);
+	extract(data, antiair.max, "api_taiku", 1);
 	// int[2] api_taisen - Anti-Sub (cur, max)
 	extract(data, antisub.cur, "api_taisen", 0);
 	extract(data, antisub.max, "api_taisen", 1);
@@ -137,4 +137,39 @@ void KCShip::loadFrom(QVariantMap data)
 	// int[2] api_voicef - 1 or 3 if the ship has extra (hourly?) voice clips
 	// string api_yomi - Name, in Hiragana/Katakana
 	extract(data, reading, "api_yomi");
+}
+
+void KCShip::loadFrom2(const QVariantMap &data) {
+	extract(data, master, "api_ship_id");
+	extract(data, level, "api_lv");
+	extract(data, exp, "api_exp");
+	extract(data, hp, "api_nowhp");
+	extract(data, maxHp, "api_maxhp");
+	extract(data, range, "api_leng");
+	extract(data, equipment, 5, "api_slot");
+	extract(data, _kyouka, 4, "api_kyouka");
+	extract(data, fuel, "api_fuel");
+	extract(data, ammo, "api_bull");
+	extract(data, equipmentSlots, "api_slotnum");
+	extract(data, repairTime, "api_ndock_time");
+	extract(data, repairCost.steel, "api_ndock_item", 0);
+	extract(data, repairCost.fuel, "api_ndock_item", 1);
+	extract(data, condition, "api_cond");
+	extract(data, firepower.cur, "api_karyoku", 0);
+	extract(data, firepower.max, "api_karyoku", 1);
+	extract(data, torpedo.cur, "api_raisou", 0);
+	extract(data, torpedo.max, "api_raisou", 1);
+	extract(data, antiair.cur, "api_taiku", 0);
+	extract(data, antiair.max, "api_taiku", 1);
+	extract(data, armor.cur, "api_soukou", 0);
+	extract(data, armor.max, "api_soukou", 1);
+	extract(data, evasion.cur, "api_kaihi", 0);
+	extract(data, evasion.max, "api_kaihi", 1);
+	extract(data, antisub.cur, "api_taisen", 0);
+	extract(data, antisub.max, "api_taisen", 1);
+	extract(data, lineOfSight.cur, "api_sakuteki", 0);
+	extract(data, lineOfSight.max, "api_sakuteki", 1);
+	extract(data, luck.cur, "api_lucky", 0);
+	extract(data, luck.max, "api_lucky", 1);
+	extract(data, heartLock, "api_locked");
 }

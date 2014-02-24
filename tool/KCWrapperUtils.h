@@ -77,7 +77,7 @@ inline void modelizeResponse(const QVariant &data, QMap<int, modelT*> &target, p
 	{
 		QVariantMap itemMap = item.toMap();
 		modelT *ship = target.value(itemMap.value(idKey).toInt());
-		
+
 		if(!ship)
 			target.insert(itemMap.value(idKey).toInt(), new modelT(itemMap, parent));
 		else

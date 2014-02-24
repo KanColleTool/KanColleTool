@@ -9,18 +9,19 @@ class KCShip : public QObject
 {
 public:
 	KCShip(QObject *parent = 0);
-	KCShip(QVariantMap data = QVariantMap(), QObject *parent = 0);
+	KCShip(QVariantMap data = QVariantMap(), QObject *parent = 0, bool use2=false);
 	virtual ~KCShip();
-	
-	void loadFrom(QVariantMap data);
-	
+
+	void loadFrom(const QVariantMap &data);
+	void loadFrom2(const QVariantMap &data);
+
 	int master;
-	
+
 	QString name, reading;
 	int id, admiral;
 	int level, exp;
 	bool heartLock;
-	
+
 	struct { int cur, max; } hpBase; // HP bar data below
 	struct { int cur, max; } firepowerBase, firepower;
 	struct { int cur, max; } torpedoBase, torpedo;
@@ -31,19 +32,19 @@ public:
 	struct { int cur, max; } lineOfSightBase, lineOfSight;
 	struct { int cur, max; } luckBase, luck;
 	int range, speed;
-	
+
 	int hp, maxHp;
 	int ammo, maxAmmo, ammoCost;
 	int fuel, maxFuel, fuelCost;
 	int condition;
-	
+
 	int equipment[5];
 	int equipmentSlots;
-	
+
 	struct { int steel, fuel; } repairCost;
 	int repairTime;	// In Seconds
 	QString repairTimeStr;
-	
+
 	// Unknown values
 	int _houm[2], _raim[2];
 	int _kyouka[4];

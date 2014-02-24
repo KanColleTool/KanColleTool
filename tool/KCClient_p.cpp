@@ -4,8 +4,7 @@ typedef KCClient C;
 
 const std::map<QString, C::processFunc> C::processFuncs = {
 	// Global info -------------------------------------------------------------
-	{ // Ships
-		"/kcsapi/api_get_master/ship",
+	{ "/kcsapi/api_get_master/ship", // Ships
 		pf {
 			modelizeResponse(data, client->masterShips, client);
 			emit client->receivedMasterShips();
@@ -28,33 +27,70 @@ const std::map<QString, C::processFunc> C::processFuncs = {
 	{ "/kcsapi/api_get_member/unsetslot", 0 }, // Remove item
 	{ "/kcsapi/api_get_member/useitem", 0 },
 	//  Ships
-	{
-		"/kcsapi/api_get_member/ship",
+	{ "/kcsapi/api_get_member/ship",
 		pf {
 			modelizeResponse(data, client->ships, client);
 			emit client->receivedPlayerShips();
 		}
 	},
-	{ "/kcsapi/api_get_member/ship2", 0 }, // TODO
-	{ "/kcsapi/api_get_member/ship3", 0 }, // TODO
+	{ "/kcsapi/api_get_member/ship2",
+	  pf {
+			for(QVariant item : data.toList()) {
+				QVariantMap itemMap = item.toMap();
+				KCShip **ship = &client->ships[itemMap.value("api_id").toInt()];
+
+				if(!*ship)
+					*ship = new KCShip(itemMap, client, true);
+				else
+					(*ship)->loadFrom2(itemMap);
+			}
+			emit client->receivedPlayerShips();
+
+			// TODO: handle the weird api_data_deck
+		}
+	},
+	{ "/kcsapi/api_get_member/ship3",
+	  pf {
+			QVariantMap map = data.toMap();
+			QVariantList shipData = map["api_ship_data"].toList();
+			QVariantList fleetData = map["api_fleet_data"].toList();
+			for(QVariant item : shipData) {
+				QVariantMap itemMap = item.toMap();
+				KCShip **ship = &client->ships[itemMap.value("api_id").toInt()];
+
+				if(!*ship)
+					*ship = new KCShip(itemMap, client, true);
+				else
+					(*ship)->loadFrom2(itemMap);
+			}
+			for(QVariant item : fleetData) {
+				QVariantMap itemMap = item.toMap();
+				KCFleet **fleet = &client->fleets[itemMap.value("api_id").toInt()];
+
+				if(!*fleet)
+					*fleet = new KCFleet(itemMap, client);
+				else
+					(*fleet)->loadFrom(itemMap);
+			}
+			emit client->receivedPlayerShips();
+			emit client->receivedPlayerFleets();
+		}
+	}, // TODO
 	{ "/kcsapi/api_get_member/material", 0 }, // Resources
 	//  Various statuses
-	{ // Fleets
-		"/kcsapi/api_get_member/deck",
+	{ "/kcsapi/api_get_member/deck", // Fleets
 		pf {
 			modelizeResponse(data, client->fleets, client);
 			emit client->receivedPlayerFleets();
 		}
 	},
-	{ // Dock (repair)
-		"/kcsapi/api_get_member/ndock",
+	{ "/kcsapi/api_get_member/ndock", // Dock (repair)
 		pf {
 			modelizeResponse(data, client->repairDocks, client);
 			emit client->receivedPlayerRepairs();
 		}
 	},
-	{ // Construction
-		"/kcsapi/api_get_member/kdock",
+	{ "/kcsapi/api_get_member/kdock", // Construction
 		pf {
 			modelizeResponse(data, client->constructionDocks, client);
 			emit client->receivedPlayerConstructions();

@@ -21,11 +21,10 @@ KCFleet::KCFleet(QVariantMap data, KCClient *parent) : KCFleet(data, (QObject*)p
 
 KCFleet::~KCFleet()
 {
-	
+
 }
 
-void KCFleet::loadFrom(QVariantMap data)
-{
+void KCFleet::loadFrom(const QVariantMap &data) {
 	// int api_member_id - The ID of the fleet's admiral
 	extract(data, admiral, "api_member_id");
 	// int api_id - Local ID of the fleet
@@ -43,7 +42,7 @@ void KCFleet::loadFrom(QVariantMap data)
 	// int[6] api_ship - Local ID of the ships in the fleet
 	extract(data, ships, 6, "api_ship");
 	extractCount(data, shipCount, "api_ship");
-	
+
 	if(mission.page > 0 && mission.no > 0 && mission.complete > QDateTime::currentDateTime())
 		missionTimer.start(mission.complete.toMSecsSinceEpoch() - QDateTime::currentMSecsSinceEpoch());
 	else
