@@ -54,6 +54,7 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	// Set up a cache; a larger-than-normal disk cache is quite enough for our purposes
 	cache = new QNetworkDiskCache(this);
 	cache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+	cache->setMaximumCacheSize(1073741824);
 	wvManager->setCache(cache);
 
 	// Set up the web view, using our custom Network Access Manager
