@@ -3,6 +3,8 @@
 typedef KCClient C;
 
 const std::map<QString, C::processFunc> C::processFuncs = {
+	{ "/kcsapi/api_req_member/get_incentive", 0 }, // Login
+
 	// Global info -------------------------------------------------------------
 	{ "/kcsapi/api_get_master/ship", // Ships
 		pf {
@@ -10,6 +12,7 @@ const std::map<QString, C::processFunc> C::processFuncs = {
 			emit client->receivedMasterShips();
 		}
 	},
+	{ "/kcsapi/api_get_master/stype", 0 }, // Ship types
 	{ "/kcsapi/api_get_master/slotitem", 0 },	// Items
 	{ "/kcsapi/api_get_master/furniture", 0 }, // Furniture
 	{ "/kcsapi/api_get_master/mission", 0 }, // Expeditions
