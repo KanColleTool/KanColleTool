@@ -142,11 +142,12 @@ void KCShip::loadFrom(const QVariantMap &data) {
 void KCShip::loadFrom2(const QVariantMap &data) {
 	extract(data, master, "api_ship_id");
 	extract(data, level, "api_lv");
-	extract(data, exp, "api_exp");
+	extract(data, exp, "api_exp", 0);
 	extract(data, hp, "api_nowhp");
 	extract(data, maxHp, "api_maxhp");
 	extract(data, range, "api_leng");
 	extract(data, equipment, 5, "api_slot");
+	extract(data, _onslot, 5, "api_onslot");
 	extract(data, _kyouka, 4, "api_kyouka");
 	extract(data, fuel, "api_fuel");
 	extract(data, ammo, "api_bull");
