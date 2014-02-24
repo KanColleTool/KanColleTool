@@ -4,6 +4,7 @@ typedef KCClient C;
 
 const std::map<QString, C::processFunc> C::processFuncs = {
 	{ "/kcsapi/api_req_member/get_incentive", 0 }, // Login
+	{ "/kcsapi/api_start", 0 },
 
 	// Global info -------------------------------------------------------------
 	{ "/kcsapi/api_get_master/ship", // Ships
