@@ -69,11 +69,7 @@ public slots:
 	void requestPlayerConstructions();
 
 protected slots:
-	void onMasterShipsRequestFinished();
-	void onPlayerShipsRequestFinished();
-	void onPlayerFleetsRequestFinished();
-	void onPlayerRepairsRequestFinished();
-	void onPlayerConstructionsRequestFinished();
+	void onRequestFinished();
 
 	void onDockCompleted();
 	void onMissionCompleted();

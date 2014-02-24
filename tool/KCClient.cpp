@@ -11,35 +11,6 @@
 
 #define kClientUseCache 0
 
-/*
- * This is ugly, but it's so repetitive that it's better to keep it out of the
- * way and synthesize it all like this than to copypaste this over and over.
- * One day, I will think of a better way. Until then, this stands.
- */
-#define SYNTHESIZE_RESPONSE_HANDLERS(_id_, _var_) \
-	void KCClient::on##_id_##RequestFinished() \
-	{ \
-		QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender()); \
-		if(reply->error() == QNetworkReply::NoError) \
-		{ \
-			ErrorCode error; \
-			QVariant data = this->dataFromRawResponse(reply->readAll(), &error); \
-			if(data.isValid()) callPFunc(reply->url().path(), data); \
-			else { qDebug() << error; emit requestError(error); } \
-		} \
-		else if(reply->error() == QNetworkReply::UnknownNetworkError) \
-			qWarning() << "Connection Failed:" << reply->errorString(); \
-	}
-
-SYNTHESIZE_RESPONSE_HANDLERS(MasterShips, masterShips)
-SYNTHESIZE_RESPONSE_HANDLERS(PlayerShips, ships)
-SYNTHESIZE_RESPONSE_HANDLERS(PlayerFleets, fleets)
-SYNTHESIZE_RESPONSE_HANDLERS(PlayerRepairs, repairDocks)
-SYNTHESIZE_RESPONSE_HANDLERS(PlayerConstructions, constructionDocks)
-
-// ------------------------------------------------------------------------- //
-
-
 void KCClient::callPFunc(const QString &path, const QVariant &data)
 {
 	try {
@@ -89,31 +60,31 @@ void KCClient::setCredentials(QString server, QString apiToken)
 void KCClient::requestMasterShips()
 {
 	QNetworkReply *reply = this->call("/api_get_master/ship");
-	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onMasterShipsRequestFinished()));
+	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onRequestFinished()));
 }
 
 void KCClient::requestPlayerShips()
 {
 	QNetworkReply *reply = this->call("/api_get_member/ship");
-	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onPlayerShipsRequestFinished()));
+	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onRequestFinished()));
 }
 
 void KCClient::requestPlayerFleets()
 {
 	QNetworkReply *reply = this->call("/api_get_member/deck");
-	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onPlayerFleetsRequestFinished()));
+	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onRequestFinished()));
 }
 
 void KCClient::requestPlayerRepairs()
 {
 	QNetworkReply *reply = this->call("/api_get_member/ndock");
-	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onPlayerRepairsRequestFinished()));
+	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onRequestFinished()));
 }
 
 void KCClient::requestPlayerConstructions()
 {
 	QNetworkReply *reply = this->call("/api_get_member/kdock");
-	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onPlayerConstructionsRequestFinished()));
+	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onRequestFinished()));
 }
 
 void KCClient::onDockCompleted()
@@ -150,6 +121,18 @@ QNetworkReply* KCClient::call(QString endpoint, QUrlQuery params)
 	QString query = params.toString(QUrl::FullyEncoded);
 
 	return manager->post(request, query.toUtf8());
+}
+
+void KCClient::onRequestFinished() {
+	QNetworkReply *reply = qobject_cast<QNetworkReply*>(QObject::sender());
+	if(reply->error() == QNetworkReply::NoError) {
+		ErrorCode error;
+		QVariant data = this->dataFromRawResponse(reply->readAll(), &error);
+		if(data.isValid()) callPFunc(reply->url().path(), data);
+		else { qDebug() << error; emit requestError(error); }
+	} else if(reply->error() == QNetworkReply::UnknownNetworkError) {
+		qWarning() << "Connection Failed:" << reply->errorString();
+	}
 }
 
 QUrl KCClient::urlForEndpoint(QString endpoint)
