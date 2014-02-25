@@ -7,19 +7,17 @@
 #include <QDateTime>
 #include <QTimer>
 
+#include "KCGameObject.h"
+
 class KCClient;
-class KCFleet : public QObject
-{
+class KCFleet : public KCGameObject {
 	Q_OBJECT
 
 public:
-	KCFleet(QObject *parent = 0);
-	KCFleet(QVariantMap data = QVariantMap(), QObject *parent = 0);
-	KCFleet(KCClient *parent = 0);
-	KCFleet(QVariantMap data = QVariantMap(), KCClient *parent = 0);
+	KCFleet(const QVariantMap &data=QVariantMap(), int loadId=0, KCClient *parent=0);
 	virtual ~KCFleet();
 
-	void loadFrom(const QVariantMap &data);
+	void loadFrom(const QVariantMap &data, int loadId) override;
 
 	int id, admiral;
 	QString name;

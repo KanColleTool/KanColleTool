@@ -5,19 +5,20 @@
 #include <QVariant>
 #include <QMap>
 
-class KCShip : public QObject
-{
+#include "KCGameObject.h"
+
+class KCShip : public KCGameObject {
+	Q_OBJECT
+
 public:
-	KCShip(QObject *parent = 0);
-	KCShip(QVariantMap data = QVariantMap(), QObject *parent = 0, bool use2=false);
+	KCShip(const QVariantMap &data, int loadId=0, QObject *parent=0);
 	virtual ~KCShip();
 
-	void loadFrom(const QVariantMap &data);
-	void loadFrom2(const QVariantMap &data);
+	void loadFrom(const QVariantMap &data, int loadId) override;
 
 	int master;
 
-	int id, admiral;
+	int id;
 	int level, exp;
 
 	struct { int cur, max; } hpBase, hp;
@@ -40,8 +41,9 @@ public:
 	int repairTime;	// In Seconds
 	QString repairTimeStr;
 
+	bool heartLock;
+
 	// Unknown values
-	int _houm[2], _raim[2];
 	int _kyouka[4];
 	int _onslot[5];
 };

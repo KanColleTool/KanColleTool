@@ -1,19 +1,18 @@
 #include "KCShipMaster.h"
 #include "KCWrapperUtils.h"
 
-KCShipMaster::KCShipMaster(QObject *parent) : KCShipMaster(QVariantMap(), parent) {}
-
-KCShipMaster::KCShipMaster(QVariantMap data, QObject *parent):
-	QObject(parent)
-{
-	loadFrom(data);
+KCShipMaster::KCShipMaster(const QVariantMap &data, int loadId, QObject *parent) :
+	KCGameObject(parent) {
+	loadFrom(data, loadId);
 }
 
 KCShipMaster::~KCShipMaster() {
 
 }
 
-void KCShipMaster::loadFrom(QVariantMap data) {
+void KCShipMaster::loadFrom(const QVariantMap &data, int loadId) {
+	Q_UNUSED(loadId);
+
 	// All of these are retrieved in the order they are in the API responses
 	// to make debugging eventual incorrect values easier.
 	extract(data, id, "api_id");

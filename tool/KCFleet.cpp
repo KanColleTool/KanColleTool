@@ -2,29 +2,19 @@
 #include "KCWrapperUtils.h"
 #include "KCClient.h"
 
-KCFleet::KCFleet(QObject *parent) : KCFleet(QVariantMap(), parent) {}
-
-KCFleet::KCFleet(QVariantMap data, QObject *parent):
-	QObject(parent)
-{
-	missionTimer.setSingleShot(true);
-	connect(&missionTimer, SIGNAL(timeout()), this, SLOT(onMissionTimeout()));
-	loadFrom(data);
-}
-
-KCFleet::KCFleet(KCClient *parent) : KCFleet(QVariantMap(), parent) {}
-
-KCFleet::KCFleet(QVariantMap data, KCClient *parent) : KCFleet(data, (QObject*)parent)
-{
+KCFleet::KCFleet(const QVariantMap &data, int loadId, KCClient *parent) :
+	KCGameObject(parent) {
 	connect(this, SIGNAL(missionCompleted()), parent, SLOT(onMissionCompleted()));
+	loadFrom(data, loadId);
 }
 
-KCFleet::~KCFleet()
-{
+KCFleet::~KCFleet() {
 
 }
 
-void KCFleet::loadFrom(const QVariantMap &data) {
+void KCFleet::loadFrom(const QVariantMap &data, int loadId) {
+	Q_UNUSED(loadId);
+
 	// int api_member_id - The ID of the fleet's admiral
 	extract(data, admiral, "api_member_id");
 	// int api_id - Local ID of the fleet

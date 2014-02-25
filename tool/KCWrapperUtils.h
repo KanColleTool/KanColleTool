@@ -51,8 +51,7 @@ inline void extract(const QVariantMap &source, T& dest, const QString &key, int 
 /*
  * Extract just the count of a list into an int&
  */
-inline void extractCount(const QVariantMap &source, int& dest, const QString &key)
-{
+inline void extractCount(const QVariantMap &source, int& dest, const QString &key) {
 	dest = source[key].value<QSequentialIterable>().size();
 }
 
@@ -66,22 +65,22 @@ inline void extractTimestamp(const QVariantMap &source, QDateTime& dest, const Q
 	dest = QDateTime::fromMSecsSinceEpoch(tmp);
 }
 
+class KCClient;
+
 /*
  * Extract or update data from an API response into a QMap<int, modelT*>&
  */
-template<class modelT, class parentT>
-inline void modelizeResponse(const QVariant &data, QMap<int, modelT*> &target, parentT *parent, QString idKey = "api_id")
-{
-	QList<QVariant> dataList = data.toList();
-	foreach(QVariant item, dataList)
-	{
+template<class modelT>
+inline void modelizeResponse(const QVariant &data, QMap<int, modelT*> &target,
+                      KCClient *client, int loadId=0, QString idKey="api_id") {
+	for(QVariant item : data.toList()) {
 		QVariantMap itemMap = item.toMap();
-		modelT *ship = target.value(itemMap.value(idKey).toInt());
+		modelT *&ship = target[itemMap.value(idKey).toInt()];
 
 		if(!ship)
-			target.insert(itemMap.value(idKey).toInt(), new modelT(itemMap, parent));
+			ship = new modelT(itemMap, loadId, client);
 		else
-			ship->loadFrom(itemMap);
+			ship->loadFrom(itemMap, loadId);
 	}
 }
 

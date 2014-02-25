@@ -5,30 +5,19 @@
 #include <QDebug>
 #include <QRegExp>
 
-KCDock::KCDock(QObject *parent) : KCDock(QVariantMap(), parent) {}
-
-KCDock::KCDock(QVariantMap data, QObject *parent):
-	QObject(parent)
-{
-	timer.setSingleShot(true);
-	connect(&timer, SIGNAL(timeout()), this, SLOT(onTimeout()));
-	loadFrom(data);
-}
-
-KCDock::KCDock(KCClient *parent) : KCDock(QVariantMap(), parent) {}
-
-KCDock::KCDock(QVariantMap data, KCClient *parent) : KCDock(data, (QObject*)parent)
-{
+KCDock::KCDock(const QVariantMap &data, int loadId, KCClient *parent) :
+	KCGameObject(parent) {
 	connect(this, SIGNAL(completed()), parent, SLOT(onDockCompleted()));
+	loadFrom(data, loadId);
 }
 
-KCDock::~KCDock()
-{
-	
+KCDock::~KCDock() {
+
 }
 
-void KCDock::loadFrom(QVariantMap data)
-{
+void KCDock::loadFrom(const QVariantMap &data, int loadId) {
+	Q_UNUSED(loadId);
+
 	// int api_member_id ID of the admiral who owns the dock
 	// int api_id Local ID of the dock
 	extract(data, id, "api_id");
@@ -58,7 +47,7 @@ void KCDock::loadFrom(QVariantMap data)
 	extract(data, steel, "api_item3");
 	// int api_item4 Bauxite used
 	extract(data, baux, "api_item4");
-	
+
 	// Start the timer
 	if(state == Occupied || state == Building)
 		timer.start(complete.toMSecsSinceEpoch() - QDateTime::currentMSecsSinceEpoch());

@@ -4,16 +4,16 @@
 #include <QObject>
 #include <QVariant>
 
-class KCShipMaster : public QObject
-{
+#include "KCGameObject.h"
+
+class KCShipMaster : public KCGameObject {
 	Q_OBJECT
 
 public:
-	KCShipMaster(QObject *parent = 0);
-	KCShipMaster(QVariantMap data = QVariantMap(), QObject *parent = 0);
+	KCShipMaster(const QVariantMap &data, int loadId=0, QObject *parent=0);
 	virtual ~KCShipMaster();
 
-	void loadFrom(QVariantMap data);
+	void loadFrom(const QVariantMap &data, int loadId) override;
 
 	QString name, reading;
 	QString description;

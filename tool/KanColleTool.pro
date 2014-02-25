@@ -42,6 +42,7 @@ HEADERS  += KCMainWindow.h \
 	KCSettingsDialog.h \
 	KCClient.h \
 	KCToolServer.h \
+	KCGameObject.h \
 	KCShip.h \
 	KCShipMaster.h \
 	KCFleet.h \

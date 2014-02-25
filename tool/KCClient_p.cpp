@@ -43,49 +43,23 @@ const std::map<QString, C::processFunc> C::processFuncs = {
 			emit client->receivedPlayerShips();
 		}
 	},
-	{ "/kcsapi/api_get_member/ship2",
+	{ "/kcsapi/api_get_member/ship2", // Ships and fleets.
 	  pf {
-			for(QVariant item : data.toList()) {
-				QVariantMap itemMap = item.toMap();
-				KCShip **ship = &client->ships[itemMap.value("api_id").toInt()];
-
-				if(!*ship)
-					*ship = new KCShip(itemMap, client, true);
-				else
-					(*ship)->loadFrom2(itemMap);
-			}
+			modelizeResponse(data, client->ships, client, 1);
 			emit client->receivedPlayerShips();
 
 			// TODO: handle the weird api_data_deck
 		}
 	},
-	{ "/kcsapi/api_get_member/ship3",
+	{ "/kcsapi/api_get_member/ship3", // Ships, fleets, and something else I don't quite remember
 	  pf {
 			QVariantMap map = data.toMap();
-			QVariantList shipData = map["api_ship_data"].toList();
-			QVariantList fleetData = map["api_deck_data"].toList();
-			for(QVariant item : shipData) {
-				QVariantMap itemMap = item.toMap();
-				KCShip **ship = &client->ships[itemMap.value("api_id").toInt()];
-
-				if(!*ship)
-					*ship = new KCShip(itemMap, client, true);
-				else
-					(*ship)->loadFrom2(itemMap);
-			}
-			for(QVariant item : fleetData) {
-				QVariantMap itemMap = item.toMap();
-				KCFleet **fleet = &client->fleets[itemMap.value("api_id").toInt()];
-
-				if(!*fleet)
-					*fleet = new KCFleet(itemMap, client);
-				else
-					(*fleet)->loadFrom(itemMap);
-			}
+			modelizeResponse(map.value("api_ship_data"), client->ships, client, 1);
+			modelizeResponse(map.value("api_deck_data"), client->fleets, client);
 			emit client->receivedPlayerShips();
 			emit client->receivedPlayerFleets();
 		}
-	}, // TODO
+	},
 	{ "/kcsapi/api_get_member/material", 0 }, // Resources
 	//  Various statuses
 	{ "/kcsapi/api_get_member/deck", // Fleets
