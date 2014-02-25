@@ -3,6 +3,13 @@
 typedef KCClient C;
 
 const std::map<QString, C::processFunc> C::processFuncs = {
+	{ "/kctool/focus", // Focus request
+	  pf {
+			Q_UNUSED(data);
+			emit client->focusRequested();
+		}
+	},
+
 	{ "/kcsapi/api_req_member/get_incentive", 0 }, // Login
 	{ "/kcsapi/api_start", 0 },
 

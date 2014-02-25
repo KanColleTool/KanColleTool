@@ -48,6 +48,8 @@ public:
 	bool hasCredentials();
 
 signals:
+	void focusRequested();
+
 	void credentialsGained();
 	void receivedMasterShips();
 	void receivedPlayerShips();
