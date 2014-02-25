@@ -3,6 +3,8 @@
 
 #include <QNetworkReply>
 
+class QSslConfiguration;
+
 class KVNetworkAccessManager;
 class KVNetworkReply : public QNetworkReply
 {

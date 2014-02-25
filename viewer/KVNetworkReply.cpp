@@ -5,6 +5,8 @@
 #include <QTimer>
 #include <QNetworkReply>
 
+#include <QSslConfiguration>
+
 #include "KVNetworkAccessManager.h"
 #include "KVTranslator.h"
 
