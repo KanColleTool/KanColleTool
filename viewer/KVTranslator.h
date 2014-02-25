@@ -7,7 +7,6 @@
 #include <QString>
 #include <QFile>
 #include <QJsonValue>
-#include <QTimeZone>
 
 /*
  * I had to copypaste this into the tool as "KCTranslator", because sharing the
