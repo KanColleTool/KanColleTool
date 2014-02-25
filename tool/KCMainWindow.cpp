@@ -137,7 +137,7 @@ void KCMainWindow::_setupTrayIcon()
 	// Set up the menu for it, but not if we're on a Mac.
 	// On Mac, it's more convenient to have a click bring up the main window
 	// (since left-click also brings up the menu there)
-#ifndef __APPLE__
+#if !defined(__APPLE__)
 	trayMenu = new QMenu("KanColleTool", this);
 	trayMenu->addAction("Show", this, SLOT(showApplication()));
 	trayMenu->addAction("Exit", qApp, SLOT(quit()));
@@ -184,7 +184,7 @@ void KCMainWindow::_setupUI()
 #endif
 
 	// On Mac, we get Cmd+Q to quit for free. On anything else, set it up like this
-#ifndef __APPLE__
+#if !defined(__APPLE__)
 	QShortcut *quitShortcut = new QShortcut(QKeySequence("Ctrl+Q"), this);
 	connect(quitShortcut, SIGNAL(activated()), qApp, SLOT(quit()));
 #endif
@@ -228,7 +228,7 @@ void KCMainWindow::closeEvent(QCloseEvent *event)
 		// hides it by default (*cough* Windows 7 *cough*).
 		// This doesn't make sense on OSX, because the program is always in the
 		// menu bar in the first place there, with no dock icon at all.
-#ifndef __APPLE__
+#if !defined(__APPLE__)
 		if(!settings.value("closeToTrayNotificationShown").toBool())
 		{
 			trayIcon->showMessage("Still running!", "KanColleTool is still running in the tray.\nYou can disable that in the settings.");
