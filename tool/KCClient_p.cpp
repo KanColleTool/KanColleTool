@@ -7,6 +7,12 @@ const std::map<QString, C::processFunc> C::processFuncs = {
 	{ "/kcsapi/api_start", 0 },
 
 	// Global info -------------------------------------------------------------
+	{ "/kctool/mastership.json", // Ships from our server
+		pf {
+			modelizeResponse(data, client->masterShips, client);
+			emit client->receivedMasterShips();
+		}
+	},
 	{ "/kcsapi/api_get_master/ship", // Ships
 		pf {
 			modelizeResponse(data, client->masterShips, client);
@@ -57,7 +63,7 @@ const std::map<QString, C::processFunc> C::processFuncs = {
 	  pf {
 			QVariantMap map = data.toMap();
 			QVariantList shipData = map["api_ship_data"].toList();
-			QVariantList fleetData = map["api_fleet_data"].toList();
+			QVariantList fleetData = map["api_deck_data"].toList();
 			for(QVariant item : shipData) {
 				QVariantMap itemMap = item.toMap();
 				KCShip **ship = &client->ships[itemMap.value("api_id").toInt()];

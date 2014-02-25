@@ -62,6 +62,7 @@ signals:
 public slots:
 	void setCredentials(QString server, QString apiToken);
 
+	void safeMasterShips();
 	void requestMasterShips();
 	void requestPlayerShips();
 	void requestPlayerFleets();

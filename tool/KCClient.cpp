@@ -57,52 +57,49 @@ void KCClient::setCredentials(QString server, QString apiToken)
 	}
 }
 
-void KCClient::requestMasterShips()
-{
+void KCClient::safeMasterShips() {
+	QNetworkRequest request(QString("http://kancolletool.github.io/kctool/mastership.json"));
+	QNetworkReply *reply = manager->get(request);
+	connect(reply, SIGNAL(finished()), SLOT(onRequestFinished()));
+}
+
+void KCClient::requestMasterShips() {
 	QNetworkReply *reply = this->call("/api_get_master/ship");
-	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onRequestFinished()));
+	if(reply) connect(reply, SIGNAL(finished()), SLOT(onRequestFinished()));
 }
 
-void KCClient::requestPlayerShips()
-{
+void KCClient::requestPlayerShips() {
 	QNetworkReply *reply = this->call("/api_get_member/ship");
-	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onRequestFinished()));
+	if(reply) connect(reply, SIGNAL(finished()), SLOT(onRequestFinished()));
 }
 
-void KCClient::requestPlayerFleets()
-{
+void KCClient::requestPlayerFleets() {
 	QNetworkReply *reply = this->call("/api_get_member/deck");
-	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onRequestFinished()));
+	if(reply) connect(reply, SIGNAL(finished()), SLOT(onRequestFinished()));
 }
 
-void KCClient::requestPlayerRepairs()
-{
+void KCClient::requestPlayerRepairs() {
 	QNetworkReply *reply = this->call("/api_get_member/ndock");
-	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onRequestFinished()));
+	if(reply) connect(reply, SIGNAL(finished()), SLOT(onRequestFinished()));
 }
 
-void KCClient::requestPlayerConstructions()
-{
+void KCClient::requestPlayerConstructions() {
 	QNetworkReply *reply = this->call("/api_get_member/kdock");
-	if(reply) connect(reply, SIGNAL(finished()), this, SLOT(onRequestFinished()));
+	if(reply) connect(reply, SIGNAL(finished()), SLOT(onRequestFinished()));
 }
 
-void KCClient::onDockCompleted()
-{
+void KCClient::onDockCompleted() {
 	emit dockCompleted(qobject_cast<KCDock*>(QObject::sender()));
 }
 
-void KCClient::onMissionCompleted()
-{
+void KCClient::onMissionCompleted() {
 	emit missionCompleted(qobject_cast<KCFleet*>(QObject::sender()));
 }
 
-QNetworkReply* KCClient::call(QString endpoint, QUrlQuery params)
-{
+QNetworkReply* KCClient::call(QString endpoint, QUrlQuery params) {
 #if kClientUseCache
 	QFile file(QString("cache%1.json").arg(endpoint));
-	if(file.open(QIODevice::ReadOnly))
-	{
+	if(file.open(QIODevice::ReadOnly)) {
 		qDebug() << "Loading Fixture:" << endpoint;
 		QVariant response = this->dataFromRawResponse(file.readAll());
 
@@ -135,27 +132,23 @@ void KCClient::onRequestFinished() {
 	}
 }
 
-QUrl KCClient::urlForEndpoint(QString endpoint)
-{
+QUrl KCClient::urlForEndpoint(QString endpoint) {
 	return QUrl(QString("http://%1/kcsapi%2").arg(server, endpoint));
 }
 
-QVariant KCClient::dataFromRawResponse(QString text, ErrorCode *error)
-{
+QVariant KCClient::dataFromRawResponse(QString text, ErrorCode *error) {
 	if(text.startsWith("svdata="))
 		text = text.mid(7);
 
 	QJsonParseError jsonErr;
 	QJsonDocument doc = QJsonDocument::fromJson(text.toUtf8(), &jsonErr);
-	if(jsonErr.error != QJsonParseError::NoError)
-	{
+	if(jsonErr.error != QJsonParseError::NoError) {
 		if(error) *error = JsonError;
 		return QVariant();
 	}
 
 	QMap<QString, QVariant> data = doc.toVariant().toMap();
-	if(data.value("api_result").toInt() != NoError)
-	{
+	if(data.value("api_result").toInt() != NoError) {
 		if(error) *error = (ErrorCode)data.value("api_result").toInt();
 		return QVariant();
 	}

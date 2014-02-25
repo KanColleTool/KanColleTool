@@ -34,9 +34,10 @@ bool KCMainWindow::init() {
 	this->_setupClient();
 	this->_setupTrayIcon();
 	this->_setupUI();
-	this->_showDisclaimer();
 
 	loadingMessageBox.accept();
+
+	this->_showDisclaimer();
 
 	// Setup settings and stuff
 	connect(&refreshTimer, SIGNAL(timeout()), this, SLOT(on_actionRefresh_triggered()));
@@ -106,18 +107,23 @@ void KCMainWindow::_setupClient()
 	connect(client, SIGNAL(dockCompleted(KCDock *)), this, SLOT(onDockCompleted(KCDock *)));
 	connect(client, SIGNAL(missionCompleted(KCFleet*)), this, SLOT(onMissionCompleted(KCFleet*)));
 
-	if(!client->hasCredentials()) {
-		this->askForAPILink();
+	QEventLoop loop;
+	loop.connect(client, SIGNAL(receivedMasterShips()), SLOT(quit()));
+	QSettings settings;
+	if(settings.value("usenetwork", kDefaultUseNetwork).toBool()) {
+		if(!client->hasCredentials()) {
+			this->askForAPILink();
 
-		// Quit if the user pressed Cancel, instead of erroring out
-		if(!client->hasCredentials())
-			qApp->quit();
+			// Quit if the user pressed Cancel, instead of erroring out
+			if(!client->hasCredentials())
+				qApp->quit();
+		} else {
+			this->onCredentialsGained();
+		}
 	} else {
-		QEventLoop loop;
-		loop.connect(client, SIGNAL(receivedMasterShips()), SLOT(quit()));
-		this->onCredentialsGained();
-		loop.exec();
+		client->safeMasterShips();
 	}
+	loop.exec();
 }
 
 void KCMainWindow::_setupTrayIcon()
@@ -626,9 +632,10 @@ void KCMainWindow::updateSettingThings()
 		}
 	}
 
-
 	// Server for Viewer data livestreaming
 	server->enabled = settings.value("livestream", kDefaultLivestream).toBool();
+
+	useNetwork = settings.value("usenetwork", kDefaultUseNetwork).toBool();
 
 	// Autorefreshing
 	if(settings.value("autorefresh", kDefaultAutorefresh).toBool())
@@ -823,7 +830,15 @@ void KCMainWindow::on_actionConstruction_triggered()
 
 void KCMainWindow::on_actionRefresh_triggered()
 {
-    client->requestPlayerShips();
+	if(!client->hasCredentials()) {
+		this->askForAPILink();
+
+		// Cancel the refresh if the user pressed Cancel, instead of erroring out
+		if(!client->hasCredentials())
+			return;
+	}
+
+	client->requestPlayerShips();
 	client->requestPlayerFleets();
 	client->requestPlayerRepairs();
 	client->requestPlayerConstructions();

@@ -4,7 +4,8 @@
 const bool kDefaultMinimizeToTray =  true;
 const bool kDefaultTranslation = true;
 const bool kDefaultLivestream = true;
-const bool kDefaultAutorefresh = true;
+const bool kDefaultUseNetwork = false;
+const bool kDefaultAutorefresh = false;
 const int kDefaultAutorefreshInterval = 3600;
 
 #endif

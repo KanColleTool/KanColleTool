@@ -87,6 +87,7 @@ private:
 	QNetworkAccessManager manager;
 
 	bool apiLinkDialogOpen;
+	bool useNetwork;
 };
 
 #endif // KCMAINWINDOW_H
