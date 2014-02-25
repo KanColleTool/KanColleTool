@@ -1,4 +1,5 @@
 #include "KCClient.h"
+#include <stdexcept>
 #include <QDebug>
 #include <QSettings>
 #include <QEventLoop>
