@@ -19,20 +19,17 @@ public:
 
 	int id, admiral;
 	int level, exp;
-	bool heartLock;
 
-	struct { int cur, max; } hpBase; // HP bar data below
-	struct { int cur, max; } firepowerBase, firepower;
-	struct { int cur, max; } torpedoBase, torpedo;
-	struct { int cur, max; } antiairBase, antiair;
-	struct { int cur, max; } antisubBase, antisub;
-	struct { int cur, max; } armorBase, armor;
+	struct { int cur, max; } hpBase, hp;
+	struct { int cur, max; } firepower;
+	struct { int cur, max; } torpedo;
+	struct { int cur, max; } antiair;
+	struct { int cur, max; } antisub;
+	struct { int cur, max; } armor;
 	struct { int cur, max; } evasion;
-	struct { int cur, max; } lineOfSightBase, lineOfSight;
-	struct { int cur, max; } luckBase, luck;
-	int range, speed;
+	struct { int cur, max; } lineOfSight;
+	struct { int cur, max; } luck;
 
-	int hp, maxHp;
 	int ammo, fuel;
 	int condition;
 

@@ -346,7 +346,6 @@ void KCMainWindow::updateFleetsPage()
 			QString iS = QString::number(i+1);
 
 			QGroupBox *box = findChild<QGroupBox*>(QString("fleetBox") + iS);
-			QLabel *nameLabel = findChild<QLabel*>(QString("fleetName") + iS);
 			QProgressBar *hpBar = findChild<QProgressBar*>(QString("fleetHpBar") + iS);
 			QProgressBar *ammoBar = findChild<QProgressBar*>(QString("fleetAmmoBar") + iS);
 			QProgressBar *fuelBar = findChild<QProgressBar*>(QString("fleetFuelBar") + iS);
@@ -354,9 +353,9 @@ void KCMainWindow::updateFleetsPage()
 			QLabel *condLabel = findChild<QLabel*>(QString("fleetCond") + iS);
 
 			box->show();
-			nameLabel->setText(kcTranslate(type->name));
-			hpBar->setRange(0, ship->maxHp);
-			hpBar->setValue(ship->hp);
+			box->setTitle(kcTranslate(type->name));
+			hpBar->setRange(0, ship->hp.max);
+			hpBar->setValue(ship->hp.cur);
 			ammoBar->setRange(0, type->maxAmmo);
 			ammoBar->setValue(ship->ammo);
 			fuelBar->setRange(0, type->maxFuel);
@@ -384,13 +383,13 @@ void KCMainWindow::updateShipsPage()
 		if(!type) continue;
 
 		TABLE_SET_ITEM(ui->shipsTable, row, 0, ship->level);
-		TABLE_SET_ITEM(ui->shipsTable, row, 1, ship->maxHp);
+		TABLE_SET_ITEM(ui->shipsTable, row, 1, ship->hp.max);
 		TABLE_SET_ITEM(ui->shipsTable, row, 2, ship->firepower.cur);
 		TABLE_SET_ITEM(ui->shipsTable, row, 3, ship->torpedo.cur);
 		TABLE_SET_ITEM(ui->shipsTable, row, 4, ship->evasion.cur);
 		TABLE_SET_ITEM(ui->shipsTable, row, 5, ship->antiair.cur);
 		TABLE_SET_ITEM(ui->shipsTable, row, 6, ship->antisub.cur);
-		TABLE_SET_ITEM(ui->shipsTable, row, 7, ship->speed);
+		TABLE_SET_ITEM(ui->shipsTable, row, 7, type->speed);
 		TABLE_SET_ITEM(ui->shipsTable, row, 8, kcTranslate(type->name));
 
 		++row;
