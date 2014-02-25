@@ -4,7 +4,6 @@
 #include <QBuffer>
 #include <QTimer>
 #include <QNetworkReply>
-
 #include <QSslConfiguration>
 
 #include "KVNetworkAccessManager.h"
@@ -17,10 +16,10 @@ struct KVNetworkReplyPrivate {
 	qint64 offset;
 	bool finished;
 
-	KVNetworkAccessManager *manager;
+	QNetworkAccessManager *manager;
 };
 
-KVNetworkReply::KVNetworkReply(QObject *parent, QNetworkReply *toCopy, KVNetworkAccessManager *mgr)
+KVNetworkReply::KVNetworkReply(QObject *parent, QNetworkReply *toCopy, QNetworkAccessManager *mgr)
 	: QNetworkReply(parent) {
 	d = new KVNetworkReplyPrivate;
 	d->finished = false;
@@ -75,7 +74,9 @@ void KVNetworkReply::handleResponse() {
 	d->offset = 0;
 	setHeader(QNetworkRequest::ContentLengthHeader, QVariant(d->content.size()));
 
-	d->manager->sendToTool(d->content, url().path());
+	QNetworkRequest toolReq(QUrl("http://localhost:54321").resolved(url().path()));
+	toolReq.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("text/json"));
+	d->manager->post(toolReq, d->content);
 
 	open(ReadOnly | Unbuffered);
 	//qDebug() << "translated:" << d->content.constData();

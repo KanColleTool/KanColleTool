@@ -1,12 +1,11 @@
 #ifndef KCTOOLSERVER_H
 #define KCTOOLSERVER_H
 
-#include <QLocalServer>
+#include <QTcpServer>
 
-class QLocalSocket;
+class QTcpSocket;
 class KCClient;
-class KCToolServer : public QLocalServer
-{
+class KCToolServer : public QTcpServer {
 	Q_OBJECT
 
 public:
@@ -17,11 +16,8 @@ public:
 
 	bool enabled;
 
-signals:
-	void focusRequested();
-
 protected:
-	void handleRequest(QLocalSocket *socket);
+	void handleRequest(QTcpSocket *socket);
 
 protected slots:
 	void onNewConnection();
