@@ -1,20 +1,27 @@
 #ifndef KCTOOLSERVER_H
 #define KCTOOLSERVER_H
 
-#include <QTcpServer>
+#include <QLocalServer>
 
-class QTcpSocket;
+class QLocalSocket;
 class KCClient;
-class KCToolServer : public QTcpServer
+class KCToolServer : public QLocalServer
 {
 	Q_OBJECT
 
 public:
-	KCToolServer(KCClient *client, QObject *parent = 0);
+	KCToolServer(QObject *parent = 0);
 	virtual ~KCToolServer();
 
+	void setClient(KCClient *c);
+
+	bool enabled;
+
+signals:
+	void focusRequested();
+
 protected:
-	void handleRequest(QTcpSocket *socket);
+	void handleRequest(QLocalSocket *socket);
 
 protected slots:
 	void onNewConnection();

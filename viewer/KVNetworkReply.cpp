@@ -3,23 +3,23 @@
 #include <QNetworkAccessManager>
 #include <QBuffer>
 #include <QTimer>
+#include <QNetworkReply>
 
+#include "KVNetworkAccessManager.h"
 #include "KVTranslator.h"
 
-struct KVNetworkReplyPrivate
-{
+struct KVNetworkReplyPrivate {
 	QNetworkReply *copied;
 
 	QByteArray content;
 	qint64 offset;
 	bool finished;
 
-	QNetworkAccessManager *manager;
+	KVNetworkAccessManager *manager;
 };
 
-KVNetworkReply::KVNetworkReply(QObject *parent, QNetworkReply *toCopy, QNetworkAccessManager *mgr)
-	: QNetworkReply(parent)
-{
+KVNetworkReply::KVNetworkReply(QObject *parent, QNetworkReply *toCopy, KVNetworkAccessManager *mgr)
+	: QNetworkReply(parent) {
 	d = new KVNetworkReplyPrivate;
 	d->finished = false;
 	d->copied = toCopy;
@@ -36,20 +36,17 @@ KVNetworkReply::KVNetworkReply(QObject *parent, QNetworkReply *toCopy, QNetworkA
 	connect(d->copied, SIGNAL(metaDataChanged()), SIGNAL(metaDataChanged()));
 }
 
-KVNetworkReply::~KVNetworkReply()
-{
+KVNetworkReply::~KVNetworkReply() {
 	delete d;
 }
 
-void KVNetworkReply::copyAttribute(QNetworkRequest::Attribute attr)
-{
+void KVNetworkReply::copyAttribute(QNetworkRequest::Attribute attr) {
 	QVariant attribute = d->copied->attribute(attr);
 	if(attribute.isValid())
 		setAttribute(attr, attribute);
 }
 
-void KVNetworkReply::handleResponse()
-{
+void KVNetworkReply::handleResponse() {
 	if(d->finished) return;
 
 	setError(d->copied->error(), d->copied->errorString());
@@ -76,9 +73,7 @@ void KVNetworkReply::handleResponse()
 	d->offset = 0;
 	setHeader(QNetworkRequest::ContentLengthHeader, QVariant(d->content.size()));
 
-	QNetworkRequest toolReq(QUrl("http://localhost:54321").resolved(url().path()));
-	toolReq.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("text/json"));
-	d->manager->post(toolReq, d->content);
+	d->manager->sendToTool(d->content, url().path());
 
 	open(ReadOnly | Unbuffered);
 	//qDebug() << "translated:" << d->content.constData();
@@ -89,13 +84,11 @@ void KVNetworkReply::handleResponse()
 	emit readChannelFinished();
 }
 
-qint64 KVNetworkReply::bytesAvailable() const
-{
+qint64 KVNetworkReply::bytesAvailable() const {
 	return d->content.size() - d->offset + QIODevice::bytesAvailable();
 }
 
-qint64 KVNetworkReply::readData(char *data, qint64 maxSize)
-{
+qint64 KVNetworkReply::readData(char *data, qint64 maxSize) {
 	if (d->offset >= d->content.size())
 		return -1;
 
@@ -105,8 +98,6 @@ qint64 KVNetworkReply::readData(char *data, qint64 maxSize)
 
 	return numBytes;
 }
-
-
 
 /*
  * Pass all these through to the underlying 'copied' QNetworkRequest because

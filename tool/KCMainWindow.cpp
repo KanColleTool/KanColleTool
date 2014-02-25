@@ -3,6 +3,7 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QShortcut>
+#include <QLocalSocket>
 #include <QSettings>
 #include <QUrl>
 #include <QUrlQuery>
@@ -17,21 +18,24 @@
 #include "KCDefaults.h"
 
 KCMainWindow::KCMainWindow(QWidget *parent) :
-	QMainWindow(parent),
-	ui(new Ui::KCMainWindow),
-	server(0),
-	apiLinkDialogOpen(false)
-{
+	QMainWindow(parent), ui(new Ui::KCMainWindow),
+	trayIcon(0), trayMenu(0), client(0), server(0),
+	apiLinkDialogOpen(false) {}
+
+bool KCMainWindow::init() {
 	ui->setupUi(this);
 
 	QMessageBox loadingMessageBox(QMessageBox::NoIcon, "Loading...",
 	                              "This should only take a few moments.",
 	                              QMessageBox::Cancel, this);
 	loadingMessageBox.open();
+
+	if(!this->_setupServer()) return false;
 	this->_setupClient();
 	this->_setupTrayIcon();
 	this->_setupUI();
 	this->_showDisclaimer();
+
 	loadingMessageBox.accept();
 
 	// Setup settings and stuff
@@ -53,11 +57,67 @@ KCMainWindow::KCMainWindow(QWidget *parent) :
 	// (This saves me from accidentally releasing a version with the wrong
 	// start page due to me editing another one right beforehand)
 	this->on_actionFleets_triggered();
+
+	return true;
 }
 
-KCMainWindow::~KCMainWindow()
-{
+KCMainWindow::~KCMainWindow() {
+	delete trayIcon;
+	delete trayMenu;
 	delete ui;
+	delete client;
+	delete server;
+}
+
+bool KCMainWindow::_setupServer() {
+	server = new KCToolServer(this);
+
+	connect(server, SIGNAL(focusRequested()), SLOT(showApplication()));
+	if(!server->listen("KanColleTool")) {
+		QLocalSocket *socket = new QLocalSocket;
+		socket->connectToServer("KanColleTool");
+
+		if(socket->waitForConnected(1000)) {
+			socket->write("focus");
+			socket->flush();
+			socket->close();
+
+			return false;
+		} else {
+			server->removeServer("KanColleTool");
+			server->listen("KanColleTool");
+		}
+	}
+	return true;
+}
+
+void KCMainWindow::_setupClient()
+{
+	client = new KCClient(this);
+	server->setClient(client);
+
+	connect(client, SIGNAL(credentialsGained()), this, SLOT(onCredentialsGained()));
+	connect(client, SIGNAL(receivedMasterShips()), this, SLOT(onReceivedMasterShips()));
+	connect(client, SIGNAL(receivedPlayerShips()), this, SLOT(onReceivedPlayerShips()));
+	connect(client, SIGNAL(receivedPlayerFleets()), this, SLOT(onReceivedPlayerFleets()));
+	connect(client, SIGNAL(receivedPlayerRepairs()), this, SLOT(onReceivedPlayerRepairs()));
+	connect(client, SIGNAL(receivedPlayerConstructions()), this, SLOT(onReceivedPlayerConstructions()));
+	connect(client, SIGNAL(requestError(KCClient::ErrorCode)), this, SLOT(onRequestError(KCClient::ErrorCode)));
+	connect(client, SIGNAL(dockCompleted(KCDock *)), this, SLOT(onDockCompleted(KCDock *)));
+	connect(client, SIGNAL(missionCompleted(KCFleet*)), this, SLOT(onMissionCompleted(KCFleet*)));
+
+	if(!client->hasCredentials()) {
+		this->askForAPILink();
+
+		// Quit if the user pressed Cancel, instead of erroring out
+		if(!client->hasCredentials())
+			qApp->quit();
+	} else {
+		QEventLoop loop;
+		loop.connect(client, SIGNAL(receivedMasterShips()), SLOT(quit()));
+		this->onCredentialsGained();
+		loop.exec();
+	}
 }
 
 void KCMainWindow::_setupTrayIcon()
@@ -122,34 +182,6 @@ void KCMainWindow::_setupUI()
 	QShortcut *quitShortcut = new QShortcut(QKeySequence("Ctrl+Q"), this);
 	connect(quitShortcut, SIGNAL(activated()), qApp, SLOT(quit()));
 #endif
-}
-
-void KCMainWindow::_setupClient()
-{
-	client = new KCClient(this);
-
-	connect(client, SIGNAL(credentialsGained()), this, SLOT(onCredentialsGained()));
-	connect(client, SIGNAL(receivedMasterShips()), this, SLOT(onReceivedMasterShips()));
-	connect(client, SIGNAL(receivedPlayerShips()), this, SLOT(onReceivedPlayerShips()));
-	connect(client, SIGNAL(receivedPlayerFleets()), this, SLOT(onReceivedPlayerFleets()));
-	connect(client, SIGNAL(receivedPlayerRepairs()), this, SLOT(onReceivedPlayerRepairs()));
-	connect(client, SIGNAL(receivedPlayerConstructions()), this, SLOT(onReceivedPlayerConstructions()));
-	connect(client, SIGNAL(requestError(KCClient::ErrorCode)), this, SLOT(onRequestError(KCClient::ErrorCode)));
-	connect(client, SIGNAL(dockCompleted(KCDock *)), this, SLOT(onDockCompleted(KCDock *)));
-	connect(client, SIGNAL(missionCompleted(KCFleet*)), this, SLOT(onMissionCompleted(KCFleet*)));
-
-	if(!client->hasCredentials()) {
-		this->askForAPILink();
-
-		// Quit if the user pressed Cancel, instead of erroring out
-		if(!client->hasCredentials())
-			qApp->quit();
-	} else {
-		QEventLoop loop;
-		loop.connect(client, SIGNAL(receivedMasterShips()), SLOT(quit()));
-		this->onCredentialsGained();
-		loop.exec();
-	}
 }
 
 void KCMainWindow::_showDisclaimer()
@@ -596,19 +628,7 @@ void KCMainWindow::updateSettingThings()
 
 
 	// Server for Viewer data livestreaming
-	if(settings.value("livestream", kDefaultLivestream).toBool())
-	{
-		if(!server)
-		{
-			server = new KCToolServer(client, this);
-			server->listen(QHostAddress::Any, 54321);
-		}
-	}
-	else
-	{
-		if(server)
-			delete server;
-	}
+	server->enabled = settings.value("livestream", kDefaultLivestream).toBool();
 
 	// Autorefreshing
 	if(settings.value("autorefresh", kDefaultAutorefresh).toBool())

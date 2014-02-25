@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 
 	// Create the window, which owns the tray icon, but don't show it!
 	KCMainWindow w;
-	Q_UNUSED(w);
+	if(!w.init()) return 0;
 	w.show(); // Not in the final version!
 
 	// Aaand... start the main loop

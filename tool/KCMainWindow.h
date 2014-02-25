@@ -21,12 +21,14 @@ class KCMainWindow : public QMainWindow
 
 public:
 	explicit KCMainWindow(QWidget *parent = 0);
+	bool init();
 	~KCMainWindow();
 
 private:
+	bool _setupServer();
+	void _setupClient();
 	void _setupTrayIcon();
 	void _setupUI();
-	void _setupClient();
 	void _showDisclaimer();
 
 protected:

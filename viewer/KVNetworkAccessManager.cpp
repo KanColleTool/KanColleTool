@@ -10,6 +10,23 @@ KVNetworkAccessManager::KVNetworkAccessManager(QObject *parent) :
 
 }
 
+void KVNetworkAccessManager::sendToTool(const QByteArray &data, const QString &path) {
+	switch(toolSock.state()) {
+	case QLocalSocket::ClosingState:
+		if(!toolSock.waitForDisconnected(1000)) break;
+	case QLocalSocket::UnconnectedState:
+		toolSock.connectToServer("KanColleTool");
+	case QLocalSocket::ConnectingState:
+		if(!toolSock.waitForConnected()) break;
+	case QLocalSocket::ConnectedState:
+		toolSock.write(QString("data %1 %2\n").arg(path).arg(data.size()).toUtf8());
+		toolSock.write(data);
+		toolSock.flush();
+	default:
+		break;
+	}
+}
+
 QNetworkReply *KVNetworkAccessManager::createRequest(Operation op, const QNetworkRequest &req, QIODevice *outgoingData)
 {
 	QNetworkRequest request = req;

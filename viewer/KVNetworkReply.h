@@ -3,12 +3,13 @@
 
 #include <QNetworkReply>
 
+class KVNetworkAccessManager;
 class KVNetworkReply : public QNetworkReply
 {
 	Q_OBJECT
 
 public:
-	KVNetworkReply(QObject *parent, QNetworkReply *toCopy, QNetworkAccessManager *mgr);
+	KVNetworkReply(QObject *parent, QNetworkReply *toCopy, KVNetworkAccessManager *mgr);
 	~KVNetworkReply();
 
 	void copyAttribute(QNetworkRequest::Attribute attr);
