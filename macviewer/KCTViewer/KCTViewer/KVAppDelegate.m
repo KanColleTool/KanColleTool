@@ -71,7 +71,7 @@
 		NSString *newVersion = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
 		NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
 		
-		BOOL outdated = ([newVersion compare:appVersion options:NSNumericSearch] == NSOrderedDescending);
+		BOOL outdated = ([newVersion compare:appVersion options:NSNumericSearch] == NSOrderedAscending);
 		if(outdated)
 		{
 			[[NSAlert alertWithMessageText:@"New Version Available" defaultButton:@"Download" alternateButton:@"Ignore" otherButton:nil informativeTextWithFormat:@"Version %@ has been released, and is available for download.", newVersion] beginSheetModalForWindow:_window completionHandler:^(NSModalResponse returnCode) {
