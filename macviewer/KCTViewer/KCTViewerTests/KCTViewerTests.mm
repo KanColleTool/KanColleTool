@@ -36,7 +36,7 @@
 
 - (void)testTranslation
 {
-	// Local translator instance - not a shared one, the last thing I need right now is singeltons
+	// Local translator instance - not a shared one, the last thing I need right now is singletons
 	KVTranslator *translator = [[KVTranslator alloc] init];
 	
 	// Set up some test data - 那珂 (Naka) has a translation, まるゆ (Maruyu) doesn't
