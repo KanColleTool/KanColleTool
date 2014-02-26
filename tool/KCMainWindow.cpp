@@ -764,6 +764,7 @@ void KCMainWindow::onDockCompleted(KCDock *dock)
 	{
 		KCShip *ship = client->ships[dock->shipID];
 		if(ship) {
+			ship->hp.cur = ship->hp.max;
 			KCShipMaster *type = client->masterShips[ship->master];
 			if(type)
 				trayIcon->showMessage("Repair Completed!",
@@ -773,6 +774,7 @@ void KCMainWindow::onDockCompleted(KCDock *dock)
 				QString("Your shipgirl is all healthy again!"));
 		}
 
+		updateFleetsPage();
 		updateRepairsPage();
 	}
 }
