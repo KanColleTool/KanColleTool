@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network sql
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = KanColleTool
@@ -36,7 +36,8 @@ SOURCES += main.cpp \
 	KCShipMaster.cpp \
 	KCFleet.cpp \
 	KCDock.cpp \
-	KCTranslator.cpp
+	KCTranslator.cpp \
+	KCLogger.cpp
 
 HEADERS  += KCMainWindow.h \
 	KCSettingsDialog.h \
@@ -48,6 +49,7 @@ HEADERS  += KCMainWindow.h \
 	KCFleet.h \
 	KCDock.h \
 	KCTranslator.h \
+	KCLogger.h \
 	KCDefaults.h
 
 FORMS    += \
