@@ -1,4 +1,7 @@
 #include "KCClient.h"
+#include "KCWrapperUtils.h"
+#include "KCShipMaster.h"
+
 #define pf [](KCClient *client, const QVariant &data)
 
 /*
@@ -142,7 +145,13 @@ const std::map<QString, KCClient::processFunc> KCClient::processFuncs = {
 	{ "/kcsapi/api_req_map/next", 0 }, // Next cell to go to
 	{ "/kcsapi/api_req_sortie/battle", 0 },
 	{ "/kcsapi/api_req_battle_midnight/battle", 0 },
-	{ "/kcsapi/api_req_sortie/battleresult", 0 },
+	{ "/kcsapi/api_req_sortie/battleresult",
+		pf {
+			QVariantMap droppedShipData = data.toMap().value("api_get_ship").toMap();
+			int shipID = droppedShipData.value("api_ship_id").toInt();
+			client->logger->logDrop(shipID);
+		}
+	},
 	//  Practice
 	{ "/kcsapi/api_get_member/practice", 0 },
 	{ "/kcsapi/api_req_member/getothersdeck", 0 },
