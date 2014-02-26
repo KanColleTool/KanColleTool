@@ -26,6 +26,7 @@ KCClient::KCClient(QObject *parent) :
 	QObject(parent)
 {
 	manager = new QNetworkAccessManager(this);
+	logger = new KCLogger(this);
 
 	QSettings settings;
 	server = settings.value("server").toString();
