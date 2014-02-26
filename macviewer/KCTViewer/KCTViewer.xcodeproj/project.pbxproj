@@ -566,6 +566,7 @@
 		};
 		2272E5CF186E05CA009357C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E12E3265D2C6486CA73E4158 /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/KCTViewer.app/Contents/MacOS/KCTViewer";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -588,6 +589,7 @@
 		};
 		2272E5D0186E05CA009357C4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E12E3265D2C6486CA73E4158 /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/KCTViewer.app/Contents/MacOS/KCTViewer";
 				COMBINE_HIDPI_IMAGES = YES;
