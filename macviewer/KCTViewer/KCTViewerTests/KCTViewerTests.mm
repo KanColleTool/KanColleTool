@@ -26,9 +26,11 @@
     [super tearDown];
 }
 
-- (void)testExample
+- (void)testVersionComparison
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+	XCTAssertEqual(NSOrderedAscending, [@"0.8.1" compare:@"0.8.2" options:NSNumericSearch], @"0.8.1 >= 0.8.2");
+	XCTAssertEqual(NSOrderedSame, [@"0.8.2" compare:@"0.8.2" options:NSNumericSearch], @"0.8.2 != 0.8.2");
+	XCTAssertEqual(NSOrderedDescending, [@"0.8.3" compare:@"0.8.2" options:NSNumericSearch], @"0.8.3 <= 0.8.2");
 }
 
 @end
