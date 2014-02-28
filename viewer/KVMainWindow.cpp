@@ -34,7 +34,7 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	viewerMenu->addAction("Settings", this, SLOT(openSettings()));
 	viewerMenu->addAction("Clear Cache", this, SLOT(clearCache()));
 	viewerMenu->addSeparator();
-	viewerMenu->addAction("Refresh", this, SLOT(loadBundledIndex()));
+	viewerMenu->addAction("Refresh", this, SLOT(loadBundledIndex()), Qt::CTRL + Qt::Key_R);
 	viewerMenu->addAction("Quit", qApp, SLOT(quit()), Qt::CTRL + Qt::Key_Q);
 
 	QMenu *helpMenu = menuBar->addMenu("Help");
