@@ -149,8 +149,8 @@ QString KVTranslator::translateJson(const QString &json) const
 	// Block until translation is loaded
 	if(!isLoaded) {
 		QEventLoop loop;
-		loop.connect(this, SIGNAL(translationLoaded()), SLOT(quit()));
-		loop.connect(this, SIGNAL(loadFailed()), SLOT(quit()));
+		loop.connect(this, SIGNAL(loadFinished()), SLOT(quit()));
+		loop.connect(this, SIGNAL(loadFailed(QString)), SLOT(quit()));
 		loop.exec();
 	}
 
