@@ -9,6 +9,7 @@ class KVNetworkAccessManager : public QNetworkAccessManager {
 
 public:
 	explicit KVNetworkAccessManager(QObject *parent = 0);
+	bool translation;
 
 protected:
 	QNetworkReply *createRequest(Operation op, const QNetworkRequest &req, QIODevice *outgoingData);

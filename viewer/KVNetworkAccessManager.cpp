@@ -19,7 +19,7 @@ QNetworkReply *KVNetworkAccessManager::createRequest(Operation op, const QNetwor
 		if(op == QNetworkAccessManager::PostOperation) {
 			//qDebug() << "POST" << request.url().path();
 			QNetworkReply *r = QNetworkAccessManager::createRequest(op, request, outgoingData);
-			KVNetworkReply *reply = new KVNetworkReply(r->parent(), r, this);
+			KVNetworkReply *reply = new KVNetworkReply(r->parent(), r, this, translation);
 			return reply;
 		}
 	}

@@ -14,17 +14,20 @@ struct KVNetworkReplyPrivate {
 
 	QByteArray content;
 	qint64 offset;
+	bool translate;
 	bool finished;
 
 	QNetworkAccessManager *manager;
 };
 
-KVNetworkReply::KVNetworkReply(QObject *parent, QNetworkReply *toCopy, QNetworkAccessManager *mgr)
-	: QNetworkReply(parent) {
+KVNetworkReply::KVNetworkReply(QObject *parent, QNetworkReply *toCopy,
+                               QNetworkAccessManager *mgr, bool translate) :
+	QNetworkReply(parent) {
 	d = new KVNetworkReplyPrivate;
 	d->finished = false;
 	d->copied = toCopy;
 	d->manager = mgr;
+	d->translate = translate;
 
 	setOperation(d->copied->operation());
 	setRequest(d->copied->request());
@@ -68,7 +71,8 @@ void KVNetworkReply::handleResponse() {
 
 	//qDebug() << "content:" << data;
 
-	data = KVTranslator::instance()->translateJson(data).toUtf8();
+	if(d->translate)
+		data = KVTranslator::instance()->translateJson(data).toUtf8();
 
 	d->content = data.toUtf8();
 	d->offset = 0;

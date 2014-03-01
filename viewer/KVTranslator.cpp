@@ -112,8 +112,6 @@ bool KVTranslator::parseTranslationData(const QByteArray &data)
 
 QString KVTranslator::translate(const QString &line) const
 {
-	if(!enabled) return line;
-
 	QString realLine = unescape(line);
 	QByteArray utf8 = realLine.toUtf8();
 	quint32 crc = crc32(0, utf8.constData(), utf8.size());
@@ -144,8 +142,6 @@ QString KVTranslator::fixTime(const QString &time) const
 
 QString KVTranslator::translateJson(const QString &json) const
 {
-	if(!enabled) return json;
-
 	// Block until translation is loaded
 	if(!isLoaded) {
 		QEventLoop loop;

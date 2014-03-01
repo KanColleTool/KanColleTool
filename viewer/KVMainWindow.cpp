@@ -183,7 +183,8 @@ void KVMainWindow::loadSettings()
 	qDebug() << "API Token:" << apiToken;
 	qDebug() << "API Link:" << apiLink.toString();
 
-	if(settings.value("viewerTranslation", kDefaultTranslation).toBool())
+	wvManager->translation = settings.value("viewerTranslation", kDefaultTranslation).toBool();
+	if(wvManager->translation)
 		loadTranslation();
 
 	if(settings.value("proxy", kDefaultProxy).toBool()) {
@@ -200,15 +201,12 @@ void KVMainWindow::loadSettings()
 void KVMainWindow::implementSettings() {
 	QSettings settings;
 
-	{ // Translation
-		KVTranslator *translator = KVTranslator::instance();
-		bool enabled = settings.value("viewerTranslation", kDefaultTranslation).toBool();
+	bool translation = settings.value("viewerTranslation", kDefaultTranslation).toBool();
 
-		if(enabled != translator->enabled) {
-			translator->enabled = enabled;
-			if(enabled) loadTranslation();
-			loadBundledIndex();
-		}
+	if(translation != wvManager->translation) {
+		wvManager->translation = translation;
+		if(translation) loadTranslation();
+		loadBundledIndex();
 	}
 
 	if(settings.value("proxy", kDefaultProxy).toBool()) {
@@ -298,7 +296,7 @@ void KVMainWindow::onTranslationLoadFailed(QString error)
 
 		// Disable translation if they want it
 		if(button != QMessageBox::Retry)
-			KVTranslator::instance()->enabled = false;
+			wvManager->translation = false;
 	}
 
 	// To retry, just send the request again.

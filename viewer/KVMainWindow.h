@@ -4,8 +4,9 @@
 #include <QMainWindow>
 #include <QWebView>
 #include <QMessageBox>
-#include <QNetworkAccessManager>
 #include <QNetworkDiskCache>
+
+#include "KVNetworkAccessManager.h"
 
 class KVMainWindow : public QMainWindow
 {
@@ -43,7 +44,7 @@ private slots:
 protected:
 	QWebView *webView;
 
-	QNetworkAccessManager *wvManager, manager;
+	KVNetworkAccessManager *wvManager, manager;
 	QNetworkDiskCache *cache;
 
 	QString server, apiToken;
