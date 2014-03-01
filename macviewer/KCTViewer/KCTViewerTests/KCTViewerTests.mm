@@ -29,9 +29,9 @@
 
 - (void)testVersionComparison
 {
-	XCTAssertEqual(NSOrderedAscending, [@"0.8.1" compare:@"0.8.2" options:NSNumericSearch], @"0.8.1 >= 0.8.2");
-	XCTAssertEqual(NSOrderedSame, [@"0.8.2" compare:@"0.8.2" options:NSNumericSearch], @"0.8.2 != 0.8.2");
-	XCTAssertEqual(NSOrderedDescending, [@"0.8.3" compare:@"0.8.2" options:NSNumericSearch], @"0.8.3 <= 0.8.2");
+	XCTAssertEqual([@"0.8.1" compare:@"0.8.2" options:NSNumericSearch], NSOrderedAscending, @"0.8.1 >= 0.8.2");
+	XCTAssertEqual([@"0.8.2" compare:@"0.8.2" options:NSNumericSearch], NSOrderedSame, @"0.8.2 != 0.8.2");
+	XCTAssertEqual([@"0.8.3" compare:@"0.8.2" options:NSNumericSearch], NSOrderedDescending, @"0.8.3 <= 0.8.2");
 }
 
 - (void)testTranslation
