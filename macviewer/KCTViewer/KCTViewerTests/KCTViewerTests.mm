@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "KVTranslator.h"
+#import "NSURL+KVUtil.h"
 
 @interface KCTViewerTests : XCTestCase
 
@@ -32,6 +33,15 @@
 	XCTAssertEqual([@"0.8.1" compare:@"0.8.2" options:NSNumericSearch], NSOrderedAscending, @"0.8.1 >= 0.8.2");
 	XCTAssertEqual([@"0.8.2" compare:@"0.8.2" options:NSNumericSearch], NSOrderedSame, @"0.8.2 != 0.8.2");
 	XCTAssertEqual([@"0.8.3" compare:@"0.8.2" options:NSNumericSearch], NSOrderedDescending, @"0.8.3 <= 0.8.2");
+}
+
+- (void)testURLQueryExtraction
+{
+	NSURL *url = [NSURL URLWithString:@"http://localhost/?param1=test&param2=%E3%83%86%E3%82%B9%E3%83%88"];
+	NSDictionary *queryItems = [url queryItems];
+	
+	XCTAssertEqualObjects([queryItems objectForKey:@"param1"], @"test", @"ASCII query item is incorrect");
+	XCTAssertEqualObjects([queryItems objectForKey:@"param2"], @"テスト", @"Escaped Japanese query item is incorrect");
 }
 
 - (void)testTranslation
