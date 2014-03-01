@@ -22,7 +22,7 @@
 		// Skip over invalid items with too many = signs, and treat keys with no
 		// values as having an empty string for a value.
 		if([halves count] == 2)
-			[items setObject:[halves lastObject] forKey:[halves firstObject]];
+			[items setObject:[[halves lastObject] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] forKey:[halves firstObject]];
 		else if([halves count] == 1)
 			[items setObject:@"" forKey:[halves firstObject]];
 		else continue;
