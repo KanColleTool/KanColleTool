@@ -14,6 +14,8 @@
 #include <QStandardPaths>
 #include <QDebug>
 #include <QTimer>
+
+#include "KVDefaults.h"
 #include "KVSettingsDialog.h"
 #include "KVNetworkAccessManager.h"
 #include "KVTranslator.h"
@@ -21,9 +23,6 @@
 KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	QMainWindow(parent, flags)
 {
-	// Load settings from the settings file
-	this->loadSettings();
-
 	this->setWindowTitle("KanColleTool Viewer");
 
 	// Set up the window and menus and stuff
@@ -34,7 +33,7 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	viewerMenu->addAction("Settings", this, SLOT(openSettings()));
 	viewerMenu->addAction("Clear Cache", this, SLOT(clearCache()));
 	viewerMenu->addSeparator();
-	viewerMenu->addAction("Refresh", this, SLOT(loadBundledIndex()));
+	viewerMenu->addAction("Refresh", this, SLOT(loadBundledIndex()), Qt::CTRL + Qt::Key_R);
 	viewerMenu->addAction("Quit", qApp, SLOT(quit()), Qt::CTRL + Qt::Key_Q);
 
 	QMenu *helpMenu = menuBar->addMenu("Help");
@@ -56,6 +55,9 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	cache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
 	cache->setMaximumCacheSize(1073741824);
 	wvManager->setCache(cache);
+
+	// Load settings from the settings file
+	this->loadSettings();
 
 	// Set up the web view, using our custom Network Access Manager
 	webView = new QWebView(this);
@@ -84,11 +86,6 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 #if !defined(Q_OS_LINUX)
 	this->checkForUpdates();
 #endif
-
-	// Load the translation data before doing anything, otherwise we might end
-	// up with partially translated data on spotty connections.
-	if(KVTranslator::instance()->enabled)
-		this->loadTranslation();
 
 	this->loadBundledIndex();
 }
@@ -120,30 +117,6 @@ void KVMainWindow::loadBundledIndex()
 		QMessageBox::critical(this, "Can't load resource", "Couldn't load the local resources needed to start the client.<br /><br />I have no idea how you even managed to make this happen, since the resources are supposed to be inside the executable, but it probably involved a recompilation that went wrong.<br /><br /><code>index.html</code> needs to be in the root of <code>resources.qrc</code>.");
 		exit(1);
 	}
-}
-
-void KVMainWindow::loadSettings()
-{
-	QSettings settings;
-
-	server = settings.value("server").toString();
-	apiToken = settings.value("apiToken").toString();
-
-	if(server.isEmpty() || apiToken.isEmpty())
-	{
-		this->askForAPILink(false);
-		if(server.isEmpty() || apiToken.isEmpty())
-			exit(0);
-	}
-	else this->generateAPILinkURL();
-
-	KVTranslator *translator = KVTranslator::instance();
-	translator->enabled = settings.value("viewerTranslation").toBool();
-
-	qDebug() << "Server:" << server;
-	qDebug() << "API Token:" << apiToken;
-	qDebug() << "API Link:" << apiLink.toString();
-	qDebug() << "Translation:" << (translator->enabled ? "enabled" : "disabled");
 }
 
 void KVMainWindow::generateAPILinkURL()
@@ -186,26 +159,65 @@ void KVMainWindow::askForAPILink(bool reload)
 void KVMainWindow::openSettings()
 {
 	KVSettingsDialog *settingsDialog = new KVSettingsDialog(this);
-	connect(settingsDialog, SIGNAL(accepted()), SLOT(implementSettings()));
+	connect(settingsDialog, SIGNAL(apply()), SLOT(implementSettings()));
 	connect(settingsDialog, SIGNAL(finished(int)), settingsDialog, SLOT(deleteLater()));
 	settingsDialog->show();
 }
 
-void KVMainWindow::implementSettings()
+void KVMainWindow::loadSettings()
 {
 	QSettings settings;
 
-	// Translation
-	{
-		KVTranslator *translator = KVTranslator::instance();
-		bool enabled = settings.value("viewerTranslation").toBool();
+	server = settings.value("server").toString();
+	apiToken = settings.value("apiToken").toString();
 
-		if(enabled != translator->enabled)
-		{
-			translator->enabled = enabled;
-			if(enabled) loadTranslation();
-			loadBundledIndex();
-		}
+	if(server.isEmpty() || apiToken.isEmpty())
+	{
+		this->askForAPILink(false);
+		if(server.isEmpty() || apiToken.isEmpty())
+			exit(0);
+	}
+	else this->generateAPILinkURL();
+
+	qDebug() << "Server:" << server;
+	qDebug() << "API Token:" << apiToken;
+	qDebug() << "API Link:" << apiLink.toString();
+
+	wvManager->translation = settings.value("viewerTranslation", kDefaultTranslation).toBool();
+	if(wvManager->translation)
+		loadTranslation();
+
+	if(settings.value("proxy", kDefaultProxy).toBool()) {
+		wvManager->setProxy(QNetworkProxy(
+			static_cast<QNetworkProxy::ProxyType>(settings.value("proxyType", kDefaultProxyType).toInt()),
+			settings.value("proxyServer", kDefaultProxyServer).toString(),
+			settings.value("proxyPort", kDefaultProxyPort).toInt(),
+			settings.value("proxyUser", kDefaultProxyUser).toString(),
+			settings.value("proxyPass", kDefaultProxyPass).toString()));
+		qDebug() << "Proxy:" << settings.value("proxyServer", kDefaultProxyServer).toString();
+	}
+}
+
+void KVMainWindow::implementSettings() {
+	QSettings settings;
+
+	bool translation = settings.value("viewerTranslation", kDefaultTranslation).toBool();
+
+	if(translation != wvManager->translation) {
+		wvManager->translation = translation;
+		if(translation) loadTranslation();
+		loadBundledIndex();
+	}
+
+	if(settings.value("proxy", kDefaultProxy).toBool()) {
+		wvManager->setProxy(QNetworkProxy(
+			static_cast<QNetworkProxy::ProxyType>(settings.value("proxyType", kDefaultProxyType).toInt()),
+			settings.value("proxyServer", kDefaultProxyServer).toString(),
+			settings.value("proxyPort", kDefaultProxyPort).toInt(),
+			settings.value("proxyUser", kDefaultProxyUser).toString(),
+			settings.value("proxyPass", kDefaultProxyPass).toString()));
+	} else {
+		wvManager->setProxy(QNetworkProxy());
 	}
 }
 
@@ -284,7 +296,7 @@ void KVMainWindow::onTranslationLoadFailed(QString error)
 
 		// Disable translation if they want it
 		if(button != QMessageBox::Retry)
-			KVTranslator::instance()->enabled = false;
+			wvManager->translation = false;
 	}
 
 	// To retry, just send the request again.

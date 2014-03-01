@@ -4,13 +4,13 @@
 #include <QDialog>
 #include <QSettings>
 
+class QAbstractButton;
 namespace Ui {
 	class KVSettingsDialog;
 }
 
 class KVMainWindow;
-class KVSettingsDialog : public QDialog
-{
+class KVSettingsDialog : public QDialog {
 	Q_OBJECT
 
 public:
@@ -18,7 +18,12 @@ public:
 	virtual ~KVSettingsDialog();
 
 public slots:
-	virtual void done(int r);
+	virtual void accept();
+	virtual void setSettings();
+	virtual void buttonClicked(QAbstractButton *button);
+
+signals:
+	void apply();
 
 private:
 	Ui::KVSettingsDialog *ui;

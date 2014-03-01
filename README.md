@@ -1,6 +1,8 @@
 KanColleTool
 ============
 
+[![Build Status](https://travis-ci.org/KanColleTool/KanColleTool.png?branch=master)](https://travis-ci.org/KanColleTool/KanColleTool)
+
 KanColleTool is a tool for KanColle players.
 That may have been the most redundant sentence I've ever written.
 

@@ -23,7 +23,6 @@ class KVTranslator : public QObject
 public:
 	static KVTranslator* instance();
 	bool loaded();
-	bool enabled;
 
 public slots:
 	void loadTranslation(QString language = "en");

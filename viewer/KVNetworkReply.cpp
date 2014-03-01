@@ -4,7 +4,6 @@
 #include <QBuffer>
 #include <QTimer>
 #include <QNetworkReply>
-
 #include <QSslConfiguration>
 
 #include "KVNetworkAccessManager.h"
@@ -15,17 +14,20 @@ struct KVNetworkReplyPrivate {
 
 	QByteArray content;
 	qint64 offset;
+	bool translate;
 	bool finished;
 
-	KVNetworkAccessManager *manager;
+	QNetworkAccessManager *manager;
 };
 
-KVNetworkReply::KVNetworkReply(QObject *parent, QNetworkReply *toCopy, KVNetworkAccessManager *mgr)
-	: QNetworkReply(parent) {
+KVNetworkReply::KVNetworkReply(QObject *parent, QNetworkReply *toCopy,
+                               QNetworkAccessManager *mgr, bool translate) :
+	QNetworkReply(parent) {
 	d = new KVNetworkReplyPrivate;
 	d->finished = false;
 	d->copied = toCopy;
 	d->manager = mgr;
+	d->translate = translate;
 
 	setOperation(d->copied->operation());
 	setRequest(d->copied->request());
@@ -69,13 +71,16 @@ void KVNetworkReply::handleResponse() {
 
 	//qDebug() << "content:" << data;
 
-	data = KVTranslator::instance()->translateJson(data).toUtf8();
+	if(d->translate)
+		data = KVTranslator::instance()->translateJson(data).toUtf8();
 
 	d->content = data.toUtf8();
 	d->offset = 0;
 	setHeader(QNetworkRequest::ContentLengthHeader, QVariant(d->content.size()));
 
-	d->manager->sendToTool(d->content, url().path());
+	QNetworkRequest toolReq(QUrl("http://localhost:54321").resolved(url().path()));
+	toolReq.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("text/json"));
+	d->manager->post(toolReq, d->content);
 
 	open(ReadOnly | Unbuffered);
 	//qDebug() << "translated:" << d->content.constData();

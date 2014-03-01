@@ -1,9 +1,9 @@
 #include "KCToolServer.h"
-#include <QLocalSocket>
+#include <QTcpSocket>
 #include "KCClient.h"
 
 KCToolServer::KCToolServer(QObject *parent) :
-	QLocalServer(parent), enabled(true), client(0) {
+	QTcpServer(parent), enabled(true), client(0) {
 	connect(this, SIGNAL(newConnection()), this, SLOT(onNewConnection()));
 }
 
@@ -15,72 +15,99 @@ void KCToolServer::setClient(KCClient *c) {
 	client = c;
 }
 
-void KCToolServer::handleRequest(QLocalSocket *socket) {
+void KCToolServer::handleRequest(QTcpSocket *socket) {
 	// Get the data out of it
-	QString operation = socket->property("operation").toString();
+	QString method = socket->property("method").toString();
 	QString path = socket->property("path").toString();
 	QByteArray content = socket->property("buffer").toByteArray();
+	QVariantMap headers = socket->property("headers").toMap();
 
-	if(operation == "data") {
-		// Handle data from client
+	// Write out a reply to the client
+	socket->write("HTTP/1.1 204 No Content\r\n\r\n");
+
+	// Handle POSTs
+	if(method == "POST") {
 		QVariant data = client->dataFromRawResponse(content);
 
 		client->callPFunc(path, data);
 	} else {
-		qDebug() << "Invalid Operation:" << operation << "(" << path << ")";
+		// I might add other methods later (if I find a use), but for now, refuse them
+		qDebug() << "Invalid Method:" << method << "(" << path << ")";
 	}
 
-	socket->setProperty("firstLineRead", QVariant());
-	socket->setProperty("method", QVariant());
-	socket->setProperty("path", QVariant());
-	socket->setProperty("buffer", QVariant());
+	if(headers.value("Connection").toString() != "close") {
+		// If it's not a Connection: close request, reset the state properties
+		socket->setProperty("firstLineRead", QVariant());
+		socket->setProperty("headerRead", QVariant());
+		socket->setProperty("method", QVariant());
+		socket->setProperty("path", QVariant());
+		socket->setProperty("buffer", QVariant());
+		socket->setProperty("headers", QVariant());
+	} else {
+		// Otherwise, close it behind us
+		socket->close();
+	}
 }
 
 void KCToolServer::onNewConnection() {
-	if(client) {
-		while(this->hasPendingConnections()) {
-			QLocalSocket *socket = this->nextPendingConnection();
-			connect(socket, SIGNAL(readyRead()), this, SLOT(onSocketReadyRead()));
-		}
+	while(this->hasPendingConnections()) 	{
+		QTcpSocket *socket = this->nextPendingConnection();
+		connect(socket, SIGNAL(readyRead()), this, SLOT(onSocketReadyRead()));
 	}
 }
 
-void KCToolServer::onSocketReadyRead() {
-	QLocalSocket *socket = qobject_cast<QLocalSocket*>(QObject::sender());
+void KCToolServer::onSocketReadyRead()
+{
+	QTcpSocket *socket = qobject_cast<QTcpSocket*>(QObject::sender());
 
 	// Parse the first line
-	if(!socket->property("firstLineRead").toBool()) {
-		QList<QByteArray> props = socket->readLine().simplified().split(' ');
-
-		if(!props.size()) return;
-		socket->setProperty("operation", props.at(0));
-
-		if(props.at(0) == "focus") {
-			//qDebug() << "focus requested";
-			emit focusRequested();
-			return;
-		}
-		if(!enabled) return;
-
-		if(props.size() > 2) {
-			socket->setProperty("path", props.at(1));
-			socket->setProperty("length", props.at(2).toLongLong());
-		}
+	if(!socket->property("firstLineRead").toBool())
+	{
+		QString line(socket->readLine());
+		int sepPos1(line.indexOf(" "));
+		int sepPos2(line.indexOf(" ", sepPos1+1));
+		QString method(line.left(sepPos1));
+		QString path(line.mid(sepPos1+1, sepPos2 - sepPos1 - 1));
+		socket->setProperty("method", method);
+		socket->setProperty("path", path);
 		socket->setProperty("firstLineRead", true);
 	}
 
-	qint64 contentLength = socket->property("length").toLongLong();
+	// Parse Headers!
+	if(!socket->property("headerRead").toBool()) {
+		QVariantMap headers(socket->property("headers").toMap());
 
+		while(socket->canReadLine()) {
+			QString line = QString(socket->readLine()).trimmed();
+
+			// The header section is terminated by an empty line
+			if(line == "") {
+				socket->setProperty("headerRead", true);
+				break;
+			}
+
+			// Split it up
+			int sepPos(line.indexOf(":"));
+			QString key(line.left(sepPos).trimmed());
+			QString val(line.mid(sepPos+1).trimmed());
+			headers.insertMulti(key, val);
+		}
+
+		socket->setProperty("headers", headers);
+	}
+
+	qint64 contentLength = socket->property("headers").toMap().value("Content-Length").toLongLong();
 	// Read the body into a buffer
 	if(socket->bytesAvailable()) {
 		QByteArray buffer(socket->property("buffer").toByteArray());
-		buffer.append(socket->read(contentLength));
+		qint64 toRead = contentLength - buffer.size();
+		buffer.append(socket->read(toRead));
 		socket->setProperty("buffer", buffer);
+		socket->setProperty("toRead", contentLength - buffer.size());
 
 		// If we have a Content-Length (toLong() fails with 0)
-		if(contentLength > 0 && buffer.size() >= contentLength) {
+		if(contentLength > 0 && buffer.size() >= contentLength)
 			this->handleRequest(socket);
-		}
 	} else if(contentLength == -1 || contentLength == 0) {
 		this->handleRequest(socket);
 	}

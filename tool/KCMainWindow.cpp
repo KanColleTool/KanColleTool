@@ -3,7 +3,6 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QShortcut>
-#include <QLocalSocket>
 #include <QSettings>
 #include <QUrl>
 #include <QUrlQuery>
@@ -73,39 +72,35 @@ KCMainWindow::~KCMainWindow() {
 bool KCMainWindow::_setupServer() {
 	server = new KCToolServer(this);
 
-	connect(server, SIGNAL(focusRequested()), SLOT(showApplication()));
-	if(!server->listen("KanColleTool")) {
-		QLocalSocket *socket = new QLocalSocket;
-		socket->connectToServer("KanColleTool");
+	if(!server->listen(QHostAddress::LocalHost, 54321)) {
+		QNetworkAccessManager qnam(this);
+		QNetworkRequest focusReq(QUrl("http://localhost:54321/kctool/focus"));
+		focusReq.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-empty");
+		QNetworkReply *reply = qnam.post(focusReq, "");
+		QEventLoop loop;
+		connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+		loop.exec();
+		delete reply;
 
-		if(socket->waitForConnected(1000)) {
-			socket->write("focus");
-			socket->flush();
-			socket->close();
-
-			return false;
-		} else {
-			server->removeServer("KanColleTool");
-			server->listen("KanColleTool");
-		}
+		return false;
 	}
 	return true;
 }
 
-void KCMainWindow::_setupClient()
-{
+void KCMainWindow::_setupClient() {
 	client = new KCClient(this);
 	server->setClient(client);
 
-	connect(client, SIGNAL(credentialsGained()), this, SLOT(onCredentialsGained()));
-	connect(client, SIGNAL(receivedMasterShips()), this, SLOT(onReceivedMasterShips()));
-	connect(client, SIGNAL(receivedPlayerShips()), this, SLOT(onReceivedPlayerShips()));
-	connect(client, SIGNAL(receivedPlayerFleets()), this, SLOT(onReceivedPlayerFleets()));
-	connect(client, SIGNAL(receivedPlayerRepairs()), this, SLOT(onReceivedPlayerRepairs()));
-	connect(client, SIGNAL(receivedPlayerConstructions()), this, SLOT(onReceivedPlayerConstructions()));
-	connect(client, SIGNAL(requestError(KCClient::ErrorCode)), this, SLOT(onRequestError(KCClient::ErrorCode)));
-	connect(client, SIGNAL(dockCompleted(KCDock *)), this, SLOT(onDockCompleted(KCDock *)));
-	connect(client, SIGNAL(missionCompleted(KCFleet*)), this, SLOT(onMissionCompleted(KCFleet*)));
+	connect(client, SIGNAL(focusRequested()), SLOT(showApplication()));
+	connect(client, SIGNAL(credentialsGained()), SLOT(onCredentialsGained()));
+	connect(client, SIGNAL(receivedMasterShips()), SLOT(onReceivedMasterShips()));
+	connect(client, SIGNAL(receivedPlayerShips()), SLOT(onReceivedPlayerShips()));
+	connect(client, SIGNAL(receivedPlayerFleets()), SLOT(onReceivedPlayerFleets()));
+	connect(client, SIGNAL(receivedPlayerRepairs()), SLOT(onReceivedPlayerRepairs()));
+	connect(client, SIGNAL(receivedPlayerConstructions()), SLOT(onReceivedPlayerConstructions()));
+	connect(client, SIGNAL(requestError(KCClient::ErrorCode)), SLOT(onRequestError(KCClient::ErrorCode)));
+	connect(client, SIGNAL(dockCompleted(KCDock *)), SLOT(onDockCompleted(KCDock *)));
+	connect(client, SIGNAL(missionCompleted(KCFleet*)), SLOT(onMissionCompleted(KCFleet*)));
 
 	QEventLoop loop;
 	loop.connect(client, SIGNAL(receivedMasterShips()), SLOT(quit()));
@@ -769,6 +764,7 @@ void KCMainWindow::onDockCompleted(KCDock *dock)
 	{
 		KCShip *ship = client->ships[dock->shipID];
 		if(ship) {
+			ship->hp.cur = ship->hp.max;
 			KCShipMaster *type = client->masterShips[ship->master];
 			if(type)
 				trayIcon->showMessage("Repair Completed!",
@@ -778,6 +774,7 @@ void KCMainWindow::onDockCompleted(KCDock *dock)
 				QString("Your shipgirl is all healthy again!"));
 		}
 
+		updateFleetsPage();
 		updateRepairsPage();
 	}
 }
