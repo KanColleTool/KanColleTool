@@ -183,6 +183,9 @@ void KVMainWindow::loadSettings()
 	qDebug() << "API Token:" << apiToken;
 	qDebug() << "API Link:" << apiLink.toString();
 
+	if(settings.value("viewerTranslation", kDefaultTranslation).toBool())
+		loadTranslation();
+
 	if(settings.value("proxy", kDefaultProxy).toBool()) {
 		wvManager->setProxy(QNetworkProxy(
 			static_cast<QNetworkProxy::ProxyType>(settings.value("proxyType", kDefaultProxyType).toInt()),
