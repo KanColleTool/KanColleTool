@@ -215,6 +215,8 @@ void KVMainWindow::implementSettings() {
 			settings.value("proxyPort", kDefaultProxyPort).toInt(),
 			settings.value("proxyUser", kDefaultProxyUser).toString(),
 			settings.value("proxyPass", kDefaultProxyPass).toString()));
+	} else {
+		wvManager->setProxy(QNetworkProxy());
 	}
 }
 
