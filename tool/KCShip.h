@@ -21,7 +21,7 @@ public:
 	int id;
 	int level, exp;
 
-	struct { int cur, max; } hpBase, hp;
+	struct { int cur, max; } hp;
 	struct { int cur, max; } firepower;
 	struct { int cur, max; } torpedo;
 	struct { int cur, max; } antiair;

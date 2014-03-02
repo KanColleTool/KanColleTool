@@ -69,6 +69,13 @@ KCMainWindow::~KCMainWindow() {
 	delete server;
 }
 
+QString KCMainWindow::translateName(const QString &name) {
+	if(translation)
+		return QString("%1 (%2)").arg(kcTranslate(name)).arg(name);
+	else
+		return name;
+}
+
 bool KCMainWindow::_setupServer() {
 	server = new KCToolServer(this);
 
@@ -348,7 +355,7 @@ void KCMainWindow::updateFleetsPage()
 			QLabel *condLabel = findChild<QLabel*>(QString("fleetCond") + iS);
 
 			box->show();
-			box->setTitle(kcTranslate(type->name));
+			box->setTitle(translateName(type->name));
 			hpBar->setRange(0, ship->hp.max);
 			hpBar->setValue(ship->hp.cur);
 			ammoBar->setRange(0, type->maxAmmo);
@@ -384,8 +391,8 @@ void KCMainWindow::updateShipsPage()
 		TABLE_SET_ITEM(ui->shipsTable, row, 4, ship->evasion.cur);
 		TABLE_SET_ITEM(ui->shipsTable, row, 5, ship->antiair.cur);
 		TABLE_SET_ITEM(ui->shipsTable, row, 6, ship->antisub.cur);
-		TABLE_SET_ITEM(ui->shipsTable, row, 7, type->speed);
-		TABLE_SET_ITEM(ui->shipsTable, row, 8, kcTranslate(type->name));
+		TABLE_SET_ITEM(ui->shipsTable, row, 7, ship->luck.cur);
+		TABLE_SET_ITEM(ui->shipsTable, row, 8, translateName(type->name));
 
 		++row;
 	}
@@ -429,7 +436,7 @@ void KCMainWindow::updateRepairsPage()
 			{
 				KCShipMaster *type = client->masterShips[ship->master];
 				if(type)
-					nameLabel->setText(kcTranslate(type->name));
+					nameLabel->setText(translateName(type->name));
 				repairTimerLabel->setText(delta(dock->complete).toString("H:mm:ss"));
 			}
 		}
@@ -481,7 +488,7 @@ void KCMainWindow::updateConstructionsPage()
 			{
 				KCShipMaster *ship = client->masterShips[dock->shipID];
 				if(ship)
-					nameLabel->setText(kcTranslate(ship->name));
+					nameLabel->setText(translateName(ship->name));
 				else
 					nameLabel->setText("(Loading...)");
 			}
@@ -547,7 +554,7 @@ void KCMainWindow::updateTimers()
 						KCShipMaster *type = client->masterShips[ship->master];
 						busy = true;
 						if(type)
-							status = QString("%1 is taking a bath").arg(kcTranslate(type->name));
+							status = QString("%1 is taking a bath").arg(translateName(type->name));
 						dT = dT2;
 					}
 				}
@@ -612,13 +619,8 @@ void KCMainWindow::updateSettingThings()
 
 	// Translation
 	{
-		bool wasEnabled = KCTranslator::instance()->enabled;
-		bool newEnabled = settings.value("toolTranslation", kDefaultTranslation).toBool();
-		qDebug() << "Translation Enabled:" << wasEnabled << "->" << newEnabled;
-		KCTranslator::instance()->enabled = newEnabled;
-
-		if(wasEnabled != newEnabled)
-		{
+		if(this->translation != settings.value("toolTranslation", kDefaultTranslation).toBool()) {
+			this->translation = !this->translation;
 			this->updateFleetsPage();
 			this->updateShipsPage();
 			this->updateRepairsPage();
@@ -628,7 +630,7 @@ void KCMainWindow::updateSettingThings()
 
 	// Server for Viewer data livestreaming
 	server->enabled = settings.value("livestream", kDefaultLivestream).toBool();
-	
+
 	// Enable manual reloads
 	useNetwork = settings.value("usenetwork", kDefaultUseNetwork).toBool();
 	ui->actionRefresh->setEnabled(useNetwork);
@@ -743,9 +745,8 @@ void KCMainWindow::onTrayIconActivated(QSystemTrayIcon::ActivationReason reason)
 
 void KCMainWindow::onDockCompleted(KCDock *dock)
 {
-	if(dock->isConstruction)
-	{
-		KCShipMaster *shipMaster = client->masterShips[dock->shipID];
+	if(dock->isConstruction) {
+		KCShipMaster *type = client->masterShips[dock->shipID];
 
 		// Only name the ship if the player has asked for a spoiler already
 		bool spoil = false;
@@ -753,26 +754,25 @@ void KCMainWindow::onDockCompleted(KCDock *dock)
 			if(client->constructionDocks[i] == dock)
 				spoil = findChild<QCheckBox*>(QString("constructionSpoil") + QString::number(i+1))->isChecked();
 
-		if(shipMaster && spoil)
+		if(type && spoil)
 			trayIcon->showMessage("Construction Completed!",
-				QString("Say hello to %1!").arg(kcTranslate(shipMaster->name)));
+				QString("Say hello to %1!").arg(translateName(type->name)));
 		else
 			trayIcon->showMessage("Construction Completed!",
 				QString("Say hello to your new shipgirl!"));
 
 		updateConstructionsPage();
-	}
-	else
-	{
+	} else {
 		KCShip *ship = client->ships[dock->shipID];
 		if(ship) {
 			ship->hp.cur = ship->hp.max;
 			KCShipMaster *type = client->masterShips[ship->master];
 			if(type)
 				trayIcon->showMessage("Repair Completed!",
-				                      QString("%1 is all healthy again!").arg(kcTranslate(type->name)));
+					QString("%1 is all healthy again!").arg(translateName(type->name)));
 		} else {
-			trayIcon->showMessage("Repair Completed!",
+			trayIcon->showMessage(
+				"Repair Completed!",
 				QString("Your shipgirl is all healthy again!"));
 		}
 

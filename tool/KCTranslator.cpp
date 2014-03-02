@@ -32,7 +32,7 @@ KCTranslator* KCTranslator::instance()
 
 
 KCTranslator::KCTranslator(QObject *parent):
-	QObject(parent), enabled(kDefaultTranslation)
+	QObject(parent)
 {
 
 }
@@ -44,8 +44,6 @@ KCTranslator::~KCTranslator()
 
 QString KCTranslator::translate(const QString &line) const
 {
-	if(!enabled) return line;
-
 	QString realLine = unescape(line);
 	QByteArray utf8 = realLine.toUtf8();
 	uint32_t crc = crc32(0, utf8.constData(), utf8.size());

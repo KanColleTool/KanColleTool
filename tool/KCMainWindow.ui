@@ -49,7 +49,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="fleetsPage">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1328,7 +1328,7 @@
           </attribute>
           <column>
            <property name="text">
-            <string>Level</string>
+            <string>LV</string>
            </property>
           </column>
           <column>
@@ -1363,7 +1363,7 @@
           </column>
           <column>
            <property name="text">
-            <string>SPD</string>
+            <string>LCK</string>
            </property>
           </column>
           <column>

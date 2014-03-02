@@ -6,20 +6,12 @@
 #include <QVariant>
 #include <QString>
 
-/*
- * Literally just copypaste of viewer/KVTranslator, because sharing code
- * between the two projects seems to somehow break everything >_>
- *
- * Please keep the two classes synchronized!
- */
-
 class KCTranslator : public QObject
 {
 	Q_OBJECT
 
 public:
 	static KCTranslator* instance();
-	bool enabled;
 
 public slots:
 	QString translate(const QString &line) const;

@@ -25,6 +25,8 @@ public:
 	~KCMainWindow();
 
 private:
+	QString translateName(const QString &name);
+
 	bool _setupServer();
 	void _setupClient();
 	void _setupTrayIcon();
@@ -88,6 +90,7 @@ private:
 
 	bool apiLinkDialogOpen;
 	bool useNetwork;
+	bool translation;
 };
 
 #endif // KCMAINWINDOW_H
