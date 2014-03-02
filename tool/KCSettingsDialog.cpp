@@ -20,7 +20,7 @@ KCSettingsDialog::KCSettingsDialog(KCMainWindow *parent, Qt::WindowFlags f):
 	ui->autorefreshCheckbox->setChecked(
 		settings.value("autorefresh", kDefaultAutorefresh).toBool());
 	ui->autorefreshInterval->setValue(
-		settings.value("autorefreshInterval", kDefaultAutorefreshInterval).toInt());
+		settings.value("autorefreshInterval", kDefaultAutorefreshInterval).toInt() / 60);
 
 	// This whole thing makes no sense on OSX, so just hide the whole box there
 	// The application is always running (only) in the menu bar there
@@ -49,7 +49,7 @@ void KCSettingsDialog::done(int r) {
 		settings.setValue("livestream", ui->livestreamCheckbox->isChecked());
 		settings.setValue("usenetwork", ui->useNetworkCheckbox->isChecked());
 		settings.setValue("autorefresh", ui->autorefreshCheckbox->isChecked());
-		settings.setValue("autorefreshInterval", ui->autorefreshInterval->value());
+		settings.setValue("autorefreshInterval", ui->autorefreshInterval->value() * 60);
 		settings.sync();
 	}
 
