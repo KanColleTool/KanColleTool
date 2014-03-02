@@ -1,3 +1,19 @@
+kancolletool (0.8.3-1) unstable; urgency=low
+
+  * Mac settings dialog fix
+  * New fleet page UI
+
+ -- Sauyon Lee <sauyonl@sauyon.com>  Sat, 1 Mar 2014 17:05:50 -0800
+
+kancolletool (0.8.2-1) unstable; urgency=low
+
+  * Translation toggle
+  * Cleaner configuration directory
+  * Fixes data not being up to date after maintenance on OS X
+  * Fixes [null] strings on OS X
+
+ -- Sauyon Lee <sauyonl@sauyon.com>  Sat, 1 Mar 2014 17:05:40 -0800
+
 kancolletool (0.8.0-1) unstable; urgency=low
 
   * Fleet status display (accounts for expeditions and baths/repairs)

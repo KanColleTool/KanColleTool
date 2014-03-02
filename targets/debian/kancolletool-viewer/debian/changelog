@@ -1,3 +1,28 @@
+kancolletool-viewer (0.8.3-1) unstable; urgency=low
+
+  * Refresh hotkey
+  * Cache size hotfix
+  * Proxy setting
+
+ -- Sauyon Lee <sauyonl@sauyon.com>  Sat, 1 Mar 2014 17:09:35 -0800
+
+kancolletool-viewer (0.8.2-1) unstable; urgency=low
+
+  * Time adjustment to JST
+  * Response interception built in instead of a proxy
+  * Translation toggle
+  * Refresh button
+  * Cleaner configuration directory
+  * Fixes crashes due to the proxy
+
+ -- Sauyon Lee <sauyonl@sauyon.com>  Sat, 1 Mar 2014 17:08:45 -0800
+
+kancolletool (0.8.1-1) unstable; urgency=low
+
+  * Fixes a bug in which users got stuck on the loading screen
+
+ -- Sauyon Lee <sauyonl@sauyon.com>  Sat, 1 Mar 2014 16:58:25 -0800
+
 kancolletool-viewer (0.8.0-1) unstable; urgency=low
 
   * Black background on the loading screen, like in a browser
