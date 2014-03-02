@@ -36,5 +36,10 @@ viewer/kancolletool-viewer
 
 macviewer/KCTViewer/build/
 
+targets/archlinux/kancolletool-git*
+targets/archlinux/kancolletool-viewer-git*
+targets/archlinux/pkg
+targets/archlinux/src
+
 /build-*
 /dist
