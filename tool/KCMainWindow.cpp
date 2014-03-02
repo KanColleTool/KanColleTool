@@ -426,7 +426,7 @@ void KCMainWindow::updateRepairsPage()
 		{
 			box->setEnabled(true);
 			nameLabel->setText("(Empty)");
-			repairTimerLabel->setText("0:00:00");
+			repairTimerLabel->setText("‒:‒‒:‒‒");
 		}
 		else if(dock->state == KCDock::Occupied)
 		{
@@ -476,7 +476,7 @@ void KCMainWindow::updateConstructionsPage()
 		{
 			box->setEnabled(true);
 			nameLabel->setText("(Empty)");
-			buildTimerLabel->setText("0:00:00");
+			buildTimerLabel->setText("‒:‒‒:‒‒");
 			spoilCheckbox->hide();
 			spoilCheckbox->setChecked(false);	// Uncheck it!
 		}

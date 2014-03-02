@@ -48,9 +48,6 @@
     </property>
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
-      <property name="currentIndex">
-       <number>1</number>
-      </property>
       <widget class="QWidget" name="fleetsPage">
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <property name="spacing">
@@ -1393,56 +1390,24 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_3">
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_19">
-             <property name="spacing">
-              <number>0</number>
+            <widget class="QLabel" name="repairName3">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <item>
-              <spacer name="verticalSpacer_8">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QLabel" name="repairName3">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>MS Gothic</family>
-                 <pointsize>20</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>響改</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer_7">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
+             <property name="font">
+              <font>
+               <pointsize>16</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>???</string>
+             </property>
+            </widget>
            </item>
            <item>
             <spacer name="horizontalSpacer_3">
@@ -1467,12 +1432,11 @@
              </property>
              <property name="font">
               <font>
-               <family>Arial</family>
                <pointsize>16</pointsize>
               </font>
              </property>
              <property name="text">
-              <string>1:00:00</string>
+              <string>‒:‒‒:‒‒</string>
              </property>
             </widget>
            </item>
@@ -1495,56 +1459,24 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_14">
-             <property name="spacing">
-              <number>0</number>
+            <widget class="QLabel" name="repairName1">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <item>
-              <spacer name="verticalSpacer_5">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QLabel" name="repairName1">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>MS Gothic</family>
-                 <pointsize>20</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>響改</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer_6">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
+             <property name="font">
+              <font>
+               <pointsize>16</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>???</string>
+             </property>
+            </widget>
            </item>
            <item>
             <spacer name="horizontalSpacer">
@@ -1569,12 +1501,11 @@
              </property>
              <property name="font">
               <font>
-               <family>Arial</family>
                <pointsize>16</pointsize>
               </font>
              </property>
              <property name="text">
-              <string>1:00:00</string>
+              <string>‒:‒‒:‒‒</string>
              </property>
             </widget>
            </item>
@@ -1597,56 +1528,24 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_18">
-             <property name="spacing">
-              <number>0</number>
+            <widget class="QLabel" name="repairName2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <item>
-              <spacer name="verticalSpacer_4">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QLabel" name="repairName2">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>MS Gothic</family>
-                 <pointsize>20</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>響改</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer_3">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
+             <property name="font">
+              <font>
+               <pointsize>16</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>???</string>
+             </property>
+            </widget>
            </item>
            <item>
             <spacer name="horizontalSpacer_2">
@@ -1671,12 +1570,11 @@
              </property>
              <property name="font">
               <font>
-               <family>Arial</family>
                <pointsize>16</pointsize>
               </font>
              </property>
              <property name="text">
-              <string>1:00:00</string>
+              <string>‒:‒‒:‒‒</string>
              </property>
             </widget>
            </item>
@@ -1702,56 +1600,24 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_4">
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_20">
-             <property name="spacing">
-              <number>0</number>
+            <widget class="QLabel" name="repairName4">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <item>
-              <spacer name="verticalSpacer">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QLabel" name="repairName4">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>MS Gothic</family>
-                 <pointsize>20</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>響改</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer_2">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
+             <property name="font">
+              <font>
+               <pointsize>16</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>???</string>
+             </property>
+            </widget>
            </item>
            <item>
             <spacer name="horizontalSpacer_4">
@@ -1776,12 +1642,11 @@
              </property>
              <property name="font">
               <font>
-               <family>Arial</family>
                <pointsize>16</pointsize>
               </font>
              </property>
              <property name="text">
-              <string>1:00:00</string>
+              <string>‒:‒‒:‒‒</string>
              </property>
             </widget>
            </item>
@@ -1811,56 +1676,22 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_21">
-             <property name="spacing">
-              <number>0</number>
+            <widget class="QLabel" name="constructionName1">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <item>
-              <spacer name="verticalSpacer_9">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QLabel" name="constructionName1">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>MS Gothic</family>
-                 <pointsize>20</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>???</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer_10">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
+             <property name="font">
+              <font>
+               <pointsize>16</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>???</string>
+             </property>
+            </widget>
            </item>
            <item>
             <spacer name="horizontalSpacer_5">
@@ -1876,39 +1707,68 @@
             </spacer>
            </item>
            <item>
-            <widget class="QCheckBox" name="constructionSpoil1">
-             <property name="text">
-              <string>Spoil Me!</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="constructionTimer1">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>70</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Arial</family>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>1:00:00</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
+            <layout class="QVBoxLayout" name="verticalLayout_11">
+             <item>
+              <spacer name="verticalSpacer_11">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item alignment="Qt::AlignHCenter">
+              <widget class="QLabel" name="constructionTimer1">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>70</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>16</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>‒:‒‒:‒‒</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item alignment="Qt::AlignHCenter">
+              <widget class="QCheckBox" name="constructionSpoil1">
+               <property name="text">
+                <string>Spoil Me!</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_12">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -1932,56 +1792,22 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_9">
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_25">
-             <property name="spacing">
-              <number>0</number>
+            <widget class="QLabel" name="constructionName2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <item>
-              <spacer name="verticalSpacer_17">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QLabel" name="constructionName2">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>MS Gothic</family>
-                 <pointsize>20</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>???</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer_18">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
+             <property name="font">
+              <font>
+               <pointsize>16</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>???</string>
+             </property>
+            </widget>
            </item>
            <item>
             <spacer name="horizontalSpacer_9">
@@ -1997,39 +1823,68 @@
             </spacer>
            </item>
            <item>
-            <widget class="QCheckBox" name="constructionSpoil2">
-             <property name="text">
-              <string>Spoil Me!</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="constructionTimer2">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>70</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Arial</family>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>1:00:00</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <spacer name="verticalSpacer_10">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item alignment="Qt::AlignHCenter">
+              <widget class="QLabel" name="constructionTimer2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>70</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>16</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>‒:‒‒:‒‒</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="constructionSpoil2">
+               <property name="text">
+                <string>Spoil Me!</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_9">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -2053,56 +1908,22 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_10">
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_26">
-             <property name="spacing">
-              <number>0</number>
+            <widget class="QLabel" name="constructionName3">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <item>
-              <spacer name="verticalSpacer_19">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QLabel" name="constructionName3">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>MS Gothic</family>
-                 <pointsize>20</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>???</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer_20">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
+             <property name="font">
+              <font>
+               <pointsize>16</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>???</string>
+             </property>
+            </widget>
            </item>
            <item>
             <spacer name="horizontalSpacer_10">
@@ -2118,39 +1939,68 @@
             </spacer>
            </item>
            <item>
-            <widget class="QCheckBox" name="constructionSpoil3">
-             <property name="text">
-              <string>Spoil Me!</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="constructionTimer3">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>70</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Arial</family>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>1:00:00</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
+            <layout class="QVBoxLayout" name="verticalLayout_12">
+             <item>
+              <spacer name="verticalSpacer_13">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item alignment="Qt::AlignHCenter">
+              <widget class="QLabel" name="constructionTimer3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>70</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>16</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>‒:‒‒:‒‒</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item alignment="Qt::AlignHCenter">
+              <widget class="QCheckBox" name="constructionSpoil3">
+               <property name="text">
+                <string>Spoil Me!</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_14">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -2174,56 +2024,22 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_11">
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_27">
-             <property name="spacing">
-              <number>0</number>
+            <widget class="QLabel" name="constructionName4">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <item>
-              <spacer name="verticalSpacer_21">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QLabel" name="constructionName4">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>MS Gothic</family>
-                 <pointsize>20</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>???</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer_22">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
+             <property name="font">
+              <font>
+               <pointsize>16</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>???</string>
+             </property>
+            </widget>
            </item>
            <item>
             <spacer name="horizontalSpacer_11">
@@ -2239,39 +2055,68 @@
             </spacer>
            </item>
            <item>
-            <widget class="QCheckBox" name="constructionSpoil4">
-             <property name="text">
-              <string>Spoil Me!</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="constructionTimer4">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>70</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Arial</family>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>1:00:00</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
+            <layout class="QVBoxLayout" name="verticalLayout_13">
+             <item>
+              <spacer name="verticalSpacer_15">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item alignment="Qt::AlignHCenter">
+              <widget class="QLabel" name="constructionTimer4">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>70</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>16</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>‒:‒‒:‒‒</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="constructionSpoil4">
+               <property name="text">
+                <string>Spoil Me!</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_16">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
