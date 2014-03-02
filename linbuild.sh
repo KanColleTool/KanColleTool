@@ -12,7 +12,7 @@ cp -R tool/*.{pro,cpp,h,ui,qrc,png} dist/src/kancolletool-${VERSION}/
 
 # Prepare viewer sources
 mkdir dist/src/kancolletool-viewer-${VERSION}
-cp -R viewer/*.{pro,cpp,h,qrc,png,html,js} viewer/proxy-plugins/ dist/src/kancolletool-viewer-${VERSION}/
+cp -R viewer/*.{pro,cpp,h,qrc,png,html,js} dist/src/kancolletool-viewer-${VERSION}/
 
 # Tarball it all up
 cd dist/src
