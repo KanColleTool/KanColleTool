@@ -1,7 +1,8 @@
 # Maintainer: Johannes Ekberg <uppfinnarn@gmail.com>
-pkgname=('kancolletool-git' 'kancolletool-viewer-git')
+pkgname='kancolletool-git'
+true && pkgname=('kancolletool-git' 'kancolletool-viewer-git')
 pkgbase='kancolletool-git'
-pkgver=0.0.0
+pkgver=0.8.4
 pkgrel=1
 epoch=
 pkgdesc="A tool that makes KanColle better"
@@ -26,8 +27,9 @@ md5sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/$pkgbase"
+	cat VERSION
 	# Use the tag of the last commit
-	git describe --tags | grep -Po 'v\K([\w\.]+)'
+	#git describe --tags | grep -Po 'v\K([\w\.]+)'
 }
 
 build() {
