@@ -183,13 +183,26 @@ void KVMainWindow::loadSettings()
 	qDebug() << "API Token:" << apiToken;
 	qDebug() << "API Link:" << apiLink.toString();
 
-	this->implementSettings();
+	wvManager->translation = settings.value("viewerTranslation", kDefaultTranslation).toBool();
+	if(wvManager->translation)
+		loadTranslation();
+
+	if(settings.value("proxy", kDefaultProxy).toBool()) {
+		wvManager->setProxy(QNetworkProxy(
+			static_cast<QNetworkProxy::ProxyType>(settings.value("proxyType", kDefaultProxyType).toInt()),
+			settings.value("proxyServer", kDefaultProxyServer).toString(),
+			settings.value("proxyPort", kDefaultProxyPort).toInt(),
+			settings.value("proxyUser", kDefaultProxyUser).toString(),
+			settings.value("proxyPass", kDefaultProxyPass).toString()));
+		qDebug() << "Proxy:" << settings.value("proxyServer", kDefaultProxyServer).toString();
+	}
 }
 
 void KVMainWindow::implementSettings() {
 	QSettings settings;
 
 	bool translation = settings.value("viewerTranslation", kDefaultTranslation).toBool();
+
 	if(translation != wvManager->translation) {
 		wvManager->translation = translation;
 		if(translation) loadTranslation();
