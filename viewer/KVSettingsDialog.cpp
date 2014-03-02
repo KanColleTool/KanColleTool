@@ -33,6 +33,7 @@ KVSettingsDialog::KVSettingsDialog(KVMainWindow *parent, Qt::WindowFlags f) :
 	        SLOT(buttonClicked(QAbstractButton*)));
 
 	this->adjustSize();
+	this->setFixedSize(this->size());
 }
 
 KVSettingsDialog::~KVSettingsDialog()
