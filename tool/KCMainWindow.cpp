@@ -628,11 +628,13 @@ void KCMainWindow::updateSettingThings()
 
 	// Server for Viewer data livestreaming
 	server->enabled = settings.value("livestream", kDefaultLivestream).toBool();
-
+	
+	// Enable manual reloads
 	useNetwork = settings.value("usenetwork", kDefaultUseNetwork).toBool();
+	ui->actionRefresh->setEnabled(useNetwork);
 
-	// Autorefreshing
-	if(settings.value("autorefresh", kDefaultAutorefresh).toBool())
+	// Autorefreshing (if manual reloads are enabled)
+	if(useNetwork && settings.value("autorefresh", kDefaultAutorefresh).toBool())
 		refreshTimer.start(settings.value("autorefreshInterval", kDefaultAutorefreshInterval).toInt()*1000);
 	else
 		refreshTimer.stop();

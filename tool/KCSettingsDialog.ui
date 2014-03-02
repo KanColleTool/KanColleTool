@@ -167,7 +167,7 @@ Nothing will most likely happen, but you should still know this.</string>
    <item>
     <widget class="QCheckBox" name="useNetworkCheckbox">
      <property name="text">
-      <string>Get current information from network.</string>
+      <string>Get current information from network</string>
      </property>
     </widget>
    </item>
@@ -184,52 +184,56 @@ Nothing will most likely happen, but you should still know this.</string>
     </widget>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_5">
-     <item>
-      <layout class="QHBoxLayout" name="autorefreshContainer">
-       <property name="spacing">
-        <number>15</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QCheckBox" name="autorefreshCheckbox">
-         <property name="text">
-          <string>When not streaming, refresh every:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="autorefreshInterval">
-         <property name="maximum">
-          <number>86400</number>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>seconds</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-    </layout>
+    <widget class="QWidget" name="autorefreshContainer" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="leftMargin">
+       <number>20</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QCheckBox" name="autorefreshCheckbox">
+        <property name="text">
+         <string>When not streaming, refresh every:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="autorefreshInterval">
+        <property name="maximum">
+         <number>86400</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>seconds</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <spacer name="verticalSpacer_2">

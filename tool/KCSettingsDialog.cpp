@@ -27,6 +27,9 @@ KCSettingsDialog::KCSettingsDialog(KCMainWindow *parent, Qt::WindowFlags f):
 #ifdef __APPLE__
 	ui->minimizeToTrayContainer->hide();
 #endif
+	
+	// Pretend this changed just to update the enabledness of that container
+	this->on_useNetworkCheckbox_stateChanged(ui->useNetworkCheckbox->checkState());
 
 	// Autoadjust the size to fit, because that's easier than trying to make it
 	// look everywhere good manually. Takes into account font size differences
@@ -51,4 +54,10 @@ void KCSettingsDialog::done(int r) {
 	}
 
 	QDialog::done(r);
+}
+
+void KCSettingsDialog::on_useNetworkCheckbox_stateChanged(int state)
+{
+	qDebug() << "Use Network:" << state;
+	ui->autorefreshContainer->setEnabled(state == Qt::Checked);
 }

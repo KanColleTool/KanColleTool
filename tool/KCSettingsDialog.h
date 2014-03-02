@@ -20,6 +20,9 @@ public:
 public slots:
 	virtual void done(int r);
 	
+private slots:
+	void on_useNetworkCheckbox_stateChanged(int state);
+	
 private:
 	Ui::KCSettingsDialog *ui;
 	QSettings settings;
