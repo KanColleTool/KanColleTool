@@ -20,7 +20,7 @@ KCSettingsDialog::KCSettingsDialog(KCMainWindow *parent, Qt::WindowFlags f):
 	ui->autorefreshCheckbox->setChecked(
 		settings.value("autorefresh", kDefaultAutorefresh).toBool());
 	ui->autorefreshInterval->setValue(
-		settings.value("autorefreshInterval", kDefaultAutorefresh).toInt());
+		settings.value("autorefreshInterval", kDefaultAutorefreshInterval).toInt());
 
 	// This whole thing makes no sense on OSX, so just hide the whole box there
 	// The application is always running (only) in the menu bar there
