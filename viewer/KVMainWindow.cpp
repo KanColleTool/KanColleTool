@@ -186,14 +186,15 @@ void KVMainWindow::loadSettings()
 	this->implementSettings(true);
 }
 
-void KVMainWindow::implementSettings(bool start) {
+void KVMainWindow::implementSettings()
+{
 	QSettings settings;
 
 	bool translation = settings.value("viewerTranslation", kDefaultTranslation).toBool();
 	if(translation != wvManager->translation) {
 		wvManager->translation = translation;
 		if(translation) loadTranslation();
-		if(!start) loadBundledIndex();
+		loadBundledIndex();	// Reset the game
 	}
 
 	if(settings.value("proxy", kDefaultProxy).toBool()) {

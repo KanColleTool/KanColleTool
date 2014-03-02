@@ -25,7 +25,7 @@ public slots:
 	void checkForUpdates();
 	void askForAPILink(bool reload=true);
 	void openSettings();
-	void implementSettings(bool start=false);
+	void implementSettings();
 	void clearCache();
 	void showAbout();
 
