@@ -53,10 +53,18 @@ bool KCMainWindow::init() {
 	timerUpdateTimer.start(1000);
 	updateTimers();	// Don't wait a whole second to update timers
 
-	// Set the Fleets page regardless of what the UI file says.
+	// Set the right page regardless of what the UI file says.
 	// (This saves me from accidentally releasing a version with the wrong
 	// start page due to me editing another one right beforehand)
-	this->on_actionFleets_triggered();
+	if(QSettings().value("usenetwork", kDefaultUseNetwork).toBool())
+	{
+		this->on_actionFleets_triggered();
+	}
+	else
+	{
+		ui->stackedWidget->setCurrentWidget(ui->noNetworkPage);
+		ui->toolBar->hide();
+	}
 
 	return true;
 }
@@ -634,12 +642,30 @@ void KCMainWindow::updateSettingThings()
 	// Enable manual reloads
 	useNetwork = settings.value("usenetwork", kDefaultUseNetwork).toBool();
 	ui->actionRefresh->setEnabled(useNetwork);
+	
+	// Don't remain on the "Livestreaming Only" page if it's disabled!
+	if(useNetwork && ui->stackedWidget->currentWidget() == ui->noNetworkPage)
+	{
+		leaveNoNetworkPage();
+		on_actionRefresh_triggered();
+	}
 
 	// Autorefreshing (if manual reloads are enabled)
 	if(useNetwork && settings.value("autorefresh", kDefaultAutorefresh).toBool())
 		refreshTimer.start(settings.value("autorefreshInterval", kDefaultAutorefreshInterval).toInt()*1000);
 	else
 		refreshTimer.stop();
+}
+
+void KCMainWindow::leaveNoNetworkPage()
+{
+	if(ui->stackedWidget->currentWidget() == ui->noNetworkPage)
+	{
+		this->setUpdatesEnabled(false);
+		ui->toolBar->show();
+		this->on_actionFleets_triggered();
+		this->setUpdatesEnabled(true);
+	}
 }
 
 void KCMainWindow::onTranslationLoadFinished()
@@ -680,6 +706,7 @@ void KCMainWindow::onReceivedShips() {
 	updateFleetsPage();
 	updateShipsPage();
 	updateRepairsPage();
+	leaveNoNetworkPage();
 }
 
 void KCMainWindow::onReceivedFleets() {
@@ -695,16 +722,19 @@ void KCMainWindow::onReceivedFleets() {
 	// move them to Fleet #1, and trigger updateFleetsPage from currentChanged
 	for(int i = 0; i < ui->fleetsTabBar->count(); i++)
 		ui->fleetsTabBar->setTabEnabled(i, i < client->fleets.size());
+	leaveNoNetworkPage();
 }
 
 void KCMainWindow::onReceivedRepairs() {
 	qDebug() << "Received Player Repairs Data" << client->repairDocks.size();
 	updateRepairsPage();
+	leaveNoNetworkPage();
 }
 
 void KCMainWindow::onReceivedConstructions() {
 	qDebug() << "Received Player Constructions Data" << client->constructionDocks.size();
 	updateConstructionsPage();
+	leaveNoNetworkPage();
 }
 
 void KCMainWindow::onRequestError(KCClient::ErrorCode error) {
@@ -849,4 +879,9 @@ void KCMainWindow::on_fleetsTabBar_currentChanged(int index)
 	Q_UNUSED(index);
 	updateFleetsPage();
 	updateTimers();
+}
+
+void KCMainWindow::on_noNetworkSettingsButton_clicked()
+{
+	this->on_actionSettings_triggered();
 }

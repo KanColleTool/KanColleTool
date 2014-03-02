@@ -52,6 +52,7 @@ public slots:
 	void updateConstructionsPage();
 	void updateTimers();
 	void updateSettingThings();
+	void leaveNoNetworkPage();
 
 private slots:
 	void onTranslationLoadFinished();
@@ -76,6 +77,7 @@ private slots:
 	void on_actionSettings_triggered();
 
 	void on_fleetsTabBar_currentChanged(int index);
+	void on_noNetworkSettingsButton_clicked();
 
 private:
 	Ui::KCMainWindow *ui;
