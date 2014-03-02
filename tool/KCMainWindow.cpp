@@ -386,12 +386,12 @@ void KCMainWindow::updateShipsPage()
 
 		TABLE_SET_ITEM(ui->shipsTable, row, 0, ship->level);
 		TABLE_SET_ITEM(ui->shipsTable, row, 1, ship->hp.max);
-		TABLE_SET_ITEM(ui->shipsTable, row, 2, ship->firepower.cur);
-		TABLE_SET_ITEM(ui->shipsTable, row, 3, ship->torpedo.cur);
-		TABLE_SET_ITEM(ui->shipsTable, row, 4, ship->evasion.cur);
-		TABLE_SET_ITEM(ui->shipsTable, row, 5, ship->antiair.cur);
-		TABLE_SET_ITEM(ui->shipsTable, row, 6, ship->antisub.cur);
-		TABLE_SET_ITEM(ui->shipsTable, row, 7, ship->luck.cur);
+		TABLE_SET_ITEM(ui->shipsTable, row, 2, ship->firepower);
+		TABLE_SET_ITEM(ui->shipsTable, row, 3, ship->torpedo);
+		TABLE_SET_ITEM(ui->shipsTable, row, 4, ship->evasion);
+		TABLE_SET_ITEM(ui->shipsTable, row, 5, ship->antiair);
+		TABLE_SET_ITEM(ui->shipsTable, row, 6, ship->antisub);
+		TABLE_SET_ITEM(ui->shipsTable, row, 7, ship->luck);
 		TABLE_SET_ITEM(ui->shipsTable, row, 8, translateName(type->name));
 
 		++row;

@@ -22,14 +22,10 @@ public:
 	int level, exp;
 
 	struct { int cur, max; } hp;
-	struct { int cur, max; } firepower;
-	struct { int cur, max; } torpedo;
-	struct { int cur, max; } antiair;
-	struct { int cur, max; } antisub;
-	struct { int cur, max; } armor;
-	struct { int cur, max; } evasion;
-	struct { int cur, max; } lineOfSight;
-	struct { int cur, max; } luck;
+	int armor, evasion;
+	int firepower, torpedo, antiair, antisub;
+	int lineOfSight;
+	int luck;
 
 	int ammo, fuel;
 	int condition;

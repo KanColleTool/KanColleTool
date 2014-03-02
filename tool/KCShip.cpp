@@ -32,22 +32,14 @@ void KCShip::loadFrom(const QVariantMap &data, int loadId) {
 	extract(data, repairCost.steel, "api_ndock_item", 0);
 	extract(data, repairCost.fuel, "api_ndock_item", 1);
 	extract(data, condition, "api_cond");
-	extract(data, firepower.cur, "api_karyoku", 0);
-	extract(data, firepower.max, "api_karyoku", 1);
-	extract(data, torpedo.cur, "api_raisou", 0);
-	extract(data, torpedo.max, "api_raisou", 1);
-	extract(data, antiair.cur, "api_taiku", 0);
-	extract(data, antiair.max, "api_taiku", 1);
-	extract(data, armor.cur, "api_soukou", 0);
-	extract(data, armor.max, "api_soukou", 1);
-	extract(data, evasion.cur, "api_kaihi", 0);
-	extract(data, evasion.max, "api_kaihi", 1);
-	extract(data, antisub.cur, "api_taisen", 0);
-	extract(data, antisub.max, "api_taisen", 1);
-	extract(data, lineOfSight.cur, "api_sakuteki", 0);
-	extract(data, lineOfSight.max, "api_sakuteki", 1);
-	extract(data, luck.cur, "api_lucky", 0);
-	extract(data, luck.max, "api_lucky", 1);
+	extract(data, firepower, "api_karyoku", 0);
+	extract(data, torpedo, "api_raisou", 0);
+	extract(data, antiair, "api_taiku", 0);
+	extract(data, armor, "api_soukou", 0);
+	extract(data, evasion, "api_kaihi", 0);
+	extract(data, antisub, "api_taisen", 0);
+	extract(data, lineOfSight, "api_sakuteki", 0);
+	extract(data, luck, "api_lucky", 0);
 
 	switch(loadId) {
 	case 0:
