@@ -13,19 +13,19 @@ class KVMainWindow : public QMainWindow
 	Q_OBJECT
 
 public:
-	KVMainWindow(QWidget *parent = 0, Qt::WindowFlags flags = 0);
+	KVMainWindow(QWidget *parent=0, Qt::WindowFlags flags=0);
 
 protected:
-	void loadTranslation(QString language = "en");
-	void _setupSettings();
+	void loadTranslation(QString language="en");
+	void loadSettings();
 	void generateAPILinkURL();
 
 public slots:
 	void loadBundledIndex();
 	void checkForUpdates();
-	void askForAPILink(bool reload = true);
+	void askForAPILink(bool reload=true);
 	void openSettings();
-	void implementSettings();
+	void implementSettings(bool start=false);
 	void clearCache();
 	void showAbout();
 

@@ -57,7 +57,7 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	wvManager->setCache(cache);
 
 	// Load settings from the settings file
-	this->_setupSettings();
+	this->loadSettings();
 
 	// Set up the web view, using our custom Network Access Manager
 	webView = new QWebView(this);
@@ -164,7 +164,7 @@ void KVMainWindow::openSettings()
 	settingsDialog->show();
 }
 
-void KVMainWindow::_setupSettings()
+void KVMainWindow::loadSettings()
 {
 	QSettings settings;
 
@@ -183,29 +183,17 @@ void KVMainWindow::_setupSettings()
 	qDebug() << "API Token:" << apiToken;
 	qDebug() << "API Link:" << apiLink.toString();
 
-	wvManager->translation = settings.value("viewerTranslation", kDefaultTranslation).toBool();
-	if(wvManager->translation)
-		loadTranslation();
-
-	if(settings.value("proxy", kDefaultProxy).toBool()) {
-		wvManager->setProxy(QNetworkProxy(
-			static_cast<QNetworkProxy::ProxyType>(settings.value("proxyType", kDefaultProxyType).toInt()),
-			settings.value("proxyServer", kDefaultProxyServer).toString(),
-			settings.value("proxyPort", kDefaultProxyPort).toInt(),
-			settings.value("proxyUser", kDefaultProxyUser).toString(),
-			settings.value("proxyPass", kDefaultProxyPass).toString()));
-		qDebug() << "Proxy:" << settings.value("proxyServer", kDefaultProxyServer).toString();
-	}
+	this->implementSettings(true);
 }
 
-void KVMainWindow::implementSettings() {
+void KVMainWindow::implementSettings(bool start) {
 	QSettings settings;
 
 	bool translation = settings.value("viewerTranslation", kDefaultTranslation).toBool();
 	if(translation != wvManager->translation) {
 		wvManager->translation = translation;
 		if(translation) loadTranslation();
-		loadBundledIndex();
+		if(!start) loadBundledIndex();
 	}
 
 	if(settings.value("proxy", kDefaultProxy).toBool()) {
