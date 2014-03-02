@@ -18,7 +18,8 @@ KVSettingsDialog::KVSettingsDialog(KVMainWindow *parent, Qt::WindowFlags f) :
 	ui->proxyPortBox->setValue(settings.value("proxyPort", kDefaultProxyPort).toInt());
 	ui->proxyUserEdit->setText(settings.value("proxyUser", kDefaultProxyUser).toString());
 	ui->proxyPassEdit->setText(settings.value("proxyPass", kDefaultProxyPass).toString());
-	switch(settings.value("proxyType", kDefaultProxyType).toInt()) {
+	switch(settings.value("proxyType", kDefaultProxyType).toInt())
+	{
 	default:
 	case QNetworkProxy::Socks5Proxy:
 		ui->socksProxyRadio->setChecked(true);
@@ -34,17 +35,20 @@ KVSettingsDialog::KVSettingsDialog(KVMainWindow *parent, Qt::WindowFlags f) :
 	this->adjustSize();
 }
 
-KVSettingsDialog::~KVSettingsDialog() {
+KVSettingsDialog::~KVSettingsDialog()
+{
 
 }
 
-void KVSettingsDialog::accept() {
+void KVSettingsDialog::accept()
+{
 	this->setSettings();
 
 	QDialog::accept();
 }
 
-void KVSettingsDialog::setSettings() {
+void KVSettingsDialog::setSettings()
+{
 	settings.setValue("viewerTranslation", ui->translationCheckbox->isChecked());
 	settings.setValue("proxy", ui->proxyCheckbox->isChecked());
 	settings.setValue("proxyServer", ui->proxyServerEdit->text());
@@ -59,7 +63,8 @@ void KVSettingsDialog::setSettings() {
 	emit apply();
 }
 
-void KVSettingsDialog::buttonClicked(QAbstractButton *button) {
+void KVSettingsDialog::buttonClicked(QAbstractButton *button)
+{
 	if(ui->buttonBox->buttonRole(button) == QDialogButtonBox::ApplyRole)
 		setSettings();
 }
