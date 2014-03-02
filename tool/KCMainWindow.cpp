@@ -110,7 +110,7 @@ void KCMainWindow::_setupClient() {
 	connect(client, SIGNAL(missionCompleted(KCFleet*)), SLOT(onMissionCompleted(KCFleet*)));
 
 	QEventLoop loop;
-	loop.connect(client, SIGNAL(receivedMasterShips()), SLOT(quit()));
+	loop.connect(client, SIGNAL(receivedShipTypes()), SLOT(quit()));
 	QSettings settings;
 	if(settings.value("usenetwork", kDefaultUseNetwork).toBool()) {
 		if(!client->hasCredentials()) {
