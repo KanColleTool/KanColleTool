@@ -1,5 +1,4 @@
 #include "KCFleet.h"
-#include "KCWrapperUtils.h"
 #include "KCClient.h"
 
 KCFleet::KCFleet(const QVariantMap &data, int loadId, KCClient *parent) :

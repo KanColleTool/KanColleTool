@@ -1,5 +1,4 @@
 #include "KCDock.h"
-#include "KCWrapperUtils.h"
 #include "KCUtil.h"
 #include "KCClient.h"
 #include <QDebug>

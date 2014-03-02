@@ -8,7 +8,6 @@
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
 
-#include "KCWrapperUtils.h"
 #include "KCShipMaster.h"
 #include "KCShip.h"
 #include "KCFleet.h"

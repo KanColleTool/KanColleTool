@@ -1,8 +1,24 @@
 #include "KCClient.h"
 #define pf [](KCClient *client, const QVariant &data)
-typedef KCClient C;
 
-const std::map<QString, C::processFunc> C::processFuncs = {
+/*
+ * Extract or update data from an API response into a QMap<int, modelT*>&
+ */
+template<class modelT>
+inline void modelizeResponse(const QVariant &data, QMap<int, modelT*> &target,
+                             KCClient *client, int loadId=0, QString idKey="api_id") {
+	for(QVariant item : data.toList()) {
+		QVariantMap itemMap = item.toMap();
+		modelT *&ship = target[itemMap.value(idKey).toInt()];
+
+		if(!ship)
+			ship = new modelT(itemMap, loadId, client);
+		else
+			ship->loadFrom(itemMap, loadId);
+	}
+}
+
+const std::map<QString, KCClient::processFunc> KCClient::processFuncs = {
 	{ "/kctool/focus", // Focus request
 	  pf {
 			Q_UNUSED(data);

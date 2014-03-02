@@ -1,5 +1,4 @@
 #include "KCShip.h"
-#include "KCWrapperUtils.h"
 
 KCShip::KCShip(const QVariantMap &data, int loadId, QObject *parent) :
 	KCGameObject(parent) {
