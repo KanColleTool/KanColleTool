@@ -183,7 +183,7 @@ void KVMainWindow::loadSettings()
 	qDebug() << "API Token:" << apiToken;
 	qDebug() << "API Link:" << apiLink.toString();
 
-	this->implementSettings(true);
+	this->implementSettings();
 }
 
 void KVMainWindow::implementSettings()
