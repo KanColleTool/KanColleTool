@@ -111,6 +111,7 @@ const std::map<QString, KCClient::processFunc> KCClient::processFuncs = {
 	//  Actions
 	{ "/kcsapi/api_req_kaisou/powerup", 0 }, // Modernization
 	{ "/kcsapi/api_req_kaisou/remodeling", 0 },
+	{ "/kcsapi/api_req_kaisou/slotset", 0 }, // Equip an item
 	{ "/kcsapi/api_req_hokyu/charge", 0 }, // TODO (Resupplying)
 	{ "/kcsapi/api_req_hensei/change", 0 }, // Swap out ships
 	{ "/kcsapi/api_req_nyukyo/start", 0 }, // Start a bath
