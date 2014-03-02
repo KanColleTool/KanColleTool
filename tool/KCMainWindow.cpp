@@ -618,14 +618,13 @@ void KCMainWindow::updateSettingThings()
 	QSettings settings;
 
 	// Translation
+	if(this->translation != settings.value("toolTranslation", kDefaultTranslation).toBool())
 	{
-		if(this->translation != settings.value("toolTranslation", kDefaultTranslation).toBool()) {
-			this->translation = !this->translation;
-			this->updateFleetsPage();
-			this->updateShipsPage();
-			this->updateRepairsPage();
-			this->updateConstructionsPage();
-		}
+		this->translation = !this->translation;
+		this->updateFleetsPage();
+		this->updateShipsPage();
+		this->updateRepairsPage();
+		this->updateConstructionsPage();
 	}
 
 	// Server for Viewer data livestreaming
