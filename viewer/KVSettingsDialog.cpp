@@ -29,9 +29,6 @@ KVSettingsDialog::KVSettingsDialog(KVMainWindow *parent, Qt::WindowFlags f) :
 		break;
 	}
 
-	connect(ui->buttonBox, SIGNAL(clicked(QAbstractButton*)),
-	        SLOT(buttonClicked(QAbstractButton*)));
-
 	this->adjustSize();
 	this->setFixedSize(this->size());
 }
@@ -41,31 +38,20 @@ KVSettingsDialog::~KVSettingsDialog()
 
 }
 
-void KVSettingsDialog::accept()
+void KVSettingsDialog::done(int r)
 {
-	this->setSettings();
+	if(r == QDialog::Accepted) {
+		settings.setValue("viewerTranslation", ui->translationCheckbox->isChecked());
+		settings.setValue("proxy", ui->proxyCheckbox->isChecked());
+		settings.setValue("proxyServer", ui->proxyServerEdit->text());
+		settings.setValue("proxyPort", ui->proxyPortBox->value());
+		if(ui->socksProxyRadio->isChecked())
+			settings.setValue("proxyType", QNetworkProxy::Socks5Proxy);
+		else if(ui->httpProxyRadio->isChecked())
+			settings.setValue("proxyType", QNetworkProxy::HttpProxy);
 
-	QDialog::accept();
-}
+		settings.sync();
+	}
 
-void KVSettingsDialog::setSettings()
-{
-	settings.setValue("viewerTranslation", ui->translationCheckbox->isChecked());
-	settings.setValue("proxy", ui->proxyCheckbox->isChecked());
-	settings.setValue("proxyServer", ui->proxyServerEdit->text());
-	settings.setValue("proxyPort", ui->proxyPortBox->value());
-	if(ui->socksProxyRadio->isChecked())
-		settings.setValue("proxyType", QNetworkProxy::Socks5Proxy);
-	else if(ui->httpProxyRadio->isChecked())
-		settings.setValue("proxyType", QNetworkProxy::HttpProxy);
-
-	settings.sync();
-
-	emit apply();
-}
-
-void KVSettingsDialog::buttonClicked(QAbstractButton *button)
-{
-	if(ui->buttonBox->buttonRole(button) == QDialogButtonBox::ApplyRole)
-		setSettings();
+	QDialog::done(r);
 }

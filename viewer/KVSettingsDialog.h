@@ -18,12 +18,7 @@ public:
 	virtual ~KVSettingsDialog();
 
 public slots:
-	virtual void accept();
-	virtual void setSettings();
-	virtual void buttonClicked(QAbstractButton *button);
-
-signals:
-	void apply();
+	virtual void done(int r);
 
 private:
 	Ui::KVSettingsDialog *ui;

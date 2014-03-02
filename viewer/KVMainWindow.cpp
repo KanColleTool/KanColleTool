@@ -159,7 +159,7 @@ void KVMainWindow::askForAPILink(bool reload)
 void KVMainWindow::openSettings()
 {
 	KVSettingsDialog *settingsDialog = new KVSettingsDialog(this);
-	connect(settingsDialog, SIGNAL(apply()), SLOT(implementSettings()));
+	connect(settingsDialog, SIGNAL(accepted()), SLOT(implementSettings()));
 	connect(settingsDialog, SIGNAL(finished(int)), settingsDialog, SLOT(deleteLater()));
 	settingsDialog->show();
 }
