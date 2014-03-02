@@ -8,7 +8,7 @@
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
 
-#include "KCShipMaster.h"
+#include "KCShipType.h"
 #include "KCShip.h"
 #include "KCFleet.h"
 #include "KCDock.h"
@@ -38,7 +38,7 @@ public:
 
 	QString server, apiToken;
 
-	QMap<int, KCShipMaster*> masterShips;
+	QMap<int, KCShipType*> shipTypes;
 	QMap<int, KCShip*> ships;
 	QMap<int, KCFleet*> fleets;
 	QMap<int, KCDock*> repairDocks;
@@ -50,11 +50,11 @@ signals:
 	void focusRequested();
 
 	void credentialsGained();
-	void receivedMasterShips();
-	void receivedPlayerShips();
-	void receivedPlayerFleets();
-	void receivedPlayerRepairs();
-	void receivedPlayerConstructions();
+	void receivedShipTypes();
+	void receivedShips();
+	void receivedFleets();
+	void receivedRepairs();
+	void receivedConstructions();
 	void requestError(KCClient::ErrorCode error);
 
 	void dockCompleted(KCDock *dock);
@@ -63,12 +63,12 @@ signals:
 public slots:
 	void setCredentials(QString server, QString apiToken);
 
-	void safeMasterShips();
-	void requestMasterShips();
-	void requestPlayerShips();
-	void requestPlayerFleets();
-	void requestPlayerRepairs();
-	void requestPlayerConstructions();
+	void safeShipTypes();
+	void requestShipTypes();
+	void requestShips();
+	void requestFleets();
+	void requestRepairs();
+	void requestConstructions();
 
 protected slots:
 	void onRequestFinished();

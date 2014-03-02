@@ -7,7 +7,7 @@
 #include <QJsonDocument>
 #include <QFile>
 #include "KCShip.h"
-#include "KCShipMaster.h"
+#include "KCShipType.h"
 #include "KCFleet.h"
 
 #define kClientUseCache 0
@@ -58,33 +58,33 @@ void KCClient::setCredentials(QString server, QString apiToken)
 	}
 }
 
-void KCClient::safeMasterShips() {
+void KCClient::safeShipTypes() {
 	QNetworkRequest request(QString("http://kancolletool.github.io/kctool/mastership.json"));
 	QNetworkReply *reply = manager->get(request);
 	connect(reply, SIGNAL(finished()), SLOT(onRequestFinished()));
 }
 
-void KCClient::requestMasterShips() {
+void KCClient::requestShipTypes() {
 	QNetworkReply *reply = this->call("/api_get_master/ship");
 	if(reply) connect(reply, SIGNAL(finished()), SLOT(onRequestFinished()));
 }
 
-void KCClient::requestPlayerShips() {
+void KCClient::requestShips() {
 	QNetworkReply *reply = this->call("/api_get_member/ship");
 	if(reply) connect(reply, SIGNAL(finished()), SLOT(onRequestFinished()));
 }
 
-void KCClient::requestPlayerFleets() {
+void KCClient::requestFleets() {
 	QNetworkReply *reply = this->call("/api_get_member/deck");
 	if(reply) connect(reply, SIGNAL(finished()), SLOT(onRequestFinished()));
 }
 
-void KCClient::requestPlayerRepairs() {
+void KCClient::requestRepairs() {
 	QNetworkReply *reply = this->call("/api_get_member/ndock");
 	if(reply) connect(reply, SIGNAL(finished()), SLOT(onRequestFinished()));
 }
 
-void KCClient::requestPlayerConstructions() {
+void KCClient::requestConstructions() {
 	QNetworkReply *reply = this->call("/api_get_member/kdock");
 	if(reply) connect(reply, SIGNAL(finished()), SLOT(onRequestFinished()));
 }

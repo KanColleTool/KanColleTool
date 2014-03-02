@@ -16,7 +16,7 @@ public:
 
 	void loadFrom(const QVariantMap &data, int loadId) override;
 
-	int master;
+	int type;
 
 	int id;
 	int level, exp;

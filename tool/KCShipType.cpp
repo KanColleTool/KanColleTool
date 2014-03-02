@@ -1,15 +1,15 @@
-#include "KCShipMaster.h"
+#include "KCShipType.h"
 
-KCShipMaster::KCShipMaster(const QVariantMap &data, int loadId, QObject *parent) :
+KCShipType::KCShipType(const QVariantMap &data, int loadId, QObject *parent) :
 	KCGameObject(parent) {
 	loadFrom(data, loadId);
 }
 
-KCShipMaster::~KCShipMaster() {
+KCShipType::~KCShipType() {
 
 }
 
-void KCShipMaster::loadFrom(const QVariantMap &data, int loadId) {
+void KCShipType::loadFrom(const QVariantMap &data, int loadId) {
 	Q_UNUSED(loadId);
 
 	// All of these are retrieved in the order they are in the API responses
@@ -18,7 +18,7 @@ void KCShipMaster::loadFrom(const QVariantMap &data, int loadId) {
 	extract(data, cardno, "api_sortno");
 	extract(data, name, "api_name");
 	extract(data, reading, "api_yomi");
-	extract(data, type, "api_stype");
+	extract(data, sclass, "api_stype");
 	extract(data, ctype, "api_ctype");
 	extract(data, cindex, "api_cnum");
 	extract(data, encountered, "api_enqflg");

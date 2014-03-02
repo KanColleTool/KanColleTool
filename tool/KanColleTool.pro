@@ -33,7 +33,7 @@ SOURCES += main.cpp \
 	KCClient_p.cpp \
 	KCToolServer.cpp \
 	KCShip.cpp \
-	KCShipMaster.cpp \
+	KCShipType.cpp \
 	KCFleet.cpp \
 	KCDock.cpp \
 	KCTranslator.cpp
@@ -44,7 +44,7 @@ HEADERS  += KCMainWindow.h \
 	KCToolServer.h \
 	KCGameObject.h \
 	KCShip.h \
-	KCShipMaster.h \
+	KCShipType.h \
 	KCFleet.h \
 	KCDock.h \
 	KCTranslator.h \

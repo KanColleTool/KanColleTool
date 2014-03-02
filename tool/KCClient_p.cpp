@@ -32,14 +32,14 @@ const std::map<QString, KCClient::processFunc> KCClient::processFuncs = {
 	// Global info -------------------------------------------------------------
 	{ "/kctool/mastership.json", // Ships from our server
 		pf {
-			modelizeResponse(data, client->masterShips, client);
-			emit client->receivedMasterShips();
+			modelizeResponse(data, client->shipTypes, client);
+			emit client->receivedShipTypes();
 		}
 	},
 	{ "/kcsapi/api_get_master/ship", // Ships
 		pf {
-			modelizeResponse(data, client->masterShips, client);
-			emit client->receivedMasterShips();
+			modelizeResponse(data, client->shipTypes, client);
+			emit client->receivedShipTypes();
 		}
 	},
 	{ "/kcsapi/api_get_master/stype", 0 }, // Ship types
@@ -63,13 +63,13 @@ const std::map<QString, KCClient::processFunc> KCClient::processFuncs = {
 	{ "/kcsapi/api_get_member/ship",
 		pf {
 			modelizeResponse(data, client->ships, client);
-			emit client->receivedPlayerShips();
+			emit client->receivedShips();
 		}
 	},
 	{ "/kcsapi/api_get_member/ship2", // Ships and fleets.
 	  pf {
 			modelizeResponse(data, client->ships, client, 1);
-			emit client->receivedPlayerShips();
+			emit client->receivedShips();
 
 			// TODO: handle the weird api_data_deck
 		}
@@ -79,8 +79,8 @@ const std::map<QString, KCClient::processFunc> KCClient::processFuncs = {
 			QVariantMap map = data.toMap();
 			modelizeResponse(map.value("api_ship_data"), client->ships, client, 1);
 			modelizeResponse(map.value("api_deck_data"), client->fleets, client);
-			emit client->receivedPlayerShips();
-			emit client->receivedPlayerFleets();
+			emit client->receivedShips();
+			emit client->receivedFleets();
 		}
 	},
 	{ "/kcsapi/api_get_member/material", 0 }, // Resources
@@ -88,19 +88,19 @@ const std::map<QString, KCClient::processFunc> KCClient::processFuncs = {
 	{ "/kcsapi/api_get_member/deck", // Fleets
 		pf {
 			modelizeResponse(data, client->fleets, client);
-			emit client->receivedPlayerFleets();
+			emit client->receivedFleets();
 		}
 	},
 	{ "/kcsapi/api_get_member/ndock", // Dock (repair)
 		pf {
 			modelizeResponse(data, client->repairDocks, client);
-			emit client->receivedPlayerRepairs();
+			emit client->receivedRepairs();
 		}
 	},
 	{ "/kcsapi/api_get_member/kdock", // Construction
 		pf {
 			modelizeResponse(data, client->constructionDocks, client);
-			emit client->receivedPlayerConstructions();
+			emit client->receivedConstructions();
 		}
 	},
 	//  Quests

@@ -9,8 +9,8 @@
 #include <QDebug>
 #include "KCSettingsDialog.h"
 #include "KCTranslator.h"
+#include "KCShipType.h"
 #include "KCShip.h"
-#include "KCShipMaster.h"
 #include "KCDock.h"
 #include "KCMacUtils.h"
 #include "KCUtil.h"
@@ -100,11 +100,11 @@ void KCMainWindow::_setupClient() {
 
 	connect(client, SIGNAL(focusRequested()), SLOT(showApplication()));
 	connect(client, SIGNAL(credentialsGained()), SLOT(onCredentialsGained()));
-	connect(client, SIGNAL(receivedMasterShips()), SLOT(onReceivedMasterShips()));
-	connect(client, SIGNAL(receivedPlayerShips()), SLOT(onReceivedPlayerShips()));
-	connect(client, SIGNAL(receivedPlayerFleets()), SLOT(onReceivedPlayerFleets()));
-	connect(client, SIGNAL(receivedPlayerRepairs()), SLOT(onReceivedPlayerRepairs()));
-	connect(client, SIGNAL(receivedPlayerConstructions()), SLOT(onReceivedPlayerConstructions()));
+	connect(client, SIGNAL(receivedShipTypes()), SLOT(onReceivedShipTypes()));
+	connect(client, SIGNAL(receivedShips()), SLOT(onReceivedShips()));
+	connect(client, SIGNAL(receivedFleets()), SLOT(onReceivedFleets()));
+	connect(client, SIGNAL(receivedRepairs()), SLOT(onReceivedRepairs()));
+	connect(client, SIGNAL(receivedConstructions()), SLOT(onReceivedConstructions()));
 	connect(client, SIGNAL(requestError(KCClient::ErrorCode)), SLOT(onRequestError(KCClient::ErrorCode)));
 	connect(client, SIGNAL(dockCompleted(KCDock *)), SLOT(onDockCompleted(KCDock *)));
 	connect(client, SIGNAL(missionCompleted(KCFleet*)), SLOT(onMissionCompleted(KCFleet*)));
@@ -123,7 +123,7 @@ void KCMainWindow::_setupClient() {
 			this->onCredentialsGained();
 		}
 	} else {
-		client->safeMasterShips();
+		client->safeShipTypes();
 	}
 	loop.exec();
 }
@@ -342,7 +342,7 @@ void KCMainWindow::updateFleetsPage()
 		{
 			KCShip *ship = client->ships[fleet->ships[i]];
 			if(!ship) continue;
-			KCShipMaster *type = client->masterShips[ship->master];
+			KCShipType *type = client->shipTypes[ship->type];
 			if(!type) continue;
 
 			QString iS = QString::number(i+1);
@@ -381,7 +381,7 @@ void KCMainWindow::updateShipsPage()
 	foreach(KCShip *ship, client->ships)
 	{
 		if(!ship) continue;
-		KCShipMaster *type = client->masterShips[ship->master];
+		KCShipType *type = client->shipTypes[ship->type];
 		if(!type) continue;
 
 		TABLE_SET_ITEM(ui->shipsTable, row, 0, ship->level);
@@ -434,7 +434,7 @@ void KCMainWindow::updateRepairsPage()
 			KCShip *ship = client->ships[dock->shipID];
 			if(ship)
 			{
-				KCShipMaster *type = client->masterShips[ship->master];
+				KCShipType *type = client->shipTypes[ship->type];
 				if(type)
 					nameLabel->setText(translateName(type->name));
 				repairTimerLabel->setText(delta(dock->complete).toString("H:mm:ss"));
@@ -486,7 +486,7 @@ void KCMainWindow::updateConstructionsPage()
 
 			if(spoilCheckbox->isChecked())
 			{
-				KCShipMaster *ship = client->masterShips[dock->shipID];
+				KCShipType *ship = client->shipTypes[dock->shipID];
 				if(ship)
 					nameLabel->setText(translateName(ship->name));
 				else
@@ -551,7 +551,7 @@ void KCMainWindow::updateTimers()
 							continue;
 
 						KCShip *ship = client->ships[fleet->ships[i]];
-						KCShipMaster *type = client->masterShips[ship->master];
+						KCShipType *type = client->shipTypes[ship->type];
 						busy = true;
 						if(type)
 							status = QString("%1 is taking a bath").arg(translateName(type->name));
@@ -663,34 +663,30 @@ void KCMainWindow::onTranslationLoadFailed(QString error)
 void KCMainWindow::onCredentialsGained()
 {
 	qDebug() << "Credentials Gained";
-	client->requestMasterShips();
-	client->requestPlayerShips();
-	client->requestPlayerFleets();
-	client->requestPlayerRepairs();
-	client->requestPlayerConstructions();
+	client->requestShipTypes();
+	client->requestShips();
+	client->requestFleets();
+	client->requestRepairs();
+	client->requestConstructions();
 }
 
-void KCMainWindow::onReceivedMasterShips()
-{
-	qDebug() << "Received Master Ship Data" << client->masterShips.size();
+void KCMainWindow::onReceivedShipTypes() {
+	qDebug() << "Received Master Ship Data" << client->shipTypes.size();
 	updateConstructionsPage();
 }
 
-void KCMainWindow::onReceivedPlayerShips()
-{
+void KCMainWindow::onReceivedShips() {
 	qDebug() << "Received Player Ship Data" << client->ships.size();
 	updateFleetsPage();
 	updateShipsPage();
 	updateRepairsPage();
 }
 
-void KCMainWindow::onReceivedPlayerFleets()
-{
+void KCMainWindow::onReceivedFleets() {
 	qDebug() << "Received Player Fleet Data" << client->fleets.size();
 
 	// If we're on an active tab, update it
-	if(ui->fleetsTabBar->currentIndex() < client->fleets.size())
-	{
+	if(ui->fleetsTabBar->currentIndex() < client->fleets.size()) {
 		updateFleetsPage();
 		updateTimers();
 	}
@@ -701,20 +697,17 @@ void KCMainWindow::onReceivedPlayerFleets()
 		ui->fleetsTabBar->setTabEnabled(i, i < client->fleets.size());
 }
 
-void KCMainWindow::onReceivedPlayerRepairs()
-{
+void KCMainWindow::onReceivedRepairs() {
 	qDebug() << "Received Player Repairs Data" << client->repairDocks.size();
 	updateRepairsPage();
 }
 
-void KCMainWindow::onReceivedPlayerConstructions()
-{
+void KCMainWindow::onReceivedConstructions() {
 	qDebug() << "Received Player Constructions Data" << client->constructionDocks.size();
 	updateConstructionsPage();
 }
 
-void KCMainWindow::onRequestError(KCClient::ErrorCode error)
-{
+void KCMainWindow::onRequestError(KCClient::ErrorCode error) {
 	switch(error)
 	{
 		case KCClient::JsonError:
@@ -746,7 +739,7 @@ void KCMainWindow::onTrayIconActivated(QSystemTrayIcon::ActivationReason reason)
 void KCMainWindow::onDockCompleted(KCDock *dock)
 {
 	if(dock->isConstruction) {
-		KCShipMaster *type = client->masterShips[dock->shipID];
+		KCShipType *type = client->shipTypes[dock->shipID];
 
 		// Only name the ship if the player has asked for a spoiler already
 		bool spoil = false;
@@ -766,7 +759,7 @@ void KCMainWindow::onDockCompleted(KCDock *dock)
 		KCShip *ship = client->ships[dock->shipID];
 		if(ship) {
 			ship->hp.cur = ship->hp.max;
-			KCShipMaster *type = client->masterShips[ship->master];
+			KCShipType *type = client->shipTypes[ship->type];
 			if(type)
 				trayIcon->showMessage("Repair Completed!",
 					QString("%1 is all healthy again!").arg(translateName(type->name)));
@@ -836,10 +829,10 @@ void KCMainWindow::on_actionRefresh_triggered()
 			return;
 	}
 
-	client->requestPlayerShips();
-	client->requestPlayerFleets();
-	client->requestPlayerRepairs();
-	client->requestPlayerConstructions();
+	client->requestShips();
+	client->requestFleets();
+	client->requestRepairs();
+	client->requestConstructions();
 }
 
 void KCMainWindow::on_actionSettings_triggered()

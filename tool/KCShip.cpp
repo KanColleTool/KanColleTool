@@ -1,5 +1,7 @@
 #include "KCShip.h"
 
+#include "KCShipType.h"
+
 KCShip::KCShip(const QVariantMap &data, int loadId, QObject *parent) :
 	KCGameObject(parent) {
 	loadFrom(data, loadId);
@@ -10,14 +12,14 @@ KCShip::~KCShip() {
 }
 
 void KCShip::loadFrom(const QVariantMap &data, int loadId) {
-	// Unlike KCShipMaster, I'm keeping only the values we actually use here.
-	// The Master object has most of this stuff already, so we're just keeping
+	// Unlike KCShipType, I'm keeping only the values we actually use here.
+	// The type object has most of this stuff already, so we're just keeping
 	// the individual girl's values here.
 	// (Including her name, because Sauyon is a mean person.)
 
 	// Shared values
 	extract(data, id, "api_id");
-	extract(data, master, "api_ship_id");
+	extract(data, type, "api_ship_id");
 	extract(data, level, "api_lv");
 	extract(data, hp.cur, "api_nowhp");
 	extract(data, hp.max, "api_maxhp");

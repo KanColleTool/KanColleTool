@@ -57,11 +57,11 @@ private slots:
 	void onTranslationLoadFinished();
 	void onTranslationLoadFailed(QString error);
 	void onCredentialsGained();
-	void onReceivedMasterShips();
-	void onReceivedPlayerShips();
-	void onReceivedPlayerFleets();
-	void onReceivedPlayerRepairs();
-	void onReceivedPlayerConstructions();
+	void onReceivedShipTypes();
+	void onReceivedShips();
+	void onReceivedFleets();
+	void onReceivedRepairs();
+	void onReceivedConstructions();
 	void onRequestError(KCClient::ErrorCode error);
 
 	void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
