@@ -215,7 +215,7 @@ Nothing will most likely happen, but you should still know this.</string>
       <item>
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>seconds</string>
+         <string>minutes</string>
         </property>
        </widget>
       </item>
