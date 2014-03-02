@@ -2,7 +2,5 @@
 <RCC version="1.0">
 <qresource>
 	<file>index.html</file>
-	<file>esc.js</file>
-	<file>test.js</file>
 </qresource>
 </RCC>
