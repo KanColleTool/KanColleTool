@@ -57,7 +57,7 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	wvManager->setCache(cache);
 
 	// Load settings from the settings file
-	this->loadSettings();
+	this->_setupSettings();
 
 	// Set up the web view, using our custom Network Access Manager
 	webView = new QWebView(this);
@@ -164,7 +164,7 @@ void KVMainWindow::openSettings()
 	settingsDialog->show();
 }
 
-void KVMainWindow::loadSettings()
+void KVMainWindow::_setupSettings()
 {
 	QSettings settings;
 
@@ -202,7 +202,6 @@ void KVMainWindow::implementSettings() {
 	QSettings settings;
 
 	bool translation = settings.value("viewerTranslation", kDefaultTranslation).toBool();
-
 	if(translation != wvManager->translation) {
 		wvManager->translation = translation;
 		if(translation) loadTranslation();

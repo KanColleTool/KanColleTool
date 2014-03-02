@@ -17,7 +17,7 @@ public:
 
 protected:
 	void loadTranslation(QString language = "en");
-	void loadSettings();
+	void _setupSettings();
 	void generateAPILinkURL();
 
 public slots:
