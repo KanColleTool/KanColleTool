@@ -19,10 +19,10 @@ public:
 
 public slots:
 	virtual void accept();
-	virtual void setSettings();
-	virtual void buttonClicked(QAbstractButton *button);
+	virtual void applySettings();
 
 private slots:
+	void on_buttonBox_clicked(QAbstractButton *button);
 	void on_useNetworkCheckbox_stateChanged(int state);
 	void on_autorefreshCheckbox_stateChanged(int state);
 

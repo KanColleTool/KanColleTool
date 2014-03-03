@@ -33,9 +33,6 @@ KCSettingsDialog::KCSettingsDialog(KCMainWindow *parent, Qt::WindowFlags f):
 	this->on_useNetworkCheckbox_stateChanged(ui->useNetworkCheckbox->checkState());
 	this->on_autorefreshCheckbox_stateChanged(ui->autorefreshCheckbox->checkState());
 
-	connect(ui->buttonBox, SIGNAL(clicked(QAbstractButton*)),
-	        SLOT(buttonClicked(QAbstractButton*)));
-
 	// Autoadjust the size to fit, because that's easier than trying to make it
 	// look everywhere good manually. Takes into account font size differences
 	// and stuff too, so yeah.
@@ -47,12 +44,12 @@ KCSettingsDialog::~KCSettingsDialog() {
 }
 
 void KCSettingsDialog::accept() {
-	this->setSettings();
+	this->applySettings();
 
 	QDialog::accept();
 }
 
-void KCSettingsDialog::setSettings() {
+void KCSettingsDialog::applySettings() {
 	settings.setValue("minimizeToTray", ui->minimizeToTrayCheckbox->isChecked());
 	settings.setValue("toolTranslation", ui->translationCheckbox->isChecked());
 	settings.setValue("livestream", ui->livestreamCheckbox->isChecked());
@@ -65,9 +62,9 @@ void KCSettingsDialog::setSettings() {
 	emit apply();
 }
 
-void KCSettingsDialog::buttonClicked(QAbstractButton *button) {
+void KCSettingsDialog::on_buttonBox_clicked(QAbstractButton *button) {
 	if(ui->buttonBox->buttonRole(button) == QDialogButtonBox::ApplyRole)
-		setSettings();
+		applySettings();
 }
 
 void KCSettingsDialog::on_useNetworkCheckbox_stateChanged(int state) {
