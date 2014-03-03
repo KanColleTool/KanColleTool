@@ -50,6 +50,7 @@ static const uint32_t crc32_tab[] = {
 };
 
 QString unescape(QString escaped);
+QString jsonEscape(const QString &str);
 quint32 crc32(quint32 crc, const void *buf, size_t size);
 
 #endif

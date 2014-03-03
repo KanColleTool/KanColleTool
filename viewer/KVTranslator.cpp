@@ -4,6 +4,7 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QByteArray>
+#include <QStack>
 #include <QEventLoop>
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -110,21 +111,17 @@ bool KVTranslator::parseTranslationData(const QByteArray &data)
 	return true;
 }
 
-QString KVTranslator::translate(const QString &line) const
-{
+QString KVTranslator::translate(const QString &line) const {
 	QString realLine = unescape(line);
 	QByteArray utf8 = realLine.toUtf8();
 	quint32 crc = crc32(0, utf8.constData(), utf8.size());
 
 	QString key = QString::number(crc);
 	QVariant value = translation.value(key);
-	if(value.isValid())
-	{
+	if(value.isValid()) {
 		//qDebug() << "TL:" << realLine << "->" << value.toString();
-		return value.toString();
-	}
-	else
-	{
+		return jsonEscape(value.toString());
+	} else {
 		//qDebug() << "No TL:" << realLine;
 		return line;
 	}
@@ -140,27 +137,146 @@ QString KVTranslator::fixTime(const QString &time) const
 	return realTime.toString("yyyy-MM-dd hh:mm:ss");
 }
 
-QString KVTranslator::translateJson(const QString &json) const
-{
-	// Block until translation is loaded
-	if(!isLoaded) {
-		QEventLoop loop;
-		loop.connect(this, SIGNAL(loadFinished()), SLOT(quit()));
-		loop.connect(this, SIGNAL(loadFailed(QString)), SLOT(quit()));
-		loop.exec();
+inline void copyData(QByteArray &target, const QByteArray &data, int &s, int e) {
+	target.append(data.mid(s, e-s+1));
+	s = e+1;
+}
+
+QByteArray KVTranslator::translateJson(const QByteArray &json) const {
+	QStack<jsonState> state;
+	state.reserve(5);
+	state.push(Start);
+	int s = 0;
+
+	QByteArray ret = "";
+	ret.reserve(json.size());
+	for(int i = 0; i < json.size(); i++) {
+		if(isspace(json.at(i))) continue;
+
+		switch(state.top()) {
+		case Start:
+			if(json.at(i) == '{') {
+				copyData(ret, json, s, i);
+				state.push(Object);
+			}
+			continue;
+		case Object:
+			switch(json.at(i)) {
+			case '"':
+				copyData(ret, json, s, i);
+				state.push(Key);
+				continue;
+			case '}':
+				state.pop();
+				continue;
+			default:
+				qDebug() << "Unexpected character" << json.at(i) << "in object";
+				break;
+			}
+			break;
+		case Array:
+			switch(json.at(i)) {
+			case '"':
+				copyData(ret, json, s, i);
+				state.push(String);
+				break;
+			case '{':
+				state.push(Object);
+				break;
+			case '[':
+				state.push(Array);
+				break;
+			case ']':
+				state.top() = AfterValue;
+				break;
+			case ',':
+				break;
+			default:
+				state.push(NonString);
+				break;
+			}
+			continue;
+		case Key:
+			switch(json.at(i)) {
+			case '\\':
+				i++;
+				break;
+			case '"':
+				state.top() = AfterKey;
+				break;
+			}
+			continue;
+		case AfterKey:
+			if(json.at(i) == ':') {
+				state.top() = Value;
+				continue;
+			}
+			qDebug() << "Character after key not ':'";
+			break;
+		case Value:
+			switch(json.at(i)) {
+			case '"':
+				copyData(ret, json, s, i);
+				state.top() = String;
+				continue;
+			case '{':
+				state.top() = Object;
+				continue;
+			case '[':
+				state.top() = Array;
+				continue;
+			case ',':
+				qDebug() << "Empty value";
+				break;
+			default:
+				state.top() = NonString;
+				continue;
+			}
+			break;
+		case NonString:
+			switch(json.at(i)) {
+			case ']':
+			case '}':
+				i--;
+			case ',':
+				state.pop();
+				break;
+			}
+			continue;
+		case String:
+			switch(json.at(i)) {
+			case '\\':
+				i++;
+				break;
+			case '"':
+				ret.append(translate(json.mid(s, i-s)));
+				s = i;
+				state.top() = AfterValue;
+				break;
+			}
+			continue;
+		case AfterValue:
+			switch(json.at(i)) {
+			case ']':
+			case '}':
+				i--;
+			case ',':
+				state.pop();
+				continue;
+			}
+			qDebug() << "No ',', ']', or '}' after string";
+			break;
+		}
+
+		qDebug() << "Failed to parse json at index" << i;
+		qDebug() << "Context:" << json.mid(i-50, 100);
+		qDebug() << "                                                            ^";
+		qDebug() << "State:" << state << "\n";
+		return json;
 	}
 
-	bool hasPrefix = json.startsWith("svdata=");
-	QJsonDocument doc = QJsonDocument::fromJson(json.mid(hasPrefix ? 7 : 0).toUtf8());
-	QJsonValue val = this->_walk(QJsonValue(doc.object()));
-	//qDebug() << val;
-	doc = QJsonDocument(val.toObject());
-#if QT_VERSION >= 0x050100
-	QString str = QString::fromUtf8(doc.toJson(QJsonDocument::Compact));
-#else
-	QString str = QString::fromUtf8(doc.toJson());
-#endif
-	return (hasPrefix ? "svdata=" + str : str);
+	ret.append(json.mid(s));
+	return ret;
 }
 
 QJsonValue KVTranslator::_walk(QJsonValue value, QString key) const

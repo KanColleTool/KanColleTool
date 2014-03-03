@@ -29,7 +29,7 @@ public slots:
 
 	QString translate(const QString &line) const;
 	QString fixTime(const QString &time) const;
-	QString translateJson(const QString &json) const;
+	QByteArray translateJson(const QByteArray &json) const;
 
 protected:
 	bool parseTranslationData(const QByteArray &data);
@@ -43,6 +43,12 @@ private slots:
 	void translationRequestFinished();
 
 private:
+	enum jsonState {
+		Start, Object, Array,
+		Key, AfterKey,
+		Value, NonString, String, AfterValue
+	};
+
 	bool isLoaded;
 	QFile cacheFile;
 	QNetworkAccessManager manager;

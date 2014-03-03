@@ -66,19 +66,19 @@ void KVNetworkReply::handleResponse() {
 	for(int i = 0; i < headers.size(); i++)
 		setRawHeader(headers[i].first, headers[i].second);
 
-	QString data = d->copied->readAll();
+	QByteArray data = d->copied->readAll();
 	d->copied->abort();
 
 	//qDebug() << "content:" << data;
 
 	QNetworkRequest toolReq(QUrl("http://localhost:54321").resolved(url().path()));
 	toolReq.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("text/json"));
-	d->manager->post(toolReq, data.toUtf8());
+	d->manager->post(toolReq, data);
 
 	if(d->translate)
-		data = KVTranslator::instance()->translateJson(data).toUtf8();
+		data = KVTranslator::instance()->translateJson(data);
 
-	d->content = data.toUtf8();
+	d->content = data;
 	d->offset = 0;
 	setHeader(QNetworkRequest::ContentLengthHeader, QVariant(d->content.size()));
 
