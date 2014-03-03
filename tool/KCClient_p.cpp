@@ -1,4 +1,9 @@
 #include "KCClient.h"
+<<<<<<< HEAD
+=======
+#include "KCWrapperUtils.h"
+#include "KCShipMaster.h"
+>>>>>>> eceb0c7c15da6c962bb7999cb8bcd9be87b12115
 
 #define pf [](KCClient *client, const QVariant &data)
 

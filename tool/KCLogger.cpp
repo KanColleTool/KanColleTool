@@ -59,7 +59,7 @@ KCLogger::~KCLogger()
 {
 	
 }
-	
+
 void KCLogger::logDrop(int ship, int world, int map)
 {
 	QSqlQuery query("INSERT INTO drops (ship, world, map) VALUES (:ship, :world, :map);");
