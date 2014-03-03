@@ -29,7 +29,7 @@ tool/KanColleTool.exe
 tool/kancolletool
 
 viewer/Makefile*
-viewer/KCTViewer.app
+viewer/KCT Viewer.app
 viewer/KCTViewer.exe
 viewer/kancolletool-viewer
 

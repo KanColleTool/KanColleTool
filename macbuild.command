@@ -22,13 +22,14 @@ cd ..
 
 # Build macviewer
 cd macviewer/KCTViewer
-rm -r build
+rm -rf build
+mkdir build
 xcodebuild -workspace KCTViewer.xcworkspace -scheme KCTViewer -configuration Release -derivedDataPath ./build
 cp -R build/Build/Products/Release/KCTViewer.app ../../dist/KanColleTool/
 rm -rf build
 cd ../..
 
 # Make a DMG of it all
-hdiutil create "tmp.dmg" -ov -volname "KanColleTool" -fs "HFS+" -srcfolder dist/KanColleTool
-hdiutil convert "tmp.dmg" -format "UDZO" -o "dist/KanColleTool.dmg"
+hdiutil create "/tmp/KanColleTool-macbuild-tmp.dmg" -ov -volname "KanColleTool" -fs "HFS+" -srcfolder dist/KanColleTool
+hdiutil convert "/tmp/KanColleTool-macbuild-tmp.dmg" -format "UDZO" -o "dist/KanColleTool.dmg"
 rm -f tmp.dmg
