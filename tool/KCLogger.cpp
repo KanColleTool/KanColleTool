@@ -61,8 +61,6 @@ KCLogger::KCLogger(QObject *parent):
 			db.commit();
 		}
 	}
-	
-	logDrop(1, 2, 3);
 }
 
 KCLogger::~KCLogger()
