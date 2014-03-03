@@ -27,10 +27,11 @@ KVSettingsDialog::KVSettingsDialog(KVMainWindow *parent, Qt::WindowFlags f) :
 		break;
 	}
 
-	this->on_proxyCheckbox_stateChanged(ui->proxyCheckbox->checkState());
+#ifdef __APPLE__
+	ui->buttonBox->setStandardButtons(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+#endif
 
-	connect(ui->buttonBox, SIGNAL(clicked(QAbstractButton*)),
-	        SLOT(buttonClicked(QAbstractButton*)));
+	this->on_proxyCheckbox_stateChanged(ui->proxyCheckbox->checkState());
 
 	this->adjustSize();
 	this->setFixedSize(this->size());
@@ -41,12 +42,12 @@ KVSettingsDialog::~KVSettingsDialog() {
 }
 
 void KVSettingsDialog::accept() {
-	this->setSettings();
+	this->applySettings();
 
 	QDialog::accept();
 }
 
-void KVSettingsDialog::setSettings() {
+void KVSettingsDialog::applySettings() {
 	settings.setValue("viewerTranslation", ui->translationCheckbox->isChecked());
 	settings.setValue("proxy", ui->proxyCheckbox->isChecked());
 	settings.setValue("proxyServer", ui->proxyServerEdit->text());
@@ -61,9 +62,9 @@ void KVSettingsDialog::setSettings() {
 	emit apply();
 }
 
-void KVSettingsDialog::buttonClicked(QAbstractButton *button) {
+void KVSettingsDialog::on_buttonBox_clicked(QAbstractButton *button) {
 	if(ui->buttonBox->buttonRole(button) == QDialogButtonBox::ApplyRole)
-		setSettings();
+		applySettings();
 }
 
 void KVSettingsDialog::on_proxyCheckbox_stateChanged(int state) {
