@@ -35,20 +35,11 @@
       </font>
      </property>
      <property name="text">
-      <string>&lt;p&gt;
-Translation provided by Commie.&lt;br /&gt;
-If you would like to provide an alternate translation, contact us and we'll work something out.
-&lt;/p&gt;
-
-&lt;p&gt;
-&lt;i&gt;Note:&lt;/i&gt; Changing this will cause the game to be reloaded.
-&lt;/p&gt;</string>
+      <string>Translation provided by Commie.
+If you would like to provide an alternate translation, contact us and we'll work something out.</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
      </property>
     </widget>
    </item>

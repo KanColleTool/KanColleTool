@@ -183,18 +183,17 @@ void KVMainWindow::loadSettings()
 	qDebug() << "API Token:" << apiToken;
 	qDebug() << "API Link:" << apiLink.toString();
 
-	this->implementSettings();
+	this->implementSettings(true);
 }
 
-void KVMainWindow::implementSettings()
-{
+void KVMainWindow::implementSettings(bool start) {
 	QSettings settings;
 
 	bool translation = settings.value("viewerTranslation", kDefaultTranslation).toBool();
 	if(translation != wvManager->translation) {
 		wvManager->translation = translation;
 		if(translation) loadTranslation();
-		loadBundledIndex();	// Reset the game
+		if(!start) loadBundledIndex();
 	}
 
 	if(settings.value("proxy", kDefaultProxy).toBool()) {
