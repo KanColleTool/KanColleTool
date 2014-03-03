@@ -65,7 +65,7 @@ KCLogger::KCLogger(QObject *parent):
 
 KCLogger::~KCLogger()
 {
-	
+	db.close();
 }
 	
 void KCLogger::logDrop(int ship, int world, int map)
