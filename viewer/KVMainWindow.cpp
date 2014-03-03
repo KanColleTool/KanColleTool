@@ -57,7 +57,7 @@ KVMainWindow::KVMainWindow(QWidget *parent, Qt::WindowFlags flags):
 	wvManager->setCache(cache);
 
 	// Load settings from the settings file
-	this->loadSettings();
+	this->loadSettings(true);
 
 	// Set up the web view, using our custom Network Access Manager
 	webView = new QWebView(this);
@@ -164,15 +164,13 @@ void KVMainWindow::openSettings()
 	settingsDialog->show();
 }
 
-void KVMainWindow::loadSettings()
-{
+void KVMainWindow::loadSettings(bool start) {
 	QSettings settings;
 
 	server = settings.value("server").toString();
 	apiToken = settings.value("apiToken").toString();
 
-	if(server.isEmpty() || apiToken.isEmpty())
-	{
+	if(server.isEmpty() || apiToken.isEmpty()) {
 		this->askForAPILink(false);
 		if(server.isEmpty() || apiToken.isEmpty())
 			exit(0);
@@ -183,7 +181,7 @@ void KVMainWindow::loadSettings()
 	qDebug() << "API Token:" << apiToken;
 	qDebug() << "API Link:" << apiLink.toString();
 
-	this->implementSettings(true);
+	this->implementSettings(start);
 }
 
 void KVMainWindow::implementSettings(bool start) {
