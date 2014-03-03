@@ -37,7 +37,7 @@ KCLogger::KCLogger(QObject *parent):
 				// -> INTEGER ship      - The ID of the ship that dropped
 				// -> INTEGER world     - The World where the ship dropped (eg. 5 in 5-4)
 				// -> INTEGER map       - The Map where the ship dropped (eg. 4 in 5-4)
-				QSqlQuery("CREATE TABLE drops (timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, ship INTEGER, world INTEGER, map INTEGER);", db).exec();
+				QSqlQuery("CREATE TABLE drops (timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, ship INTEGER, world INTEGER, map INTEGER);", db);
 				
 				// craft_ship - Ships crafted
 				// -> INTEGER timestamp - The UNIX Timestamp for when the construction was *started*
@@ -47,7 +47,7 @@ KCLogger::KCLogger(QObject *parent):
 				// -> INTEGER steel     - The amount of steel spent
 				// -> INTEGER baux      - The amount of bauxite spent
 				// -> INTEGER devmats   - The number of development materials spent (normally 1, higher for LSC)
-				QSqlQuery("CREATE TABLE craft_ship (timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, ship INTEGER, fuel INTEGER, ammo INTEGER, steel INTEGER, baux INTEGER, devmats INTEGER);", db).exec();
+				QSqlQuery("CREATE TABLE craft_ship (timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, ship INTEGER, fuel INTEGER, ammo INTEGER, steel INTEGER, baux INTEGER, devmats INTEGER);", db);
 				
 				// craft_item - Items crafted
 				// -> INTEGER timestamp - The UNIX Timestamp for when the construction was *started*
@@ -56,7 +56,7 @@ KCLogger::KCLogger(QObject *parent):
 				// -> INTEGER ammo      - The amount of ammo spent
 				// -> INTEGER steel     - The amount of steel spent
 				// -> INTEGER baux      - The amount of bauxite spent
-				QSqlQuery("CREATE TABLE craft_item (timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, item INTEGER, fuel INTEGER, ammo INTEGER, steel INTEGER, baux INTEGER);", db).exec();
+				QSqlQuery("CREATE TABLE craft_item (timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, item INTEGER, fuel INTEGER, ammo INTEGER, steel INTEGER, baux INTEGER);", db);
 			}
 			db.commit();
 		}
