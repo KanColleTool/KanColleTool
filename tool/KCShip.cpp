@@ -12,6 +12,8 @@ KCShip::~KCShip() {
 }
 
 void KCShip::loadFrom(const QVariantMap &data, int loadId) {
+	Q_UNUSED(loadId)
+	
 	// Unlike KCShipType, I'm keeping only the values we actually use here.
 	// The type object has most of this stuff already, so we're just keeping
 	// the individual girl's values here.
@@ -41,16 +43,15 @@ void KCShip::loadFrom(const QVariantMap &data, int loadId) {
 	extract(data, antisub, "api_taisen", 0);
 	extract(data, lineOfSight, "api_sakuteki", 0);
 	extract(data, luck, "api_lucky", 0);
-
-	switch(loadId) {
-	case 0:
-		extract(data, exp, "api_exp");
-		extract(data, repairTimeStr, "api_ndock_time_str");
-		break;
-	case 1:
+	
+	if(data.contains("api_locked"))
+	{
 		extract(data, exp, "api_exp", 0);
 		extract(data, heartLock, "api_locked");
-		break;
-	default: break;
+	}
+	else
+	{
+		extract(data, exp, "api_exp");
+		extract(data, repairTimeStr, "api_ndock_time_str");
 	}
 }
