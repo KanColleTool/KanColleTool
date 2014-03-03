@@ -25,6 +25,7 @@ KCSettingsDialog::KCSettingsDialog(KCMainWindow *parent, Qt::WindowFlags f):
 	// This whole thing makes no sense on OSX, so just hide the whole box there
 	// The application is always running (only) in the menu bar there
 #ifdef __APPLE__
+	ui->buttonBox->setStandardButtons(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
 	ui->minimizeToTrayContainer->hide();
 #endif
 
