@@ -205,12 +205,6 @@
                   </item>
                   <item>
                    <widget class="QProgressBar" name="fleetHpBar4">
-                    <property name="maximum">
-                     <number>0</number>
-                    </property>
-                    <property name="value">
-                     <number>-1</number>
-                    </property>
                     <property name="format">
                      <string>%v/%m</string>
                     </property>
@@ -293,12 +287,6 @@
                   </item>
                   <item>
                    <widget class="QProgressBar" name="fleetFuelBar4">
-                    <property name="maximum">
-                     <number>0</number>
-                    </property>
-                    <property name="value">
-                     <number>-1</number>
-                    </property>
                     <property name="format">
                      <string>%v/%m</string>
                     </property>
@@ -324,12 +312,6 @@
                   </item>
                   <item>
                    <widget class="QProgressBar" name="fleetAmmoBar4">
-                    <property name="maximum">
-                     <number>0</number>
-                    </property>
-                    <property name="value">
-                     <number>-1</number>
-                    </property>
                     <property name="format">
                      <string>%v/%m</string>
                     </property>
@@ -382,12 +364,6 @@
                   </item>
                   <item>
                    <widget class="QProgressBar" name="fleetHpBar2">
-                    <property name="maximum">
-                     <number>0</number>
-                    </property>
-                    <property name="value">
-                     <number>-1</number>
-                    </property>
                     <property name="format">
                      <string>%v/%m</string>
                     </property>
@@ -470,12 +446,6 @@
                   </item>
                   <item>
                    <widget class="QProgressBar" name="fleetFuelBar2">
-                    <property name="maximum">
-                     <number>0</number>
-                    </property>
-                    <property name="value">
-                     <number>-1</number>
-                    </property>
                     <property name="format">
                      <string>%v/%m</string>
                     </property>
@@ -501,12 +471,6 @@
                   </item>
                   <item>
                    <widget class="QProgressBar" name="fleetAmmoBar2">
-                    <property name="maximum">
-                     <number>0</number>
-                    </property>
-                    <property name="value">
-                     <number>-1</number>
-                    </property>
                     <property name="format">
                      <string>%v/%m</string>
                     </property>
@@ -559,12 +523,6 @@
                   </item>
                   <item>
                    <widget class="QProgressBar" name="fleetHpBar1">
-                    <property name="maximum">
-                     <number>0</number>
-                    </property>
-                    <property name="value">
-                     <number>-1</number>
-                    </property>
                     <property name="format">
                      <string>%v/%m</string>
                     </property>
@@ -647,12 +605,6 @@
                   </item>
                   <item>
                    <widget class="QProgressBar" name="fleetFuelBar1">
-                    <property name="maximum">
-                     <number>0</number>
-                    </property>
-                    <property name="value">
-                     <number>-1</number>
-                    </property>
                     <property name="format">
                      <string>%v/%m</string>
                     </property>
@@ -678,12 +630,6 @@
                   </item>
                   <item>
                    <widget class="QProgressBar" name="fleetAmmoBar1">
-                    <property name="maximum">
-                     <number>0</number>
-                    </property>
-                    <property name="value">
-                     <number>-1</number>
-                    </property>
                     <property name="format">
                      <string>%v/%m</string>
                     </property>
@@ -790,12 +736,6 @@
                   </item>
                   <item>
                    <widget class="QProgressBar" name="fleetHpBar3">
-                    <property name="maximum">
-                     <number>0</number>
-                    </property>
-                    <property name="value">
-                     <number>-1</number>
-                    </property>
                     <property name="format">
                      <string>%v/%m</string>
                     </property>
@@ -878,12 +818,6 @@
                   </item>
                   <item>
                    <widget class="QProgressBar" name="fleetFuelBar3">
-                    <property name="maximum">
-                     <number>0</number>
-                    </property>
-                    <property name="value">
-                     <number>-1</number>
-                    </property>
                     <property name="format">
                      <string>%v/%m</string>
                     </property>
@@ -909,12 +843,6 @@
                   </item>
                   <item>
                    <widget class="QProgressBar" name="fleetAmmoBar3">
-                    <property name="maximum">
-                     <number>0</number>
-                    </property>
-                    <property name="value">
-                     <number>-1</number>
-                    </property>
                     <property name="format">
                      <string>%v/%m</string>
                     </property>
@@ -967,12 +895,6 @@
                   </item>
                   <item>
                    <widget class="QProgressBar" name="fleetHpBar5">
-                    <property name="maximum">
-                     <number>0</number>
-                    </property>
-                    <property name="value">
-                     <number>-1</number>
-                    </property>
                     <property name="format">
                      <string>%v/%m</string>
                     </property>
@@ -1055,12 +977,6 @@
                   </item>
                   <item>
                    <widget class="QProgressBar" name="fleetFuelBar5">
-                    <property name="maximum">
-                     <number>0</number>
-                    </property>
-                    <property name="value">
-                     <number>-1</number>
-                    </property>
                     <property name="format">
                      <string>%v/%m</string>
                     </property>
@@ -1086,12 +1002,6 @@
                   </item>
                   <item>
                    <widget class="QProgressBar" name="fleetAmmoBar5">
-                    <property name="maximum">
-                     <number>0</number>
-                    </property>
-                    <property name="value">
-                     <number>-1</number>
-                    </property>
                     <property name="format">
                      <string>%v/%m</string>
                     </property>
@@ -1144,12 +1054,6 @@
                   </item>
                   <item>
                    <widget class="QProgressBar" name="fleetHpBar6">
-                    <property name="maximum">
-                     <number>0</number>
-                    </property>
-                    <property name="value">
-                     <number>-1</number>
-                    </property>
                     <property name="format">
                      <string>%v/%m</string>
                     </property>
@@ -1232,12 +1136,6 @@
                   </item>
                   <item>
                    <widget class="QProgressBar" name="fleetFuelBar6">
-                    <property name="maximum">
-                     <number>0</number>
-                    </property>
-                    <property name="value">
-                     <number>-1</number>
-                    </property>
                     <property name="format">
                      <string>%v/%m</string>
                     </property>
@@ -1263,12 +1161,6 @@
                   </item>
                   <item>
                    <widget class="QProgressBar" name="fleetAmmoBar6">
-                    <property name="maximum">
-                     <number>0</number>
-                    </property>
-                    <property name="value">
-                     <number>-1</number>
-                    </property>
                     <property name="format">
                      <string>%v/%m</string>
                     </property>
