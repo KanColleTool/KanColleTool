@@ -8,4 +8,5 @@ before_install:
 install: sudo apt-get install -q qt5-qmake libqt5webkit5-dev qtdeclarative5-dev libgstreamer-plugins-base0.10-dev libxslt1-dev libgio2.0-cil-dev libgst-dev libglib2.0-dev libxml2-dev libsqlite3-dev qt5-default
 script:
   - "cd tool && qmake -spec linux-${CC} && make && cd .."
-  - "cd viewer && qmake -spec linux-${CC} && make && cd .."
+  - "cd viewer/tests && qmake -spec linux-${CC} && make && cd ../.."
+  - "cd viewer/src && qmake -spec linux-${CC} && make && cd ../.."
