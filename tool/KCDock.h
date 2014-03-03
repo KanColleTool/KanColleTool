@@ -31,7 +31,7 @@ public:
 	int state;
 	int shipID;
 	QDateTime complete;
-	int fuel, ammo, steel, baux;
+	int fuel, ammo, steel, baux, cmats;
 	bool isConstruction;
 
 signals:

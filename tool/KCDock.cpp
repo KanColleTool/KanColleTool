@@ -46,6 +46,8 @@ void KCDock::loadFrom(const QVariantMap &data, int loadId) {
 	extract(data, steel, "api_item3");
 	// int api_item4 Bauxite used
 	extract(data, baux, "api_item4");
+	// int api_item5 Development Materials used (LSC only)
+	extract(data, cmats, "api_item5");
 
 	// Start the timer
 	if(state == Occupied || state == Building)
