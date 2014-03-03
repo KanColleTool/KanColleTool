@@ -15,7 +15,6 @@ Pods
 
 # Editor User Data
 xcuserdata
-*.sublime-project
 *.sublime-workspace
 
 # Editor Temporaries

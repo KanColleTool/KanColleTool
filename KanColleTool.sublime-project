@@ -1,0 +1,10 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+			"folder_exclude_patterns": ["build-*", "dist", "macviewer", "*.app"],
+			"file_exclude_patterns": ["moc_*.cpp", "ui_*.h", "qrc_*.cpp", "*.o", ".qmake.stash"]
+		}
+	]
+}
