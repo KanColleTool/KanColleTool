@@ -57,7 +57,6 @@ public slots:
 private slots:
 	void onTranslationLoadFinished();
 	void onTranslationLoadFailed(QString error);
-	void onCredentialsGained();
 	void onReceivedShipTypes();
 	void onReceivedShips();
 	void onReceivedFleets();

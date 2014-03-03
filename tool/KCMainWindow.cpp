@@ -24,19 +24,21 @@ KCMainWindow::KCMainWindow(QWidget *parent) :
 bool KCMainWindow::init() {
 	ui->setupUi(this);
 
-	QMessageBox loadingMessageBox(QMessageBox::NoIcon, "Loading...",
-	                              "This should only take a few moments.",
-	                              QMessageBox::Cancel, this);
-	loadingMessageBox.open();
-
 	if(!this->_setupServer()) return false;
 	this->_setupClient();
 	this->_setupTrayIcon();
 	this->_setupUI();
-
-	loadingMessageBox.accept();
-
 	this->_showDisclaimer();
+
+	// Set the right page regardless of what the UI file says.
+	// (This saves me from accidentally releasing a version with the wrong
+	// start page due to me editing another one right beforehand)
+	if(QSettings().value("usenetwork", kDefaultUseNetwork).toBool()) {
+		this->on_actionFleets_triggered();
+	} else {
+		ui->stackedWidget->setCurrentWidget(ui->noNetworkPage);
+		ui->toolBar->hide();
+	}
 
 	// Setup settings and stuff
 	connect(&refreshTimer, SIGNAL(timeout()), this, SLOT(on_actionRefresh_triggered()));
@@ -52,19 +54,6 @@ bool KCMainWindow::init() {
 	connect(&timerUpdateTimer, SIGNAL(timeout()), this, SLOT(updateTimers()));
 	timerUpdateTimer.start(1000);
 	updateTimers();	// Don't wait a whole second to update timers
-
-	// Set the right page regardless of what the UI file says.
-	// (This saves me from accidentally releasing a version with the wrong
-	// start page due to me editing another one right beforehand)
-	if(QSettings().value("usenetwork", kDefaultUseNetwork).toBool())
-	{
-		this->on_actionFleets_triggered();
-	}
-	else
-	{
-		ui->stackedWidget->setCurrentWidget(ui->noNetworkPage);
-		ui->toolBar->hide();
-	}
 
 	return true;
 }
@@ -107,7 +96,7 @@ void KCMainWindow::_setupClient() {
 	server->setClient(client);
 
 	connect(client, SIGNAL(focusRequested()), SLOT(showApplication()));
-	connect(client, SIGNAL(credentialsGained()), SLOT(onCredentialsGained()));
+	connect(client, SIGNAL(credentialsGained()), SLOT(on_actionRefresh_triggered()));
 	connect(client, SIGNAL(receivedShipTypes()), SLOT(onReceivedShipTypes()));
 	connect(client, SIGNAL(receivedShips()), SLOT(onReceivedShips()));
 	connect(client, SIGNAL(receivedFleets()), SLOT(onReceivedFleets()));
@@ -116,6 +105,8 @@ void KCMainWindow::_setupClient() {
 	connect(client, SIGNAL(requestError(KCClient::ErrorCode)), SLOT(onRequestError(KCClient::ErrorCode)));
 	connect(client, SIGNAL(dockCompleted(KCDock *)), SLOT(onDockCompleted(KCDock *)));
 	connect(client, SIGNAL(missionCompleted(KCFleet*)), SLOT(onMissionCompleted(KCFleet*)));
+
+	client->safeShipTypes();
 
 	QSettings settings;
 	if(settings.value("usenetwork", kDefaultUseNetwork).toBool()) {
@@ -126,10 +117,10 @@ void KCMainWindow::_setupClient() {
 			if(!client->hasCredentials())
 				qApp->quit();
 		} else {
-			this->onCredentialsGained();
+			qDebug() << "Credentials Gained";
+			client->requestShipTypes();
+			this->on_actionRefresh_triggered();
 		}
-	} else {
-		client->safeShipTypes();
 	}
 }
 
@@ -282,16 +273,14 @@ bool KCMainWindow::isApplicationActive()
 #endif
 }
 
-void KCMainWindow::toggleApplication()
-{
+void KCMainWindow::toggleApplication() {
 	if(!this->isApplicationActive())
 		this->showApplication();
 	else
 		this->hideApplication();
 }
 
-void KCMainWindow::showApplication()
-{
+void KCMainWindow::showApplication() {
 #ifdef __APPLE__
 	macApplicationActivate();
 	this->show();
@@ -303,13 +292,11 @@ void KCMainWindow::showApplication()
 #endif
 }
 
-void KCMainWindow::hideApplication()
-{
+void KCMainWindow::hideApplication() {
 	this->hide();
 }
 
-void KCMainWindow::askForAPILink()
-{
+void KCMainWindow::askForAPILink() {
 	if(apiLinkDialogOpen)
 		return;
 
@@ -321,8 +308,7 @@ void KCMainWindow::askForAPILink()
 	client->setCredentials(url.host(), query.queryItemValue("api_token"));
 }
 
-void KCMainWindow::updateFleetsPage()
-{
+void KCMainWindow::updateFleetsPage() {
 	ui->fleetsPage->setUpdatesEnabled(false);
 
 	// Hide all the boxes by default, then show the ones we use below
@@ -337,11 +323,9 @@ void KCMainWindow::updateFleetsPage()
 
 	// Otherwise, retreive it
 	KCFleet *fleet = client->fleets[ui->fleetsTabBar->currentIndex()+1];
-	if(fleet)
-	{
+	if(fleet) {
 		// Loop through all the ships in the fleet and put their info up
-		for(int i = 0; i < fleet->shipCount; i++)
-		{
+		for(int i = 0; i < fleet->shipCount; i++) {
 			KCShip *ship = client->ships[fleet->ships[i]];
 			if(!ship) continue;
 			KCShipType *type = client->shipTypes[ship->type];
@@ -378,8 +362,7 @@ void KCMainWindow::updateFleetsPage()
 	ui->fleetsPage->setUpdatesEnabled(true);
 }
 
-void KCMainWindow::updateShipsPage()
-{
+void KCMainWindow::updateShipsPage() {
 	ui->shipsPage->setUpdatesEnabled(false);
 
 	ui->shipsTable->setSortingEnabled(false);
@@ -683,15 +666,6 @@ void KCMainWindow::onTranslationLoadFailed(QString error) {
 	QMessageBox::StandardButton button = QMessageBox::warning(this, "Couldn't load Translation", "You may choose to continue without translation data, but everything will be in Japanese.", QMessageBox::Ok|QMessageBox::Retry, QMessageBox::Retry);
 	if(button == QMessageBox::Retry)
 		KCTranslator::instance()->loadTranslation();
-}
-
-void KCMainWindow::onCredentialsGained() {
-	qDebug() << "Credentials Gained";
-	client->requestShipTypes();
-	client->requestShips();
-	client->requestFleets();
-	client->requestRepairs();
-	client->requestConstructions();
 }
 
 void KCMainWindow::onReceivedShipTypes() {
