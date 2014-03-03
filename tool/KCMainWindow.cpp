@@ -523,7 +523,7 @@ void KCMainWindow::updateTimers()
 			if(fleet->mission.page > 0 && fleet->mission.no > 0 && fleet->mission.complete > QDateTime::currentDateTime())
 			{
 				busy = true;
-				status = QString("Doing Expedition %1-%2").arg(fleet->mission.page, fleet->mission.no);
+				status = QString("Doing Expedition %1-%2").arg(fleet->mission.page).arg(fleet->mission.no);
 				dT = delta(fleet->mission.complete);
 			}
 
@@ -782,8 +782,8 @@ void KCMainWindow::onMissionCompleted(KCFleet *fleet)
 {
 	int id = client->fleets.key(fleet);
 	trayIcon->showMessage("Expedition Complete",
-		QString("Fleet %1 returned from Expedition %2-%3").arg(
-			id, fleet->mission.page, fleet->mission.no));
+		QString("Fleet %1 returned from Expedition %2-%3"
+			).arg(id).arg(fleet->mission.page).arg(fleet->mission.no));
 	updateTimers();
 }
 
