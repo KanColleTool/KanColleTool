@@ -67,7 +67,7 @@ KCLogger::~KCLogger()
 {
 	db.close();
 }
-	
+
 void KCLogger::logDrop(int ship, int world, int map)
 {
 	QSqlQuery query(db);
