@@ -79,7 +79,7 @@ KCMainWindow::~KCMainWindow() {
 
 QString KCMainWindow::translateName(const QString &name) {
 	if(translation)
-		return QString("%1 (%2)").arg(kcTranslate(name)).arg(name);
+		return QString("%1 (%2)").arg(kcTranslate(name), name);
 	else
 		return name;
 }
@@ -117,8 +117,6 @@ void KCMainWindow::_setupClient() {
 	connect(client, SIGNAL(dockCompleted(KCDock *)), SLOT(onDockCompleted(KCDock *)));
 	connect(client, SIGNAL(missionCompleted(KCFleet*)), SLOT(onMissionCompleted(KCFleet*)));
 
-	QEventLoop loop;
-	loop.connect(client, SIGNAL(receivedShipTypes()), SLOT(quit()));
 	QSettings settings;
 	if(settings.value("usenetwork", kDefaultUseNetwork).toBool()) {
 		if(!client->hasCredentials()) {
@@ -133,11 +131,9 @@ void KCMainWindow::_setupClient() {
 	} else {
 		client->safeShipTypes();
 	}
-	loop.exec();
 }
 
-void KCMainWindow::_setupTrayIcon()
-{
+void KCMainWindow::_setupTrayIcon() {
 	// Create the Tray Icon
 	trayIcon = new QSystemTrayIcon(QIcon(":/KanColleTool.png"), this);
 	connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
@@ -155,8 +151,7 @@ void KCMainWindow::_setupTrayIcon()
 #endif
 }
 
-void KCMainWindow::_setupUI()
-{
+void KCMainWindow::_setupUI() {
 	// Right-align some items on the toolbar
 	QWidget *toolbarSpacer = new QWidget();
 	toolbarSpacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -332,11 +327,10 @@ void KCMainWindow::updateFleetsPage()
 
 	// Hide all the boxes by default, then show the ones we use below
 	for(int i = 0; i < 6; i++)
-		findChild<QGroupBox*>(QString("fleetBox") + QString::number(i+1))->hide();
+		findChild<QGroupBox*>(QString("fleetBox%1").arg(i+1))->hide();
 
 	// If there is no such fleet, return here and leave all boxes hidden
-	if(!client->fleets.contains(ui->fleetsTabBar->currentIndex()+1))
-	{
+	if(!client->fleets.contains(ui->fleetsTabBar->currentIndex()+1)) {
 		ui->fleetsPage->setUpdatesEnabled(true);
 		return;
 	}
@@ -351,7 +345,6 @@ void KCMainWindow::updateFleetsPage()
 			KCShip *ship = client->ships[fleet->ships[i]];
 			if(!ship) continue;
 			KCShipType *type = client->shipTypes[ship->type];
-			if(!type) continue;
 
 			QString iS = QString::number(i+1);
 
@@ -363,15 +356,22 @@ void KCMainWindow::updateFleetsPage()
 			QLabel *condLabel = findChild<QLabel*>(QString("fleetCond") + iS);
 
 			box->show();
-			box->setTitle(translateName(type->name));
 			hpBar->setRange(0, ship->hp.max);
 			hpBar->setValue(ship->hp.cur);
-			ammoBar->setRange(0, type->maxAmmo);
-			ammoBar->setValue(ship->ammo);
-			fuelBar->setRange(0, type->maxFuel);
-			fuelBar->setValue(ship->fuel);
 			levelLabel->setText(QString::number(ship->level));
 			condLabel->setText(QString::number(ship->condition));
+
+			if(type) {
+				box->setTitle(translateName(type->name));
+				ammoBar->setRange(0, type->maxAmmo);
+				ammoBar->setValue(ship->ammo);
+				fuelBar->setRange(0, type->maxFuel);
+				fuelBar->setValue(ship->fuel);
+			} else {
+				box->setTitle("(Loading...)");
+				ammoBar->setRange(0, 0);
+				fuelBar->setRange(0, 0);
+			}
 		}
 	}
 
@@ -390,7 +390,6 @@ void KCMainWindow::updateShipsPage()
 	{
 		if(!ship) continue;
 		KCShipType *type = client->shipTypes[ship->type];
-		if(!type) continue;
 
 		TABLE_SET_ITEM(ui->shipsTable, row, 0, ship->level);
 		TABLE_SET_ITEM(ui->shipsTable, row, 1, ship->hp.max);
@@ -400,7 +399,11 @@ void KCMainWindow::updateShipsPage()
 		TABLE_SET_ITEM(ui->shipsTable, row, 5, ship->antiair);
 		TABLE_SET_ITEM(ui->shipsTable, row, 6, ship->antisub);
 		TABLE_SET_ITEM(ui->shipsTable, row, 7, ship->luck);
-		TABLE_SET_ITEM(ui->shipsTable, row, 8, translateName(type->name));
+		if(type) {
+			TABLE_SET_ITEM(ui->shipsTable, row, 8, translateName(type->name));
+		} else {
+			TABLE_SET_ITEM(ui->shipsTable, row, 8, "(Loading...)");
+		}
 
 		++row;
 	}
@@ -440,11 +443,12 @@ void KCMainWindow::updateRepairsPage()
 		{
 			box->setEnabled(true);
 			KCShip *ship = client->ships[dock->shipID];
-			if(ship)
-			{
+			if(ship) {
 				KCShipType *type = client->shipTypes[ship->type];
 				if(type)
 					nameLabel->setText(translateName(type->name));
+				else
+					nameLabel->setText("(Loading...)");
 				repairTimerLabel->setText(delta(dock->complete).toString("H:mm:ss"));
 			}
 		}
@@ -536,8 +540,7 @@ void KCMainWindow::updateTimers()
 			if(fleet->mission.page > 0 && fleet->mission.no > 0 && fleet->mission.complete > QDateTime::currentDateTime())
 			{
 				busy = true;
-				status = QString("Doing Expedition %1-%2").arg(
-					QString::number(fleet->mission.page), QString::number(fleet->mission.no));
+				status = QString("Doing Expedition %1-%2").arg(fleet->mission.page, fleet->mission.no);
 				dT = delta(fleet->mission.complete);
 			}
 
@@ -563,6 +566,8 @@ void KCMainWindow::updateTimers()
 						busy = true;
 						if(type)
 							status = QString("%1 is taking a bath").arg(translateName(type->name));
+						else
+							status = "(Loading...) is taking a bath";
 						dT = dT2;
 					}
 				}
@@ -597,7 +602,7 @@ void KCMainWindow::updateTimers()
 
 			if(dock->state == KCDock::Occupied)
 			{
-				QLabel *label = findChild<QLabel*>(QString("repairTimer") + QString::number(i+1));
+				QLabel *label = findChild<QLabel*>(QString("repairTimer%1").arg(i+1));
 				label->setText(delta(dock->complete).toString("H:mm:ss"));
 			}
 			++i;
@@ -613,7 +618,7 @@ void KCMainWindow::updateTimers()
 
 			if(dock->state == KCDock::Building)
 			{
-				QLabel *label = findChild<QLabel*>(QString("constructionTimer") + QString::number(i+1));
+				QLabel *label = findChild<QLabel*>(QString("constructionTimer%1").arg(i+1));
 				label->setText(delta(dock->complete).toString("H:mm:ss"));
 			}
 			++i;
@@ -641,10 +646,9 @@ void KCMainWindow::updateSettingThings()
 	// Enable manual reloads
 	useNetwork = settings.value("usenetwork", kDefaultUseNetwork).toBool();
 	ui->actionRefresh->setEnabled(useNetwork);
-	
+
 	// Don't remain on the "Livestreaming Only" page if it's disabled!
-	if(useNetwork && ui->stackedWidget->currentWidget() == ui->noNetworkPage)
-	{
+	if(useNetwork && ui->stackedWidget->currentWidget() == ui->noNetworkPage) {
 		leaveNoNetworkPage();
 		on_actionRefresh_triggered();
 	}
@@ -656,10 +660,8 @@ void KCMainWindow::updateSettingThings()
 		refreshTimer.stop();
 }
 
-void KCMainWindow::leaveNoNetworkPage()
-{
-	if(ui->stackedWidget->currentWidget() == ui->noNetworkPage)
-	{
+void KCMainWindow::leaveNoNetworkPage() {
+	if(ui->stackedWidget->currentWidget() == ui->noNetworkPage) {
 		this->setUpdatesEnabled(false);
 		ui->toolBar->show();
 		this->on_actionFleets_triggered();
@@ -667,8 +669,7 @@ void KCMainWindow::leaveNoNetworkPage()
 	}
 }
 
-void KCMainWindow::onTranslationLoadFinished()
-{
+void KCMainWindow::onTranslationLoadFinished() {
 	qDebug() << "Received Translation Data!";
 	// Update all the things!
 	updateFleetsPage();
@@ -677,16 +678,14 @@ void KCMainWindow::onTranslationLoadFinished()
 	updateConstructionsPage();
 }
 
-void KCMainWindow::onTranslationLoadFailed(QString error)
-{
+void KCMainWindow::onTranslationLoadFailed(QString error) {
 	qDebug() << "Failed to load Translation Data..." << error;
 	QMessageBox::StandardButton button = QMessageBox::warning(this, "Couldn't load Translation", "You may choose to continue without translation data, but everything will be in Japanese.", QMessageBox::Ok|QMessageBox::Retry, QMessageBox::Retry);
 	if(button == QMessageBox::Retry)
 		KCTranslator::instance()->loadTranslation();
 }
 
-void KCMainWindow::onCredentialsGained()
-{
+void KCMainWindow::onCredentialsGained() {
 	qDebug() << "Credentials Gained";
 	client->requestShipTypes();
 	client->requestShips();
@@ -697,6 +696,9 @@ void KCMainWindow::onCredentialsGained()
 
 void KCMainWindow::onReceivedShipTypes() {
 	qDebug() << "Received Master Ship Data" << client->shipTypes.size();
+	updateFleetsPage();
+	updateShipsPage();
+	updateRepairsPage();
 	updateConstructionsPage();
 }
 
@@ -774,7 +776,7 @@ void KCMainWindow::onDockCompleted(KCDock *dock)
 		bool spoil = false;
 		for(int i = 0; i < client->constructionDocks.size(); i++)
 			if(client->constructionDocks[i] == dock)
-				spoil = findChild<QCheckBox*>(QString("constructionSpoil") + QString::number(i+1))->isChecked();
+				spoil = findChild<QCheckBox*>(QString("constructionSpoil%1").arg(i+1))->isChecked();
 
 		if(type && spoil)
 			trayIcon->showMessage("Construction Completed!",
@@ -786,17 +788,16 @@ void KCMainWindow::onDockCompleted(KCDock *dock)
 		updateConstructionsPage();
 	} else {
 		KCShip *ship = client->ships[dock->shipID];
-		if(ship) {
-			ship->hp.cur = ship->hp.max;
-			KCShipType *type = client->shipTypes[ship->type];
-			if(type)
-				trayIcon->showMessage("Repair Completed!",
-					QString("%1 is all healthy again!").arg(translateName(type->name)));
-		} else {
-			trayIcon->showMessage(
-				"Repair Completed!",
+		KCShipType *type = client->shipTypes[ship->type];
+
+		if(ship) ship->hp.cur = ship->hp.max;
+
+		if(ship && type)
+			trayIcon->showMessage("Repair Completed!",
+				QString("%1 is all healthy again!").arg(translateName(type->name)));
+		else
+			trayIcon->showMessage("Repair Completed!",
 				QString("Your shipgirl is all healthy again!"));
-		}
 
 		updateFleetsPage();
 		updateRepairsPage();
@@ -808,7 +809,7 @@ void KCMainWindow::onMissionCompleted(KCFleet *fleet)
 	int id = client->fleets.key(fleet);
 	trayIcon->showMessage("Expedition Complete",
 		QString("Fleet %1 returned from Expedition %2-%3").arg(
-			QString::number(id), QString::number(fleet->mission.page), QString::number(fleet->mission.no)));
+			id, fleet->mission.page, fleet->mission.no));
 	updateTimers();
 }
 
