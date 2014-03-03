@@ -76,16 +76,16 @@ void KCLogger::logDrop(int ship, int world, int map)
 		qWarning() << "Couldn't log Drop:" << query.lastError();
 }
 
-void KCLogger::logCraftShip(int ship, int fuel, int ammo, int steel, int baux, int cmat)
+void KCLogger::logCraftShip(int ship, int fuel, int ammo, int steel, int baux, int devmats)
 {
 	QSqlQuery query(db);
-	query.prepare("INSERT INTO craft_ship (ship, fuel, ammo, steel, baux, cmat) VALUES (:ship, :fuel, :ammo, :steel, :baux, :cmat);");
+	query.prepare("INSERT INTO craft_ship (ship, fuel, ammo, steel, baux, cmat) VALUES (:ship, :fuel, :ammo, :steel, :baux, :devmats);");
 	query.bindValue(":ship", ship);
 	query.bindValue(":fuel", fuel);
 	query.bindValue(":ammo", ammo);
 	query.bindValue(":steel", steel);
 	query.bindValue(":baux", baux);
-	query.bindValue(":cmat", cmat);
+	query.bindValue(":devmats", devmats);
 	if(!query.exec())
 		qWarning() << "Couldn't log Ship Craft:" << query.lastError();
 }

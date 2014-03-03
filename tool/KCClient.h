@@ -76,6 +76,7 @@ protected slots:
 	void onRequestFinished();
 
 	void onDockCompleted();
+	void onDockShipChanged();
 	void onMissionCompleted();
 
 protected:

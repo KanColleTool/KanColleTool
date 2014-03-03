@@ -31,11 +31,12 @@ public:
 	int state;
 	int shipID;
 	QDateTime complete;
-	int fuel, ammo, steel, baux, cmats;
+	int fuel, ammo, steel, baux, devmats;
 	bool isConstruction;
 
 signals:
 	void completed();
+	void shipChanged();
 
 private slots:
 	void onTimeout();

@@ -5,8 +5,9 @@
 #include <QRegExp>
 
 KCDock::KCDock(const QVariantMap &data, int loadId, KCClient *parent) :
-	KCGameObject(parent) {
+	KCGameObject(parent), shipID(0) {
 	connect(this, SIGNAL(completed()), parent, SLOT(onDockCompleted()));
+	connect(this, SIGNAL(shipChanged()), parent, SLOT(onDockShipChanged()));
 	loadFrom(data, loadId);
 }
 
@@ -25,6 +26,7 @@ void KCDock::loadFrom(const QVariantMap &data, int loadId) {
 	// int api_ship_id ID of the ship being repaired
 	// - or -
 	// int api_created_ship_id ID of the ship that will be created
+	int oldShipID = shipID;
 	if(data.contains("api_ship_id"))
 	{
 		extract(data, shipID, "api_ship_id");
@@ -35,6 +37,11 @@ void KCDock::loadFrom(const QVariantMap &data, int loadId) {
 		extract(data, shipID, "api_created_ship_id");
 		isConstruction = true;
 	}
+	
+	// Emit a signal when the occupant changes, to 
+	if(oldShipID != shipID && oldShipID != 0)
+		emit shipChanged();
+	
 	// int api_complete_time ??? (definitely not a timestamp...)
 	extractTimestamp(data, complete, "api_complete_time");
 	// string api_complete_time_str When it'll be complete, YYYY-MM-DD HH:MM:SS
@@ -47,7 +54,7 @@ void KCDock::loadFrom(const QVariantMap &data, int loadId) {
 	// int api_item4 Bauxite used
 	extract(data, baux, "api_item4");
 	// int api_item5 Development Materials used (LSC only)
-	extract(data, cmats, "api_item5");
+	extract(data, devmats, "api_item5");
 
 	// Start the timer
 	if(state == Occupied || state == Building)
