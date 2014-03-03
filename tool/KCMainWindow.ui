@@ -2020,20 +2020,7 @@
       </widget>
       <widget class="QWidget" name="noNetworkPage">
        <layout class="QVBoxLayout" name="verticalLayout_14">
-        <item>
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
+        <item alignment="Qt::AlignVCenter">
          <widget class="QLabel" name="label_4">
           <property name="font">
            <font>
@@ -2041,54 +2028,14 @@
            </font>
           </property>
           <property name="text">
-           <string>Livestreaming Only!</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Livestreaming Only!&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Your settings currently disallow loading of data from the network.&lt;br/&gt;Start the game in the accompanying viewer or enable direct loading to use the Tool.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
-        <item>
-         <spacer name="verticalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Preferred</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>10</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_9">
-          <property name="text">
-           <string>Your settings currently disallow loading of data from the network.
-Start the game in the accompanying viewer or enable direct loading to use the Tool.</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
+        <item alignment="Qt::AlignBottom">
          <widget class="QPushButton" name="noNetworkSettingsButton">
           <property name="text">
            <string>Settings</string>
@@ -2107,7 +2054,7 @@ Start the game in the accompanying viewer or enable direct loading to use the To
      <x>0</x>
      <y>0</y>
      <width>650</width>
-     <height>22</height>
+     <height>27</height>
     </rect>
    </property>
   </widget>
