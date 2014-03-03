@@ -2,7 +2,9 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QSqlQuery>
+#include <QSqlError>
 #include <QVariant>
+#include <QDebug>
 
 KCLogger::KCLogger(QObject *parent):
 	QObject(parent)
@@ -14,10 +16,16 @@ KCLogger::KCLogger(QObject *parent):
 		dataDir.mkpath(dataDir.absolutePath());
 		
 		QString path = dataDir.absoluteFilePath("log.db");
+		qDebug() << "Opening Log Database at" << path;
 		QFile dbFile(path);
 		bool fileExisted = dbFile.exists();
 		
 		db = QSqlDatabase::addDatabase("QSQLITE", "logDB");
+		db.setDatabaseName(path);
+		if(!db.open())
+		{
+			qWarning() << "Couldn't open DB:" << db.lastError();
+		}
 		
 		// If the file didn't exist before, then create the schema
 		if(!fileExisted)
@@ -53,6 +61,8 @@ KCLogger::KCLogger(QObject *parent):
 			db.commit();
 		}
 	}
+	
+	logDrop(1, 2, 3);
 }
 
 KCLogger::~KCLogger()
@@ -62,32 +72,39 @@ KCLogger::~KCLogger()
 	
 void KCLogger::logDrop(int ship, int world, int map)
 {
-	QSqlQuery query("INSERT INTO drops (ship, world, map) VALUES (:ship, :world, :map);");
+	QSqlQuery query(db);
+	query.prepare("INSERT INTO drops (ship, world, map) VALUES (:ship, :world, :map);");
 	query.bindValue(":ship", ship);
 	query.bindValue(":world", world);
 	query.bindValue(":map", map);
-	query.exec();
+	qDebug() << "Bound Values:" << query.boundValues();
+	if(!query.exec())
+		qWarning() << "Couldn't log Drop:" << query.lastError();
 }
 
 void KCLogger::logCraftShip(int ship, int fuel, int ammo, int steel, int baux, int cmat)
 {
-	QSqlQuery query("INSERT INTO craft_ship (ship, fuel, ammo, steel, baux, cmat) VALUES (:ship, :fuel, :ammo, :steel, :baux, :cmat);");
+	QSqlQuery query(db);
+	query.prepare("INSERT INTO craft_ship (ship, fuel, ammo, steel, baux, cmat) VALUES (:ship, :fuel, :ammo, :steel, :baux, :cmat);");
 	query.bindValue(":ship", ship);
 	query.bindValue(":fuel", fuel);
 	query.bindValue(":ammo", ammo);
 	query.bindValue(":steel", steel);
 	query.bindValue(":baux", baux);
 	query.bindValue(":cmat", cmat);
-	query.exec();
+	if(!query.exec())
+		qWarning() << "Couldn't log Ship Craft:" << query.lastError();
 }
 
 void KCLogger::logCraftItem(int item, int fuel, int ammo, int steel, int baux)
 {
-	QSqlQuery query("INSERT INTO craft_item (item, fuel, ammo, steel, baux) VALUES (:item, :fuel, :ammo, :steel, :baux);");
+	QSqlQuery query(db);
+	query.prepare("INSERT INTO craft_item (item, fuel, ammo, steel, baux) VALUES (:item, :fuel, :ammo, :steel, :baux);");
 	query.bindValue(":item", item);
 	query.bindValue(":fuel", fuel);
 	query.bindValue(":ammo", ammo);
 	query.bindValue(":steel", steel);
 	query.bindValue(":baux", baux);
-	query.exec();
+	if(!query.exec())
+		qWarning() << "Couldn't log Item Craft:" << query.lastError();
 }
