@@ -12,9 +12,9 @@ public:
 	KCLogger(QObject *parent = 0);
 	virtual ~KCLogger();
 	
-	void logDrop(int shipID);
+	void logDrop(int ship, int world, int map);
 	void logCraftShip(int fuel, int ammo, int steel, int baux, int cmat, int shipID);
-	void logCraftItem(int fuel, int ammo, int steel, int baux, int itemID);
+	void logCraftItem(int item, int ammo, int steel, int baux, int itemID);
 	
 protected:
 	QSqlDatabase db;
