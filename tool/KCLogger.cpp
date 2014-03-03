@@ -79,7 +79,7 @@ void KCLogger::logDrop(int ship, int world, int map)
 void KCLogger::logCraftShip(int ship, int fuel, int ammo, int steel, int baux, int devmats)
 {
 	QSqlQuery query(db);
-	query.prepare("INSERT INTO craft_ship (ship, fuel, ammo, steel, baux, cmat) VALUES (:ship, :fuel, :ammo, :steel, :baux, :devmats);");
+	query.prepare("INSERT INTO craft_ship (ship, fuel, ammo, steel, baux, devmats) VALUES (:ship, :fuel, :ammo, :steel, :baux, :devmats);");
 	query.bindValue(":ship", ship);
 	query.bindValue(":fuel", fuel);
 	query.bindValue(":ammo", ammo);
