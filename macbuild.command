@@ -32,4 +32,4 @@ cd ../..
 # Make a DMG of it all
 hdiutil create "/tmp/KanColleTool-macbuild-tmp.dmg" -ov -volname "KanColleTool" -fs "HFS+" -srcfolder dist/KanColleTool
 hdiutil convert "/tmp/KanColleTool-macbuild-tmp.dmg" -format "UDZO" -o "dist/KanColleTool.dmg"
-rm -f tmp.dmg
+rm -f "/tmp/KanColleTool-macbuild-tmp.dmg"
