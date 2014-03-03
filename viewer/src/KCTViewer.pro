@@ -12,7 +12,7 @@ TEMPLATE = app
 CONFIG += c++11
 win32: LIBS += -lws2_32 -lmswsock
 
-RC_FILE = KCTViewer.rc
+RC_FILE = ../KCTViewer.rc
 
 # This is updated by the version bump script
 VERSION = 0.8.4
@@ -20,29 +20,15 @@ VERSION = 0.8.4
 macx: TARGET = "KCT Viewer"
 unix:!macx: TARGET = kancolletool-viewer
 
-binaries.path = $$PREFIX/usr/bin
+binaries.path = $PREFIX/usr/bin
 binaries.files = kancolletool-viewer
 INSTALLS += binaries
 
-SOURCES += main.cpp \
-	KVMainWindow.cpp \
-	KVSettingsDialog.cpp \
-	KVNetworkAccessManager.cpp \
-	KVNetworkReply.cpp \
-	KVTranslator.cpp \
-	KVUtil.cpp
+SOURCES += main.cpp
+include(../KCTViewer.pri)
 
-HEADERS  += KVMainWindow.h \
-	KVSettingsDialog.h \
-	KVNetworkAccessManager.h \
-	KVNetworkReply.h \
-	KVTranslator.h \
-	KVUtil.h
+RESOURCES += ../resources.qrc
 
-FORMS += \
-	KVSettingsDialog.ui
-
-RESOURCES += resources.qrc
-
-OTHER_FILES += KCTViewer.rc \
-	index.html
+OTHER_FILES += \
+	../KCTViewer.rc \
+	../resources/index.html

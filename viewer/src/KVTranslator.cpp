@@ -3,9 +3,9 @@
 #include <QUrl>
 #include <QStandardPaths>
 #include <QDir>
+#include <QEventLoop>
 #include <QByteArray>
 #include <QStack>
-#include <QEventLoop>
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -35,7 +35,6 @@ KVTranslator* KVTranslator::instance()
 // --
 
 
-
 KVTranslator::KVTranslator(QObject *parent):
 	QObject(parent), isLoaded(false)
 {
@@ -54,10 +53,11 @@ bool KVTranslator::loaded()
 
 void KVTranslator::loadTranslation(QString language)
 {
-	if(cacheFile.exists()) {
-		cacheFile.open(QIODevice::ReadOnly | QIODevice::Unbuffered);
+	if(cacheFile.open(QIODevice::ReadOnly | QIODevice::Unbuffered)) {
 		parseTranslationData(cacheFile.readAll());
 		cacheFile.close();
+	} else {
+		qDebug() << "Couldn't read from translation cache";
 	}
 
 	QNetworkReply *reply = manager.get(QNetworkRequest(QString("http://api.comeonandsl.am/translation/%1/").arg(language)));
@@ -77,9 +77,12 @@ void KVTranslator::translationRequestFinished()
 
 	if(parseTranslationData(body)) {
 		qDebug() << "Network translation loaded!";
-		cacheFile.open(QIODevice::WriteOnly | QIODevice::Truncate);
-		cacheFile.write(body);
-		cacheFile.close();
+		if(cacheFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+			cacheFile.write(body);
+			cacheFile.close();
+		} else {
+			qDebug() << "Couldn't write to cache file";
+		}
 	}
 }
 
@@ -112,6 +115,13 @@ bool KVTranslator::parseTranslationData(const QByteArray &data)
 }
 
 QString KVTranslator::translate(const QString &line) const {
+	if(!isLoaded) {
+		QEventLoop loop;
+		loop.connect(this, SIGNAL(loadFinished()), SLOT(quit()));
+		loop.connect(this, SIGNAL(loadFailed(QString)), SLOT(quit()));
+		loop.exec();
+	}
+
 	QString realLine = unescape(line);
 	QByteArray utf8 = realLine.toUtf8();
 	quint32 crc = crc32(0, utf8.constData(), utf8.size());
@@ -137,37 +147,34 @@ QString KVTranslator::fixTime(const QString &time) const
 	return realTime.toString("yyyy-MM-dd hh:mm:ss");
 }
 
-inline void copyData(QByteArray &target, const QByteArray &data, int &s, int e) {
-	target.append(data.mid(s, e-s+1));
-	s = e+1;
-}
-
-QByteArray KVTranslator::translateJson(const QByteArray &json) const {
-	QStack<jsonState> state;
+QByteArray KVTranslator::translateJson(QByteArray json) const {
+	Reader r(json);
+	QStack<JsonState> state;
 	state.reserve(5);
-	state.push(Start);
-	int s = 0;
+	state.push(JsonState(End, 0));
+	state.push(JsonState(Start, 0));
 
-	QByteArray ret = "";
-	ret.reserve(json.size());
+	QByteArray ret;
+	ret.reserve(json.size()*2);
 	for(int i = 0; i < json.size(); i++) {
-		if(isspace(json.at(i))) continue;
+		if(state.top().context != Key && state.top().context != String
+		   && isspace(json.at(i))) continue;
 
-		switch(state.top()) {
+		switch(state.top().context) {
 		case Start:
-			if(json.at(i) == '{') {
-				copyData(ret, json, s, i);
-				state.push(Object);
-			}
+			if(json.at(i) == '{')
+				state.top() = JsonState(Object, i);
 			continue;
+		case End:
+			qDebug() << "Unmatched '[' or '{' in JSON";
+			break;
 		case Object:
 			switch(json.at(i)) {
 			case '"':
-				copyData(ret, json, s, i);
-				state.push(Key);
+				state.push(JsonState(Key, i));
 				continue;
 			case '}':
-				state.pop();
+				state.top() = JsonState(AfterValue, i);
 				continue;
 			default:
 				qDebug() << "Unexpected character" << json.at(i) << "in object";
@@ -177,22 +184,22 @@ QByteArray KVTranslator::translateJson(const QByteArray &json) const {
 		case Array:
 			switch(json.at(i)) {
 			case '"':
-				copyData(ret, json, s, i);
-				state.push(String);
+				ret.append(r.readTo(i+1));
+				state.push(JsonState(String, i));
 				break;
 			case '{':
-				state.push(Object);
+				state.push(JsonState(Object, i));
 				break;
 			case '[':
-				state.push(Array);
+				state.push(JsonState(Array, i));
 				break;
 			case ']':
-				state.top() = AfterValue;
+				state.top() = JsonState(AfterValue, i);
 				break;
 			case ',':
 				break;
 			default:
-				state.push(NonString);
+				state.push(JsonState(NonString, i));
 				break;
 			}
 			continue;
@@ -202,13 +209,13 @@ QByteArray KVTranslator::translateJson(const QByteArray &json) const {
 				i++;
 				break;
 			case '"':
-				state.top() = AfterKey;
+				state.top() = JsonState(AfterKey, i);
 				break;
 			}
 			continue;
 		case AfterKey:
 			if(json.at(i) == ':') {
-				state.top() = Value;
+				state.top() = JsonState(Value, i);
 				continue;
 			}
 			qDebug() << "Character after key not ':'";
@@ -216,20 +223,20 @@ QByteArray KVTranslator::translateJson(const QByteArray &json) const {
 		case Value:
 			switch(json.at(i)) {
 			case '"':
-				copyData(ret, json, s, i);
-				state.top() = String;
+				ret.append(r.readTo(i+1));
+				state.top() = JsonState(String, i);
 				continue;
 			case '{':
-				state.top() = Object;
+				state.top() = JsonState(Object, i);
 				continue;
 			case '[':
-				state.top() = Array;
+				state.top() = JsonState(Array, i);
 				continue;
 			case ',':
 				qDebug() << "Empty value";
 				break;
 			default:
-				state.top() = NonString;
+				state.top() = JsonState(NonString, i);
 				continue;
 			}
 			break;
@@ -249,9 +256,8 @@ QByteArray KVTranslator::translateJson(const QByteArray &json) const {
 				i++;
 				break;
 			case '"':
-				ret.append(translate(json.mid(s, i-s)));
-				s = i;
-				state.top() = AfterValue;
+				ret.append(translate(r.readTo(i)));
+				state.top() = JsonState(AfterValue, i);
 				break;
 			}
 			continue;
@@ -266,16 +272,27 @@ QByteArray KVTranslator::translateJson(const QByteArray &json) const {
 			}
 			qDebug() << "No ',', ']', or '}' after string";
 			break;
+		case Invalid:
+			qDebug() << "Invalid state!";
+			break;
 		}
 
 		qDebug() << "Failed to parse json at index" << i;
-		qDebug() << "Context:" << json.mid(i-50, 100);
-		qDebug() << "                                                            ^";
+		int ds = state.isEmpty() ? i-50 : state.top().start;
+		qDebug() << "Context:" << json.mid(ds, i+50-ds);
+		qDebug() << "Near:" << json.mid(i-5, 10);
+		//qDebug() << QByteArray(i-ds-10, ' ').constData() << "^";
 		qDebug() << "State:" << state << "\n";
 		return json;
 	}
 
-	ret.append(json.mid(s));
+	if(state.top().context == AfterValue) state.pop();
+	if(state.top().context != End) {
+		qDebug() << "Unexpected end of input reached while parsing JSON";
+		return json;
+	}
+
+	ret.append(r.readAll());
 	return ret;
 }
 

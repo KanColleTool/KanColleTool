@@ -29,11 +29,12 @@ public slots:
 
 	QString translate(const QString &line) const;
 	QString fixTime(const QString &time) const;
-	QByteArray translateJson(const QByteArray &json) const;
+	QByteArray translateJson(QByteArray json) const;
 
 protected:
 	bool parseTranslationData(const QByteArray &data);
 	QJsonValue _walk(QJsonValue value, QString key="") const;
+	static QString jsonEscape(const QString &str);
 
 signals:
 	void loadFinished();
@@ -43,10 +44,29 @@ private slots:
 	void translationRequestFinished();
 
 private:
-	enum jsonState {
-		Start, Object, Array,
+	enum JsonContext {
+		Start, End,
+		Object, Array,
 		Key, AfterKey,
-		Value, NonString, String, AfterValue
+		Value, NonString, String, AfterValue,
+		Invalid
+	};
+
+	struct JsonState {
+		JsonContext context;
+		int start, arri;
+		JsonState();
+		JsonState(JsonContext c, int s, int ai=-1);
+		operator QString() const;
+	};
+
+	struct Reader {
+		int i;
+		const QByteArray &data;
+		Reader(const QByteArray &json);
+
+		const QByteArray readTo(int e);
+		const QByteArray readAll();
 	};
 
 	bool isLoaded;
