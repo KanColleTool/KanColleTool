@@ -13,7 +13,7 @@ public:
 	virtual ~KCLogger();
 	
 	void logDrop(int ship, int world, int map);
-	void logCraftShip(int fuel, int ammo, int steel, int baux, int cmat, int shipID);
+	void logCraftShip(int ship, int fuel, int ammo, int steel, int baux, int cmat);
 	void logCraftItem(int item, int ammo, int steel, int baux, int itemID);
 	
 protected:
