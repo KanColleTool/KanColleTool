@@ -16,16 +16,13 @@ KCLogger::KCLogger(QObject *parent):
 		dataDir.mkpath(dataDir.absolutePath());
 		
 		QString path = dataDir.absoluteFilePath("log.db");
-		qDebug() << "Opening Log Database at" << path;
 		QFile dbFile(path);
 		bool fileExisted = dbFile.exists();
 		
 		db = QSqlDatabase::addDatabase("QSQLITE", "logDB");
 		db.setDatabaseName(path);
 		if(!db.open())
-		{
 			qWarning() << "Couldn't open DB:" << db.lastError();
-		}
 		
 		// If the file didn't exist before, then create the schema
 		if(!fileExisted)
@@ -75,7 +72,6 @@ void KCLogger::logDrop(int ship, int world, int map)
 	query.bindValue(":ship", ship);
 	query.bindValue(":world", world);
 	query.bindValue(":map", map);
-	qDebug() << "Bound Values:" << query.boundValues();
 	if(!query.exec())
 		qWarning() << "Couldn't log Drop:" << query.lastError();
 }
