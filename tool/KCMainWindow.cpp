@@ -839,10 +839,9 @@ void KCMainWindow::on_actionRefresh_triggered()
 	client->requestConstructions();
 }
 
-void KCMainWindow::on_actionSettings_triggered()
-{
+void KCMainWindow::on_actionSettings_triggered() {
 	KCSettingsDialog *settingsDialog = new KCSettingsDialog(this);
-	connect(settingsDialog, SIGNAL(accepted()), this, SLOT(updateSettingThings()));
+	connect(settingsDialog, SIGNAL(apply()), this, SLOT(updateSettingThings()));
 	connect(settingsDialog, SIGNAL(finished(int)), settingsDialog, SLOT(deleteLater()));
 	settingsDialog->show();
 }

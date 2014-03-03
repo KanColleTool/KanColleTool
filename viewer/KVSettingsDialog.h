@@ -5,11 +5,11 @@
 #include <QSettings>
 
 class QAbstractButton;
+class KVMainWindow;
 namespace Ui {
 	class KVSettingsDialog;
 }
 
-class KVMainWindow;
 class KVSettingsDialog : public QDialog {
 	Q_OBJECT
 
@@ -18,7 +18,15 @@ public:
 	virtual ~KVSettingsDialog();
 
 public slots:
-	virtual void done(int r);
+	virtual void accept();
+	virtual void setSettings();
+	virtual void buttonClicked(QAbstractButton *button);
+
+private slots:
+	void on_proxyCheckbox_stateChanged(int state);
+
+signals:
+	void apply();
 
 private:
 	Ui::KVSettingsDialog *ui;

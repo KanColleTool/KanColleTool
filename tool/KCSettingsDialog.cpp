@@ -27,9 +27,13 @@ KCSettingsDialog::KCSettingsDialog(KCMainWindow *parent, Qt::WindowFlags f):
 #ifdef __APPLE__
 	ui->minimizeToTrayContainer->hide();
 #endif
-	
+
 	// Pretend this changed just to update the enabledness of that container
 	this->on_useNetworkCheckbox_stateChanged(ui->useNetworkCheckbox->checkState());
+	this->on_autorefreshCheckbox_stateChanged(ui->autorefreshCheckbox->checkState());
+
+	connect(ui->buttonBox, SIGNAL(clicked(QAbstractButton*)),
+	        SLOT(buttonClicked(QAbstractButton*)));
 
 	// Autoadjust the size to fit, because that's easier than trying to make it
 	// look everywhere good manually. Takes into account font size differences
@@ -37,27 +41,39 @@ KCSettingsDialog::KCSettingsDialog(KCMainWindow *parent, Qt::WindowFlags f):
 	this->adjustSize();
 }
 
-KCSettingsDialog::~KCSettingsDialog()
-{
+KCSettingsDialog::~KCSettingsDialog() {
 
 }
 
-void KCSettingsDialog::done(int r) {
-	if(r == QDialog::Accepted) {
-		settings.setValue("minimizeToTray", ui->minimizeToTrayCheckbox->isChecked());
-		settings.setValue("toolTranslation", ui->translationCheckbox->isChecked());
-		settings.setValue("livestream", ui->livestreamCheckbox->isChecked());
-		settings.setValue("usenetwork", ui->useNetworkCheckbox->isChecked());
-		settings.setValue("autorefresh", ui->autorefreshCheckbox->isChecked());
-		settings.setValue("autorefreshInterval", ui->autorefreshInterval->value() * 60);
-		settings.sync();
-	}
+void KCSettingsDialog::accept() {
+	this->setSettings();
 
-	QDialog::done(r);
+	QDialog::accept();
 }
 
-void KCSettingsDialog::on_useNetworkCheckbox_stateChanged(int state)
-{
-	qDebug() << "Use Network:" << state;
+void KCSettingsDialog::setSettings() {
+	settings.setValue("minimizeToTray", ui->minimizeToTrayCheckbox->isChecked());
+	settings.setValue("toolTranslation", ui->translationCheckbox->isChecked());
+	settings.setValue("livestream", ui->livestreamCheckbox->isChecked());
+	settings.setValue("usenetwork", ui->useNetworkCheckbox->isChecked());
+	settings.setValue("autorefresh", ui->autorefreshCheckbox->isChecked());
+	settings.setValue("autorefreshInterval", ui->autorefreshInterval->value() * 60);
+
+	settings.sync();
+
+	emit apply();
+}
+
+void KCSettingsDialog::buttonClicked(QAbstractButton *button) {
+	if(ui->buttonBox->buttonRole(button) == QDialogButtonBox::ApplyRole)
+		setSettings();
+}
+
+void KCSettingsDialog::on_useNetworkCheckbox_stateChanged(int state) {
+	//qDebug() << "Use Network:" << state;
 	ui->autorefreshContainer->setEnabled(state == Qt::Checked);
+}
+
+void KCSettingsDialog::on_autorefreshCheckbox_stateChanged(int state) {
+	ui->autorefreshInterval->setEnabled(state == Qt::Checked);
 }

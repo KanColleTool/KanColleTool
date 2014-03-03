@@ -156,10 +156,9 @@ void KVMainWindow::askForAPILink(bool reload)
 		this->loadBundledIndex();
 }
 
-void KVMainWindow::openSettings()
-{
+void KVMainWindow::openSettings() {
 	KVSettingsDialog *settingsDialog = new KVSettingsDialog(this);
-	connect(settingsDialog, SIGNAL(accepted()), SLOT(implementSettings()));
+	connect(settingsDialog, SIGNAL(apply()), SLOT(implementSettings()));
 	connect(settingsDialog, SIGNAL(finished(int)), settingsDialog, SLOT(deleteLater()));
 	settingsDialog->show();
 }
