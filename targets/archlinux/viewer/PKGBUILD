@@ -1,0 +1,44 @@
+# Maintainer: Johannes Ekberg <uppfinnarn@gmail.com>
+pkgname='kancolletool-viewer-git'
+pkgver=0.0.0
+pkgrel=1
+epoch=
+pkgdesc="A viewer for KanColle"
+arch=('i686', 'x86_64')
+url="http://kancolletool.github.io/"
+license=('MIT')
+groups=()
+depends=('qt5-base' 'qt5-webkit' 'flashplugin')
+makedepends=('git')
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+install=
+changelog=
+source=("$pkgname"::'git://github.com/KanColleTool/kct-viewer.git')
+noextract=()
+md5sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/$pkgname"
+	#cat VERSION
+	# Use the tag of the last commit
+	git describe --tags | grep -Po 'v\K([\w\.]+)'
+}
+
+build() {
+	cd "$srcdir/$pkgname"
+	qmake
+	make
+}
+
+package() {
+	cd "$srcdir/$pkgname"
+	make INSTALL_ROOT="$pkgdir" install
+	install -Dm644 KCTViewer.png "$pkgdir/usr/share/icons/hicolor/192x192/apps/KCTViewer.png"
+	install -Dm644 KCTViewer.desktop "$pkgdir/usr/share/applications/KCTViewer.desktop"
+}
