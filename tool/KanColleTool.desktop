@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Encoding=UTF-8
-Name=KanColleTool
-Comment=A tool for KanColle
-Exec=/usr/bin/kancolletool
-Icon=KanColleTool
-Terminal=false
-Categories=Game;
