@@ -1,40 +1,15 @@
+# Sources managed by update.sh
+macviewer
+viewer
+tool
+
 # Hidden OS files
 .DS_Store
 
-# C++ and Qt Temporaries
-*.o
-moc_*.cpp
-qrc_*.cpp
-ui_*.h
-*.pro.user
-*.stash
-object_script*
-
-# Pods
-Pods
-
-# Editor User Data
-xcuserdata
+# Editor Temporaries
 *.sublime-workspace
 
-# Editor Temporaries
-*~
-[#]*[#]
-.\#*
-
-# Built Products
-tool/Makefile*
-tool/KanColleTool.app
-tool/KanColleTool.exe
-tool/kancolletool
-
-viewer/Makefile*
-viewer/KCT Viewer.app
-viewer/KCTViewer.exe
-viewer/kancolletool-viewer
-
-macviewer/KCTViewer/build/
-
+# Build Temporaries
 targets/archlinux/tool/*
 targets/archlinux/viewer/*
 !targets/archlinux/tool/PKGBUILD
