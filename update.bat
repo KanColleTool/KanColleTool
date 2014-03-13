@@ -12,7 +12,9 @@ pause
 
 :update_repo
 if exist %~1 (
-	cd %~1 && git pull --rebase && cd ..
+	cd %~1
+	git pull --rebase
+	cd ..
 ) else (
 	git clone "git://github.com/KanColleTool/kct-%~1.git" %~1
 )
