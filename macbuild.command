@@ -9,6 +9,17 @@ rm -rf dist
 mkdir dist
 mkdir dist/KanColleTool
 
+# Update cocoapods
+cd macviewer
+pod install
+if [ $? -ne 0 ]; then
+	echo "$(tput setab 1)Error:$(tput sgr0) Cocoapods isn't installed"
+	echo "Install it with:"
+	echo "$(tput bold)gem install cocoapods$(tput sgr0)"
+	exit
+fi
+cd ..
+
 # Build tool
 cd tool
 rm -rf KanColleTool.app
