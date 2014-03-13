@@ -10,7 +10,7 @@ mkdir dist\KanColleTool
 cd tool
 qmake
 mingw32-make release
-xcopy release\KanColleTool.exe ..\dist\KanColleTool
+xcopy bin\KanColleTool.exe ..\dist\KanColleTool
 mingw32-make clean
 rmdir /s /q debug
 rmdir /s /q release
