@@ -45,15 +45,8 @@ update_repo()
 # Switch to the directory the script is stored in
 cd $(dirname "${BASH_SOURCE[0]}")
 
-# Only pull down the mac viewer on OSX (the viewer won't work properly there
-# due to Flash Player bugs breaking QtWebkit), the normal viewer otherwise.
-if [[ "$OSTYPE" == darwin* ]]; then
-	update_repo macviewer
-else
-	update_repo viewer
-fi
-
-# Pull down the Tool either way
+update_repo macviewer
+update_repo viewer
 update_repo tool
 
 # If an SSH clone failed, print a notice about it
