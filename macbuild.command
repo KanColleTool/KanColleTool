@@ -25,8 +25,8 @@ cd tool
 rm -rf KanColleTool.app
 qmake
 make
-macdeployqt KanColleTool.app
-cp -R KanColleTool.app ../dist/KanColleTool/
+macdeployqt bin/KanColleTool.app
+cp -R bin/KanColleTool.app ../dist/KanColleTool/
 make clean
 rm -rf KanColleTool.app
 cd ..

@@ -10,7 +10,7 @@ update_repo()
 		# If the target directory exists, move into it and `git pull --rebase`
 		OLDPWD=$(pwd)
 		cd $1
-		OUTPUT=$(git pull --rebase)
+		OUTPUT=$(git pull --no-progress --rebase)
 		if [[ $? -eq 0 ]]; then
 			echo "$(tput bold)$(tput setaf 2) Success$(tput sgr0)"
 		else
