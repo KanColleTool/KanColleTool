@@ -1,8 +1,3 @@
-# Sources managed by update.sh
-macviewer
-viewer
-tool
-
 # Hidden OS files
 .DS_Store
 

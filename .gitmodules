@@ -1,0 +1,9 @@
+[submodule "tool"]
+	path = tool
+	url = https://github.com/KanColleTool/kct-tool.git
+[submodule "viewer"]
+	path = viewer
+	url = https://github.com/KanColleTool/kct-viewer.git
+[submodule "macviewer"]
+	path = macviewer
+	url = https://github.com/KanColleTool/kct-macviewer.git
