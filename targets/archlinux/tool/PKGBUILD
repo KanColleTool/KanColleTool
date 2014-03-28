@@ -1,6 +1,6 @@
 # Maintainer: Johannes Ekberg <uppfinnarn@gmail.com>
 pkgname='kancolletool-git'
-pkgver=0.0.0
+pkgver=
 pkgrel=1
 epoch=
 pkgdesc="A tool that makes KanColle better"
@@ -25,9 +25,7 @@ md5sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/$pkgname"
-	#cat VERSION
-	# Use the tag of the last commit
-	git describe --tags | grep -Po 'v\K([\w\.]+)'
+	git describe --tags --long | sed -r 's/([^-]*-g)/r\1/;s/-/./g'
 }
 
 build() {
@@ -39,6 +37,7 @@ build() {
 package() {
 	cd "$srcdir/$pkgname"
 	make INSTALL_ROOT="$pkgdir" install
-	install -Dm644 KanColleTool.png "$pkgdir/usr/share/icons/hicolor/192x192/apps/KanColleTool.png"
-	install -Dm644 KanColleTool.desktop "$pkgdir/usr/share/applications/KanColleTool.desktop"
+	install -Dm644 resources/KanColleTool.png "$pkgdir/usr/share/icons/hicolor/192x192/apps/KanColleTool.png"
+	install -Dm644 resources/KanColleTool.desktop "$pkgdir/usr/share/applications/KanColleTool.desktop"
 }
+

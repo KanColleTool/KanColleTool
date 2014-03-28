@@ -1,6 +1,6 @@
 # Maintainer: Johannes Ekberg <uppfinnarn@gmail.com>
 pkgname='kancolletool-viewer-git'
-pkgver=0.0.0
+pkgver=
 pkgrel=1
 epoch=
 pkgdesc="A viewer for KanColle"
@@ -25,9 +25,7 @@ md5sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/$pkgname"
-	#cat VERSION
-	# Use the tag of the last commit
-	git describe --tags | grep -Po 'v\K([\w\.]+)'
+	git describe --tags --long | sed -r 's/([^-]*-g)/r\1/;s/-/./g'
 }
 
 build() {
@@ -42,3 +40,4 @@ package() {
 	install -Dm644 KCTViewer.png "$pkgdir/usr/share/icons/hicolor/192x192/apps/KCTViewer.png"
 	install -Dm644 KCTViewer.desktop "$pkgdir/usr/share/applications/KCTViewer.desktop"
 }
+
