@@ -1,3 +1,6 @@
+# Repo stuff
+.repo
+
 # Hidden OS files
 .DS_Store
 
