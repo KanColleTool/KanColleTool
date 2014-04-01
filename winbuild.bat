@@ -1,4 +1,10 @@
-set PATH=%PATH%;C:\Qt\5.2.0\mingw48_32\bin
+for /d %%f in (C:\Qt\*) do (set QTDIR=%%f)
+for /d %%f in (%QTDIR%) do (set QTDIR2=%%f)
+IF NOT DEFINED QTDIR2 set QTDIR2=%QTDIR%
+for /d %%f in (%QTDIR2%\5.*) do (set QTBIN=%%f\mingw48_32\bin)
+
+set PATH=%PATH%;%QTBIN%
+set PATH=%PATH%;%QTDIR%\Tools\mingw48_32\bin
 set PATH=%PATH%;C:\Qt\Tools\mingw48_32\bin
 
 :: Delete old dist dir; the last thing we need is partial builds
@@ -27,9 +33,9 @@ rmdir /s /q release
 cd ..
 
 :: Copy MinGW32 DLLs that Qt doesn't catch automatically
-xcopy C:\Qt\5.2.0\mingw48_32\bin\libgcc_s_dw2-1.dll dist\KanColleTool
-xcopy C:\Qt\5.2.0\mingw48_32\bin\libstdc++-6.dll dist\KanColleTool
-xcopy C:\Qt\5.2.0\mingw48_32\bin\libwinpthread-1.dll dist\KanColleTool
+xcopy %QTDIR%\mingw48_32\bin\libgcc_s_dw2-1.dll dist\KanColleTool
+xcopy %QTDIR%\mingw48_32\bin\libstdc++-6.dll dist\KanColleTool
+xcopy %QTDIR%\mingw48_32\bin\libwinpthread-1.dll dist\KanColleTool
 
 :: Let Qt collect DLLs
 windeployqt --no-translations dist\KanColleTool\KCTViewer.exe
