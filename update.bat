@@ -5,6 +5,10 @@ for /d %%f in (%LOCALAPPDATA%\GitHub\PortableGit_*) do (
 	break
 )
 
+git stash
+git pull --rebase
+git stash pop
+
 call:update_repo tool
 call:update_repo viewer
 
