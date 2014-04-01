@@ -42,17 +42,17 @@ windeployqt --no-translations dist\KanColleTool\KCTViewer.exe
 windeployqt --no-translations dist\KanColleTool\KanColleTool.exe
 
 :: Delete things we don't need at all
-rmdir /s /q dist\playlistformats
-rmdir /s /q dist\printsupport
-rmdir /s /q dist\qmltooling
-rmdir /s /q dist\sqldrivers
+rmdir /s /q dist\KanColleTool\playlistformats
+rmdir /s /q dist\KanColleTool\printsupport
+rmdir /s /q dist\KanColleTool\qmltooling
+rmdir /s /q dist\KanColleTool\sqldrivers
 
 :: Delete debug versions of frameworks
-del /q dist\accessible\*d.dll
-del /q dist\bearer\*d.dll
-del /q dist\iconengines\*d.dll
-del /q dist\imageformats\*d.dll
-del /q dist\mediaservice\*d.dll
-del /q dist\platforms\*d.dll
+del /q dist\KanColleTool\accessible\*d.dll
+del /q dist\KanColleTool\bearer\*d.dll
+del /q dist\KanColleTool\iconengines\*d.dll
+del /q dist\KanColleTool\imageformats\*d.dll
+del /q dist\KanColleTool\mediaservice\*d.dll
+del /q dist\KanColleTool\platforms\*d.dll
 
 ::pause
