@@ -1,10 +1,11 @@
-REM @echo off
+@echo off
 
 for /d %%f in (%LOCALAPPDATA%\GitHub\PortableGit_*) do (
 	PATH=%%f\bin;%PATH%
 	break
 )
 
+echo "--> Updating main repo..."
 git stash
 git pull --rebase
 git stash pop
@@ -12,10 +13,9 @@ git stash pop
 call:update_repo tool
 call:update_repo viewer
 
-pause
-
 :update_repo
 if exist %~1 (
+	echo "--> Updating %~1..."
 	cd %~1
 	git pull --rebase
 	cd ..
