@@ -36,6 +36,8 @@ Source: "*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubd
 
 [Icons]
 Name: "{group}\KanColleTool"; Filename: "{app}\KanColleTool.exe"
-Name: "{group}\KCT Viewer"; Filename: "{app}\KCTViewer.exe"
+Name: "{group}\KanColleTool Viewer"; Filename: "{app}\KCTViewer.exe"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
+[InstallDelete]
+Type: files; Name: "{group}\KCT Viewer.lnk"
