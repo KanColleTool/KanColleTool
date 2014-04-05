@@ -10,7 +10,7 @@ mkdir -p dist/src
 mkdir dist/src/kancolletool-${VERSION}
 cp -R tool/*{.pro,pri,rc} dist/src/kancolletool-${VERSION}/
 cp -R tool/src/*.{cpp,h,pro} dist/src/kancolletool-${VERSION}/
-cp -R tool/resources/*.{qrc,png,desktop} dist/src/kancolletool-${VERSION}/
+cp -R tool/resources/*.{qrc,png} dist/src/kancolletool-${VERSION}/
 cp -R tool/forms/*.ui dist/src/kancolletool-${VERSION}/
 
 
