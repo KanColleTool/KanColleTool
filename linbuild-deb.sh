@@ -9,9 +9,16 @@ mkdir debian
 
 cd debian
 mkdir kancolletool-${VERSION}
-cp -a ../../tool/*.{pro,cpp,h,ui,qrc,png} kancolletool-${VERSION}/
+cp -R ../../tool/*.{pro,pri} kancolletool-${VERSION}
+mkdir kancolletool-${VERSION}/src
+cp -R ../../tool/src/*.{cpp,h,pro} kancolletool-${VERSION}/src
+mkdir kancolletool-${VERSION}/resources
+cp -R ../../tool/resources/*.{qrc,png,ico,desktop} kancolletool-${VERSION}/resources
+mkdir kancolletool-${VERSION}/forms
+cp -R ../../tool/forms/*.ui kancolletool-${VERSION}/forms
+
 mkdir kancolletool-viewer-${VERSION}
-cp -a ../../viewer/*.{pro,cpp,h,ui,qrc,png,html,js} kancolletool-viewer-${VERSION}/
+cp -a ../../viewer/*.{pro,cpp,h,ui,qrc,png,ico,html,desktop} kancolletool-viewer-${VERSION}/
 
 # Debianize and package the Tool
 # Note that we're not signing these packages, simply because signing raises

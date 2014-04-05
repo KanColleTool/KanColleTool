@@ -1,3 +1,9 @@
+kancolletool (0.8.7-1) UNRELEASED; urgency=low
+
+  * Bump 0.8.7
+
+ -- root <root@debian-template>  Fri, 04 Apr 2014 14:41:06 +0200
+
 kancolletool (0.8.3-1) unstable; urgency=low
 
   * Mac settings dialog fix
