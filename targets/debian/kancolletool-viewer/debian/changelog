@@ -1,3 +1,9 @@
+kancolletool-viewer (0.8.7-1) UNRELEASED; urgency=low
+
+  * Bump 0.8.7
+
+ -- root <root@debian-template>  Fri, 04 Apr 2014 14:43:10 +0200
+
 kancolletool-viewer (0.8.3-1) unstable; urgency=low
 
   * Refresh hotkey
