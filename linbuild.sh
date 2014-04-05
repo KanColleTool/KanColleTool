@@ -8,9 +8,9 @@ mkdir -p dist/src
 
 # Prepare tool sources
 mkdir dist/src/kancolletool-${VERSION}
-cp -R tool/*.pro dist/src/kancolletool-${VERSION}/
-cp -R tool/src/*.{cpp,h} dist/src/kancolletool-${VERSION}/
-cp -R tool/resources/*.{qrc,png} dist/src/kancolletool-${VERSION}/
+cp -R tool/*{.pro,pri,rc} dist/src/kancolletool-${VERSION}/
+cp -R tool/src/*.{cpp,h,pro} dist/src/kancolletool-${VERSION}/
+cp -R tool/resources/*.{qrc,png,desktop} dist/src/kancolletool-${VERSION}/
 cp -R tool/forms/*.ui dist/src/kancolletool-${VERSION}/
 
 
