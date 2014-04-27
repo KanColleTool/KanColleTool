@@ -1,5 +1,10 @@
 #!/bin/bash
-export PATH=$HOME/Qt/5.2.0/clang_64/bin:$PATH
+
+# Add all installed Qt versions to the PATH
+QTVERS=`ls -F $HOME/Qt | grep "\/" `
+for VER in $QTDIRS; do
+	export PATH="$HOME/Qt/$VER/clang_64/bin:$PATH"
+done
 
 # cd to the script's directory
 cd "$( dirname "${BASH_SOURCE[0]}" )"
@@ -23,6 +28,8 @@ cd ..
 # Build tool
 cd tool
 rm -rf KanColleTool.app
+lrelease src/src.pro
+cp translations/*.qm ../dist/KanColleTool/KanColleTool.app/Contents/MacOS
 qmake
 make
 macdeployqt bin/KanColleTool.app

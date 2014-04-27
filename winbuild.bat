@@ -15,6 +15,8 @@ mkdir dist\KanColleTool
 
 :: Build the tool
 cd tool
+lrelease src\src.pro
+xcopy translations\*.qm ..\dist\KanColleTool
 qmake
 mingw32-make release
 xcopy bin\KanColleTool.exe ..\dist\KanColleTool
@@ -40,8 +42,8 @@ xcopy %QTDIR%\mingw48_32\bin\libstdc++-6.dll dist\KanColleTool
 xcopy %QTDIR%\mingw48_32\bin\libwinpthread-1.dll dist\KanColleTool
 
 :: Let Qt collect DLLs
-windeployqt --no-translations dist\KanColleTool\KCTViewer.exe
-windeployqt --no-translations dist\KanColleTool\KanColleTool.exe
+windeployqt dist\KanColleTool\KCTViewer.exe
+windeployqt dist\KanColleTool\KanColleTool.exe
 
 :: Delete things we don't need at all
 rmdir /s /q dist\KanColleTool\accessible
