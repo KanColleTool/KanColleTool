@@ -9,14 +9,14 @@ mkdir -p dist/src
 # Prepare tool sources
 mkdir dist/src/kancolletool-${VERSION}
 cp -R tool/*{.pro,pri,rc} dist/src/kancolletool-${VERSION}/
-cp -R tool/src/*.{cpp,h,pro} dist/src/kancolletool-${VERSION}/
-cp -R tool/resources/*.{qrc,png} dist/src/kancolletool-${VERSION}/
-cp -R tool/forms/*.ui dist/src/kancolletool-${VERSION}/
-
+mkdir dist/src/kancolletool-${VERSION}/resources
+cp -R tool/resources/*.{qrc,png,desktop} dist/src/kancolletool-${VERSION}/resources/
+mkdir dist/src/kancolletool-${VERSION}/forms
+cp -R tool/forms/*.ui dist/src/kancolletool-${VERSION}/forms/
 
 # Prepare viewer sources
 mkdir dist/src/kancolletool-viewer-${VERSION}
-cp -R viewer/*.{pro,cpp,h,qrc,png,html} dist/src/kancolletool-viewer-${VERSION}/
+cp -R viewer/*.{ui,pro,cpp,h,qrc,png,html,desktop} dist/src/kancolletool-viewer-${VERSION}/
 
 # Tarball it all up
 cd dist/src
