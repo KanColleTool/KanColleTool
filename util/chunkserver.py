@@ -10,7 +10,7 @@ app = Flask(__name__)
 # I think 893 + <header size> for that request added up to 1KB or something
 chunk_size = 893
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
 	global resp
 	def read_chunks():
