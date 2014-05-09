@@ -29,7 +29,7 @@ cd ..
 cd viewer
 qmake
 mingw32-make release
-xcopy release\KCTViewer.exe ..\dist\KanColleTool
+xcopy bin\KCTViewer.exe ..\dist\KanColleTool
 mingw32-make clean
 rmdir /s /q debug
 rmdir /s /q release
