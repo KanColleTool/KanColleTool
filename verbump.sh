@@ -10,7 +10,7 @@ VERSION_RC="${1}, ${2}, ${3}, 0"
 
 echo $VERSION > VERSION
 
-sed -i '' -e "s/#define KCT_VERSION .*/#define KCT_VERSION \"$VERSION\"/" tool/src/version.h viewer/version.h
+sed -i '' -e "s/#define KCT_VERSION .*/#define KCT_VERSION \"$VERSION\"/" {tool,viewer}/src/version.h
 sed -i '' -e "s/#define MyAppVersion .*/#define MyAppVersion \"$VERSION\"/" targets/windows/KanColleTool.iss
 sed -i '' -e "s/VERSION = .*/VERSION = $VERSION/" tool/*.pri viewer/*.pro
 sed -n -i '' -e '/CFBundleShortVersionString/{p;n;s/>.*</>'$VERSION'</;};p' macviewer/KCTViewer/KCTViewer-Info.plist
