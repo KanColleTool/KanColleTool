@@ -1,25 +1,27 @@
 #!/bin/bash
 
-VERSION=$(<VERSION)
+VERSION=$(<VERSION)ppa1~$1
 
 # Set up a directory structure for the ppa build
 # (copypaste from linbuild-deb.sh)
 cd dist
-rm -rf ppa > /dev/null
+rm -rf ppa/$1 > /dev/null
 mkdir ppa
-cp src/kancolletool-${VERSION}.tar.gz ppa/kancolletool_${VERSION}.orig.tar.gz
-cp src/kancolletool-viewer-${VERSION}.tar.gz ppa/kancolletool-viewer_${VERSION}.orig.tar.gz
+mkdir ppa/$1
+cp src/kancolletool-${VERSION}.tar.gz ppa/$1/kancolletool_${VERSION}.orig.tar.gz
+cp src/kancolletool-viewer-${VERSION}.tar.gz ppa/$1/kancolletool-viewer_${VERSION}.orig.tar.gz
 
-cd ppa
+cd ppa/$1
 tar -xf kancolletool_${VERSION}.orig.tar.gz
 tar -xf kancolletool-viewer_${VERSION}.orig.tar.gz
 
-cp -Rp ../../targets/debian/kancolletool/debian kancolletool-${VERSION}/
-cp -Rp ../../targets/debian/kancolletool-viewer/debian kancolletool-viewer-${VERSION}/
+cp -Rp ../../../targets/debian/kancolletool/debian kancolletool-${VERSION}/
+cp -Rp ../../../targets/debian/kancolletool-viewer/debian kancolletool-viewer-${VERSION}/
 
 # Patch the changelogs to swap 'unstable' out for 'saucy'
 # Without this, Launchpad will reject any attempt to push it
-sed -i 's/) unstable; /) saucy; /' kancolletool{,-viewer}-${VERSION}/debian/changelog
+sed -i -r "s/-([0-9]*)\)/ppa\1\)/" kancolletool{,-viewer}-${VERSION}/debian/changelog
+sed -i "s/) unstable; /~$1) $1; /" kancolletool{,-viewer}-${VERSION}/debian/changelog
 
 # And patch in qt5-default as a build dep, otherwise Launchpad will fail to
 # build the package; "qmake: could not find a Qt installation of ''"
@@ -42,4 +44,4 @@ hash debuild >/dev/null 2>&1 && debuild -S || dpkg-buildpackage -S
 cd ..
 
 # Go back
-cd ../..
+cd ../../..
