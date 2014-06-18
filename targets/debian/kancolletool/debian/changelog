@@ -1,3 +1,14 @@
+kancolletool (0.9.1-1) unstable; urgency=low
+
+  * a: Optional submission of unstranslated lines, to make them available to the translator
+  * i: Better performance in the translator and Viewer-Tool bridge
+  * i: Ship fuel and ammo bars in the Tool now update immediately when resuplying
+  * f: The Tool erroring out when using Direct Loading
+  * f: Fleet data not updating reliably when livestreaming
+  * f: Translation not working properly on OS X
+
+ -- Jakub Barot (Key for personal PPAs) <LynxyssCZ@gmail.com>  Tue, 27 May 2014 17:50:57 +0200
+
 kancolletool (0.9.0-1) unstable; urgency=low
 
   * Bump 0.9.0
@@ -8,6 +19,12 @@ kancolletool (0.9.0-1) unstable; urgency=low
   * Fixed: Build script
 
  -- Jakub Barot (Key for personal PPAs) <LynxyssCZ@gmail.com>  Sun, 27 Apr 2014 13:34:19 +0200
+
+kancolletool (0.8.7-1) unstable; urgency=low
+
+  * Bump 0.8.7
+
+ -- Jakub Barot (Key for personal PPAs) <LynxyssCZ@gmail.com>  Fri, 04 Apr 2014 14:43:10 +0200
 
 kancolletool (0.8.3-1) unstable; urgency=low
 

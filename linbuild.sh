@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=$(<VERSION)
+VERSION=$(<VERSION)$1
 
 # Remove old dist
 rm -rf dist/src > /dev/null
