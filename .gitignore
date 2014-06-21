@@ -1,11 +1,14 @@
-# Repo stuff
-.repo
+# CMake stuff
+CMakeCache.txt
+CMakeFiles
+cmake_install.cmake
 
 # Hidden OS files
 .DS_Store
 
 # Editor Temporaries
 *.sublime-workspace
+*.swp
 
 # Build Temporaries
 targets/archlinux/tool/*
@@ -15,3 +18,6 @@ targets/archlinux/viewer/*
 
 /build-*
 /dist
+
+Makefile
+
