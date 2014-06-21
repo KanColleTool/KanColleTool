@@ -17,6 +17,7 @@ targets/archlinux/viewer/*
 !targets/archlinux/viewer/PKGBUILD
 
 /build-*
+/*-prefix/
 /dist
 
 Makefile
