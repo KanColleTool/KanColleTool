@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 project(KanColleTool)
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 include(ExternalProject)
 
 # On Windows, we need to manually find Qt installations >_>
