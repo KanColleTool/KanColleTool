@@ -9,6 +9,9 @@ cmake_install.cmake
 # Editor Temporaries
 *.sublime-workspace
 *.swp
+*.vcxproj
+*.vcxproj.*
+*.sln
 
 # Build Temporaries
 targets/archlinux/tool/*
@@ -21,4 +24,3 @@ targets/archlinux/viewer/*
 /dist
 
 Makefile
-

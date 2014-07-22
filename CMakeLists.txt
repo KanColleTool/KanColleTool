@@ -3,6 +3,16 @@ project(KanColleTool)
 
 include(ExternalProject)
 
+# On Windows, we need to manually find Qt installations >_>
+if(WIN32)
+	file(GLOB QtVerDirs "C:/Qt/5.*")
+	foreach(dir ${QtVerDirs})
+		file(GLOB msvc_dirs "${dir}/msvc*")
+		file(GLOB mingw_dirs "${dir}/mingw*")
+		set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH};${msvc_dirs};${mingw_dirs}")
+	endforeach(dir)
+endif(WIN32)
+
 if(APPLE)
 	ExternalProject_Add(macviewer
 		SOURCE_DIR macviewer
