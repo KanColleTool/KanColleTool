@@ -1,11 +1,5 @@
-for /d %%f in (C:\Qt\*) do (set QTDIR=%%f)
-for /d %%f in (%QTDIR%) do (set QTDIR2=%%f)
-IF NOT DEFINED QTDIR2 set QTDIR2=%QTDIR%
-for /d %%f in (%QTDIR2%\5.*) do (set QTBIN=%%f\mingw48_32\bin)
-
-set PATH=%PATH%;%QTBIN%
-set PATH=%PATH%;%QTDIR%\Tools\mingw48_32\bin
-set PATH=%PATH%;C:\Qt\Tools\mingw48_32\bin
+for /d %%f in (C:\Qt\5.*) do (set QTDIR=%%f\msvc2013)
+set PATH=%PATH%;%QTDIR%\bin
 
 :build
 :: Delete old dist dir; the last thing we need is partial builds
@@ -13,37 +7,27 @@ rmdir /s /q dist
 mkdir dist
 mkdir dist\KanColleTool
 
-:: Build the tool
-cd tool
-lrelease src\src.pro
-xcopy translations\*.qm ..\dist\KanColleTool
-qmake
-mingw32-make release
-xcopy bin\KanColleTool.exe ..\dist\KanColleTool
-mingw32-make clean
-rmdir /s /q debug
-rmdir /s /q release
-cd ..
+:: Build everything
+cmake -G "Visual Studio 12 2013" .
+"C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.exe" KanColleTool.sln /property:Configuration=Release
+xcopy tool\bin\Release\KanColleTool.exe dist\KanColleTool
+xcopy viewer\bin\Release\KCTViewer.exe dist\KanColleTool
 
-:: Build the viewer
-cd viewer
-qmake
-mingw32-make release
-xcopy bin\KCTViewer.exe ..\dist\KanColleTool
-mingw32-make clean
-rmdir /s /q debug
-rmdir /s /q release
-cd ..
+:: Build the tool
+:: -- Disabled for now
+:: cd tool
+:: lrelease src\src.pro
+:: xcopy translations\*.qm ..\dist\KanColleTool
 
 :package
 :: Copy MinGW32 DLLs that Qt doesn't catch automatically
-xcopy %QTDIR%\mingw48_32\bin\libgcc_s_dw2-1.dll dist\KanColleTool
-xcopy %QTDIR%\mingw48_32\bin\libstdc++-6.dll dist\KanColleTool
-xcopy %QTDIR%\mingw48_32\bin\libwinpthread-1.dll dist\KanColleTool
+:: xcopy %QTDIR%\mingw48_32\bin\libgcc_s_dw2-1.dll dist\KanColleTool
+:: xcopy %QTDIR%\mingw48_32\bin\libstdc++-6.dll dist\KanColleTool
+:: xcopy %QTDIR%\mingw48_32\bin\libwinpthread-1.dll dist\KanColleTool
 
 :: Let Qt collect DLLs
-windeployqt dist\KanColleTool\KCTViewer.exe
-windeployqt dist\KanColleTool\KanColleTool.exe
+windeployqt.exe dist\KanColleTool\KCTViewer.exe
+windeployqt.exe dist\KanColleTool\KanColleTool.exe
 
 :: Delete things we don't need at all
 rmdir /s /q dist\KanColleTool\accessible
@@ -64,4 +48,4 @@ del /q dist\KanColleTool\sqldrivers\qsqlmysql*
 del /q dist\KanColleTool\sqldrivers\qsqlodbc*
 del /q dist\KanColleTool\sqldrivers\qsqlpsql*
 
-::pause
+pause
