@@ -12,6 +12,9 @@ cmake_install.cmake
 *.vcxproj
 *.vcxproj.*
 *.sln
+*.suo
+*.sdf
+*.opensdf
 
 # Build Temporaries
 targets/archlinux/tool/*
@@ -22,5 +25,6 @@ targets/archlinux/viewer/*
 /build-*
 /*-prefix/
 /dist
+/Win32
 
 Makefile
