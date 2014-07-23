@@ -34,25 +34,8 @@ if exist C:\Windows\SysWOW64 (
 )
 
 :: Let Qt collect DLLs
-windeployqt dist\KanColleTool\KCTViewer.exe
-windeployqt dist\KanColleTool\KanColleTool.exe
-
-:: Delete things we don't need at all
-rmdir /s /q dist\KanColleTool\accessible
-rmdir /s /q dist\KanColleTool\iconengines
-rmdir /s /q dist\KanColleTool\imageformats
-rmdir /s /q dist\KanColleTool\mediaservice
-rmdir /s /q dist\KanColleTool\playlistformats
-rmdir /s /q dist\KanColleTool\printsupport
-rmdir /s /q dist\KanColleTool\position
-rmdir /s /q dist\KanColleTool\qmltooling
-rmdir /s /q dist\KanColleTool\sensorgestures
-rmdir /s /q dist\KanColleTool\sensors
-
-:: Delete debug versions of frameworks
-del /q dist\KanColleTool\bearer\*d.dll
-del /q dist\KanColleTool\platforms\*d.dll
-del /q dist\KanColleTool\sqldrivers\*d.dll
+windeployqt --no-compiler-runtime --no-translations --no-svg dist\KanColleTool\KCTViewer.exe
+windeployqt --no-compiler-runtime --no-translations --no-svg dist\KanColleTool\KanColleTool.exe
 
 :: Delete all database drivers but sqlite
 del /q dist\KanColleTool\sqldrivers\qsqlmysql*
