@@ -26,6 +26,7 @@ Compression=lzma
 SolidCompression=yes
 SourceDir=..\..\dist\KanColleTool
 OutputDir=..
+InfoBeforeFile=README.txt
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"

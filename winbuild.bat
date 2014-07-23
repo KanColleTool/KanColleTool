@@ -42,4 +42,7 @@ del /q dist\KanColleTool\sqldrivers\qsqlmysql*
 del /q dist\KanColleTool\sqldrivers\qsqlodbc*
 del /q dist\KanColleTool\sqldrivers\qsqlpsql*
 
+:: Copy the README file
+xcopy targets\windows\README.txt dist\KanColleTool
+
 :: pause
