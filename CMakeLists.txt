@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 2.8)
 project(KanColleTool)
 
+# These three are managed by the version bump script!
+set(VERSION_MAJOR 0)
+set(VERSION_MINOR 9)
+set(VERSION_PATCH 2)
+
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(ExternalProject)
@@ -28,3 +33,20 @@ else(APPLE)
 endif(APPLE)
 
 add_subdirectory(tool)
+
+#
+# --> CPack stuff
+#
+set(CPACK_PACKAGE_NAME "KanColleTool")
+set(CPACK_PACKAGE_VENDOR "The KanColleTool Team")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Makes KanColle better")
+set(CPACK_PACKAGE_VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+set(CPACK_PACKAGE_VERSION_MAJOR "${VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${VERSION_PATCH}")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "KanColleTool")
+set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}")
+set(CPACK_INSTALL_PREFIX "/usr")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Johannes <uppfinnarn@gmail.com>")
+
+include(CPack)

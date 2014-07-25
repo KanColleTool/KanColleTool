@@ -2,6 +2,10 @@
 CMakeCache.txt
 CMakeFiles
 cmake_install.cmake
+CPackConfig.cmake
+CPackSourceConfig.cmake
+_CPack_Packages
+install_manifest*.txt
 
 # Hidden OS files
 .DS_Store
@@ -24,7 +28,8 @@ targets/archlinux/viewer/*
 
 /build-*
 /*-prefix/
-/dist
 /Win32
+/dist
+*.deb
 
 Makefile
