@@ -6,8 +6,8 @@ VERSION=$(<VERSION)
 [[ -d dist/kancolletool-$VERSION ]] && rm -rf dist/kancolletool-$VERSION
 mkdir -p dist/kancolletool-$VERSION && cd dist/kancolletool-$VERSION
 
-git clone --recursive -q ../../viewer
-git clone --recursive -q ../../tool
+git clone --recursive ../../viewer
+git clone --recursive ../../tool
 cp ../../CMakeLists.txt .
 
 cd ..
