@@ -1,3 +1,13 @@
+kancolletool (0.9.2-1) unstable; urgency=low
+
+  * Added: Growl/Growl for Windows notification support
+  * Added: Remote translation submission blacklist
+  * Fixed: All notifications now work properly
+  * Fixed: The Tool now properly updates when ships are refueled
+  * Fixed: Translation occasionally not taking effect on Tool launch
+
+ -- Johannes Ekberg <uppfinnarn@gmail.com>  Mon, 28 Jul 2014 00:20:00 +0100
+
 kancolletool (0.9.1-1) unstable; urgency=low
 
   * a: Optional submission of unstranslated lines, to make them available to the translator
