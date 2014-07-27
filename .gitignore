@@ -31,5 +31,6 @@ targets/archlinux/viewer/*
 /Win32
 /dist
 *.deb
+*.tar.gz
 
 Makefile
