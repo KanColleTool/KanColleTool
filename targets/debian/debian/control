@@ -2,7 +2,7 @@ Source: kancolletool
 Section: x11
 Priority: optional
 Maintainer: Johannes Ekberg <uppfinnarn@gmail.com>
-Build-Depends: debhelper (>= 8.0.0), cmake
+Build-Depends: debhelper (>= 8.0.0), cmake (>= 2.8.12), qtbase5-dev-tools, libqt5core5a, libqt5widgets5, libqt5network5, libqt5webkit5
 Standards-Version: 3.9.3
 Homepage: http://kancolletool.github.io/
 Vcs-Git: git://github.com/KanColleTool/KanColleTool.git

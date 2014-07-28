@@ -12,7 +12,7 @@ done
 
 VERSION=$(<VERSION)
 
-./build_source_tgz.sh
+[[ ! -f dist/kancolletool-$VERSION.tar.gz ]] && [[ ! -f dist/debian/kancolletool_$VERSION.orig.tar.gz ]] && ./build_source_tgz.sh
 
 [[ -d dist/debian ]] && rm -rf dist/debian
 mkdir -p dist/debian && cd dist/debian

@@ -10,5 +10,5 @@ git clone --recursive ../../tool
 cp ../../CMakeLists.txt .
 
 cd ..
-tar -zcf kancolletool-$VERSION.tar.gz kancolletool-$VERSION
+tar --exclude-vcs -zcf kancolletool-$VERSION.tar.gz kancolletool-$VERSION
 rm -rf kancolletool-$VERSION
