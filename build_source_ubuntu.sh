@@ -12,4 +12,4 @@ cd kancolletool-$VERSION
 
 # Patch Debian's 'unstable' out for an Ubuntu codename and build
 sed -i 's/) unstable;/) trusty;/' debian/changelog
-debuild -S
+debuild -S -sa

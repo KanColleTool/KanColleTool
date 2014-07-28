@@ -22,4 +22,4 @@ tar -xzf kancolletool_$VERSION.orig.tar.gz
 cd kancolletool-$VERSION
 
 cp -R ../../../targets/debian/* .
-$NO_DEBUILD || debuild -S
+$NO_DEBUILD || debuild -S -sa
