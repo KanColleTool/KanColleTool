@@ -2,7 +2,7 @@ Source: kancolletool
 Section: x11
 Priority: optional
 Maintainer: Johannes Ekberg <uppfinnarn@gmail.com>
-Build-Depends: debhelper (>= 8.0.0), cmake (>= 2.8.12), qtbase5-dev-tools, libqt5core5a, libqt5widgets5, libqt5network5, libqt5webkit5
+Build-Depends: debhelper (>= 8.0.0), cmake (>= 2.8.12), qtbase5-dev (>= 5.2.0), libqt5webkit5 (>= 5.2.0)
 Standards-Version: 3.9.3
 Homepage: http://kancolletool.github.io/
 Vcs-Git: git://github.com/KanColleTool/KanColleTool.git
@@ -10,7 +10,7 @@ Vcs-Browser: http://github.com/KanColleTool/KanColleTool/
 
 Package: kancolletool
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, flashplugin-nonfree
 Description: Makes KanColle better.
  KanColleTool provides tools useful for any aspiring admiral - viewing data the
  game itself doesn't show you, alerting you when a reparation or construction
