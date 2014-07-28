@@ -1,3 +1,11 @@
+kancolletool (0.9.2-3) unstable; urgency=medium
+
+  * Launchpad package should now actually build
+  * It now depends on flashplugin-nonfree
+  * Menu entries should now register properly
+
+ -- Johannes Ekberg <uppfinnarn@gmail.com>  Mon, 28 Jul 2014 19:59:13 +0200
+
 kancolletool (0.9.2-2) unstable; urgency=medium
 
   * Trying to get Launchpad to actually build it...

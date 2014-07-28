@@ -1,2 +1,9 @@
-?package(kancolletool):needs="X11" section="Games/Tools"\
-  title="KanColleTool" command="/usr/bin/kancolletool"
+?package(kancolletool): \
+  needs="X11" section="Games/Tools" \
+  title="KanColleTool" icon="/usr/share/pixmaps/KanColleTool.png" \
+  command="/usr/bin/kancolletool"
+
+?package(kancolletool): \
+  needs="X11" section="Games/Adventure" \
+  title="KanColleTool Viewer" icon="/usr/share/pixmaps/KCTViewer.png" \
+  command="/usr/bin/kancolletool-viewer"
