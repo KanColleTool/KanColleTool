@@ -1,2 +1,5 @@
-resources/KanColleTool.desktop usr/share/applications
-resources/KanColleTool.png usr/share/pixmaps
+tool/resources/KanColleTool.desktop usr/share/applications/kancolletool.desktop
+tool/resources/KanColleTool.png usr/share/pixmaps/kancolletool.png
+viewer/resources/KCTViewer.desktop usr/share/applications/kancolletool-viewer.desktop
+viewer/resources/KCTViewer.png usr/share/pixmaps/kancolletool-viewer.png
+

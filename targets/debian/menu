@@ -1,2 +1,0 @@
-?package(kancolletool):needs="X11" section="Games/Tools"\
-  title="KanColleTool" command="/usr/bin/kancolletool"
