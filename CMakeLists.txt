@@ -28,6 +28,8 @@ if(APPLE)
 		BUILD_COMMAND xcodebuild -workspace KCTViewer.xcworkspace -scheme KCTViewer -configuration Release -derivedDataPath ./build
 		INSTALL_COMMAND ""
 	)
+	
+	install(DIRECTORY macviewer/build/Build/Products/Release/KCTViewer.app DESTINATION . USE_SOURCE_PERMISSIONS)
 else(APPLE)
 	add_subdirectory(viewer)
 endif(APPLE)

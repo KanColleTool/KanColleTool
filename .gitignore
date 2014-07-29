@@ -32,5 +32,6 @@ targets/archlinux/viewer/*
 /dist
 *.deb
 *.tar.gz
+*.dmg
 
 Makefile
