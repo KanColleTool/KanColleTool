@@ -1,8 +1,0 @@
-<manifest>
-	<remote name="github" fetch="https://github.com" />
-	<default revision="refs/heads/master" remote="github" sync-j="4" />
-	<project name="KanColleTool/kct-tool" remote="github" path="tool" />
-	<project name="KanColleTool/kct-viewer" remote="github" path="viewer" />
-	<project name="KanColleTool/kct-macviewer" remote="github" path="macviewer" />
-</manifest>
-

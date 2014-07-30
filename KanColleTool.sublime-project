@@ -9,8 +9,11 @@
 				"__"
 			],
 			"file_exclude_patterns": [
-				"install_manifest.txt", "cmake_install.cmake",
-				"moc_*.cpp", "qrc_*.cpp", "ui_*.h"
+				"CMakeCache.txt", "cmake_install.cmake",
+				"CPackConfig.cmake", "CPackSourceConfig.cmake", "install_manifest.txt",
+				"moc_*.cpp", "qrc_*.cpp", "ui_*.h",
+				"*.deb", "*.tar.gz", "*.dmg",
+				"*.sublime-workspace"
 			]
 		}
 	]

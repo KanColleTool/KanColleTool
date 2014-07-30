@@ -21,17 +21,14 @@ install_manifest*.txt
 *.opensdf
 
 # Build Temporaries
-targets/archlinux/tool/*
-targets/archlinux/viewer/*
-!targets/archlinux/tool/PKGBUILD
-!targets/archlinux/viewer/PKGBUILD
+targets/archlinux/*
+!targets/archlinux/PKGBUILD
+
+Makefile
 
 /build-*
 /*-prefix/
 /Win32
-/dist
 *.deb
 *.tar.gz
 *.dmg
-
-Makefile
