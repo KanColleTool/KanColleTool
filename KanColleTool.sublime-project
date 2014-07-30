@@ -3,8 +3,15 @@
 	[
 		{
 			"path": ".",
-			"folder_exclude_patterns": ["build-*", "build", "dist", "macviewer", "cache", "bin", "*.app"],
-			"file_exclude_patterns": ["moc_*.cpp", "ui_*.h", "qrc_*.cpp", "*.o", ".qmake.stash"]
+			"folder_exclude_patterns": [
+				"CMakeFiles", "_CPack_Packages",
+				"*-prefix", "bin",
+				"__"
+			],
+			"file_exclude_patterns": [
+				"install_manifest.txt", "cmake_install.cmake",
+				"moc_*.cpp", "qrc_*.cpp", "ui_*.h"
+			]
 		}
 	]
 }
