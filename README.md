@@ -8,7 +8,11 @@ That may have been the most redundant sentence I've ever written.
 
 KanColleTool consists of two parts, the Tool (KCT) and the Viewer (KCTV). The Tool displays information gathered from the game, while the viewer is a wrapper around the game to let it and the Tool work more smoothly.
 
-Its features include:
+## Downloads
+
+Downloads can be found on the official site: <http://kancolletool.github.io/>.
+
+## Features
 
 * On-the-fly translation of the game, by modifying server response text
 * Viewing hidden statistics, such as Condition
@@ -16,10 +20,6 @@ Its features include:
 * Optional spoilers for constructions
 
 If you think of anything I should include, please tell us; either open an [issue](http://github.com/KanColleTool/KanColleTool/issues/), mention [@uppfinnarn](http://twitter.com/uppfinnarn) on Twitter, or send an email to either [kctool@macaronicode.se](mailto:kctool@macaronicode.se) (uppfinnarn) or [kctool@sauyon.com](mailto:kctool@sauyon.com) (Sauyon).
-
-Downloads and FAQ can be found at <http://kancolletool.github.io/>.
-
----
 
 ## Credits
 
