@@ -19,7 +19,8 @@ Downloads can be found on the official site: <http://kancolletool.github.io/>.
 * Notifications for quests, repairs and construction
 * Optional spoilers for constructions
 
-If you think of anything I should include, please tell us; either open an [issue](http://github.com/KanColleTool/KanColleTool/issues/), mention [@uppfinnarn](http://twitter.com/uppfinnarn) on Twitter, or send an email to either [kctool@macaronicode.se](mailto:kctool@macaronicode.se) (uppfinnarn) or [kctool@sauyon.com](mailto:kctool@sauyon.com) (Sauyon).
+If you have a suggestion or bug report, please [open an issue](https://github.com/KanColleTool/KanColleTool/issues/new)!
+We're all open for code contributions in the form of Pull Requests as well - we're severely understaffed.
 
 ## Credits
 
