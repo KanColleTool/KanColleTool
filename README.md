@@ -15,9 +15,18 @@ Its features include:
 * Notifications for quests, repairs and construction
 * Optional spoilers for constructions
 
-If you think of anything I should include, please tell me; either open an [issue](http://github.com/KanColleTool/KanColleTool/issues/), mention [@uppfinnarn](http://twitter.com/uppfinnarn), or send an email to [kctool@sauyon.com](mailto:kctool@sauyon.com).
+If you think of anything I should include, please tell us; either open an [issue](http://github.com/KanColleTool/KanColleTool/issues/), mention [@uppfinnarn](http://twitter.com/uppfinnarn) on Twitter, or send an email to either [kctool@macaronicode.se](mailto:kctool@macaronicode.se) (uppfinnarn) or [kctool@sauyon.com](mailto:kctool@sauyon.com) (Sauyon).
 
 Downloads and FAQ can be found at <http://kancolletool.github.io/>.
+
+---
+
+## Credits
+
+- **uppfinnarn** - Lead Developer
+- **Sauyon** - Developer
+- **LynxyssCZ** - Debian Packager
+- **Yukariin** - Arch Linux Packager, code contributions
 
 ---
 
