@@ -19,7 +19,7 @@ Downloads can be found on the official site: <http://kancolletool.github.io/>.
 * Notifications for quests, repairs and construction
 * Optional spoilers for constructions
 
-If you have a suggestion or bug report, please [open an issue](https://github.com/KanColleTool/KanColleTool/issues/new)!
+If you have a suggestion or bug report, please [open an issue](https://github.com/KanColleTool/KanColleTool/issues/new)!  
 We're all open for code contributions in the form of Pull Requests as well - we're severely understaffed.
 
 ## Credits
