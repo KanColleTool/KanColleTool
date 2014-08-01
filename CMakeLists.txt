@@ -43,22 +43,6 @@ endif()
 add_subdirectory(tool)
 
 if(WIN32)
-	#add_custom_target(ToolDependencies ALL
-	#	windeployqt --no-compiler-runtime --no-translations --no-svg $<TARGET_FILE:KanColleTool>
-	#	DEPENDS KanColleTool
-	#)
-	#add_custom_target(ViewerDependencies ALL
-	#	windeployqt --no-compiler-runtime --no-translations --no-svg $<TARGET_FILE:KCTViewer>
-	#	DEPENDS KCTViewer
-	#)
-	
-	#install(CODE "
-	#	execute_process(
-	#		COMMAND windeployqt --no-compiler-runtime --no-translations --no-svg tool/bin/Release/KanColleTool.exe
-	#		COMMAND windeployqt --no-compiler-runtime --no-translations --no-svg viewer/bin/Release/KCTViewer.exe
-	#	)
-	#")
-	
 	foreach(target "viewer" "tool")
 		set(base ${PROJECT_SOURCE_DIR}/${target}/bin/Release)
 		
