@@ -31,5 +31,6 @@ Makefile
 /Win32
 *.tar.gz
 *.zip
+*.exe
 *.deb
 *.dmg

@@ -78,6 +78,7 @@ endif()
 #
 # --> CPack stuff
 #
+# General
 set(CPACK_PACKAGE_NAME "KanColleTool")
 set(CPACK_PACKAGE_VENDOR "The KanColleTool Team")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Makes KanColle better")
@@ -85,13 +86,30 @@ set(CPACK_PACKAGE_VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 set(CPACK_PACKAGE_VERSION_MAJOR "${VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${VERSION_PATCH}")
-set(CPACK_PACKAGE_INSTALL_DIRECTORY "KanColleTool")
+
 set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}")
+set(CPACK_PACKAGE_EXECUTABLES "KanColleTool;KanColleTool" "KCTViewer;KanColleTool Viewer")
+
+set(CPACK_RESOURCE_FILE_README "${PROJECT_SOURCE_DIR}/README.txt")
+set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE.txt")
+
+# --> Windows specific
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "KanColleTool")
+
+# --> Linux specific
 set(CPACK_INSTALL_PREFIX "/usr")
 
+# --> Debian specific
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Johannes Ekberg <uppfinnarn@gmail.com>")
 set(CPACK_DEBIAN_PACKAGE_SECTION "games")
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 set(CPACK_DEBIAN_PACKAGE_REPLACES "kancolletool-viewer")
+
+# --> NSIS specific
+set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
+set(CPACK_NSIS_INSTALLED_ICON_NAME "KanColleTool.exe")
+set(CPACK_NSIS_HELP_LINK "http://kancolletool.github.io/")
+set(CPACK_NSIS_URL_INFO_ABOUT "http://kancolletool.github.io/")
+set(CPACK_NSIS_CONTACT "kctool@macaronicode.se")
 
 include(CPack)
