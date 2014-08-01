@@ -14,9 +14,15 @@ include(ExternalProject)
 if(WIN32)
 	file(GLOB QtVerDirs "C:/Qt/5.*")
 	foreach(dir ${QtVerDirs})
-		file(GLOB msvc_dirs "${dir}/msvc*")
-		file(GLOB mingw_dirs "${dir}/mingw*")
-		set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH};${msvc_dirs};${mingw_dirs}")
+		if(MSVC)
+			file(GLOB QtDirs "${dir}/msvc*")
+			list(GET QtDirs 0 QtDir)
+		else()
+			file(GLOB QtDirs "${dir}/mingw*")
+			list(GET QtDirs 0 QtDir)
+		endif()
+		set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH};${QtDir}")
+		set(ENV{PATH} "$ENV{PATH};${QtDir}")
 	endforeach(dir)
 endif(WIN32)
 
@@ -30,11 +36,44 @@ if(APPLE)
 	)
 	
 	install(DIRECTORY macviewer/build/Build/Products/Release/KCTViewer.app DESTINATION . USE_SOURCE_PERMISSIONS)
-else(APPLE)
+else()
 	add_subdirectory(viewer)
-endif(APPLE)
+endif()
 
 add_subdirectory(tool)
+
+if(WIN32)
+	#add_custom_target(ToolDependencies ALL
+	#	windeployqt --no-compiler-runtime --no-translations --no-svg $<TARGET_FILE:KanColleTool>
+	#	DEPENDS KanColleTool
+	#)
+	#add_custom_target(ViewerDependencies ALL
+	#	windeployqt --no-compiler-runtime --no-translations --no-svg $<TARGET_FILE:KCTViewer>
+	#	DEPENDS KCTViewer
+	#)
+	
+	#install(CODE "
+	#	execute_process(
+	#		COMMAND windeployqt --no-compiler-runtime --no-translations --no-svg tool/bin/Release/KanColleTool.exe
+	#		COMMAND windeployqt --no-compiler-runtime --no-translations --no-svg viewer/bin/Release/KCTViewer.exe
+	#	)
+	#")
+	
+	foreach(target "viewer" "tool")
+		set(base ${PROJECT_SOURCE_DIR}/${target}/bin/Release)
+		
+		file(GLOB DLLS ${base}/*.dll)
+		install(FILES ${DLLS} DESTINATION .)
+		
+		file(GLOB children RELATIVE ${base} ${base}/*)
+		foreach(child ${children})
+			if(IS_DIRECTORY ${base}/${child})
+				file(GLOB DLLS2 ${base}/${child}/*.dll)
+				install(FILES ${DLLS2} DESTINATION ${child})
+			endif()
+		endforeach()
+	endforeach()
+endif()
 
 #
 # --> CPack stuff
