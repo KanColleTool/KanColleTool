@@ -6,13 +6,14 @@
 			"folder_exclude_patterns": [
 				"CMakeFiles", "_CPack_Packages",
 				"*-prefix", "bin",
-				"__"
+				"Win32", "Debug", "Release", "__", "*.dir"
 			],
 			"file_exclude_patterns": [
 				"CMakeCache.txt", "cmake_install.cmake",
 				"CPackConfig.cmake", "CPackSourceConfig.cmake", "install_manifest.txt",
-				"moc_*.cpp", "qrc_*.cpp", "ui_*.h",
-				"*.deb", "*.tar.gz", "*.dmg",
+				"moc_*.cpp", "qrc_*.cpp", "*_automoc.cpp", "ui_*.h",
+				"*.deb", "*.tar.gz", "*.zip", "*.dmg",
+				"*.sln", "*.vcxproj", "*.vcxproj.*",
 				"*.sublime-workspace"
 			]
 		}
