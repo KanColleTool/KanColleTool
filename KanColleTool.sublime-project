@@ -13,7 +13,7 @@
 				"CPackConfig.cmake", "CPackSourceConfig.cmake", "install_manifest.txt",
 				"moc_*.cpp", "qrc_*.cpp", "ui_*.h",
 				"*.deb", "*.tar.gz", "*.dmg",
-				"*.sublime-workspace"
+				"Makefile", "*.sublime-workspace"
 			]
 		}
 	]
