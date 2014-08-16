@@ -29,6 +29,8 @@ Makefile
 /build-*
 /*-prefix/
 /Win32
-*.deb
 *.tar.gz
+*.zip
+*.exe
+*.deb
 *.dmg
