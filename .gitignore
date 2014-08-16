@@ -1,6 +1,7 @@
 # CMake stuff
 CMakeCache.txt
 CMakeFiles
+CMakeScripts
 cmake_install.cmake
 CPackConfig.cmake
 CPackSourceConfig.cmake
@@ -15,6 +16,7 @@ install_manifest*.txt
 *.swp
 *.vcxproj
 *.vcxproj.*
+*.xcodeproj
 *.sln
 *.suo
 *.sdf
