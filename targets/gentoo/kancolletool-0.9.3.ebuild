@@ -11,6 +11,7 @@ HOMEPAGE="http://kancolletool.github.io"
 LICENSE="MIT"
 
 EGIT_REPO_URI="https://github.com/KanColleTool/KanColleTool.git"
+EGIT_COMMIT="v${PV}"
 
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
