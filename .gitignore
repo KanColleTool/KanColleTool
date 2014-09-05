@@ -21,6 +21,8 @@ install_manifest*.txt
 *.suo
 *.sdf
 *.opensdf
+.cproject
+.project
 
 # Build Temporaries
 targets/archlinux/*
