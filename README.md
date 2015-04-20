@@ -24,18 +24,16 @@ We're all open for code contributions in the form of Pull Requests as well - we'
 
 ## Build
 ### On OS X
-Install [Qt 5](http://www.qt.io/download/), and make sure the directory to QMake can be found from your `CMAKE_PREFIX_PATH`, i.e. add the following line to your `~/.bash_profile`
+- Install [Qt 5](http://www.qt.io/download/), then make sure QMake is accessible from `CMAKE_PREFIX_PATH`, i.e. add the following line to your `~/.bash_profile`
 ```
-export CMAKE_PREFIX_PATH=~/<other_stuffs>
+export CMAKE_PREFIX_PATH="<qt_dir>:$CMAKE_PREFIX_PATH"
 ``` 
-so that `~/<other_stuffs>/bin/qmake` is available. Usually you can find it under directory like `<QtInstallDir>/<Version>/clang_64`.
-
-Make sure you have [Ruby Gems](https://rubygems.org/), so that you can install `pod`
+so that `<qt_dir>/bin/qmake` is available. Usually you can find it under directory like `<YourQtInstallDir>/<Version>/clang_64`.
+- Make sure you have [Ruby Gems](https://rubygems.org/), so that you can install `pod`
 ```
 sudo gem install cocoapods
 ```
-
-Now find a directory you prefer (like `cd ~/src` or whatever) and 
+- Now find a directory you prefer (like `cd ~/src` or whatever) and 
 ```
 git clone https://github.com/KanColleTool/KanColleTool/
 cd KancolleTool
