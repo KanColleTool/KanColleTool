@@ -28,7 +28,7 @@ Install [Qt 5](http://www.qt.io/download/), and make sure the directory to QMake
 ```
 export CMAKE_PREFIX_PATH=~/<other_stuffs>
 ``` 
-so that `~/<other_stuffs>/bin/qmake` is available. Usually usually you can find it under directory like `<QtInstallDir>/<Version>/clang_64`.
+so that `~/<other_stuffs>/bin/qmake` is available. Usually you can find it under directory like `<QtInstallDir>/<Version>/clang_64`.
 
 Make sure you have [Ruby Gems](https://rubygems.org/), so that you can install `pod`
 ```
