@@ -1,7 +1,7 @@
 # Maintainer: Yukarin <yukariin@yandex.ru>
 
 pkgname='kancolletool-git'
-pkgver=0.9.3
+pkgver=0.9.4
 pkgrel=1
 epoch=
 pkgdesc="Makes KanColle better"
