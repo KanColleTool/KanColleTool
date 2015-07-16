@@ -4,7 +4,7 @@ project(KanColleTool)
 # These three are managed by the version bump script!
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 9)
-set(VERSION_PATCH 3)
+set(VERSION_PATCH 4)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
