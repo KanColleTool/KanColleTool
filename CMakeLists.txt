@@ -84,7 +84,7 @@ set(CPACK_PACKAGE_INSTALL_DIRECTORY "KanColleTool")
 set(CPACK_INSTALL_PREFIX "/usr")
 
 # --> Debian specific
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Johannes Ekberg <uppfinnarn@gmail.com>")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "uppfinnarn <uppfinnarn@gmail.com>")
 set(CPACK_DEBIAN_PACKAGE_SECTION "games")
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 set(CPACK_DEBIAN_PACKAGE_REPLACES "kancolletool-viewer")
