@@ -27,6 +27,10 @@ if(WIN32)
 endif(WIN32)
 
 if(APPLE)
+	# Remove when Qt 5.5.1 is released
+	# https://codereview.qt-project.org/#/c/115201/
+	add_definitions(-Wno-unknown-pragmas)
+	
 	ExternalProject_Add(macviewer
 		SOURCE_DIR macviewer
 		BINARY_DIR macviewer
