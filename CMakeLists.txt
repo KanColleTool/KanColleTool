@@ -8,8 +8,6 @@ set(VERSION_PATCH 4)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-include(ExternalProject)
-
 # On Windows, we need to manually find Qt installations >_>
 if(WIN32)
 	file(GLOB QtVerDirs "C:/Qt/5.*")
@@ -30,20 +28,9 @@ if(APPLE)
 	# Remove when Qt 5.5.1 is released
 	# https://codereview.qt-project.org/#/c/115201/
 	add_definitions(-Wno-unknown-pragmas)
-	
-	ExternalProject_Add(macviewer
-		SOURCE_DIR macviewer
-		BINARY_DIR macviewer
-		CONFIGURE_COMMAND pod install
-		BUILD_COMMAND xcodebuild -workspace KCTViewer.xcworkspace -scheme KCTViewer -configuration Release -derivedDataPath ./build
-		INSTALL_COMMAND ""
-	)
-	
-	install(DIRECTORY macviewer/build/Build/Products/Release/KCTViewer.app DESTINATION . USE_SOURCE_PERMISSIONS)
-else()
-	add_subdirectory(viewer)
 endif()
 
+add_subdirectory(viewer)
 add_subdirectory(tool)
 
 if(WIN32)
