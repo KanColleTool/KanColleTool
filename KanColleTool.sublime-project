@@ -9,6 +9,7 @@
 				"Win32", "Debug", "Release", "__", "*.dir"
 			],
 			"file_exclude_patterns": [
+				"Makefile",
 				"CMakeCache.txt", "cmake_install.cmake",
 				"CPackConfig.cmake", "CPackSourceConfig.cmake", "install_manifest.txt",
 				"moc_*.cpp", "qrc_*.cpp", "*_automoc.cpp", "ui_*.h",
