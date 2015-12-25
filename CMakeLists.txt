@@ -4,9 +4,11 @@ project(KanColleTool)
 # These three are managed by the version bump script!
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 9)
-set(VERSION_PATCH 4)
+set(VERSION_PATCH 6)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+include(ExternalProject)
 
 # On Windows, we need to manually find Qt installations >_>
 if(WIN32)
@@ -28,18 +30,29 @@ if(APPLE)
 	# Remove when Qt 5.5.1 is released
 	# https://codereview.qt-project.org/#/c/115201/
 	add_definitions(-Wno-unknown-pragmas)
+
+	ExternalProject_Add(macviewer
+		SOURCE_DIR macviewer
+		BINARY_DIR macviewer
+		CONFIGURE_COMMAND pod install
+		BUILD_COMMAND xcodebuild -workspace KCTViewer.xcworkspace -scheme KCTViewer -configuration Release -derivedDataPath ./build
+		INSTALL_COMMAND ""
+	)
+
+	install(DIRECTORY macviewer/build/Build/Products/Release/KCTViewer.app DESTINATION . USE_SOURCE_PERMISSIONS)
+else()
+	add_subdirectory(viewer)
 endif()
 
-add_subdirectory(viewer)
 add_subdirectory(tool)
 
 if(WIN32)
 	foreach(target "viewer" "tool")
 		set(base ${PROJECT_SOURCE_DIR}/${target}/bin/Release)
-		
+
 		file(GLOB DLLS ${base}/*.dll)
 		install(FILES ${DLLS} DESTINATION .)
-		
+
 		file(GLOB children RELATIVE ${base} ${base}/*)
 		foreach(child ${children})
 			if(IS_DIRECTORY ${base}/${child})
