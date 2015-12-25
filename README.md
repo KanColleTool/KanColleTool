@@ -22,6 +22,28 @@ Downloads can be found on the official site: <http://kancolletool.github.io/>.
 If you have a suggestion or bug report, please [open an issue](https://github.com/KanColleTool/KanColleTool/issues/new)!  
 We're all open for code contributions in the form of Pull Requests as well - we're severely understaffed.
 
+## Build
+### On OS X
+- Install [Qt 5](http://www.qt.io/download/), then make sure QMake is accessible from `CMAKE_PREFIX_PATH`, i.e. add the following line to your `~/.bash_profile`
+```
+export CMAKE_PREFIX_PATH="<qt_dir>:$CMAKE_PREFIX_PATH"
+``` 
+so that `<qt_dir>/bin/qmake` is available. Usually you can find it under directory like `<YourQtInstallDir>/<Version>/clang_64`.
+- Make sure you have [Ruby Gems](https://rubygems.org/), so that you can install `pod`
+```
+sudo gem install cocoapods
+```
+- Now find a directory you prefer (like `cd ~/src` or whatever) and 
+```
+git clone https://github.com/KanColleTool/KanColleTool/
+cd KancolleTool
+git submodule update --init --recursive
+cmake .
+make -j8
+make install
+```
+And you should find `KCTViewer.app` and `KanColleTool.app` in `/usr/local`.
+
 ## Credits
 
 - **uppfinnarn** - Lead Developer
